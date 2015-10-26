@@ -1,0 +1,118 @@
+@charset "utf-8";
+@import url(../../css/fonts.min.css);
+
+hr {
+    background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(215, 215, 215, 0.75), rgba(0, 0, 0, 0));
+    background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(215, 215, 215, 0.75), rgba(0, 0, 0, 0));
+    background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(215, 215, 215, 0.75), rgba(0, 0, 0, 0));
+    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(215, 215, 215, 0.75), rgba(0, 0, 0, 0));
+    border: 0;
+    box-shadow: 0 -2px 4px rgba(136, 136, 136, 0.75);
+    height: 1px;
+    margin: 30px 0
+}
+
+.col-center-block {
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.v-align {
+    float: none;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.row-xs-flex-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.row-xs-flex-center > [class^="col-"],
+.row-xs-flex-center > [class*=" col-"] {
+    display: flex;
+    align-items: center; /* Align the flex-items vertically */
+    justify-content: center;
+    /* Optional, to align inner flex-items
+                                 horizontally within the column  */
+}
+
+@media ( min-width: 768px ) {
+    .row-sm-flex-center {
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media ( min-width: 992px ) {
+    .row-md-flex-center {
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media ( min-width: 1200px ) {
+    .row-lg-flex-center {
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media screen and (min-width: 500px) {
+}
+
+@media screen and (min-width: 570px) {
+}
+
+@media screen and (min-width: 620px) {
+}
+
+@media screen and (min-width: 680px) {
+}
+
+@media screen and (min-width: 720px) {
+}
+
+@media screen and (min-width: 768px) {
+    .vertical-align {
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media screen and (min-width: 800px) {
+}
+
+@media screen and (min-width: 860px) {
+}
+
+@media screen and (min-width: 920px) {
+}
+
+@media screen and (min-width: 1000px) {
+}
+
+header.backend {
+    padding-bottom: 10px;
+}
+
+section#login {
+    height: 350px;
+    /*margin-top: 5%;*/
+}
+
+#go-top {
+    bottom: 2em;
+    color: rgba(0, 0, 0, 0.3);
+    display: none;
+    position: fixed;
+    right: 2em;
+    text-decoration: none
+}
+
+#go-top:hover {
+    color: rgba(0, 0, 0, 0.6)
+}

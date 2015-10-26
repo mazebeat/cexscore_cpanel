@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="91865a27-5afe-45a6-9900-80fc0980dd60" name="Development-CPanel CEXS" url="http://192.168.1.86:9000/admin/login">
+        <fileTransfer host="192.168.1.86" port="22" rootFolder="/var/www/panelcexscore" accessType="SFTP" password="dfdddfcfdfc8dfcedfcfdfd9df84df86df9bdf98df99" username="webdes">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

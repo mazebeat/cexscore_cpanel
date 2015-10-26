@@ -56,29 +56,57 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::resource('apariencia', 'AparienciaController');
         Route::resource('usuarios', 'UsuariosController');
     });
+
+
+    route::get('find/locate', function () {
+        $option   = Input::get('option');
+        $filterBy = Input::get('filterBy');
+        $list     = null;
+
+        switch ($filterBy) {
+            case 'region':
+                $list = Ciudad::where('id_region', $option)->lists('descripcion_ciudad', 'id_ciudad');
+                break;
+            case 'pais':
+                $list = Region::where('id_pais', $option)->lists('descripcion_region', 'id_region');
+                break;
+        }
+
+        return $list;
+    });
+
+    Route::get('find/configplan', function () {
+        $idPlan = Input::get('idplan', null);
+        $plan   = null;
+
+        if (!is_null($idPlan)) {
+            $plan = Plan::find($idPlan)->cantidad_momentos_plan;
+
+            if (is_null($plan)) {
+                $plan = 0;
+            }
+        }
+
+        return $plan;
+    });
+
+    Route::get('find/survey', function () {
+        $id = Input::get('id_sector');
+
+        $result = EncuestaSector::whereIdSector($id)->first();
+
+        if (is_null($result)) {
+            return null;
+        }
+
+        return $result->encuesta->preguntas->toJson();
+    });
 });
 
 Route::get('test/test', function () {
-    $option = Input::get('option');
-    $id     = Input::get('id');
+    $id = Input::get('id_sector');
+
+    $result = EncuestaSector::whereIdSector($id)->first()->encuesta->preguntas->toJson();
+
+    return $result;
 });
-
-route::get('find/locate', function () {
-    $option   = Input::get('option');
-    $filterBy = Input::get('filterBy');
-    $list     = null;
-
-    switch ($filterBy) {
-        case 'ciudad':
-            $list = Ciudad::where('id_region', $option)->lists('descripcion_ciudad', 'id_ciudad');
-            break;
-        case 'region':
-            $list = Region::where('id_pais', $option)->lists('descripcion_region', 'id_region');
-            break;
-    }
-
-    return $list;
-});
-
-
-

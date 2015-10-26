@@ -22,7 +22,7 @@
 <div class="form-group">
 	{{ Form::label('id_sector', 'Sector Empresarial:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::select2('cliente[id_sector]', $sectors,Input::old('id_sector'), array('class'=>'form-control')) }}
+		{{ Form::select2('cliente[id_sector]', $sectors,Input::old('id_sector'), array('id'=> 'id_sector', 'class'=>'form-control')) }}
 	</div>
 </div>
 
@@ -50,7 +50,7 @@
 <div class="form-group">
 	{{ Form::label('cliente[codigo_postal_cliente]', 'Código Postal:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::text('cliente[codigo_postal_cliente]', Input::old('cliente[codigo_postal_cliente]'), array('class'=>'form-control', 'placeholders'=>'Código Postal', 'required')) }}
+		{{ Form::number('cliente[codigo_postal_cliente]', Input::old('cliente[codigo_postal_cliente]'), null, array('class'=>'form-control', 'placeholders'=>'Código Postal', 'required', 'minmax' => false)) }}
 	</div>
 </div>
 
@@ -61,16 +61,16 @@
 	</div>
 </div>
 
-<div class="form-group">
+<div class="form-group fieldRegion" style="display: none;">
 	{{ Form::label('cliente[region]', 'Regi&oacute;n:', array('class'=>'col-md-2 control-label')) }}
-	<div class="col-sm-10 fieldRegion">
+	<div class="col-sm-10">
 		{{ Form::select2('cliente[region]', [], Input::old('cliente[region]'), array('id' => 'fieldRegion','class'=>'form-control' , 'required')) }}
 	</div>
 </div>
 
-<div class="form-group">
+<div class="form-group fieldCiudad" style="display: none;">
 	{{ Form::label('cliente[id_ciudad]', 'Ciudad:', array('class'=>'col-md-2 control-label')) }}
-	<div class="col-sm-10 fieldCiudad">
+	<div class="col-sm-10">
 		{{ Form::select2('cliente[id_ciudad]', [], Input::old('cliente[id_ciudad]'), array('id' => 'fieldCiudad', 'class'=>'form-control' , 'required')) }}
 	</div>
 </div>

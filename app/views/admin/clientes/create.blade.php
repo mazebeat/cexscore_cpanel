@@ -48,7 +48,7 @@
 			</li>
 			<li role="presentation">
 				<div class="nav-wedge"></div>
-				<a href="#tab3" data-toggle="tab">Plan &amp; Conf<i class="fa"></i></a>
+				<a href="#tab3" data-toggle="tab">Plan&amp;Conf&nbsp;<i class="fa"></i></a>
 
 				<div class="nav-arrow"></div>
 			</li>
@@ -77,7 +77,7 @@
 
 			{{--BEGIN TAB 2 - CONTACTO--}}
 			<div role="tabpanel" class="tab-pane" id="tab2">
-
+				@include('admin.clientes.tabs.admin')
 			</div>
 			{{--END TAB 2--}}
 
@@ -99,41 +99,42 @@
 			</div>
 			{{--END TAB 5--}}
 
-			{{--BEGIN TAB 6 - PREGUNTAS--}}
-			{{--<div role="tabpanel" class="tab-pane" id="tab6">--}}
-			{{--<div id="preguntaFormulario">--}}
-			{{--<!-- Navigation Buttons -->--}}
-			{{--<div class="col-md-2">--}}
-			{{--<ul class="nav nav-pills nav-stacked" id="myTabs">--}}
-			{{--@for ($i = 0; $i < 4; $i++)--}}
-			{{--<li class="{{ ($i == 0) ? 'active' : '' }}"><a href="#tabpre{{ $i }}">{{ array_get($catgs, $i) }}</a></li>--}}
-			{{--@endfor--}}
-			{{--</ul>--}}
-			{{--</div>--}}
 
-			{{--<!-- Content -->--}}
-			{{--<div class="col-md-10">--}}
-			{{--<div class="tab-content">--}}
-			{{--@for ($i = 0; $i < 4; $i++)--}}
-			{{--<div class="tab-pane {{ ($i == 0) ? 'active' : '' }}" id="tabpre{{ $i }}">--}}
-			{{--<section data-step="{{ $i }}" class="row">--}}
-			{{--<div class="col-md-12">--}}
-			{{--<h3>Pregunta</h3>--}}
-			{{--{{ Form::questionForm('preguntaCabecera', $i, false, $i+1) }}--}}
-			{{--</div>--}}
-			{{--<div class="col-md-12">--}}
-			{{--<h4>Sub-Pregunta</h4>--}}
-			{{--<section>--}}
-			{{--{{ Form::questionForm('preguntaCabecera', $i, true, $i+1) }}--}}
-			{{--</section>--}}
-			{{--</div>--}}
-			{{--</section>--}}
-			{{--</div>--}}
-			{{--@endfor--}}
-			{{--</div>--}}
-			{{--</div>--}}
-			{{--</div>--}}
-			{{--</div>--}}
+			{{--BEGIN TAB 6 - PREGUNTAS--}}
+			<div role="tabpanel" class="tab-pane" id="tab6">
+				{{--<div id="preguntaFormulario">--}}
+				{{--<!-- Navigation Buttons -->--}}
+				{{--<div class="col-md-2">--}}
+				{{--<ul class="nav nav-pills nav-stacked" id="myTabs">--}}
+				{{--@for ($i = 0; $i < 4; $i++)--}}
+				{{--<li class="{{ ($i == 0) ? 'active' : '' }}"><a href="#tabpre{{ $i }}">{{ array_get($catgs, $i) }}</a></li>--}}
+				{{--@endfor--}}
+				{{--</ul>--}}
+				{{--</div>--}}
+
+				{{--<!-- Content -->--}}
+				{{--<div class="col-md-10">--}}
+				{{--<div class="tab-content">--}}
+				{{--@for ($i = 0; $i < 4; $i++)--}}
+				{{--<div class="tab-pane {{ ($i == 0) ? 'active' : '' }}" id="tabpre{{ $i }}">--}}
+				{{--<section data-step="{{ $i }}" class="row">--}}
+				{{--<div class="col-md-12">--}}
+				{{--<h3>Pregunta</h3>--}}
+				{{--{{ Form::questionForm('preguntaCabecera', $i, false, $i+1) }}--}}
+				{{--</div>--}}
+				{{--<div class="col-md-12">--}}
+				{{--<h4>Sub-Pregunta</h4>--}}
+				{{--<section>--}}
+				{{--{{ Form::questionForm('preguntaCabecera', $i, true, $i+1) }}--}}
+				{{--</section>--}}
+				{{--</div>--}}
+				{{--</section>--}}
+				{{--</div>--}}
+				{{--@endfor--}}
+				{{--</div>--}}
+				{{--</div>--}}
+				{{--</div>--}}
+			</div>
 			{{--END TAB 6 - PREGUNTAS--}}
 
 			{{--BEGIN NAVEGATION--}}
@@ -208,40 +209,49 @@
 			var $body = $('body');
 			var $iframe = $body.data('iframe.fv');
 			if ($iframe) {
-				// Adjust the height of iframe
 				$iframe.height($body.height());
 			}
 		}
 
-		$('#createClientForm').find('#fieldPais').change(function (event) {
-//			console.log('cambio: ' + $(this).attr('id'));
+		$('#fieldPais').change(function (event) {
 			var model = $('#fieldRegion');
 			var model2 = $('#fieldCiudad');
-			model.attr('disabled', 'disabled').empty().formValidation('revalidateField', 'cliente[region').show();
-			model2.attr('disabled', 'disabled').empty().formValidation('revalidateField', 'cliente[id_ciudad');
+			model.empty().formValidation('revalidateField', 'cliente[region').show();
+			model2.empty().formValidation('revalidateField', 'cliente[id_ciudad');
 
-			$.get("/find/locate", {filterBy: 'pais', option: $(this).val()}, function (data) {
+			var $select = $(this).find("option:selected").text();
+
+			if ($select == 'Chile' || $select == 'chile' || $select == 'CHILE') {
+				$('.fieldRegion').show();
+				$('.fieldCiudad').show();
+				model.removeAttr('disabled', 'disabled');
+				model2.removeAttr('disabled', 'disabled');
+			} else {
+				$('.fieldRegion').hide();
+				$('.fieldCiudad').hide();
+				model.attr('disabled', 'disabled');
+				model2.attr('disabled', 'disabled');
+			}
+
+			$.get("/admin/find/locate", {filterBy: 'pais', option: $(this).val()}, function (data) {
 				if (Object.keys(data).length > 0) {
 					model.append($("<option value=''></option>"));
 					$.each(data, function (index, element) {
 						model.append($("<option value='" + index + "'>" + element + "</option>"));
 					});
 				}
-				model.removeAttr('disabled', 'disabled');
-				model2.removeAttr('disabled', 'disabled');
 			});
 
 			var $name = $(this).attr('name');
 			$('#createClientForm').formValidation('revalidateField', $name);
 			event.preventDefault();
-		}).end().find('#fieldRegion').change(function (event) {
-//			console.log('cambio: ' + $(this).attr('id'));
-//			$(this).addClass('disabled');
+		});
 
+		$('#fieldRegion').change(function (e) {
 			var model = $('#fieldCiudad');
 			model.attr('disabled', 'disabled').empty().formValidation('revalidateField', model.attr('name')).show();
 
-			$.get("/find/locate", {filterBy: 'region', option: $(this).val()}, function (data) {
+			$.get("/admin/find/locate", {filterBy: 'region', option: $(this).val()}, function (data) {
 				if (Object.keys(data).length > 0) {
 					model.append($("<option value=''></option>"));
 					$.each(data, function (index, element) {
@@ -253,9 +263,71 @@
 
 			var $name = $(this).attr('name');
 			$('#createClientForm').formValidation('revalidateField', $name);
-			event.preventDefault();
-		}).end().find('#fieldCiudad').change(function (event) {
-//			console.log('cambio: ' + $(this).attr('id'));
+			e.preventDefault();
+		});
+
+		$('#createClientForm input[name="cliente[id_plan]"]').on('ifChecked', function (e) {
+			var $this = $(this);
+			$('#cant_moment_plan').val(0).removeAttr('disabled');
+			$('.cloneMoment').remove();
+
+			$.get("/admin/find/configplan", {idplan: $this.val()}, function (cant) {
+
+				var q = parseInt(cant);
+				console.log(cant != 0)
+
+				if (q == 0) {
+					q = 999;
+				}
+
+				$('#cant_moment_plan').attr('max', q).attr('data-fv-lessthan-value', q);
+				var $name = $('#cant_moment_plan').attr('name');
+
+				$('#createClientForm').formValidation('removeField', 'cant_moment_plan')
+										.formValidation('addField', 'cant_moment_plan')
+										.formValidation('revalidateField', $name);
+			});
+
+
+			e.preventDefault();
+		});
+
+		$('#addMoments').click(function (e) {
+			var times = parseInt($('#cant_moment_plan').val(), 10);
+			var num = 1;
+			$('.cloneMoment').remove()
+
+			for (var x = 0; x < times; x++) {
+				var $template = $('#optionTemplate');
+				var $clone = $template.clone()
+										.removeClass('hide')
+										.addClass('cloneMoment')
+										.removeAttr('id')
+										.find(".control-label")
+										.text('Momento ' + num++)
+										.end()
+										.insertBefore($template);
+
+				var $option = $clone.find('[name="momento_encuesta[]"]');
+				$option.attr('data-fv-notempty', 'true').attr('id', 'momento' + x)
+										.attr('required', 'required')
+										.attr('name', 'momento_encuesta[' + x + '].descripcion_momento');
+
+				// Add new field
+				$('#createClientForm').formValidation('addField', $option);
+			}
+
+			e.preventDefault();
+		});
+
+		$('#id_sector').on('change', function (e) {
+			console.log('change sector');
+
+			$.get('/admin/find/survey', {id_sector: $(this).val()}, function (survey) {
+
+			});
+
+			e.preventDefault();
 		});
 
 		$("#rut_cliente").rut({

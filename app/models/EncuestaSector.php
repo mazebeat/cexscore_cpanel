@@ -5,7 +5,7 @@
  *
  * @property integer $id_encuesta_sector 
  * @property integer $id_encuesta 
- * @property integer $id_sector 
+ * @property integer $id_sector
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @method static \Illuminate\Database\Query\Builder|\EncuestaSector whereIdEncuestaSector($value)
@@ -27,4 +27,8 @@ class EncuestaSector extends \Eloquent
         'id_sector',
     );
 
+    public function encuesta()
+    {
+        return $this->belongsTo('Encuesta', 'id_encuesta');
+    }
 }

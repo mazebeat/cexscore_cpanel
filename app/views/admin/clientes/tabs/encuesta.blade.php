@@ -5,9 +5,9 @@
 	</div>
 </div>
 
-{{--<div class="form-group">--}}	{{--{{ Form::label('encuesta[slogan]', 'Subtitulo (eslogan):', array('class'=>'col-md-2 control-label')) }}--}}	{{--<div class="col-sm-10">--}}		{{--{{ Form::text('encuesta[slogan]', Input::old('encuesta[slogan]'), array('class'=>'form-control', 'placeholders'=>'Slogan')) }}--}}	{{--</div>--}}{{--</div>--}}
+{{--<div class="form-group">--}}    {{--{{ Form::label('encuesta[slogan]', 'Subtitulo (eslogan):', array('class'=>'col-md-2 control-label')) }}--}}    {{--<div class="col-sm-10">--}}        {{--{{ Form::text('encuesta[slogan]', Input::old('encuesta[slogan]'), array('class'=>'form-control', 'placeholders'=>'Slogan')) }}--}}    {{--</div>--}}{{--</div>--}}
 
-{{--<div class="form-group">--}}	{{--{{ Form::label('encuesta[description]', 'Description:', array('class'=>'col-md-2 control-label')) }}--}}	{{--<div class="col-sm-10">--}}		{{--{{ Form::text('encuesta[description]', Input::old('encuesta[description]'), array('class'=>'form-control', 'placeholders'=>'Description')) }}--}}	{{--</div>--}}{{--</div>--}}
+{{--<div class="form-group">--}}    {{--{{ Form::label('encuesta[description]', 'Description:', array('class'=>'col-md-2 control-label')) }}--}}    {{--<div class="col-sm-10">--}}        {{--{{ Form::text('encuesta[description]', Input::old('encuesta[description]'), array('class'=>'form-control', 'placeholders'=>'Description')) }}--}}    {{--</div>--}}{{--</div>--}}
 
 <div id="preguntaFormulario">
 	<!-- Navigation Buttons -->
@@ -29,12 +29,14 @@
 							<h3>Pregunta</h3>
 							{{ Form::questionForm('preguntaCabecera', $i, false, $i+1) }}
 						</div>
-						<div class="col-md-12">
-							<h4>Sub-Pregunta</h4>
-							<section>
-								{{ Form::questionForm('preguntaCabecera', $i, true, $i+1) }}
-							</section>
-						</div>
+						@if($i+1 != 4)
+							<div class="col-md-12">
+								<h4>Sub-Pregunta</h4>
+								<section>
+									{{ Form::questionForm('preguntaCabecera', $i, true, $i+1) }}
+								</section>
+							</div>
+						@endif
 					</section>
 				</div>
 			@endfor

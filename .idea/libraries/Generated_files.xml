@@ -9,6 +9,7 @@
         <item url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/templates/widget.min.js" />
         <item url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/highlightjs/highlight.pack.min.js" />
         <item url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/mails/widget.min.js" />
+        <item url="file://$PROJECT_DIR$/public/plugins/ckeditor/config.min.js" />
         <item url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets.min.js" />
       </sourceFilesUrls>
     </properties>
@@ -20,6 +21,7 @@
       <root url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/templates/widget.min.js" />
       <root url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/highlightjs/highlight.pack.min.js" />
       <root url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/mails/widget.min.js" />
+      <root url="file://$PROJECT_DIR$/public/plugins/ckeditor/config.min.js" />
       <root url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets.min.js" />
     </CLASSES>
     <SOURCES />

@@ -39,28 +39,28 @@
 	<div class="form-group">
 		{{ Form::label('cantidad_encuestas_plan', 'Cantidad Encuestas:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::input('number', 'cantidad_encuestas_plan', Input::old('cantidad_encuestas_plan'), array('class'=>'form-control', 'minmax' =>  Config::get('config.cpanel.numberLimit') )) }}
+			{{ Form::input('number', 'cantidad_encuestas_plan', Input::old('cantidad_encuestas_plan', 0), array('class'=>'form-control', 'minmax' =>  Config::get('config.cpanel.numberLimit') )) }}
 		</div>
 	</div>
 
 	<div class="form-group">
 		{{ Form::label('cantidad_usuarios_plan', 'Cantidad Usuarios:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::input('number', 'cantidad_usuarios_plan', Input::old('cantidad_usuarios_plan'), array('class'=>'form-control', 'minmax' =>  Config::get('config.cpanel.numberLimit') )) }}
+			{{ Form::input('number', 'cantidad_usuarios_plan', Input::old('cantidad_usuarios_plan', 0), array('class'=>'form-control', 'minmax' =>  Config::get('config.cpanel.numberLimit') )) }}
 		</div>
 	</div>
 
 	<div class="form-group">
 		{{ Form::label('cantidad_momentos_plan', 'Cantidad Momentoss:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::number('cantidad_momentos_plan', Input::old('cantidad_momentos_plan'), null, array('class'=>'form-control', 'minmax' =>  Config::get('config.cpanel.numberLimit') )) }}
+			{{ Form::number('cantidad_momentos_plan', Input::old('cantidad_momentos_plan', 0), null, array('class'=>'form-control', 'minmax' =>  Config::get('config.cpanel.numberLimit') )) }}
 		</div>
 	</div>
 
 	<div class="form-group">
 		{{ Form::label('optin_plan', 'Opt-IN:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::checkbox('optin_plan', Input::old('optin_plan'), false, array('class'=>'form-control')) }}
+			{{ Form::checkbox('optin_plan', Input::old('optin_plan', false), false, array('class'=>'form-control')) }}
 		</div>
 	</div>
 
@@ -74,7 +74,7 @@
 	{{--<div class="form-group">--}}
 	{{--		{{ Form::label('id_estado', 'Id_estado:', array('class'=>'col-md-2 control-label')) }}--}}
 	{{--<div class="col-sm-10">--}}
-	{{ Form::input('hidden', 'id_estado', 1, array('class'=>'form-control')) }}
+	{{ Form::hidden('id_estado', 1, array('class'=>'form-control')) }}
 	{{--</div>--}}
 	{{--</div>--}}
 

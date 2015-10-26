@@ -14,7 +14,7 @@
 		'disabled', 'required']) }}
 	</div>
 	<div class="col-sm-2">
-		<input type="button" class="btn btn-info" value="Agregar" id="addMoments"/>
+		<input type="button" class="btn btn-info" value="Agregar" id="addMoments" disabled/>
 	</div>
 </div>
 

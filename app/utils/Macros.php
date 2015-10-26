@@ -641,36 +641,36 @@
         return \HTML::alert('warning', ['Categoría no encontrada.'], '<h3>Atención!</h3>');
     }
 
-    $text1 = '<div class="form-group">
-								' . \Form::label($name . "[" . $questionNumber . "]" . $sub . "[descripcion_1]", "Texto 1:", array("class" => "col-md-2 control-label")) . '
-								<div class="col-sm-10">
-									' . \Form::text($name . "[" . $questionNumber . "]" . $sub . "[descripcion_1]", \Input::old($name . "[" . $questionNumber . "]" . $sub . "[descripcion_1]"),
-            array("class" => "form-control", "placeholder" => "Texto 1", "required")) . '
-								</div>
-							</div>';
+    $n = $name . "[" . $questionNumber . "]" . $sub . "[descripcion_1]";
 
-    //    $text2 = '<div class="form-group">
-    //								' . \Form::label($name . "[" . $questionNumber . "]" . $sub . "[descripcion_2]", "Texto 2:", array("class" => "col-md-2 control-label")) . '
-    //								<div class="col-sm-10">
-    //									' . \Form::text($name . "[" . $questionNumber . "]" . $sub . "[descripcion_2]", \Input::old($name . "[" . $questionNumber . "]" . $sub . "[descripcion_2]"),
-    //            array("class" => "form-control", "placeholder" => "Texto 2")) . '
-    //								</div>
-    //							</div>';
-    //
-    //    $text3 = '<div class="form-group">
-    //								' . \Form::label($name . "[" . $questionNumber . "]" . $sub . "[descripcion_3]", "Texto 3:", array("class" => "col-md-2 control-label")) . '
-    //								<div class="col-sm-10">
-    //									' . \Form::text($name . "[" . $questionNumber . "]" . $sub . "[descripcion_3]", \Input::old($name . "[" . $questionNumber . "]" . $sub . "[descripcion_3]"),
-    //            array("class" => "form-control", "placeholder" => "Texto 3")) . '
-    //								</div>
-    //							</div>';
+    $text1 = '<div class="form-group">' .
+                    \Form::label($n, "Texto 1:", array("class" => "col-md-2 control-label")) .
+                    '<div class="col-sm-10">' .
+                        \Form::textarea($n, \Input::old($n), array("class" => "form-control ckeditor", "placeholder" => "Texto 1", "readonly")) .
+        			'</div></div>';
 
+//    $text2 = '<div class="form-group">
+//								' . \Form::label($name . "[" . $questionNumber . "]" . $sub . "[descripcion_2]", "Texto 2:", array("class" => "col-md-2 control-label")) . '
+//								<div class="col-sm-10">
+//									' . \Form::text($name . "[" . $questionNumber . "]" . $sub . "[descripcion_2]", \Input::old($name . "[" . $questionNumber . "]" . $sub . "[descripcion_2]"),
+//            array("class" => "form-control", "placeholder" => "Texto 2")) . '
+//								</div>
+//							</div>';
+//
+//    $text3 = '<div class="form-group">
+//								' . \Form::label($name . "[" . $questionNumber . "]" . $sub . "[descripcion_3]", "Texto 3:", array("class" => "col-md-2 control-label")) . '
+//								<div class="col-sm-10">
+//									' . \Form::text($name . "[" . $questionNumber . "]" . $sub . "[descripcion_3]", \Input::old($name . "[" . $questionNumber . "]" . $sub . "[descripcion_3]"),
+//            array("class" => "form-control", "placeholder" => "Texto 3")) . '
+//								</div>
+//							</div>';
 
-    $number = '<div class="form-group" > ' . \Form::label($name . "[" . $questionNumber . "]" . $sub . "[numero_pregunta]", "N° Pregunta:", array("class" => "col-md-2 control-label")) . '
-								<div class="col-sm-10" > ' //. \Form::number($name . "[" . $questionNumber . "]" . $sub . "[numero_pregunta]", null, \Input::old($name . "[" . $questionNumber . "]" . $sub . "[numero_pregunta]"), array("class" => "form-control", "placeholder" => "Numero Pregunta")) . '
-        . \Form::text($name . "[" . $questionNumber . "]" . $sub . "[numero_pregunta]", $questionNumber + 1, array("class" => "form-control", "placeholder" => "Numero Pregunta", "readonly")) . '
-								</div >
-							</div >';
+    $n = $name . "[" . $questionNumber . "]" . $sub . "[numero_pregunta]";
+    $number = '<div class="form-group" >' .
+                    \Form::label($n, "N° Pregunta:", array("class" => "col-md-2 control-label")) .
+                    '<div class="col-sm-10" >' .
+                        \Form::text($n, $questionNumber + 1, array("class" => "form-control", "placeholder" => "Numero Pregunta", "readonly")) .
+                    '</div></div >';
 
     $categoryID     = \Form::hidden($name . "[" . $questionNumber . "]" . $sub . "[id_categoria]", $category, array("class" => "form-control"));
     $kindOfQuestion = \Form::hidden($name . "[" . $questionNumber . "]" . $sub . "[id_tipo_respuesta]", $kind, array("class" => "form-control"));

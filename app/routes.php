@@ -99,14 +99,16 @@ Route::group(array('prefix' => 'admin'), function () {
             return null;
         }
 
-        return $result->encuesta->preguntas->toJson();
+        return Response::json($result->encuesta->preguntas);
+        //        return $result->encuesta->preguntas->toJson();
     });
 });
 
 Route::get('test/test', function () {
     $id = Input::get('id_sector');
 
-    $result = EncuestaSector::whereIdSector($id)->first()->encuesta->preguntas->toJson();
+    $result = EncuestaSector::whereIdSector($id)->first();
+    dd($result);
 
-    return $result;
+    return Response::json($result);
 });

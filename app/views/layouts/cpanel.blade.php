@@ -27,6 +27,9 @@
 	{{ HTML::style('template/dist/css/AdminLTE.min.css') }}
 	{{ HTML::style('template/dist/css/skins/_all-skins.min.css') }}
 
+	{{ HTML::style('plugins/bootstrap_wizard/prettify.css')  }}
+	{{ HTML::style('plugins/icheck/skins/all.css') }}
+
 	@yield('style')
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -224,6 +227,8 @@
 	{{ HTML::script('plugins/formvalidation/js/formValidation.min.js') }}
 	{{ HTML::script('plugins/formvalidation/js/framework/bootstrap.min.js') }}
 	{{ HTML::script('plugins/formvalidation/js/language/es_CL.js')  }}
+
+	{{ HTML::script('plugins/icheck/icheck.min.js') }}
 
 	@yield('script')
 

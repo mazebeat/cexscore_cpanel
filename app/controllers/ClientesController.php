@@ -60,8 +60,8 @@ class ClientesController extends \ApiController
         $rules = array(
             'cliente.nombre_cliente'         => 'required|string',
             'cliente.rut_cliente'            => 'required|between:8,12|rut',
-            'cliente.fono_fijo_cliente'           => 'required|between:7,16',
-            'cliente.fono_delular_cliente'           => 'required|between:7,16',
+            'cliente.fono_fijo_cliente'      => 'required|between:7,16',
+            'cliente.fono_delular_cliente'   => 'required|between:7,16',
             'cliente.correo_cliente'         => 'required|email',
             'cliente.pais'                   => 'required|',
             'cliente.region'                 => 'required|',
@@ -88,8 +88,8 @@ class ClientesController extends \ApiController
         $messages = array(
             'cliente.nombre_cliente.required'         => '',
             'cliente.rut_cliente.required'            => '',
-            'cliente.fono_fijo_cliente.required'           => '',
-            'cliente.fono_celular_cliente.required'           => '',
+            'cliente.fono_fijo_cliente.required'      => '',
+            'cliente.fono_celular_cliente.required'   => '',
             'cliente.correo_cliente.required'         => '',
             'cliente.pais.required'                   => '',
             'cliente.region.required'                 => '',
@@ -112,8 +112,9 @@ class ClientesController extends \ApiController
             'encuesta.slogan.required'                => '',
             'encuesta.description.required'           => '',
         );
-
-        $validator = Validator::make($data = Input::all(), $rules);
+        $data     = Input::all();
+        dd($data);
+        $validator = Validator::make($data, $rules);
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
@@ -252,10 +253,8 @@ class ClientesController extends \ApiController
         $ciudads = Ciudad::lists('descripcion_ciudad', 'id_ciudad');
         $cliente = Cliente::find($id);
 
-        return View::make('admin.clientes.edit', compact('cliente'))->with('pais', $pais)->with('states', $states)->with('plans', $plans)
-            ->with('sectors', $sectors)
-            ->with('ciudads', $ciudads)
-            ->with('catgs', $catgs);
+        return View::make('admin.clientes.edit', compact('cliente'))->with('pais', $pais)->with('states', $states)->with('plans', $plans)->with('sectors', $sectors)->with('ciudads',
+            $ciudads)->with('catgs', $catgs);
     }
 
     /**
@@ -336,16 +335,16 @@ class ClientesController extends \ApiController
 
         // Create client
         $client = \Cliente::firstOrCreate([
-            'rut_cliente'       => \Input::get('rut_cliente'),
-            'nombre_cliente'    => \Input::get('nombre_cliente'),
-            'fono_fijo_cliente'      => \Input::get('fono_fijo_cliente'),
-            'fono_celular_cliente'      => \Input::get('fono_celular_cliente'),
-            'correo_cliente'    => \Input::get('correo_cliente'),
-            'direccion_cliente' => \Input::get('direccion_cliente'),
-            'id_sector'         => \Input::get('sector'), // ????
-            'id_ciudad'         => \Input::get('ciudad'),
-            'id_tipo_cliente'   => \Input::get(''), // 1
-            'id_plan'           => \Input::get('plan'),
+            'rut_cliente'          => \Input::get('rut_cliente'),
+            'nombre_cliente'       => \Input::get('nombre_cliente'),
+            'fono_fijo_cliente'    => \Input::get('fono_fijo_cliente'),
+            'fono_celular_cliente' => \Input::get('fono_celular_cliente'),
+            'correo_cliente'       => \Input::get('correo_cliente'),
+            'direccion_cliente'    => \Input::get('direccion_cliente'),
+            'id_sector'            => \Input::get('sector'), // ????
+            'id_ciudad'            => \Input::get('ciudad'),
+            'id_tipo_cliente'      => \Input::get(''), // 1
+            'id_plan'              => \Input::get('plan'),
         ]);
 
         // Assciate survey to client

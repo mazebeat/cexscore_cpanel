@@ -3,18 +3,18 @@
 /**
  * Respuesta
  *
- * @property integer $id_respuesta 
- * @property integer $id_pregunta_cabecera 
- * @property integer $id_encuesta 
- * @property integer $id_canal 
- * @property integer $id_momento 
- * @property integer $id_cliente 
- * @property integer $id_usuario 
- * @property integer $id_estado 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property-read \Illuminate\Database\Eloquent\Collection|\Cliente[] $clientes 
- * @property-read \RespuestaDetalle $detalle 
+ * @property integer                                                  $id_respuesta
+ * @property integer                                                  $id_pregunta_cabecera
+ * @property integer                                                  $id_encuesta
+ * @property integer                                                  $id_canal
+ * @property integer                                                  $id_momento
+ * @property integer                                                  $id_cliente
+ * @property integer                                                  $id_usuario
+ * @property integer                                                  $id_estado
+ * @property \Carbon\Carbon                                           $created_at
+ * @property \Carbon\Carbon                                           $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Cliente[] $clientes
+ * @property-read \RespuestaDetalle                                   $detalle
  * @method static \Illuminate\Database\Query\Builder|\Respuesta whereIdRespuesta($value)
  * @method static \Illuminate\Database\Query\Builder|\Respuesta whereIdPreguntaCabecera($value)
  * @method static \Illuminate\Database\Query\Builder|\Respuesta whereIdEncuesta($value)
@@ -48,6 +48,11 @@ class Respuesta extends \Eloquent
     public function detalle()
     {
         return $this->hasOne('RespuestaDetalle', 'id_respuesta');
+    }
+
+    public function scopeActually($query)
+    {
+        return $query->whereBetween('respuesta.created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
     }
 
 }

@@ -2,19 +2,112 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6697f080-e552-4799-9af6-8fdea14d3a5e" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.phpintel/137456500bc9212ed3af236e03b66979" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/controllers/CsUsuariosController.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/controllers/PeriodosController.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/database/migrations/2015_10_27_115123_create_usuarios_table.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/database/migrations/2015_10_30_151216_create_periodos_table.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/database/seeds/PeriodosTableSeeder.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/CsUsuario.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/Periodo.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/admin/cuentas/create.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/admin/cuentas/resumen.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/admin/cuentas/tabs/admin.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/layouts/cpanel2.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/periodos/create.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/periodos/edit.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/periodos/index.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/periodos/show.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/cliente.create.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/cliente.create.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.date.extensions.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.date.extensions.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.date.extensions.min.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.extensions.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.extensions.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.extensions.min.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.min.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.numeric.extensions.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.numeric.extensions.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.numeric.extensions.min.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.phone.extensions.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.phone.extensions.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.phone.extensions.min.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.regex.extensions.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.regex.extensions.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.regex.extensions.min.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/phone-codes/phone-be.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/phone-codes/phone-codes.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/plugins/input-mask/phone-codes/readme.txt" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/admin/clientes/create.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/admin/clientes/tabs/admin.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/backend.min.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/icheck.min.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/jquery.rut.min.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/npm.min.min.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/select2.min.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/select2_locale_es.min.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/survey.min.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/template/dist/css/skins/_all-skins.min.min.css" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.phpintel/index" afterPath="$PROJECT_DIR$/.phpintel/index" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Generated_files.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Generated_files.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/app.php" afterPath="$PROJECT_DIR$/app/config/app.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/ClientesController.php" afterPath="$PROJECT_DIR$/app/controllers/ClientesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/PlansController.php" afterPath="$PROJECT_DIR$/app/controllers/PlansController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/auth.php" afterPath="$PROJECT_DIR$/app/config/auth.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/homestead/app.php" afterPath="$PROJECT_DIR$/app/config/homestead/app.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/packages/barryvdh/laravel-debugbar/config.php" afterPath="$PROJECT_DIR$/app/config/packages/barryvdh/laravel-debugbar/config.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/packages/fitztrev/laravel-html-minify/config.php" afterPath="$PROJECT_DIR$/app/config/packages/fitztrev/laravel-html-minify/config.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/AdminController.php" afterPath="$PROJECT_DIR$/app/controllers/AdminController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/MomentoEncuestaController.php" afterPath="$PROJECT_DIR$/app/controllers/MomentoEncuestaController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/SectorsController.php" afterPath="$PROJECT_DIR$/app/controllers/SectorsController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/UsuariosController.php" afterPath="$PROJECT_DIR$/app/controllers/UsuariosController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/seeds/ClientesTableSeeder.php" afterPath="$PROJECT_DIR$/app/database/seeds/ClientesTableSeeder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/database/seeds/DatabaseSeeder.php" afterPath="$PROJECT_DIR$/app/database/seeds/DatabaseSeeder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/lang/en/messages.php" afterPath="$PROJECT_DIR$/app/lang/en/messages.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/lang/es/messages.php" afterPath="$PROJECT_DIR$/app/lang/es/messages.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Cliente.php" afterPath="$PROJECT_DIR$/app/models/Cliente.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/EncuestaSector.php" afterPath="$PROJECT_DIR$/app/models/EncuestaSector.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/MomentoEncuesta.php" afterPath="$PROJECT_DIR$/app/models/MomentoEncuesta.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Plan.php" afterPath="$PROJECT_DIR$/app/models/Plan.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Respuesta.php" afterPath="$PROJECT_DIR$/app/models/Respuesta.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Sector.php" afterPath="$PROJECT_DIR$/app/models/Sector.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Url.php" afterPath="$PROJECT_DIR$/app/models/Url.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/User.php" afterPath="$PROJECT_DIR$/app/models/User.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/Usuario.php" afterPath="$PROJECT_DIR$/app/models/Usuario.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/routes.php" afterPath="$PROJECT_DIR$/app/routes.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/utils/Macros.php" afterPath="$PROJECT_DIR$/app/utils/Macros.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/clientes/create.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/clientes/create.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/clientes/tabs/config.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/clientes/tabs/config.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/clientes/tabs/encuesta.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/clientes/tabs/encuesta.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/cpanel.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/cpanel.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/encuesta/index.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/encuesta/index.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/momentoencuesta/index.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/momentoencuesta/index.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/plans/create.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/plans/create.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/plans/edit.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/plans/edit.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/plans/index.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/plans/index.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/sectors/create.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/sectors/create.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/sectors/edit.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/sectors/edit.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/usuarios/create.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/usuarios/create.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/usuarios/edit.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/usuarios/edit.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/usuarios/index.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/usuarios/index.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/usuarios/show.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/usuarios/show.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/cpanel.blade.php" afterPath="$PROJECT_DIR$/app/views/layouts/cpanel.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/modules/cpanel/left-menu.blade.php" afterPath="$PROJECT_DIR$/app/views/layouts/modules/cpanel/left-menu.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/survey/encuesta.blade.php" afterPath="$PROJECT_DIR$/app/views/survey/encuesta.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/plugins/icheck/skins/all.css" afterPath="$PROJECT_DIR$/public/plugins/icheck/skins/all.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/plugins/icheck/skins/all.min.css" afterPath="$PROJECT_DIR$/public/plugins/icheck/skins/all.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/template/dist/css/AdminLTE.css" afterPath="$PROJECT_DIR$/public/template/dist/css/AdminLTE.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/template/dist/css/AdminLTE.min.css" afterPath="$PROJECT_DIR$/public/template/dist/css/AdminLTE.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/template/index2.html" afterPath="$PROJECT_DIR$/public/template/index2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/template/pages/forms/advanced.html" afterPath="$PROJECT_DIR$/public/template/pages/forms/advanced.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/controllers/ClientesController.php" afterPath="$PROJECT_DIR$/app/controllers/CuentasController.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/admin/clientes/edit.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/cuentas/edit.blade.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/admin/clientes/index.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/cuentas/index.blade.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/admin/clientes/show.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/cuentas/show.blade.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/admin/clientes/tabs/apariencia.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/cuentas/tabs/apariencia.blade.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/admin/clientes/tabs/config.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/cuentas/tabs/config.blade.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/admin/clientes/tabs/cuenta.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/cuentas/tabs/cuenta.blade.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/admin/clientes/tabs/encuesta.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/cuentas/tabs/encuesta.blade.php" />
     </list>
     <ignored path="PanelCustomerExperienceScore.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,108 +128,178 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="create.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/admin/clientes/create.blade.php">
+      <file leaf-file-name="CuentasController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/CuentasController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.692307">
-              <caret line="138" column="0" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
+            <state vertical-scroll-proportion="-12.346154">
+              <caret line="335" column="11" selection-start-line="335" selection-start-column="11" selection-end-line="335" selection-end-column="11" />
               <folding>
-                <element signature="e#5768#6015#0#HTML" expanded="false" />
-                <element signature="e#6443#6737#0#HTML" expanded="false" />
-                <element signature="e#9323#11756#0#HTML" expanded="false" />
+                <element signature="e#62#151#0#PHP" expanded="false" />
+                <element signature="n#saveQuestions#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#474#552#0#PHP" expanded="false" />
+                <element signature="n#index#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#704#794#0#PHP" expanded="false" />
+                <element signature="n#create#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#1393#1484#0#PHP" expanded="false" />
+                <element signature="n#store#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#5604#5675#0#PHP" expanded="false" />
+                <element signature="n#saveSurvey#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#6131#6243#0#PHP" expanded="false" />
+                <element signature="n#saveClient#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#6797#6888#0#PHP" expanded="false" />
+                <element signature="n#saveAdministrator#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#7440#7557#0#PHP" expanded="false" />
+                <element signature="n#randomUsername#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#8363#8394#0#PHP" expanded="false" />
+                <element signature="n#saveMoments#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#8459#8566#0#PHP" expanded="false" />
+                <element signature="n#saveTheme#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#10118#10245#0#PHP" expanded="false" />
+                <element signature="n#show#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#10408#10536#0#PHP" expanded="false" />
+                <element signature="e#11304#11424#0#PHP" expanded="false" />
+                <element signature="n#update#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#11817#11939#0#PHP" expanded="false" />
+                <element signature="n#destroy#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#12077#12143#0#PHP" expanded="false" />
+                <element signature="n#loadSurvey#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#12743#12761#0#PHP" expanded="false" />
+                <element signature="n#createClient#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#14022#14082#0#PHP" expanded="false" />
+                <element signature="n#modifySurvey#0;n#CuentasController#0;n#!!top" expanded="false" />
+                <element signature="e#16194#16260#0#PHP" expanded="false" />
+                <element signature="n#createBasicRules#0;n#CuentasController#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cpanel.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/layouts/cpanel.blade.php">
+      <file leaf-file-name="Macros.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/utils/Macros.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.923077">
-              <caret line="230" column="0" selection-start-line="230" selection-start-column="0" selection-end-line="230" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/routes.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8908297">
-              <caret line="109" column="57" selection-start-line="109" selection-start-column="57" selection-end-line="109" selection-end-column="57" />
+            <state vertical-scroll-proportion="-11.692307">
+              <caret line="683" column="48" selection-start-line="683" selection-start-column="0" selection-end-line="683" selection-end-column="0" />
               <folding>
-                <element signature="e#1031#3728#1#PHP" expanded="true" />
-                <element signature="e#3407#3724#1#PHP" expanded="true" />
+                <element signature="e#27#149#0#PHP" expanded="false" />
+                <element signature="e#169#641#1#PHP" expanded="false" />
+                <element signature="e#644#765#0#PHP" expanded="false" />
+                <element signature="e#794#1850#1#PHP" expanded="false" />
+                <element signature="e#1881#2346#1#PHP" expanded="false" />
+                <element signature="e#2378#2813#1#PHP" expanded="false" />
+                <element signature="e#2949#3069#0#PHP" expanded="false" />
+                <element signature="e#3070#3095#0#PHP" expanded="false" />
+                <element signature="e#3121#3932#1#PHP" expanded="false" />
+                <element signature="e#3936#3974#0#PHP" expanded="false" />
+                <element signature="e#4004#5527#1#PHP" expanded="false" />
+                <element signature="e#5531#5582#0#PHP" expanded="false" />
+                <element signature="e#5605#6084#1#PHP" expanded="false" />
+                <element signature="e#6088#6123#0#PHP" expanded="false" />
+                <element signature="e#6154#7236#1#PHP" expanded="false" />
+                <element signature="e#7240#7264#0#PHP" expanded="false" />
+                <element signature="e#7294#8215#1#PHP" expanded="false" />
+                <element signature="e#8219#8244#0#PHP" expanded="false" />
+                <element signature="e#8275#10735#1#PHP" expanded="false" />
+                <element signature="e#10739#10762#0#PHP" expanded="false" />
+                <element signature="e#10791#13633#1#PHP" expanded="false" />
+                <element signature="e#13637#13661#0#PHP" expanded="false" />
+                <element signature="e#13691#14617#1#PHP" expanded="false" />
+                <element signature="e#14621#14647#0#PHP" expanded="false" />
+                <element signature="e#14679#16648#1#PHP" expanded="false" />
+                <element signature="e#16652#16683#0#PHP" expanded="false" />
+                <element signature="e#16716#18497#1#PHP" expanded="false" />
+                <element signature="e#18501#18527#0#PHP" expanded="false" />
+                <element signature="e#18559#19154#1#PHP" expanded="false" />
+                <element signature="e#19290#19389#0#PHP" expanded="false" />
+                <element signature="e#19417#20478#1#PHP" expanded="false" />
+                <element signature="e#20511#21038#1#PHP" expanded="false" />
+                <element signature="e#21073#21310#1#PHP" expanded="false" />
+                <element signature="e#21344#21581#1#PHP" expanded="false" />
+                <element signature="e#21613#23317#1#PHP" expanded="false" />
+                <element signature="e#23321#23451#0#PHP" expanded="false" />
+                <element signature="e#24328#25129#1#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="create.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/admin/plans/create.blade.php">
+      <file leaf-file-name="resumen.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/admin/cuentas/resumen.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.0">
-              <caret line="69" column="84" selection-start-line="69" selection-start-column="65" selection-end-line="69" selection-end-column="84" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PlansController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/PlansController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.1923075">
-              <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.0077319">
+              <caret line="23" column="15" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
               <folding>
-                <element signature="n#store#0;n#PlansController#0;n#!!top" expanded="true" />
-                <element signature="e#1177#1288#0#PHP" expanded="true" />
-                <element signature="e#1447#1576#0#PHP" expanded="true" />
-                <element signature="e#2581#2673#0#PHP" expanded="true" />
-                <element signature="n#cleanCheckboxInputs#0;n#PlansController#0;n#!!top" expanded="true" />
-                <element signature="e#3111#3234#0#PHP" expanded="true" />
-                <element signature="n#destroy#0;n#PlansController#0;n#!!top" expanded="true" />
+                <marker date="1446491353677" expanded="true" signature="1218:1571" placeholder="{...}" />
+                <marker date="1446491353677" expanded="true" signature="1287:1394" placeholder="{&quot;columnWidth&quot;: '.item'...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClientesController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/ClientesController.php">
+      <file leaf-file-name="simple.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/template/pages/tables/simple.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.3076923">
-              <caret line="100" column="64" selection-start-line="100" selection-start-column="60" selection-end-line="100" selection-end-column="60" />
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="data.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/template/pages/tables/data.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-265.2">
+              <caret line="903" column="0" selection-start-line="903" selection-start-column="0" selection-end-line="903" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/admin/index.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="31.384615">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Cliente.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/Cliente.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.307693">
+              <caret line="57" column="114" selection-start-line="57" selection-start-column="114" selection-end-line="57" selection-end-column="114" />
               <folding>
-                <element signature="e#7#44#0#PHP" expanded="true" />
+                <element signature="n#getIsAdminAttribute#0;n#Cliente#0;n#!!top" expanded="false" />
+                <element signature="n#encuesta#0;n#Cliente#0;n#!!top" expanded="false" />
+                <element signature="n#apariencias#0;n#Cliente#0;n#!!top" expanded="false" />
+                <element signature="n#sector#0;n#Cliente#0;n#!!top" expanded="false" />
+                <element signature="n#plan#0;n#Cliente#0;n#!!top" expanded="false" />
+                <element signature="n#respuestas#0;n#Cliente#0;n#!!top" expanded="false" />
+                <element signature="n#preguntas#0;n#Cliente#0;n#!!top" expanded="false" />
+                <element signature="n#usuarios#0;n#Cliente#0;n#!!top" expanded="false" />
+                <element signature="n#theme#0;n#Cliente#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/config/app.php">
+      <file leaf-file-name="Momento.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/Momento.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.6153846">
-              <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
+            <state vertical-scroll-proportion="3.9230769">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="edit.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/admin/plans/edit.blade.php">
+      <file leaf-file-name="MomentoEncuesta.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/MomentoEncuesta.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.346153">
-              <caret line="82" column="93" selection-start-line="82" selection-start-column="93" selection-end-line="82" selection-end-column="93" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Plan.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/Plan.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.8461537">
-              <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
+            <state vertical-scroll-proportion="-6.5384617">
+              <caret line="17" column="21" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -148,6 +311,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Blade" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -165,40 +329,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/views/layouts/modules/cpanel/footer.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/layouts/modules/cpanel/tasks.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/layouts/modules/cpanel/notifications.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/layouts/modules/cpanel/messages.blade.php" />
-        <option value="$PROJECT_DIR$/public/backend/css/backend.css" />
-        <option value="$PROJECT_DIR$/app/views/admin/plans/index.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/plans/show.blade.php" />
-        <option value="$PROJECT_DIR$/app/config/database.php" />
-        <option value="$PROJECT_DIR$/app/config/local/database.php" />
-        <option value="C:/apps/PanelCEXScore/config/PanelCEXScore.ini" />
-        <option value="$PROJECT_DIR$/app/start/global.php" />
-        <option value="$PROJECT_DIR$/app/config/homestead/database.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/clientes/tabs/apariencia.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/clientes/tabs/admin.blade.php" />
-        <option value="$PROJECT_DIR$/app/config/homestead/app.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/encuesta/edit.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/pregunta_cabeceras/create.blade.php" />
-        <option value="$PROJECT_DIR$/app/models/EncuestaSector.php" />
-        <option value="$PROJECT_DIR$/app/models/Encuesta.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/clientes/tabs/config.blade.php" />
         <option value="$PROJECT_DIR$/app/views/admin/clientes/tabs/encuesta.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/survey/loadSurvey.blade.php" />
-        <option value="$PROJECT_DIR$/public/plugins/ckeditor/config.js" />
-        <option value="$PROJECT_DIR$/app/utils/Macros.php" />
+        <option value="$PROJECT_DIR$/app/config/packages/fitztrev/laravel-html-minify/config.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/clientes/tabs/admin.blade.php" />
+        <option value="$PROJECT_DIR$/public/js/backend.js" />
+        <option value="$PROJECT_DIR$/public/js/select2_locale_es.js" />
+        <option value="$PROJECT_DIR$/public/js/select2_locale_es.min.js" />
+        <option value="$PROJECT_DIR$/public/js/survey.js" />
         <option value="$PROJECT_DIR$/app/views/admin/clientes/tabs/cuenta.blade.php" />
-        <option value="$PROJECT_DIR$/app/models/Plan.php" />
+        <option value="$PROJECT_DIR$/public/plugins/bootstrap_wizard/prettify.css" />
+        <option value="$PROJECT_DIR$/public/plugins/bootstrap_wizard/prettify.js" />
+        <option value="$PROJECT_DIR$/public/plugins/bootstrap_wizard/jquery.bootstrap.wizard.js" />
+        <option value="$PROJECT_DIR$/public/plugins/icheck/skins/all.css" />
         <option value="$PROJECT_DIR$/app/views/layouts/cpanel.blade.php" />
         <option value="$PROJECT_DIR$/app/views/admin/clientes/create.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/plans/create.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/plans/edit.blade.php" />
-        <option value="$PROJECT_DIR$/app/controllers/PlansController.php" />
-        <option value="$PROJECT_DIR$/app/config/app.php" />
+        <option value="$PROJECT_DIR$/app/config/auth.php" />
+        <option value="$PROJECT_DIR$/app/models/User.php" />
+        <option value="$PROJECT_DIR$/app/controllers/AdminController.php" />
         <option value="$PROJECT_DIR$/app/controllers/ClientesController.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/encuesta/edit.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/clientes/edit.blade.php" />
+        <option value="$PROJECT_DIR$/public/js/cliente.create.js" />
+        <option value="$PROJECT_DIR$/app/views/layouts/modules/cpanel/left-menu.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/cuentas/create.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/cuentas/show.blade.php" />
+        <option value="$USER_HOME$/Desktop/laravel4-angularjs-security-master/app/config/database.php" />
+        <option value="$PROJECT_DIR$/app/controllers/MomentoEncuestaController.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/momentoencuesta/index.blade.php" />
+        <option value="$PROJECT_DIR$/app/models/MomentoEncuesta.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/plans/index.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/cuentas/edit.blade.php" />
+        <option value="$PROJECT_DIR$/app/config/app.php" />
+        <option value="$PROJECT_DIR$/app/config/homestead/app.php" />
+        <option value="$PROJECT_DIR$/app/models/Respuesta.php" />
+        <option value="$PROJECT_DIR$/app/models/Usuario.php" />
+        <option value="$PROJECT_DIR$/app/config/packages/barryvdh/laravel-debugbar/config.php" />
+        <option value="$PROJECT_DIR$/app/controllers/UsuariosController.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/cuentas/index.blade.php" />
+        <option value="$PROJECT_DIR$/app/models/CsUsuario.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/usuarios/index.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/CsUsuariosController.php" />
+        <option value="$PROJECT_DIR$/app/views/layouts/cpanel2.blade.php" />
+        <option value="$PROJECT_DIR$/public/template/index2.html" />
         <option value="$PROJECT_DIR$/app/routes.php" />
+        <option value="$PROJECT_DIR$/app/lang/en/messages.php" />
+        <option value="$PROJECT_DIR$/app/lang/es/messages.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/cpanel.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/CuentasController.php" />
+        <option value="$PROJECT_DIR$/app/models/Cliente.php" />
+        <option value="$PROJECT_DIR$/public/template/pages/tables/simple.html" />
+        <option value="$PROJECT_DIR$/app/utils/Macros.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/cuentas/resumen.blade.php" />
       </list>
     </option>
   </component>
@@ -208,13 +389,15 @@
     <detection-done>true</detection-done>
   </component>
   <component name="PhpServers">
-    <servers />
+    <servers>
+      <server host="192.168.1.86" id="0d2cee6b-66ea-45d7-b600-48105b159724" name="Development" port="9000" />
+    </servers>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
+    <option name="width" value="1370" />
     <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -243,6 +426,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -258,6 +442,86 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="PanelCustomerExperienceScore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PanelCustomerExperienceScore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PanelCustomerExperienceScore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PanelCustomerExperienceScore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PanelCustomerExperienceScore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="template" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PanelCustomerExperienceScore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PanelCustomerExperienceScore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="template" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PanelCustomerExperienceScore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PanelCustomerExperienceScore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="template" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tables" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -329,6 +593,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cuentas" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PanelCustomerExperienceScore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PanelCustomerExperienceScore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -353,14 +643,13 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.lastSelected" value="preferences.sourceCode.PHP" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ListarDirectorio" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
@@ -375,8 +664,15 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\Projects\Php\PanelCustomerExperienceScore\app\views\admin" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Projects\Php\PanelCustomerExperienceScore\app\views\layouts" />
+      <recent name="E:\Projects\Php\PanelCustomerExperienceScore\app\views\admin\cuentas" />
+      <recent name="E:\Projects\Php\PanelCustomerExperienceScore\app\controllers" />
+      <recent name="E:\Projects\Php\PanelCustomerExperienceScore\app\models" />
+      <recent name="E:\Projects\Php\PanelCustomerExperienceScore\public\plugins" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="PHP Web Application.Development">
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
       <method />
     </configuration>
@@ -389,6 +685,9 @@
       <method />
     </configuration>
     <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application">
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
@@ -405,6 +704,12 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="false" name="Development" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" server_name="Development" start_url="/test/test">
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="PHP Web Application.Development" />
+    </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="TaskManager">
@@ -426,27 +731,50 @@
       <option name="project" value="LOCAL" />
       <updated>1445876983346</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="0.0.1">
+      <created>1445895760420</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1445895760420</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1370" height="744" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18683812" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23071104" sideWeight="0.6062802" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21832061" sideWeight="0.5908347" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23076923" sideWeight="0.5030349" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27659574" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21832061" sideWeight="0.4091653" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31751227" sideWeight="0.4969651" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27986908" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23076923" sideWeight="0.4969651" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32569557" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.65686274" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28150573" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5368249" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23076923" sideWeight="0.5030349" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27986908" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23076923" sideWeight="0.4969651" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2777778" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31751227" sideWeight="0.4969651" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18683812" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20106222" sideWeight="0.6062802" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32569557" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21785174" sideWeight="0.3937198" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3764321" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-    </layout>
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.65686274" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -465,222 +793,359 @@
     <option name="LAST_COMMIT_MESSAGE" value="0.0.1" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="4" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/models/User.php">
+    <entry file="file://$PROJECT_DIR$/public/js/cliente.create.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="6" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="43" />
+          <caret line="362" column="26" selection-start-line="362" selection-start-column="11" selection-end-line="362" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/clientes/create.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/modules/cpanel/left-menu.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="43" column="27" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
-          <folding>
-            <element signature="e#5768#6015#0#HTML" expanded="false" />
-            <element signature="e#6443#6737#0#HTML" expanded="false" />
-            <element signature="e#9323#11756#0#HTML" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="-9.153846">
+          <caret line="33" column="41" selection-start-line="33" selection-start-column="41" selection-end-line="33" selection-end-column="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Usuario.php">
+    <entry file="file://$PROJECT_DIR$/app/views/admin/encuesta/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.730769">
+          <caret line="39" column="61" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/cuentas/create.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-60.807693">
+          <caret line="93" column="32" selection-start-line="93" selection-start-column="32" selection-end-line="93" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/laravel4-angularjs-security-master/app/database/seeds/DatabaseSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/User.php">
+    <entry file="file://$USER_HOME$/Desktop/laravel4-angularjs-security-master/app/database/seeds/MovieTableSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="6" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/modules/cpanel/footer.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/modules/cpanel/tasks.blade.php">
+    <entry file="file://$USER_HOME$/Desktop/laravel4-angularjs-security-master/app/database/seeds/UserTableSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.961538">
-          <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+        <state vertical-scroll-proportion="-7.8461537">
+          <caret line="12" column="40" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/modules/cpanel/messages.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.0">
-          <caret line="26" column="5" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/modules/cpanel/notifications.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.423077">
-          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/modules/cpanel/sidebar.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.1923075">
-          <caret line="53" column="89" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/backend/css/backend.min.css">
+    <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="72" selection-start-line="0" selection-start-column="57" selection-end-line="0" selection-end-column="73" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/backend/css/backend.css">
+    <entry file="file://$PROJECT_DIR$/app/controllers/MomentoEncuestaController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48833033">
-          <caret line="16" column="44" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
+        <state vertical-scroll-proportion="-9.807693">
+          <caret line="39" column="65" selection-start-line="39" selection-start-column="65" selection-end-line="39" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/laravel4-angularjs-security-master/app/config/database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="57" column="39" selection-start-line="57" selection-start-column="28" selection-end-line="57" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/config/database.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="63" column="72" selection-start-line="63" selection-start-column="72" selection-end-line="63" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/local/database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="32" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="32" />
+          <caret line="68" column="10" selection-start-line="68" selection-start-column="10" selection-end-line="68" selection-end-column="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/admin/plans/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.538462">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/momentoencuesta/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="100" selection-start-line="35" selection-start-column="94" selection-end-line="35" selection-end-column="100" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/homestead/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.807693">
+          <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/homestead/database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.5">
+          <caret line="13" column="22" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="8.884615">
+          <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Apariencia.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Respuesta.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.076923">
+          <caret line="54" column="47" selection-start-line="54" selection-start-column="47" selection-end-line="54" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Plan.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="5.8846154">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.1923075">
+          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="59" selection-end-column="5" />
+          <folding>
+            <element signature="e#7#57#0#PHP" expanded="false" />
+            <element signature="n#cliente#0;n#User#0;n#!!top" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/admin/plans/show.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.047222223">
-          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+        <state vertical-scroll-proportion="-6.5384617">
+          <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/composer.json">
+    <entry file="file://$PROJECT_DIR$/app/config/packages/barryvdh/laravel-debugbar/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.047222223">
-          <caret line="17" column="37" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="37" />
+        <state vertical-scroll-proportion="-8.5">
+          <caret line="13" column="22" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/standard_5.php">
+    <entry file="file://$PROJECT_DIR$/app/models/Visita.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34767026">
-          <caret line="911" column="9" selection-start-line="911" selection-start-column="9" selection-end-line="911" selection-end-column="9" />
-          <folding />
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php">
+    <entry file="file://$PROJECT_DIR$/app/models/Usuario.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5609319">
-          <caret line="308" column="18" selection-start-line="308" selection-start-column="18" selection-end-line="308" selection-end-column="18" />
+        <state vertical-scroll-proportion="-19.807692">
+          <caret line="35" column="21" selection-start-line="35" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding>
+            <element signature="n#cliente#0;n#Usuario#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4874552">
-          <caret line="30" column="18" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/apps/PanelCEXScore/config/PanelCEXScore.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="6" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/clientes/tabs/admin.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/models/Periodo.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/start/global.php">
+    <entry file="file://$PROJECT_DIR$/app/controllers/UsuariosController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.1153846">
-          <caret line="39" column="57" selection-start-line="39" selection-start-column="57" selection-end-line="39" selection-end-column="57" />
+        <state vertical-scroll-proportion="-17.653847">
+          <caret line="133" column="19" selection-start-line="133" selection-start-column="19" selection-end-line="133" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/homestead/database.php">
+    <entry file="file://$PROJECT_DIR$/app/views/admin/cuentas/edit.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.346153">
-          <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+        <state vertical-scroll-proportion="-7.8461537">
+          <caret line="25" column="26" selection-start-line="21" selection-start-column="16" selection-end-line="25" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/clientes/tabs/apariencia.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/views/admin/usuarios/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-64.07692">
-          <caret line="98" column="6" selection-start-line="98" selection-start-column="6" selection-end-line="98" selection-end-column="6" />
+        <state vertical-scroll-proportion="-9.153846">
+          <caret line="26" column="18" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Cliente.php">
+    <entry file="file://$PROJECT_DIR$/app/controllers/CsUsuariosController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.807693">
-          <caret line="57" column="11" selection-start-line="54" selection-start-column="3" selection-end-line="57" selection-end-column="5" />
-          <folding>
-            <element signature="n#encuesta#0;n#Cliente#0;n#!!top" expanded="false" />
-            <element signature="n#sector#0;n#Cliente#0;n#!!top" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="-9.153846">
+          <caret line="143" column="56" selection-start-line="143" selection-start-column="56" selection-end-line="143" selection-end-column="56" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/homestead/app.php">
+    <entry file="file://$PROJECT_DIR$/app/models/CsUsuario.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4578097">
-          <caret line="15" column="20" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="20" />
+        <state vertical-scroll-proportion="-14.384615">
+          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/cuentas/show.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.65384614">
+          <caret line="44" column="11" selection-start-line="44" selection-start-column="11" selection-end-line="44" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/cpanel.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="195" column="36" selection-start-line="181" selection-start-column="16" selection-end-line="195" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/EncuestaSector.php">
+    <entry file="file://$PROJECT_DIR$/app/views/admin/cuentas/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12208258">
-          <caret line="7" column="90" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="42" column="24" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/template/dist/js/pages/dashboard2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="165" column="21" selection-start-line="90" selection-start-column="1" selection-end-line="165" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/template/index2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.65384614">
+          <caret line="134" column="103" selection-start-line="134" selection-start-column="92" selection-end-line="134" selection-end-column="103" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lang/es/messages.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.8461537">
+          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/lang/en/messages.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.2692308">
+          <caret line="5" column="11" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15384616">
+          <caret line="58" column="42" selection-start-line="58" selection-start-column="42" selection-end-line="58" selection-end-column="42" />
           <folding>
-            <element signature="n#encuesta#0;n#EncuestaSector#0;n#!!top" expanded="false" />
+            <element signature="e#7#67#0#PHP" expanded="true" />
+            <element signature="e#1383#1532#1#PHP" expanded="false" />
+            <element signature="e#1585#1735#1#PHP" expanded="false" />
+            <element signature="e#4335#4465#1#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/cpanel.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="8.961538">
+          <caret line="123" column="36" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/cpanel2.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.1153846">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding>
+            <marker date="1446439005012" expanded="true" signature="6652:6674" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/Encuesta.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21364452">
-          <caret line="28" column="71" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
+        <state vertical-scroll-proportion="13.730769">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/PreguntaCabecera.php">
+    <entry file="file://$PROJECT_DIR$/app/models/Momento.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="3.9230769">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/MomentoEncuesta.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.5384617">
+          <caret line="17" column="21" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Cliente.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.307693">
+          <caret line="57" column="114" selection-start-line="57" selection-start-column="114" selection-end-line="57" selection-end-column="114" />
+          <folding>
+            <element signature="n#getIsAdminAttribute#0;n#Cliente#0;n#!!top" expanded="false" />
+            <element signature="n#encuesta#0;n#Cliente#0;n#!!top" expanded="false" />
+            <element signature="n#apariencias#0;n#Cliente#0;n#!!top" expanded="false" />
+            <element signature="n#sector#0;n#Cliente#0;n#!!top" expanded="false" />
+            <element signature="n#plan#0;n#Cliente#0;n#!!top" expanded="false" />
+            <element signature="n#respuestas#0;n#Cliente#0;n#!!top" expanded="false" />
+            <element signature="n#preguntas#0;n#Cliente#0;n#!!top" expanded="false" />
+            <element signature="n#usuarios#0;n#Cliente#0;n#!!top" expanded="false" />
+            <element signature="n#theme#0;n#Cliente#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/template/pages/tables/simple.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -688,248 +1153,129 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/encuesta/create.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/views/admin/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.94614005">
-          <caret line="40" column="22" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/encuesta/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0682226">
-          <caret line="38" column="72" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/plugins/ckeditor/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="38" column="63" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/plugins/ckeditor/LICENSE.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/plugins/ckeditor/config.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="31.384615">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/plugins/ckeditor/config.js">
+    <entry file="file://$PROJECT_DIR$/public/template/dist/js/demo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="39" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
+        <state vertical-scroll-proportion="-1.3413379">
+          <caret line="21" column="17" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="17" />
           <folding>
-            <element signature="e#0#159#0" expanded="false" />
+            <element signature="e#0#138#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/plugins/ckeditor/samples/old/jquery.html">
+    <entry file="file://$PROJECT_DIR$/public/template/pages/tables/data.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="19.615385">
-          <caret line="9" column="60" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/survey/loadSurvey.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.346153">
-          <caret line="52" column="42" selection-start-line="52" selection-start-column="42" selection-end-line="52" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/clientes/tabs/config.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.461538">
-          <caret line="16" column="90" selection-start-line="16" selection-start-column="90" selection-end-line="16" selection-end-column="90" />
-          <folding>
-            <marker date="1445880973169" expanded="true" signature="154:241" placeholder="..." />
-            <marker date="1445880973169" expanded="true" signature="214:240" placeholder="..." />
-            <marker date="1445880973169" expanded="true" signature="440:738" placeholder="..." />
-            <marker date="1445880973169" expanded="true" signature="499:737" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/clientes/tabs/encuesta.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9230769">
-          <caret line="31" column="34" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
-          <caret line="19" column="35" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
+        <state vertical-scroll-proportion="-265.2">
+          <caret line="903" column="0" selection-start-line="903" selection-start-column="0" selection-end-line="903" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/utils/Macros.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.8846154">
-          <caret line="648" column="140" selection-start-line="648" selection-start-column="132" selection-end-line="648" selection-end-column="140" />
+        <state vertical-scroll-proportion="-11.692307">
+          <caret line="683" column="48" selection-start-line="683" selection-start-column="0" selection-end-line="683" selection-end-column="0" />
           <folding>
-            <element signature="e#19229#20213#1#PHP" expanded="true" />
-            <element signature="e#20247#20713#1#PHP" expanded="true" />
-            <marker date="1445891940025" expanded="true" signature="2110:2299" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="2132:2280" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="5676:5793" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="6608:7102" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="6659:7095" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="6689:6745" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="6697:6734" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="6775:7085" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="6783:7074" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="6825:6891" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="9276:9383" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="9328:9383" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="9359:9383" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="9368:9383" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="9569:9693" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="9579:9693" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="9623:9693" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="9794:10096" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="10149:10293" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="15508:16422" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="15559:16422" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="15589:15811" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="15597:15800" placeholder="..." />
-            <marker date="1445891940025" expanded="false" signature="15614:15626" placeholder="..." />
-            <marker date="1445891940025" expanded="false" signature="15649:15661" placeholder="..." />
-            <marker date="1445891940025" expanded="false" signature="15729:15741" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="15842:16412" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="15859:16401" placeholder="..." />
-            <marker date="1445891940025" expanded="false" signature="15876:15888" placeholder="..." />
-            <marker date="1445891940025" expanded="false" signature="16008:16020" placeholder="..." />
-            <marker date="1445891940025" expanded="false" signature="16269:16281" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="21905:22222" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="22048:22216" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="22266:22732" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="22451:22716" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="22778:23244" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="22963:23228" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="23362:23694" placeholder="..." />
-            <marker date="1445891940025" expanded="true" signature="23510:23687" placeholder="..." />
+            <element signature="e#27#149#0#PHP" expanded="false" />
+            <element signature="e#169#641#1#PHP" expanded="false" />
+            <element signature="e#644#765#0#PHP" expanded="false" />
+            <element signature="e#794#1850#1#PHP" expanded="false" />
+            <element signature="e#1881#2346#1#PHP" expanded="false" />
+            <element signature="e#2378#2813#1#PHP" expanded="false" />
+            <element signature="e#2949#3069#0#PHP" expanded="false" />
+            <element signature="e#3070#3095#0#PHP" expanded="false" />
+            <element signature="e#3121#3932#1#PHP" expanded="false" />
+            <element signature="e#3936#3974#0#PHP" expanded="false" />
+            <element signature="e#4004#5527#1#PHP" expanded="false" />
+            <element signature="e#5531#5582#0#PHP" expanded="false" />
+            <element signature="e#5605#6084#1#PHP" expanded="false" />
+            <element signature="e#6088#6123#0#PHP" expanded="false" />
+            <element signature="e#6154#7236#1#PHP" expanded="false" />
+            <element signature="e#7240#7264#0#PHP" expanded="false" />
+            <element signature="e#7294#8215#1#PHP" expanded="false" />
+            <element signature="e#8219#8244#0#PHP" expanded="false" />
+            <element signature="e#8275#10735#1#PHP" expanded="false" />
+            <element signature="e#10739#10762#0#PHP" expanded="false" />
+            <element signature="e#10791#13633#1#PHP" expanded="false" />
+            <element signature="e#13637#13661#0#PHP" expanded="false" />
+            <element signature="e#13691#14617#1#PHP" expanded="false" />
+            <element signature="e#14621#14647#0#PHP" expanded="false" />
+            <element signature="e#14679#16648#1#PHP" expanded="false" />
+            <element signature="e#16652#16683#0#PHP" expanded="false" />
+            <element signature="e#16716#18497#1#PHP" expanded="false" />
+            <element signature="e#18501#18527#0#PHP" expanded="false" />
+            <element signature="e#18559#19154#1#PHP" expanded="false" />
+            <element signature="e#19290#19389#0#PHP" expanded="false" />
+            <element signature="e#19417#20478#1#PHP" expanded="false" />
+            <element signature="e#20511#21038#1#PHP" expanded="false" />
+            <element signature="e#21073#21310#1#PHP" expanded="false" />
+            <element signature="e#21344#21581#1#PHP" expanded="false" />
+            <element signature="e#21613#23317#1#PHP" expanded="false" />
+            <element signature="e#23321#23451#0#PHP" expanded="false" />
+            <element signature="e#24328#25129#1#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/clientes/tabs/cuenta.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/controllers/CuentasController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="39.23077">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state vertical-scroll-proportion="-12.346154">
+          <caret line="335" column="11" selection-start-line="335" selection-start-column="11" selection-end-line="335" selection-end-column="11" />
           <folding>
-            <element signature="n#style#0;n#div#9;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#10;n#!!top" expanded="false" />
+            <element signature="e#62#151#0#PHP" expanded="false" />
+            <element signature="n#saveQuestions#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#474#552#0#PHP" expanded="false" />
+            <element signature="n#index#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#704#794#0#PHP" expanded="false" />
+            <element signature="n#create#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#1393#1484#0#PHP" expanded="false" />
+            <element signature="n#store#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#5604#5675#0#PHP" expanded="false" />
+            <element signature="n#saveSurvey#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#6131#6243#0#PHP" expanded="false" />
+            <element signature="n#saveClient#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#6797#6888#0#PHP" expanded="false" />
+            <element signature="n#saveAdministrator#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#7440#7557#0#PHP" expanded="false" />
+            <element signature="n#randomUsername#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#8363#8394#0#PHP" expanded="false" />
+            <element signature="n#saveMoments#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#8459#8566#0#PHP" expanded="false" />
+            <element signature="n#saveTheme#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#10118#10245#0#PHP" expanded="false" />
+            <element signature="n#show#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#10408#10536#0#PHP" expanded="false" />
+            <element signature="e#11304#11424#0#PHP" expanded="false" />
+            <element signature="n#update#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#11817#11939#0#PHP" expanded="false" />
+            <element signature="n#destroy#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#12077#12143#0#PHP" expanded="false" />
+            <element signature="n#loadSurvey#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#12743#12761#0#PHP" expanded="false" />
+            <element signature="n#createClient#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#14022#14082#0#PHP" expanded="false" />
+            <element signature="n#modifySurvey#0;n#CuentasController#0;n#!!top" expanded="false" />
+            <element signature="e#16194#16260#0#PHP" expanded="false" />
+            <element signature="n#createBasicRules#0;n#CuentasController#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/pregunta_cabeceras/create.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/views/admin/cuentas/resumen.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.961538">
-          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/cpanel.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.923077">
-          <caret line="230" column="0" selection-start-line="230" selection-start-column="0" selection-end-line="230" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Plan.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.8461537">
-          <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/plans/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.0">
-          <caret line="69" column="84" selection-start-line="69" selection-start-column="65" selection-end-line="69" selection-end-column="84" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/plans/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.346153">
-          <caret line="82" column="93" selection-start-line="82" selection-start-column="93" selection-end-line="82" selection-end-column="93" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/PlansController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.1923075">
-          <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+        <state vertical-scroll-proportion="1.0077319">
+          <caret line="23" column="15" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
           <folding>
-            <element signature="n#store#0;n#PlansController#0;n#!!top" expanded="true" />
-            <element signature="e#1177#1288#0#PHP" expanded="true" />
-            <element signature="e#1447#1576#0#PHP" expanded="true" />
-            <element signature="e#2581#2673#0#PHP" expanded="true" />
-            <element signature="n#cleanCheckboxInputs#0;n#PlansController#0;n#!!top" expanded="true" />
-            <element signature="e#3111#3234#0#PHP" expanded="true" />
-            <element signature="n#destroy#0;n#PlansController#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.6153846">
-          <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/clientes/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.692307">
-          <caret line="138" column="0" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
-          <folding>
-            <element signature="e#5768#6015#0#HTML" expanded="false" />
-            <element signature="e#6443#6737#0#HTML" expanded="false" />
-            <element signature="e#9323#11756#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/ClientesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.3076923">
-          <caret line="100" column="64" selection-start-line="100" selection-start-column="60" selection-end-line="100" selection-end-column="60" />
-          <folding>
-            <element signature="e#7#44#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8908297">
-          <caret line="109" column="57" selection-start-line="109" selection-start-column="57" selection-end-line="109" selection-end-column="57" />
-          <folding>
-            <element signature="e#1031#3728#1#PHP" expanded="true" />
-            <element signature="e#3407#3724#1#PHP" expanded="true" />
+            <marker date="1446491353677" expanded="true" signature="1218:1571" placeholder="{...}" />
+            <marker date="1446491353677" expanded="true" signature="1287:1394" placeholder="{&quot;columnWidth&quot;: '.item'...}" />
           </folding>
         </state>
       </provider>

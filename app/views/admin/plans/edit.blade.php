@@ -110,11 +110,10 @@
 @section('script')
 	<script>
 		$('.icheck').iCheck({
-									tap: true,
-									checkboxClass: 'icheckbox_square-red',
-									radioClass: 'iradio_square-red',
-									increaseArea: '20%'
-								})
-								.end();
+			tap: true,
+			checkboxClass: 'icheckbox_square-red',
+			radioClass: 'iradio_square-red',
+			increaseArea: '20%'
+		}).end();
 	</script>
 @endsection

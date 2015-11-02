@@ -27,13 +27,13 @@
 					<section data-step="{{ $i }}" class="row">
 						<div class="col-md-12">
 							<h3>Pregunta</h3>
-							{{ Form::questionForm('preguntaCabecera', $i, false, $i+1) }}
+							{{ Form::questionForm('preguntaCabecera', $i, false, $i+1, true) }}
 						</div>
 						@if($i+1 != 4)
 							<div class="col-md-12">
 								<h4>Sub-Pregunta</h4>
 								<section>
-									{{ Form::questionForm('preguntaCabecera', $i, true, $i+1) }}
+									{{ Form::questionForm('preguntaCabecera', $i, true, $i+1, true) }}
 								</section>
 							</div>
 						@endif

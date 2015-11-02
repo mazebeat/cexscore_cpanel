@@ -8,11 +8,11 @@ class MomentoEncuestaController extends BaseController
      *
      * @var MomentoEncuesta
      */
-    protected $momentoencuestum;
+    protected $momentoencuesta;
 
-    public function __construct(MomentoEncuesta $momentoencuestum)
+    public function __construct(MomentoEncuesta $momentoencuesta)
     {
-        $this->momentoencuestum = $momentoencuestum;
+        $this->momentoencuesta = $momentoencuesta;
     }
 
     /**
@@ -23,7 +23,7 @@ class MomentoEncuestaController extends BaseController
     public function index()
     {
         $idEncuesta      = Auth::user()->cliente->encuesta->id_encuesta;
-        $momentoencuesta = $this->momentoencuestum->where('id_encuesta', $idEncuesta)->get();
+        $momentoencuesta = $this->momentoencuesta->where('id_encuesta', $idEncuesta)->get();
 
         return View::make('admin.momentoencuesta.index', compact('momentoencuesta'));
     }
@@ -51,7 +51,7 @@ class MomentoEncuestaController extends BaseController
         $validation = Validator::make($input, MomentoEncuesta::$rules);
 
         if ($validation->passes()) {
-            $this->momentoencuestum->create($input);
+            $this->momentoencuesta->create($input);
 
             return Redirect::route('admin.momentoencuesta.index');
         }
@@ -82,15 +82,15 @@ class MomentoEncuestaController extends BaseController
      */
     public function edit($id)
     {
-        $momentoencuestum = $this->momentoencuestum->find($id);
+        $momentoencuesta = $this->momentoencuesta->find($id);
 
-        if (is_null($momentoencuestum)) {
+        if (is_null($momentoencuesta)) {
             return Redirect::route('admin.momentoencuesta.index');
         }
 
         $moments = Momento::lists('descripcion_momento', 'id_momento');
 
-        return View::make('admin.momentoencuesta.edit', compact('momentoencuestum'))->with('moments', $moments);
+        return View::make('admin.momentoencuesta.edit', compact('momentoencuesta'))->with('moments', $moments);
     }
 
     /**
@@ -106,8 +106,8 @@ class MomentoEncuestaController extends BaseController
         $validation = Validator::make($input, MomentoEncuesta::$rules);
 
         if ($validation->passes()) {
-            $momentoencuestum = $this->momentoencuestum->find($id);
-            $momentoencuestum->update($input);
+            $momentoencuesta = $this->momentoencuesta->find($id);
+            $momentoencuesta->update($input);
 
             return Redirect::route('admin.momentoencuesta.show', $id);
         }
@@ -124,7 +124,7 @@ class MomentoEncuestaController extends BaseController
      */
     public function destroy($id)
     {
-        $this->momentoencuestum->find($id)->delete();
+        $this->momentoencuesta->find($id)->delete();
 
         return Redirect::route('admin.momentoencuesta.index');
     }

@@ -27,6 +27,11 @@ class Sector extends \Eloquent
         return $this->hasMany('Cliente', 'id_sector');
     }
 
+    public function encuesta()
+    {
+        return $this->belongsTo('Encuesta', 'encuesta_sector', 'id_sector', 'id_encuesta');
+    }
+
     public function encuestas()
     {
         return $this->belongsToMany('Encuesta', 'encuesta_sector', 'id_sector', 'id_encuesta');

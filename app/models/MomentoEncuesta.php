@@ -3,8 +3,9 @@
 /**
  * MomentoEncuesta
  *
- * @property integer $id_momento 
- * @property integer $id_encuesta 
+ * @property integer $id_momento_encuesta
+ * @property integer $id_momento
+ * @property integer $id_encuesta
  * @property string $descripcion_momento 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 

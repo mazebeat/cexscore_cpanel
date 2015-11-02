@@ -10,12 +10,12 @@
 
 @section('breadcrumb')
 	@parent
-	<li>Clientes</li>
+	<li>Cuenta</li>
 	<li class="active">Ver</li>
 @endsection
 
 @section('content')
-	<p>{{ link_to_route('admin.clientes.index', 'Volver a clientes', null, array('class'=>'btn btn-lg btn-primary')) }}</p>
+	<p>{{ link_to_route('admin.cuentas.index', 'Volver a cuentas', null, array('class'=>'btn btn-lg btn-primary')) }}</p>
 
 	<table class="table table-striped table-condensed table-hover">
 		<thead>
@@ -34,10 +34,10 @@
 			<td>{{{ $cliente->fono_cliente }}}</td>
 			<td>{{{ $cliente->correo_cliente }}}</td>
 			<td>
-				{{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.clientes.destroy', $cliente->id_cliente))) }}
+				{{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.cuentas.destroy', $cliente->id_cliente))) }}
 				{{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
 				{{ Form::close() }}
-				{{ link_to_route('admin.clientes.edit', 'Editar', array($cliente->id_cliente), array('class' => 'btn btn-info')) }}
+				{{ link_to_route('admin.cuentas.edit', 'Editar', array($cliente->id_cliente), array('class' => 'btn btn-info')) }}
 			</td>
 		</tr>
 		</tbody>

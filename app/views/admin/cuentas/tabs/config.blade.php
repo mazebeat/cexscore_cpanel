@@ -20,9 +20,12 @@
 
 <!-- The template for adding new field -->
 <div class="form-group hide" id="optionTemplate">
-	<label class="col-md-2 control-label" for="id_plan">Momento </label>
+	<label class="col-md-2 control-label" for="momento">Momento</label>
 
-	<div class="col-sm-8">
-		<input type="text" name="momento_encuesta[]" value="" class="form-control"/>
+	<div class="col-sm-5">
+		<input type="text" name="momento" value="" class="form-control"/>
+	</div>
+	<div class="col-sm-3">
+		{{ Form::select('canal', $canals, Input::old('canal'), ['class' => 'form-control']) }}
 	</div>
 </div>

@@ -8,8 +8,8 @@ class Plan extends \Eloquent
         'cantidad_encuestas_plan' => 'required',
         'cantidad_usuarios_plan'  => 'required',
         'cantidad_momentos_plan'  => 'required',
-        'optin_plan'              => 'required',
-        'descarga_datos_plan'     => 'required',
+        'optin_plan'              => '',
+        'descarga_datos_plan'     => '',
         'id_estado'               => 'required',
     ];
     protected     $table = 'plan';

@@ -20,13 +20,17 @@
 	<table class="table table-striped table-condensed table-hover">
 		<thead>
 		<tr>
+			<th>Usuario</th>
 			<th>Nombre Usuario</th>
+			<th>RUT Usuario</th>
 			<th>Correo Usuario</th>
 		</tr>
 		</thead>
 		<tbody>
 		<tr>
+			<td>{{{ $usuario->usuario }}}</td>
 			<td>{{{ $usuario->nombre_usuario }}}</td>
+			<td>{{{ $usuario->rut_usuario }}}</td>
 			<td>{{{ $usuario->correo_usuario }}}</td>
 			<td>
 				{{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.usuarios.destroy', $usuario->id_usuario))) }}

@@ -27,15 +27,16 @@
 			</thead>
 			
 			<tbody>
-			@foreach ($momentoencuesta as $momentoencuestum)
+			@foreach ($momentoencuesta as $me)
+				{{dd($me->toArray())}}
 				<tr>
-					<td>{{{ $momentoencuestum->id_momento }}}</td>
-					<td>{{{ $momentoencuestum->descripcion_momento }}}</td>
+					<td>{{{ $me->id_momento }}}</td>
+					<td>{{{ $me->descripcion_momento }}}</td>
 					<td>
-						{{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.momentoencuesta.destroy', $momentoencuestum->id_momento_encuesta))) }}
+						{{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.momentoencuesta.destroy', $me->id_momento_encuesta))) }}
 						{{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
 						{{ Form::close() }}
-						{{ link_to_route('admin.momentoencuesta.edit', 'Editar', array($momentoencuestum->id_momento_encuesta), array('class' => 'btn btn-info')) }}
+						{{ link_to_route('admin.momentoencuesta.edit', 'Editar', array($me->id_momento_encuesta), array('class' => 'btn btn-info')) }}
 					</td>
 				</tr>
 			@endforeach

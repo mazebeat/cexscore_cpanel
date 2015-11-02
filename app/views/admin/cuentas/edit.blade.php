@@ -1,17 +1,18 @@
 @extends('layouts.cpanel')
 
 @section('title')
-	Editar Cliente
+	Editar Cuenta
 @endsection
 
 @section('page-title')
-	<i class="fa fa-pencil fa-fw"></i>Editar Cliente
+	{{--<i class="fa fa-pencil fa-fw"></i>Editar Cliente--}}
+	<i class="fa fa-user fa-fw"></i>{{ $cliente->nombre_cliente }}
 @endsection
 
 @section('breadcrumb')
 	@parent
-	<li>Clientes</li>
-	<li class="active">Editar</li>
+	<li>Cuenta</li>
+	<li class="active">{{ $cliente->nombre_cliente  }}</li>
 @endsection
 
 @section('content')
@@ -27,7 +28,21 @@
 		</div>
 	</div>
 
-	{{ Form::model($cliente, array('class' => 'form-horizontal', 'method' => 'PATCH', 'route' => array('admin.clientes.update', $cliente->id_cliente))) }}
+	<div class="nav-tabs-custom">
+		<ul class="nav nav-tabs" id="myTabs">
+			<li class="active"><a href="#home" data-url="/admin/cuentas/create">Información Básica</a></li>
+			<li><a href="#profile" data-url="/admin/plans">Profile</a></li>
+			<li><a href="#messages" data-url="/admin/canals">Messages</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div class="tab-pane active" id="home"></div>
+			<div class="tab-pane" id="profile"></div>
+			<div class="tab-pane" id="messages"></div>
+		</div>
+	</div>
+
+	{{ Form::model($cliente, array('class' => 'form-horizontal', 'method' => 'PATCH', 'route' => array('admin.cuentas.update', $cliente->id_cliente))) }}
 
 	<div class="form-group">
 		{{ Form::label('rut_cliente', 'RUT:', array('class'=>'col-md-2 control-label')) }}
@@ -112,9 +127,41 @@
 
 		<div class="col-sm-10">
 			{{ Form::submit('Actualizar', array('class' => 'btn btn-lg btn-primary')) }}
-			{{ link_to_route('admin.clientes.show', 'Cancelar', $cliente->id_cliente, array('class' => 'btn btn-lg btn-default')) }}
+			{{ link_to_route('admin.cuentas.show', 'Cancelar', $cliente->id_cliente, array('class' => 'btn btn-lg btn-default')) }}
 		</div>
 	</div>
 
 	{{ Form::close() }}
+@endsection
+
+@section('style')
+	<style>
+		.texthide {
+			display: none
+		}
+	</style>
+@endsection
+
+@section('script')
+	<script>
+		(function ($) {
+			$('#myTabs a').click(function (e) {
+				e.preventDefault();
+
+				var url = $(this).attr("data-url");
+				var href = this.hash;
+				var pane = $(this);
+
+				// ajax load from data-url
+				$(href).load(url, function (result) {
+					pane.tab('show');
+				});
+			});
+
+			// load first tab content
+			$('#home').load($('.active a').attr("data-url"), function (result) {
+				$('.active a').tab('show');
+			});
+		})(jQuery);
+	</script>
 @endsection

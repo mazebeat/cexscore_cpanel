@@ -17,13 +17,13 @@
 class EncuestaSector extends \Eloquent
 {
     public static $rules      = array(
-        'id_momento' => 'required',
+        'id_encuesta' => 'required',
         'id_sector'  => 'required',
     );
     protected     $table      = 'encuesta_sector';
     protected     $primaryKey = 'id_encuesta_sector';
     protected     $fillable   = array(
-        'id_momento',
+        'id_encuesta',
         'id_sector',
     );
 

@@ -129,4 +129,9 @@ class UsuariosController extends BaseController
         return Redirect::route('admin.usuarios.index');
     }
 
+    public function resetPassword()
+    {
+        CsUsuario::resetPassword();
+    }
+
 }

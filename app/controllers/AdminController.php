@@ -54,38 +54,41 @@ class AdminController extends \ApiController
      */
     public function login()
     {
-        if (!\Auth::guest()) {
-            return Redirect::to('admin/cpanel');
-        }
-
-        $rules = ['username' => 'required', 'password' => 'required'];
-
-        $validator = \Validator::make(Input::all(), $rules);
-
-        if ($validator->fails()) {
-            if (\Request::ajax()) {
-                return json_encode('ERROR');
+        try {
+            if (!\Auth::guest()) {
+                return Redirect::to('admin/cpanel');
             }
 
-            return \Redirect::back()->withErrors($validator->messages())->withInput(\Input::except('_token'));
-        }
+            $credentials = [
+                'username' => e(\Input::get('username')),
+                'password' => e(\Input::get('password')),
+            ];
+            $rules       = [
+                'username' => 'required',
+                'password' => 'required',
+            ];
 
-        $user = \User::whereNombreUsuario(e(\Input::get('username')))->wherePassword(e(\Input::get('password')))->first();
+            $validator = \Validator::make($credentials, $rules);
 
-        if (is_null($user)) {
+            if ($validator->fails()) {
+                if (\Request::ajax()) {
+                    return json_encode('ERROR');
+                }
+
+                return \Redirect::back()->withErrors($validator->messages())->withInput(\Input::except('_token'));
+            }
+
+            if (Auth::attempt($credentials, Input::get('remember', false))) {
+                return \Redirect::to('admin/cpanel');
+            }
+
             $error = new Illuminate\Support\MessageBag();
-            $error->add('rut', 'Cliente no registrado');
+            $error->add('username', 'Error al ingresar al panel de control.');
 
-            return \Redirect::back()->withErrors($error)->withInput(\Input::except('_token'));
+            return \Redirect::back()->withErrors($error)->withInput();
+        } catch (Exception $e) {
+            dd($e);
         }
-
-        \Auth::login($user, false);
-
-        if (\Auth::guest()) {
-            return \Redirect::to('admin/login');
-        }
-
-        return \Redirect::to('admin/cpanel');
     }
 
     /**
@@ -191,6 +194,7 @@ class AdminController extends \ApiController
             }
 
             return array('rules' => $rules, 'messages' => $messages);
+
         } catch (Exception $e) {
             throw $e;
         }
@@ -227,7 +231,7 @@ class AdminController extends \ApiController
         $plan   = $client->plan;
 
         if (!is_null($plan)) {
-//            $idplan = $plan->id_plan;
+            //            $idplan = $plan->id_plan;
             $survey = $client->encuesta;
 
             if (is_null($survey)) {

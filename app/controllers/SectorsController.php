@@ -1,131 +1,141 @@
 <?php
 
-class SectorsController extends \ApiController {
+use Illuminate\Support\Facades\Auth;
 
-	/**
-	 * Sector Repository
-	 *
-	 * @var Sector
-	 */
-	protected $sector;
+class SectorsController extends \ApiController
+{
 
-	public function __construct(Sector $sector)
-	{
-		$this->sector = $sector;
-	}
+    /**
+     * Sector Repository
+     *
+     * @var Sector
+     */
+    protected $sector;
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		$sectors = $this->sector->all();
+    public function __construct(Sector $sector)
+    {
+        $this->sector = $sector;
+    }
 
-		return View::make('admin.sectors.index', compact('sectors'));
-	}
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $sectors = $this->sector->all();
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		return View::make('admin.sectors.create');
-	}
+        return View::make('admin.sectors.index', compact('sectors'));
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		$input = Input::all();
-		$validation = Validator::make($input, Sector::$rules);
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        $catgs = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
 
-		if ($validation->passes())
-		{
-			$this->sector->create($input);
+        return View::make('admin.sectors.create')->with('catgs', $catgs);
+    }
 
-			return Redirect::route('admin.sectors.index');
-		}
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store()
+    {
+        $input      = Input::all();
+        $validation = Validator::make($input, Sector::$rules);
 
-		return Redirect::route('admin.sectors.create')
-			->withInput()
-			->withErrors($validation)
-			->with('message', 'There were validation errors.');
-	}
+        if ($validation->passes()) {
+            $this->sector->create($input);
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		$sector = $this->sector->findOrFail($id);
+            return Redirect::route('admin.sectors.index');
+        }
 
-		return View::make('admin.sectors.show', compact('sector'));
-	}
+        return Redirect::route('admin.sectors.create')->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		$sector = $this->sector->find($id);
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function show($id)
+    {
+        $sector = $this->sector->findOrFail($id);
 
-		if (is_null($sector))
-		{
-			return Redirect::route('admin.sectors.index');
-		}
+        return View::make('admin.sectors.show', compact('sector'));
+    }
 
-		return View::make('admin.sectors.edit', compact('sector'));
-	}
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function edit($id)
+    {
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		$input = array_except(Input::all(), '_method');
-		$validation = Validator::make($input, Sector::$rules);
+        $sector = $this->sector->find($id);
+        $catgs  = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
+        $survey = EncuestaSector::where('id_sector', $id)->first(['id_encuesta'])->encuesta;
+        $isMy   = false;
 
-		if ($validation->passes())
-		{
-			$sector = $this->sector->find($id);
-			$sector->update($input);
+        $x = Auth::user()->cliente->encuesta->id_encuesta;
 
-			return Redirect::route('admin.sectors.show', $id);
-		}
+        if ($survey->id_encuesta == $x || Auth::user()->id_tipo_usuario == 2) {
+            $isMy = true;
+        }
 
-		return Redirect::route('admin.sectors.edit', $id)
-			->withInput()
-			->withErrors($validation)
-			->with('message', 'There were validation errors.');
-	}
+        if (is_null($sector)) {
+            return Redirect::route('admin.sectors.index');
+        }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		$this->sector->find($id)->delete();
+        return View::make('admin.sectors.edit', compact('sector'))->with('catgs', $catgs)->with('survey', $survey)->with('isMy', $isMy);
+    }
 
-		return Redirect::route('admin.sectors.index');
-	}
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function update($id)
+    {
+        $input      = array_except(Input::all(), '_method');
+        $validation = Validator::make($input, Sector::$rules);
+
+        if ($validation->passes()) {
+            $sector = $this->sector->find($id);
+            $sector->update($input);
+
+            return Redirect::route('admin.sectors.show', $id);
+        }
+
+        return Redirect::route('admin.sectors.edit', $id)->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $this->sector->find($id)->delete();
+
+        return Redirect::route('admin.sectors.index');
+    }
 
 }

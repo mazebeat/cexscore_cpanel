@@ -1,4 +1,4 @@
-{{--<li class="header">HEADER</li>--}}{{--<!-- Optionally, you can add icons to the links -->--}}{{--<li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>--}}{{--<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>--}}{{--<li class="treeview">--}}	{{--<a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>--}}	{{--<ul class="treeview-menu">--}}		{{--<li><a href="#">Link in level 2</a></li>--}}		{{--<li><a href="#">Link in level 2</a></li>--}}	{{--</ul>--}}{{--</li>--}}{{-- <li class="treeview">
+{{--<li class="header">HEADER</li>--}}{{--<!-- Optionally, you can add icons to the links -->--}}{{--<li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>--}}{{--<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>--}}{{--<li class="treeview">--}}    {{--<a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>--}}    {{--<ul class="treeview-menu">--}}        {{--<li><a href="#">Link in level 2</a></li>--}}        {{--<li><a href="#">Link in level 2</a></li>--}}    {{--</ul>--}}{{--</li>--}}{{-- <li class="treeview">
 	<a href="#">
 		<i class="fa fa-share"></i> <span>Multilevel</span>
 		<i class="fa fa-angle-left pull-right"></i>
@@ -29,9 +29,9 @@
 	<ul class="treeview-menu">
 		<li><a href="{{ url('/admin/plans') }}"><i class="fa fa-circle fa-fw"></i>Planes</a></li>
 		<li><a href="{{ url('/admin/sectors') }}"><i class="fa fa-circle fa-fw"></i>Sector</a></li>
-		<li><a href="{{ url('/admin/momentos') }}"><i class="fa fa-circle fa-fw"></i>Momento</a></li>
+		{{--<li><a href="{{ url('/admin/momentos') }}"><i class="fa fa-circle fa-fw"></i>Momento</a></li>--}}
 		<li><a href="{{ url('/admin/canals') }}"><i class="fa fa-circle fa-fw"></i>Canal</a></li>
-		<li><a href="{{ url('/admin/clientes') }}"><i class="fa fa-circle fa-fw"></i>Clientes</a></li>
+		<li><a href="{{ url('/admin/cuentas') }}"><i class="fa fa-circle fa-fw"></i>Cuenta</a></li>
 		<li><a href="{{ url('/admin/encuesta') }}"><i class="fa fa-circle fa-fw"></i> Encuesta</a></li>
 		<li><a href=""><i class="fa fa-circle fa-fw"></i>Periodos</a></li>
 
@@ -49,7 +49,7 @@
 
 {{-- CLIENT --}}
 <li class="treeview">
-	<a href="#"><i class="fa fa-file-text-o fa-fw"></i> <span>Cliente</span> <i class="fa fa-angle-left pull-right"></i></a>
+	<a href="#"><i class="fa fa-file-text-o fa-fw"></i> <span>Cuenta</span> <i class="fa fa-angle-left pull-right"></i></a>
 	<ul class="treeview-menu">
 		<li><a href="{{ url('/admin/shorten/generate') }}"><i class="fa fa-flash fa-fw"></i>Generar URL Corta</a></li>
 		<li><a href="{{ url('/admin/survey/load') }}"><i class="fa fa-circle fa-fw"></i>Mi Encuesta</a></li>

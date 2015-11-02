@@ -59,15 +59,23 @@
 
 	<div class="form-group">
 		{{ Form::label('optin_plan', 'Opt-IN:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::checkbox('optin_plan', Input::old('optin_plan', false), false, array('class'=>'form-control')) }}
+		<div class="col-xs-6">
+			<div class="checkbox">
+				<label>
+					{{ Form::checkbox('optin_plan', Input::old('optin_plan'), false, array('class'=>'icheck')) }}
+				</label>
+			</div>
 		</div>
 	</div>
 
 	<div class="form-group">
 		{{ Form::label('descarga_datos_plan', 'Descarga Datos:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::checkbox('descarga_datos_plan', Input::old('descarga_datos_plan', false), false, array('class'=>'form-control')) }}
+		<div class="col-xs-6">
+			<div class="checkbox">
+				<label>
+					{{ Form::checkbox('descarga_datos_plan', Input::old('descarga_datos_plan'), false, array('class'=>'icheck')) }}
+				</label>
+			</div>
 		</div>
 	</div>
 
@@ -86,4 +94,15 @@
 		</div>
 	</div>
 	{{ Form::close() }}
+@endsection
+
+@section('script')
+	<script>
+		$('.icheck').iCheck({
+			tap: true,
+			checkboxClass: 'icheckbox_square-red',
+			radioClass: 'iradio_square-red',
+			increaseArea: '20%'
+		}).end();
+	</script>
 @endsection

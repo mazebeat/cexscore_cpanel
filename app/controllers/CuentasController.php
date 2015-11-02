@@ -1,36 +1,40 @@
 <?php
 
-use Illuminate\Support\Facades\Input;
-use SebastianBergmann\Exporter\Exception;
 
-class ClientesController extends \ApiController
+class CuentasController extends \ApiController
 {
 
+    /**
+     * @param array $data
+     *
+     * @return null
+     * @throws Exception
+     */
     public static function saveQuestions($data = array())
     {
         $id = null;
 
-        if (!is_null($data) || count($data)) {
-            try {
+        try {
+            if (!is_null($data) || count($data)) {
                 $id = \PreguntaCabecera::insertGetId($data);
-            } catch (\Exception $e) {
-                throw $e;
             }
+        } catch (Exception $e) {
+            throw $e;
         }
 
         return $id;
     }
 
     /**
-     * Display a listing of clientes
+     * Display a listing of cuentas
      *
      * @return Response
      */
     public function index()
     {
-        $clientes = Cliente::all();
+        $cuentas = Cliente::all();
 
-        return View::make('admin.clientes.index', compact('clientes'));
+        return View::make('admin.cuentas.index', compact('cuentas'));
     }
 
     /**
@@ -42,12 +46,11 @@ class ClientesController extends \ApiController
     {
         $pais    = Pais::lists('descripcion_pais', 'id_pais');
         $plans   = Plan::lists('descripcion_plan', 'id_plan');
+        $canals  = Canal::lists('descripcion_canal', 'id_canal');
         $sectors = Sector::lists('descripcion_sector', 'id_sector');
-        $states  = Estado::lists('descripcion_estado', 'id_estado');
         $catgs   = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
 
-
-        return View::make('admin.clientes.create')->with('pais', $pais)->with('states', $states)->with('plans', $plans)->with('sectors', $sectors)->with('catgs', $catgs);
+        return View::make('admin.cuentas.create')->with('pais', $pais)->with('canals', $canals)->with('plans', $plans)->with('sectors', $sectors)->with('catgs', $catgs);
     }
 
     /**
@@ -119,13 +122,20 @@ class ClientesController extends \ApiController
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
-        $survey = self::saveSurvey(Input::get('encuesta'));
-        $client = self::saveClient(Input::get('cliente'), $survey);
-        $theme  = self::saveTheme(\Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
-        $client->encuesta()->associate($survey);
-        $client->save();
 
-        return Redirect::route('admin.clientes.index');
+        try {
+            $survey  = self::saveSurvey(Input::get('encuesta'));
+            $client  = self::saveClient(Input::get('cliente'), $survey);
+            $user    = self::saveAdministrator(Input::get('usuario'), $client, $survey);
+            $moments = self::saveMoments(Input::get('momentos'));
+            $theme   = self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
+            $client->encuesta()->associate($survey);
+            $client->save();
+
+            return Redirect::route('admin.cuentas.index');
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -137,15 +147,16 @@ class ClientesController extends \ApiController
     {
         $survey = null;
 
-        if (!is_null($data) || count($data)) {
-            $data = array_add($data, 'id_estado', 1);
+        try {
+            if (!is_null($data) || count($data)) {
+                $data = array_add($data, 'id_estado', 1);
 
-            try {
                 $survey = \Encuesta::firstOrCreate($data);
                 \PreguntaCabecera::generateDefaultQuestions($survey);
-            } catch (Exception $e) {
-                throw $e;
+
             }
+        } catch (Exception $e) {
+            throw $e;
         }
 
         return $survey;
@@ -156,26 +167,95 @@ class ClientesController extends \ApiController
      * @param $survey
      *
      * @return null|static
-     * @throws \Exception
+     * @throws Exception
      */
     public static function saveClient($data, $survey)
     {
         $client = null;
 
-        if (!is_null($data) || count($data)) {
-            array_forget($data, 'pais');
-            array_forget($data, 'region');
-            $data = array_add($data, 'id_encuesta', $survey->id_encuesta);
-            $data = array_add($data, 'id_estado', 1);
+        try {
+            if (!is_null($data) || count($data)) {
+                array_forget($data, 'pais');
+                array_forget($data, 'region');
+                $data = array_add($data, 'id_encuesta', $survey->id_encuesta);
+                $data = array_add($data, 'id_estado', 1);
 
-            try {
                 $client = \Cliente::firstOrCreate($data);
-            } catch (\Exception $e) {
-                throw $e;
             }
+        } catch (Exception $e) {
+            throw $e;
         }
 
         return $client;
+    }
+
+    /**
+     * @param      $admin
+     * @param null $client
+     * @param null $survey
+     */
+    public static function saveAdministrator($data, $client = null, $survey = null)
+    {
+        $admin = null;
+
+        try {
+            if (!is_null($data) || count($data)) {
+
+                $username = self::randomUsername($data);
+
+                $data = array_add($data, 'username', $username);
+                $data = array_add($data, 'password', Hash::make('123456'));
+
+                $admin = \Usuario::firstOrCreate($data);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $admin;
+    }
+
+    /**
+     * @param     $user
+     * @param int $add
+     *
+     * @return null|string
+     * @throws Exception
+     */
+    public static function randomUsername($user, $add = 0)
+    {
+        $username = null;
+
+        try {
+            if (!is_null($user)) {
+                $fname    = array_get($user, 'nombre_usuario');
+                $lname    = array_get($user, 'apellido_usuario');
+                $username = Str::lower(Str::camel(Str::ascii(mb_substr($fname, 0, 1) . $lname)));
+
+                if ($add != 0) {
+                    $username .= $add;
+                }
+
+                $exist = Usuario::where('username', $username)->first();
+
+                if (!is_null($exist)) {
+                    $add++;
+                    $username = self::randomUsername($user, $add);
+                }
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $username;
+    }
+
+    /**
+     * @param $data
+     */
+    public static function saveMoments($data)
+    {
+
     }
 
     /**
@@ -189,34 +269,38 @@ class ClientesController extends \ApiController
     {
         $theme = null;
 
-        if (!is_null($data) || count($data)) {
-            // $logoHeader = array_get($inputs, 'logo_header');
-            // $logoHeader = array_get($inputs, 'logo_incentivo');
+        try {
+            if (!is_null($data) || count($data)) {
+                // $logoHeader = array_get($inputs, 'logo_header');
+                // $logoHeader = array_get($inputs, 'logo_incentivo');
 
-            // Mover archivos a las carpetas
-            $folder = public_path('image' . DIRECTORY_SEPARATOR . $name);
-            if (!\File::exists($folder)) {
-                \File::makeDirectory($folder);
-            }
-
-            foreach ($inputs as $key => $value) {
-                $filename = $key . '.' . $value->guessClientExtension();
-                $path     = '/image' . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . $filename;
-
-                $files = File::allFiles($folder);
-                foreach ($files as $file) {
-                    if (File::exists((string)$file) && Str::contains((string)$file, $key)) {
-                        File::delete((string)$file);
-                    }
+                // Mover archivos a las carpetas
+                $folder = public_path('image' . DIRECTORY_SEPARATOR . $name);
+                if (!\File::exists($folder)) {
+                    \File::makeDirectory($folder);
                 }
 
-                $value->move($folder, $filename);
-                $data = array_add($data, $key, $path);
+                foreach ($inputs as $key => $value) {
+                    $filename = $key . '.' . $value->guessClientExtension();
+                    $path     = '/image' . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . $filename;
+
+                    $files = File::allFiles($folder);
+                    foreach ($files as $file) {
+                        if (File::exists((string)$file) && Str::contains((string)$file, $key)) {
+                            File::delete((string)$file);
+                        }
+                    }
+
+                    $value->move($folder, $filename);
+                    $data = array_add($data, $key, $path);
+                }
+
+                array_get($data, 'desea_captura_datos') == 'on' ? array_set($data, 'desea_captura_datos', true) : array_set($data, 'desea_captura_datos', false);
+
+                $theme = \Apariencia::firstOrCreate($data);
             }
-
-            array_get($data, 'desea_captura_datos') == 'on' ? array_set($data, 'desea_captura_datos', true) : array_set($data, 'desea_captura_datos', false);
-
-            $theme = \Apariencia::firstOrCreate($data);
+        } catch (Exception $e) {
+            throw $e;
         }
 
         return $theme;
@@ -233,7 +317,7 @@ class ClientesController extends \ApiController
     {
         $cliente = Cliente::findOrFail($id);
 
-        return View::make('admin.clientes.show', compact('cliente'));
+        return View::make('admin.cuentas.show', compact('cliente'));
     }
 
     /**
@@ -253,7 +337,7 @@ class ClientesController extends \ApiController
         $ciudads = Ciudad::lists('descripcion_ciudad', 'id_ciudad');
         $cliente = Cliente::find($id);
 
-        return View::make('admin.clientes.edit', compact('cliente'))->with('pais', $pais)->with('states', $states)->with('plans', $plans)->with('sectors', $sectors)->with('ciudads',
+        return View::make('admin.cuentas.edit', compact('cliente'))->with('pais', $pais)->with('states', $states)->with('plans', $plans)->with('sectors', $sectors)->with('ciudads',
             $ciudads)->with('catgs', $catgs);
     }
 
@@ -276,7 +360,7 @@ class ClientesController extends \ApiController
 
         $cliente->update($data = array());
 
-        return Redirect::route('admin.clientes.index');
+        return Redirect::route('admin.cuentas.index');
     }
 
     /**
@@ -290,12 +374,12 @@ class ClientesController extends \ApiController
     {
         Cliente::destroy($id);
 
-        return Redirect::route('admin.clientes.index');
+        return Redirect::route('admin.cuentas.index');
     }
 
     /**
      * @return \Encuesta|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function loadSurvey()
     {
@@ -309,13 +393,13 @@ class ClientesController extends \ApiController
                 $survey = $client->encuesta;
 
                 if (is_null($survey)) {
-                    throw new \Exception('Cliente no tiene encuesta');
+                    throw new Exception('Cliente no tiene encuesta');
                 }
 
                 return $survey;
             }
 
-            throw new \Exception('Cliente no tiene plan');
+            throw new Exception('Cliente no tiene plan');
 
         } catch (Exception $e) {
             throw $e;
@@ -327,29 +411,33 @@ class ClientesController extends \ApiController
      */
     public function createClient()
     {
-        // Create survey
-        $survey = \Encuesta::create(['id_estado' => 1]);
+        try {
+            // Create survey
+            $survey = \Encuesta::create(['id_estado' => 1]);
 
-        // Generate default questions
-        \PreguntaCabecera::generateDefaultQuestions($survey);
+            // Generate default questions
+            \PreguntaCabecera::generateDefaultQuestions($survey);
 
-        // Create client
-        $client = \Cliente::firstOrCreate([
-            'rut_cliente'          => \Input::get('rut_cliente'),
-            'nombre_cliente'       => \Input::get('nombre_cliente'),
-            'fono_fijo_cliente'    => \Input::get('fono_fijo_cliente'),
-            'fono_celular_cliente' => \Input::get('fono_celular_cliente'),
-            'correo_cliente'       => \Input::get('correo_cliente'),
-            'direccion_cliente'    => \Input::get('direccion_cliente'),
-            'id_sector'            => \Input::get('sector'), // ????
-            'id_ciudad'            => \Input::get('ciudad'),
-            'id_tipo_cliente'      => \Input::get(''), // 1
-            'id_plan'              => \Input::get('plan'),
-        ]);
+            // Create client
+            $client = \Cliente::firstOrCreate([
+                'rut_cliente'          => \Input::get('rut_cliente'),
+                'nombre_cliente'       => \Input::get('nombre_cliente'),
+                'fono_fijo_cliente'    => \Input::get('fono_fijo_cliente'),
+                'fono_celular_cliente' => \Input::get('fono_celular_cliente'),
+                'correo_cliente'       => \Input::get('correo_cliente'),
+                'direccion_cliente'    => \Input::get('direccion_cliente'),
+                'id_sector'            => \Input::get('sector'), // ????
+                'id_ciudad'            => \Input::get('ciudad'),
+                'id_tipo_cliente'      => \Input::get(''), // 1
+                'id_plan'              => \Input::get('plan'),
+            ]);
 
-        // Assciate survey to client
-        $client->encuesta()->associate($survey);
-        $client->save();
+            // Assciate survey to client
+            $client->encuesta()->associate($survey);
+            $client->save();
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -433,5 +521,10 @@ class ClientesController extends \ApiController
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    public function resumen($id)
+    {
+        return View::make('admin.cuentas.resumen')->with('resumen', Cliente::clientResumen($id));
     }
 }

@@ -26,7 +26,6 @@
     return str_replace($find, $replace, $str);
     //return htmlentities($str, ENT_QUOTES, "UTF-8");
 });
-
 /**
  * -------------------------------------
  *              FORMS MACROS
@@ -75,7 +74,6 @@
     return $out;
 
 });
-
 \Form::macro('selectRange2', function ($name, $begin, $end, $selected = null, $options = array()) {
 
     $list  = ' <option></option> ';
@@ -91,13 +89,13 @@
     return '<select name = ' . e($name) . $options . '> ' . $list . '</select> ';
 });
 
+/** ---------------------------------------------------------------------------------------------------------------------------- */
 /**
  * -------------------------------------
  *              HTML MACROS
  * -------------------------------------
  *
  */
-
 /**
  * GENERATE TABLE
  */
@@ -547,13 +545,14 @@
     return $out;
 });
 
+/** ---------------------------------------------------------------------------------------------------------------------------- */
 /**
  * ---------------------------
  *  FORM ADD OR MODIFY SURVEY
  * ---------------------------
  */
-//\Form::macro('loadSurvey', function (\Encuesta $survey, $idplan = 1) {
 \Form::macro('loadSurvey', function (\Encuesta $survey, $isMy = false) {
+    //\Form::macro('loadSurvey', function (\Encuesta $survey, $idplan = 1) {
 
     $out      = '';
     $readonly = false;
@@ -584,7 +583,6 @@
 
     return $out;
 });
-
 \Form::macro('generateInput', function ($title, \PreguntaCabecera $question, $readonly = false) {
     $ro = '';
 
@@ -593,40 +591,38 @@
     }
 
     $out = '<div class="form-group">';
-    $out .= '<h3>' . \Form::label('question' . $question->id_pregunta_cabecera, $title) . '</h3>';
+    $out .= '<div class="col-sm-12">';
+    $out .= '<h4>' . \Form::label('question' . $question->id_pregunta_cabecera, $title) . '</h4>';
     $out .= \Form::textarea('question' . $question->id_pregunta_cabecera, trim($question->descripcion_1), ['class' => 'form-control ckeditor', $ro]);
+    $out .= '</div>';
     $out .= '</div>';
 
     return $out;
 });
 \HTML::macro('getMainQuestion', function ($text, $number = 0) {
     if (isset($number) && $number != 0) {
-        $text = '<h4><strong>' . \Str::hes($number . '.- ' . $text) . '</strong></h4>';
+        $text = '<h4>' . \Str::hes($number . '.- ' . $text) . '</h4>';
     } else {
-        $text = '<h4><strong>' . \Str::hes($text) . '</strong></h4>';
+        $text = '<h4>' . \Str::hes($text) . '</h4>';
     }
 
     return $text;
 });
 \HTML::macro('getSubQuestion', function ($text, $number = 0) {
     if (isset($number) && $number != 0) {
-        $text = '<h5><strong>' . \Str::hes($number . '.- ' . $text) . '</strong></h5>';
+        $text = '<h5>' . \Str::hes($number . '.- ' . $text) . '</h5>';
     } else {
-        $text = '<h5><strong>' . \Str::hes($text) . '</strong></h5>';
+        $text = '<h5>' . \Str::hes($text) . '</h5>';
     }
 
     return $text;
 });
-
-
-/**
- *
- */
-\Form::macro('questionForm', function ($name, $questionNumber = 0, $isSubQuestion = false, $category = null) {
+\Form::macro('questionForm', function ($name, $questionNumber = 0, $isSubQuestion = false, $category = null, $readyonly = false) {
 
     $out  = '';
     $kind = 1;
     $sub  = '';
+
     if ($isSubQuestion) {
         $sub = '[sub]';
         if ($questionNumber == 4) {
@@ -636,6 +632,9 @@
         }
     }
 
+    if ($readyonly) {
+        $readyonly = 'readonly';
+    }
 
     if ($category == null) {
         return \HTML::alert('warning', ['Categoría no encontrada.'], '<h3>Atención!</h3>');
@@ -643,34 +642,12 @@
 
     $n = $name . "[" . $questionNumber . "]" . $sub . "[descripcion_1]";
 
-    $text1 = '<div class="form-group">' .
-                    \Form::label($n, "Texto 1:", array("class" => "col-md-2 control-label")) .
-                    '<div class="col-sm-10">' .
-                        \Form::textarea($n, \Input::old($n), array("class" => "form-control ckeditor", "placeholder" => "Texto 1", "readonly")) .
-        			'</div></div>';
+    $text1 = '<div class="form-group">' . \Form::label($n, "Texto 1:", array("class" => "col-md-2 control-label")) . '<div class="col-sm-10">' . \Form::textarea($n, \Input::old($n),
+            array("class" => "form-control ckeditor", "placeholder" => "Texto 1", $readyonly)) . '</div></div>';
 
-//    $text2 = '<div class="form-group">
-//								' . \Form::label($name . "[" . $questionNumber . "]" . $sub . "[descripcion_2]", "Texto 2:", array("class" => "col-md-2 control-label")) . '
-//								<div class="col-sm-10">
-//									' . \Form::text($name . "[" . $questionNumber . "]" . $sub . "[descripcion_2]", \Input::old($name . "[" . $questionNumber . "]" . $sub . "[descripcion_2]"),
-//            array("class" => "form-control", "placeholder" => "Texto 2")) . '
-//								</div>
-//							</div>';
-//
-//    $text3 = '<div class="form-group">
-//								' . \Form::label($name . "[" . $questionNumber . "]" . $sub . "[descripcion_3]", "Texto 3:", array("class" => "col-md-2 control-label")) . '
-//								<div class="col-sm-10">
-//									' . \Form::text($name . "[" . $questionNumber . "]" . $sub . "[descripcion_3]", \Input::old($name . "[" . $questionNumber . "]" . $sub . "[descripcion_3]"),
-//            array("class" => "form-control", "placeholder" => "Texto 3")) . '
-//								</div>
-//							</div>';
-
-    $n = $name . "[" . $questionNumber . "]" . $sub . "[numero_pregunta]";
-    $number = '<div class="form-group" >' .
-                    \Form::label($n, "N° Pregunta:", array("class" => "col-md-2 control-label")) .
-                    '<div class="col-sm-10" >' .
-                        \Form::text($n, $questionNumber + 1, array("class" => "form-control", "placeholder" => "Numero Pregunta", "readonly")) .
-                    '</div></div >';
+    $n      = $name . "[" . $questionNumber . "]" . $sub . "[numero_pregunta]";
+    $number = '<div class="form-group" >' . \Form::label($n, "N° Pregunta:", array("class" => "col-md-2 control-label")) . '<div class="col-sm-10" >' . \Form::text($n, $questionNumber + 1,
+            array("class" => "form-control", "placeholder" => "Numero Pregunta", "readonly")) . '</div></div >';
 
     $categoryID     = \Form::hidden($name . "[" . $questionNumber . "]" . $sub . "[id_categoria]", $category, array("class" => "form-control"));
     $kindOfQuestion = \Form::hidden($name . "[" . $questionNumber . "]" . $sub . "[id_tipo_respuesta]", $kind, array("class" => "form-control"));
@@ -680,10 +657,198 @@
     }
 
     $out .= $text1;
-    //    $out .= $text2;
-    //    $out .= $text3;
     $out .= $categoryID;
     $out .= $kindOfQuestion;
 
     return $out;
+});
+
+/**
+ * -------------------------------------
+ * --         RESUMEN CUENTA          --
+ * -------------------------------------
+ */
+\HTML::macro('resumenAccount', function ($data) {
+    $client  = $data['cliente'];
+    $plan    = $data['plan'];
+    $sector  = $data['sector'];
+    $users   = $data['usuarios'];
+    $moments = $data['momentos'];
+
+    $template = \HTML::resumenCuentas($client, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
+    $template .= \HTML::resumenSectors($sector, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
+    $template .= \HTML::resumenMoments($moments, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
+    $template .= \HTML::resumenAdministrador($plan, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
+    $template .= \HTML::resumenPlans($plan, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
+    $template .= \HTML::resumenUsuarios($users, ['class' => 'col-md-8 col-sm-12 col-xs-12 item']);
+
+    return $template;
+
+});
+
+\HTML::macro('templateResumenAccount', function ($title, $data, $attr = array()) {
+    $attr = \HTML::attributes($attr);
+
+    return '<div ' . $attr . '>
+<div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">' . $title . '</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Min/Max"><i class="fa fa-minus"></i></button>
+                    <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remover"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body no-padding">
+                ' . $data . '
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div>';
+});
+
+/**
+ * @param       $moments
+ * @param array $attr
+ *
+ * @return mixed
+ */
+\HTML::macro('resumenMoments', function ($moments, $attr = array()) {
+    $out = '<table class="table table-hover table-condensed">
+                <tbody>';
+    foreach ($moments as $key => $value) {
+        $out .= '<tr>';
+        //        $out .= '<td><b>Momento ' . ($key + 1) . ':</b></td>';
+        $out .= '<td>' . $value['descripcion_momento'] . '</td>';
+        $out .= '</tr>';
+    }
+    $out .= '</tbody>
+             </table>';
+
+    return \HTML::templateResumenAccount('Momentos', $out, $attr);
+});
+
+/**
+ * @param       $plan
+ * @param array $attr
+ */
+\HTML::macro('resumenPlans', function ($plan, $attr = array()) {
+    $out = '<table class="table table-condensed table-hover">';
+    $out .= '<tr>';
+    $out .= '<td><strong>Plan:</strong> <span class="pull-right">' . \Str::upper($plan['descripcion_plan']) . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Cantidad Encuestas:</strong> <span class="pull-right">' . $plan['cantidad_encuestas_plan'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Cantidad Momentos:</strong> <span class="pull-right">' . $plan['cantidad_momentos_plan'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Cantidad Usuarios:</strong> <span class="pull-right">' . $plan['cantidad_usuarios_plan'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Opt-In:</strong> <span class="pull-right">' . $plan['optin_plan'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Descarga Datos:</strong> <span class="pull-right">' . $plan['descarga_datos_plan'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '</table>';
+
+    return \HTML::templateResumenAccount('Plan', $out, $attr);
+});
+
+/**
+ * @param       $client
+ * @param array $attr
+ */
+\HTML::macro('resumenCuentas', function ($client, $attr = array()) {
+    $out = '<table class="table table-condensed table-hover">';
+    $out .= '<tr>';
+    $out .= '<td><strong>Nombre:</strong> <span class="pull-right">' . $client['nombre_cliente'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Nombre Legal:</strong> <span class="pull-right">' . $client['nombre_legal_cliente'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>RUT:</strong> <span class="pull-right">' . $client['rut_cliente'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>E-Mail:</strong> <span class="pull-right">' . $client['correo_cliente'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Fono fijo:</strong> <span class="pull-right">' . $client['fono_fijo_cliente'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Fono Celular:</strong> <span class="pull-right">' . $client['fono_celular_cliente'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Código Postal:</strong> <span class="pull-right">' . $client['codigo_postal'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Dirección:</strong> <span class="pull-right">' . $client['direccion_cliente'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '</table>';
+
+    return \HTML::templateResumenAccount('Cuenta', $out, $attr);
+});
+
+/**
+ * @param       $client
+ * @param array $attr
+ */
+\HTML::macro('resumenSectors', function ($sector, $attr = array()) {
+    $out = '<table class="table table-condensed table-hover">';
+    $out .= '<tr>';
+    $out .= '<td><strong>Rubro/Sector:</strong> <span class="pull-right">' . $sector['descripcion_sector'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '</table>';
+
+    return \HTML::templateResumenAccount('Sector', $out, $attr);
+});
+
+/**
+ * @param       $client
+ * @param array $attr
+ */
+\HTML::macro('resumenUsuarios', function ($users, $attr = array()) {
+    $out = '<table id="userTable" class="table table-hover table-condensed nowrap">
+                <thead>
+                <tr>
+                    <th style="width: 20%">Nombre</th>
+                    <th style="width: 80%">E-Mail</th>
+                </tr>
+                </thead>
+                <tbody>';
+    foreach ($users as $key => $value) {
+        $out .= '<tr>';
+        $out .= '<td>' . $value['nombre'] . '</td>';
+        $out .= '<td>' . $value['email'] . '</td>';
+        $out .= '</tr>';
+    }
+    $out .= '</tbody>
+             </table>
+             	<div class="clearfix"></div>';
+
+    return \HTML::templateResumenAccount('Usuarios', $out, $attr);
+});
+
+/**
+ * @param       $client
+ * @param array $attr
+ */
+\HTML::macro('resumenAdministrador', function ($plan, $attr = array()) {
+    $out = '<table class="table table-condensed table-hover">';
+    $out .= '<tr>';
+    $out .= '<td><strong>Nombre:</strong> <span class="pull-right">' . \Str::upper($plan['descripcion_plan']) . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>E-Mail:</strong> <span class="pull-right">' . $plan['cantidad_encuestas_plan'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Linked-In:</strong> <span class="pull-right">' . $plan['cantidad_momentos_plan'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Rol Organización:</strong> <span class="pull-right">' . $plan['cantidad_momentos_plan'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '</table>';
+
+    return \HTML::templateResumenAccount('Administrador', $out, $attr);
 });

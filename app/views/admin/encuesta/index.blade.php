@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-	<p>{{ link_to_route('admin.encuesta.create', 'Agregar Nueva Encuesta', null, array('class' => 'btn btn-lg btn-success')) }}</p>
+	{{--	<p>{{ link_to_route('admin.encuesta.create', 'Agregar Nueva Encuesta', null, array('class' => 'btn btn-lg btn-success')) }}</p>--}}
 
 	@if ($encuesta->count())
 		<table class="table table-striped table-condensed table-hover">

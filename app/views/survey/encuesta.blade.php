@@ -56,7 +56,7 @@
 						{{ HTML::generateSurvey($survey) }}
 					</section>
 				</article>
-				@if(isset($idplan) && isset($theme) && $idplan != 1 && $theme->deseaCaptura())
+				@if(isset($idplan) && $idplan->deseaCaptura())
 					<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						@include('layouts.form_cliente')
 					</article>
@@ -76,159 +76,161 @@
 
 @section('script')
 	<script type="text/javascript">
-		jq.datepicker.regional['es'] = {
-			closeText: 'Cerrar',
-			prevText: '<Ant',
-			nextText: 'Sig>',
-			currentText: 'Hoy',
-			monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-			monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-			dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi�rcoles', 'Jueves', 'Viernes', 'S�bado'],
-			dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi�', 'Juv', 'Vie', 'S�b'],
-			dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-			weekHeader: 'Sm',
-			dateFormat: 'dd-mm-yy',
-			firstDay: 1,
-			isRTL: false,
-			showMonthAfterYear: false,
-			yearSuffix: ''
-		};
-		jq.datepicker.setDefaults(jq.datepicker.regional['es']);
+		(function () {
+			var $username = '{{ Session::get('user_name') }}';
+			var color = '{{ $theme->color_opciones }}';
+			var input_color = 'blue';
 
-		if (jq('#age')[0].type != 'date') {
-			jq('#age').datepicker({
+			$.datepicker.regional['es'] = {
+				closeText: 'Cerrar',
+				prevText: '<Ant',
+				nextText: 'Sig>',
+				currentText: 'Hoy',
+				monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+				monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+				dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+				dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+				dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+				weekHeader: 'Sm',
 				dateFormat: 'dd-mm-yy',
+				firstDay: 1,
+				isRTL: false,
+				showMonthAfterYear: false,
+				yearSuffix: ''
+			};
 
-				showOtherMonths: true,
-				selectOtherMonths: true,
-				changeMonth: true,
-				changeYear: true,
+			$.datepicker.setDefaults($.datepicker.regional['es']);
 
-				minDate: new Date(1960, 01, 01),
-				maxDate: new Date()
+			if ($('#age')[0].type != 'date') {
+				$('#age').datepicker({
+					dateFormat: 'dd-mm-yy',
+
+					showOtherMonths: true,
+					selectOtherMonths: true,
+					changeMonth: true,
+					changeYear: true,
+
+					minDate: new Date(1960, 01, 01),
+					maxDate: new Date()
+				});
+			}
+
+			if ($('input#rut').length) {
+				$("input#rut").rut({
+					formatOn: 'keyup',
+					validateOn: 'change'
+				});
+			}
+
+			switch (color) {
+				case 'red':
+					input_color = 'red';
+					break;
+				case 'green':
+					input_color = 'green';
+					break;
+				case 'blue':
+					input_color = 'blue';
+					break;
+				case 'grey':
+					input_color = 'grey';
+					break;
+				case 'orange':
+					input_color = 'orange';
+					break;
+				case 'yellow':
+					input_color = 'yellow';
+					break;
+				case 'pink':
+					input_color = 'pink';
+					break;
+				case 'purple':
+					input_color = 'purple';
+					break;
+				default:
+					input_color = 'blue';
+					break;
+			}
+
+			$('input[type=radio]').iCheck({
+				radioClass: 'iradio_square-' + input_color,
+				increaseArea: '20%',
+				labelHover: true,
+				cursor: true
+			}).on('ifChecked', function (event) {
+				event.preventDefault();
+				var $name = $(this).attr('name');
+				var $value = $(this).val();
+				$('select[name="' + $name + '"]').select2('val', $value);
+				$('#surveyForm').formValidation('revalidateField', $name);
 			});
-		}
 
-		if (jq('input#rut').length) {
-			jq("input#rut").rut({
-				formatOn: 'keyup',
-				validateOn: 'change'
+			$('input[type=checkbox]').iCheck({
+				checkboxClass: 'icheckbox_square-' + input_color,
+				increaseArea: '20%',
+				labelHover: true,
+				cursor: true
 			});
-		}
 
-		var $username = '{{ Session::get('user_name') }}';
-		var color = '{{ $theme->color_opciones }}';
+			$('select').select2({
+				width: '100%',
+				containerCssClass: '',
+				dropdownAutoWidth: true,
+				dropdownCssClass: 'text-center'
+			}).change(function (event) {
+				event.preventDefault();
+				var $name = $(this).attr('name');
+				var $value = event.val;
+				$('input[type=radio][name="' + $name + '"][value=' + $value++ + ']').iCheck('toggle');
+				$('#surveyForm').formValidation('revalidateField', $name);
+			});
 
-		var input_color = 'blue';
+			$('#gender').select2().change(function (e) {
+				$('#gender').formValidation('revalidateField', 'gender');
+			});
 
-		switch (color) {
-			case 'red':
-				input_color = 'red';
-				break;
-			case 'green':
-				input_color = 'green';
-				break;
-			case 'blue':
-				input_color = 'blue';
-				break;
-			case 'grey':
-				input_color = 'grey';
-				break;
-			case 'orange':
-				input_color = 'orange';
-				break;
-			case 'yellow':
-				input_color = 'yellow';
-				break;
-			case 'pink':
-				input_color = 'pink';
-				break;
-			case 'purple':
-				input_color = 'purple';
-				break;
-			default:
-				input_color = 'blue';
-				break;
-		}
+			$('.table td').hover(function () {
+				$(this).find('.iradio_square-' + input_color).addClass('hover');
+			}, function () {
+				$(this).find('.iradio_square-' + input_color).removeClass("hover");
+			}).click(function (event) {
+				event.preventDefault();
+				$(this).find('.iradio_square-' + input_color).iCheck('toggle');
+			});
 
-		jq('input[type=radio]').iCheck({
-			radioClass: 'iradio_square-' + input_color,
-			increaseArea: '20%',
-			labelHover: true,
-			cursor: true
-		}).on('ifChecked', function (event) {
-			event.preventDefault();
-			var $name = jq(this).attr('name');
-			var $value = jq(this).val();
-			jq('select[name="' + $name + '"]').select2('val', $value);
-			jq('#surveyForm').formValidation('revalidateField', $name);
-		});
+			$('input[type=submit]').darkcolor();
 
-		jq('input[type=checkbox]').iCheck({
-			checkboxClass: 'icheckbox_square-' + input_color,
-			increaseArea: '20%',
-			labelHover: true,
-			cursor: true
-		});
+			/**
+			 *  Bootstrap Validator
+			 */
+			$('#surveyForm').formValidation({
+				err: {
+					clazz: 'help-block2',
+					container: function ($field, validator) {
+						return $field.parents('.form-group').next('.messageContainer');
+					}
+				},
+				fields: {
+					rut: {
+						message: 'El RUT no es valido',
+						validators: {
+							callback: {
+								callback: function (value, validator) {
+									if (value != '') {
+										return $.validateRut(value);
+									}
 
-		jq('select').select2({
-			width: '100%',
-			containerCssClass: '',
-			dropdownAutoWidth: true,
-			dropdownCssClass: 'text-center'
-		}).change(function (event) {
-			event.preventDefault();
-			var $name = jq(this).attr('name');
-			var $value = event.val;
-			jq('input[type=radio][name="' + $name + '"][value=' + $value++ + ']').iCheck('toggle');
-			jq('#surveyForm').formValidation('revalidateField', $name);
-		});
-
-		jq('#gender').select2().change(function (e) {
-			jq('#gender').formValidation('revalidateField', 'gender');
-		});
-
-		jq('.table td').hover(function () {
-			jq(this).find('.iradio_square-' + input_color).addClass('hover');
-		}, function () {
-			jq(this).find('.iradio_square-' + input_color).removeClass("hover");
-		}).click(function (event) {
-			event.preventDefault();
-			jq(this).find('.iradio_square-' + input_color).iCheck('toggle');
-		});
-
-		jq('input[type=submit]').darkcolor();
-
-		/**
-		 *  Bootstrap Validator
-		 */
-		jq('#surveyForm').formValidation({
-			err: {
-				clazz: 'help-block2',
-				container: function ($field, validator) {
-					return $field.parents('.form-group').next('.messageContainer');
-				}
-			},
-			fields: {
-				rut: {
-					message: 'El RUT no es valido',
-					validators: {
-						callback: {
-							callback: function (value, validator) {
-								if (value != '') {
-									return jq.validateRut(value);
-								}
-
-								return true;
-							},
-							message: 'El RUT no es v&aacute;lido'
+									return true;
+								},
+								message: 'El RUT no es v&aacute;lido'
+							}
 						}
 					}
 				}
-			}
-		}).on('success.form.fv', function (e) {
-		}).on('err.field.fv', function (e, data) {
-//			console.warn(e);
-		});
+			}).on('success.form.fv', function (e) {
+			}).on('err.field.fv', function (e, data) {
+				// console.warn(e);
+			});
+		}.(jQuery));
 	</script>
 @endsection

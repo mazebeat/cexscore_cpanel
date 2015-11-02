@@ -22,21 +22,21 @@
 <div class="form-group">
 	{{ Form::label('id_sector', 'Sector Empresarial:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::select2('cliente[id_sector]', $sectors,Input::old('id_sector'), array('id'=> 'id_sector', 'class'=>'form-control')) }}
+		{{ Form::select2('cliente[id_sector]', $sectors, Input::old('id_sector'), array('id'=> 'id_sector', 'class'=>'form-control', 'required')) }}
 	</div>
 </div>
 
 <div class="form-group">
 	{{ Form::label('cliente[fono_fijo_cliente]', 'Fono Fijo:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::text('cliente[fono_fijo_cliente]', Input::old('cliente[fono_fijo_cliente]'), array('class'=>'form-control', 'placeholders'=>'+56 9 2123 4567', 'required')) }}
+		{{ Form::number('cliente[fono_fijo_cliente]', null, Input::old('cliente[fono_fijo_cliente]'), array('class'=>'form-control', 'placeholders'=>'+56 9 2123 4567', 'required', 'minmax' =>false)) }}
 	</div>
 </div>
 
 <div class="form-group">
 	{{ Form::label('cliente[fono_celular_cliente]', 'Fono Celular:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::text('cliente[fono_celular_cliente]', Input::old('cliente[fono_celular_cliente]'), array('class'=>'form-control', 'placeholders'=>'+56 9 9123 4567', 'required')) }}
+		{{ Form::number('cliente[fono_celular_cliente]', null, Input::old('cliente[fono_celular_cliente]'), array('class'=>'form-control', 'placeholders'=>'+56 9 9123 4567', 'required', 'minmax' =>false)) }}
 	</div>
 </div>
 

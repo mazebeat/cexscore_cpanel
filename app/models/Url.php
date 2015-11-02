@@ -26,6 +26,15 @@ class Url extends Eloquent
 {
     public static $rules = array('url' => 'required|url');
     protected     $table = 'urls';
+    protected     $fillable = [
+    'id',
+    'given',
+    'url',
+    'params',
+    'id_canal',
+    'id_momento',
+    'id_cliente'
+    ];
 
     public static function validate($input)
     {

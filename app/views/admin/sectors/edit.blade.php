@@ -37,6 +37,48 @@
 	</div>
 
 
+	@if(isset($survey))
+		{{--<h3>Preguntas encuesta <strong>"{{ $survey->titulo }}"</strong></h3>--}}
+		@if(isset($survey)  && isset($isMy))
+			{{ Form::loadSurvey($survey, $isMy) }}
+		@endif
+	@endif
+
+	{{--<div role="tabpanel" class="tab-pane" id="tab6">--}}
+	{{--<div id="preguntaFormulario">--}}
+	{{--<!-- Navigation Buttons -->--}}
+	{{--<div class="col-md-2">--}}
+	{{--<ul class="nav nav-pills nav-stacked" id="myTabs">--}}
+	{{--@for ($i = 0; $i < 4; $i++)--}}
+	{{--<li class="{{ ($i == 0) ? 'active' : '' }}"><a href="#tabpre{{ $i }}">{{ array_get($catgs, $i) }}</a></li>--}}
+	{{--@endfor--}}
+	{{--</ul>--}}
+	{{--</div>--}}
+
+	{{--<!-- Content -->--}}
+	{{--<div class="col-md-10">--}}
+	{{--<div class="tab-content">--}}
+	{{--@for ($i = 0; $i < 4; $i++)--}}
+	{{--<div class="tab-pane {{ ($i == 0) ? 'active' : '' }}" id="tabpre{{ $i }}">--}}
+	{{--<section data-step="{{ $i }}" class="row">--}}
+	{{--<div class="col-md-12">--}}
+	{{--<h3>Pregunta</h3>--}}
+	{{--{{ Form::questionForm('preguntaCabecera', $i, false, $i+1) }}--}}
+	{{--</div>--}}
+	{{--<div class="col-md-12">--}}
+	{{--<h4>Sub-Pregunta</h4>--}}
+	{{--<section>--}}
+	{{--{{ Form::questionForm('preguntaCabecera', $i, true, $i+1) }}--}}
+	{{--</section>--}}
+	{{--</div>--}}
+	{{--</section>--}}
+	{{--</div>--}}
+	{{--@endfor--}}
+	{{--</div>--}}
+	{{--</div>--}}
+	{{--</div>--}}
+	{{--</div>--}}
+
 	<div class="form-group">
 		<label class="col-sm-2 control-label">&nbsp;</label>
 
@@ -47,4 +89,41 @@
 	</div>
 
 	{{ Form::close() }}
+@endsection
+
+@section('style')
+	{{ HTML::style('plugins/bootstrap_wizard/prettify.css')  }}
+	{{ HTML::style('plugins/jquery-steps/css/jquery.steps.min.css')  }}
+	{{ HTML::style('backend/css/nav-wizard.bootstrap.min.css') }}
+@endsection
+
+@section('script')
+	{{ HTML::script('plugins/ckeditor/ckeditor.js') }}
+	{{ HTML::script('plugins/ckeditor/config.js') }}
+	{{ HTML::script('plugins/bootstrap_wizard/jquery.bootstrap.wizard.min.js')  }}
+	{{ HTML::script('plugins/jquery-steps/js/jquery.steps.min.js')  }}
+	{{ HTML::script('plugins/bootstrap_wizard/prettify.min.js')  }}
+
+	<script>
+		(function ($) {
+			$('#myTabs a').click(function (e) {
+				e.preventDefault()
+				$(this).tab('show')
+			});
+
+			$.get('/admin/find/survey', {id_sector: $(this).val()}, function (survey) {
+				var count = 0, $instance = '';
+				// preguntaCabecera[0][descripcion_1]
+				$.each(survey, function (key, data) {
+					if (data.id_pregunta_padre == null) {
+						$name = 'preguntaCabecera[' + count + '][descripcion_1]';
+					} else {
+						$name = 'preguntaCabecera[' + count + '][sub][descripcion_1]';
+						count++;
+					}
+					CKEDITOR.instances[$name].setData(data.descripcion_1);
+				})
+			});
+		}.(jQuery));
+	</script>
 @endsection

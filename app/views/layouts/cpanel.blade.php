@@ -11,33 +11,33 @@
 	{{ HTML::style('backend/css/backend.min.css') }}
 	{{-- {{ HTML::style('backend/css/bootstrap-lumen.min.cs') }} --}}
 
-	<!-- Form Validation -->
+	{{--Form Validation--}}
 	{{ HTML::style('plugins/formvalidation/css/formValidation.min.css') }}
 
-	<!-- JQuery UI -->
-	{{ HTML::style('//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css') }}
+	{{--JQuery UI--}}
+	{{ HTML::style('//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.min.css') }}
 
-	<!-- Font Awesome -->
+	{{--Font Awesome--}}
 	{{ HTML::style('//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css') }}
 
-	<!-- Ionicons -->
+	{{--Ionicons--}}
 	{{ HTML::style('//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css') }}
 
-	<!-- Theme style -->
+	{{--Theme style--}}
 	{{ HTML::style('template/dist/css/AdminLTE.min.css') }}
 	{{ HTML::style('template/dist/css/skins/_all-skins.min.css') }}
 
-	{{ HTML::style('plugins/bootstrap_wizard/prettify.css')  }}
-	{{ HTML::style('plugins/icheck/skins/all.css') }}
+	{{ HTML::style('plugins/bootstrap_wizard/prettify.min.css')  }}
+	{{ HTML::style('plugins/icheck/skins/all.min.css') }}
 
 	@yield('style')
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+	<!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+	<![endif]-->
 </head>
 <body class="hold-transition skin-yellow fixed">
 	<!-- Site wrapper -->
@@ -64,17 +64,17 @@
 					<ul class="nav navbar-nav">
 						<!-- Messages: style can be found in dropdown.less-->
 						@if(Config::get('config.cpanel.showMessages'))
-						@include('layouts.modules.cpanel.messages')
+							@include('layouts.modules.cpanel.messages')
 						@endif
 
 						<!-- Notifications: style can be found in dropdown.less -->
 						@if(Config::get('config.cpanel.showNotifications'))
-						@include('layouts.modules.cpanel.notifications')
+							@include('layouts.modules.cpanel.notifications')
 						@endif
 
 						<!-- Tasks: style can be found in dropdown.less -->
 						@if(Config::get('config.cpanel.showTasks'))
-						@include('layouts.modules.cpanel.tasks')
+							@include('layouts.modules.cpanel.tasks')
 						@endif
 
 						<!-- User Account: style can be found in dropdown.less -->
@@ -110,7 +110,7 @@
 									{{--<a href="#" class="btn btn-default btn-flat">Profile</a>--}}
 									{{--</div>--}}
 									<div class="pull-right">
-										<a href="#" class="btn btn-default btn-flat">{{ Lang::get('messages.signout') }}</a>
+										<a href="{{ URL::to('admin/logout') }}" class="btn btn-default btn-flat">{{ Lang::get('messages.signout') }}</a>
 									</div>
 								</li>
 							</ul>
@@ -226,9 +226,19 @@
 	{{-- Form Validation --}}
 	{{ HTML::script('plugins/formvalidation/js/formValidation.min.js') }}
 	{{ HTML::script('plugins/formvalidation/js/framework/bootstrap.min.js') }}
-	{{ HTML::script('plugins/formvalidation/js/language/es_CL.js')  }}
+	{{ HTML::script('plugins/formvalidation/js/language/es_CL.min.js')  }}
 
 	{{ HTML::script('plugins/icheck/icheck.min.js') }}
+
+	<!-- cdn for modernizr, if you haven't included it already -->
+	<script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
+	<!-- polyfiller file to detect and load polyfills -->
+	<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
+	<script>
+		webshims.setOptions('waitReady', false);
+		webshims.setOptions('forms-ext', {types: 'date'});
+		webshims.polyfill('forms forms-ext');
+	</script>
 
 	@yield('script')
 

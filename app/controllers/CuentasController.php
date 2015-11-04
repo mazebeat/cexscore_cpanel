@@ -4,26 +4,7 @@
 class CuentasController extends \ApiController
 {
 
-    /**
-     * @param array $data
-     *
-     * @return null
-     * @throws Exception
-     */
-    public static function saveQuestions($data = array())
-    {
-        $id = null;
 
-        try {
-            if (!is_null($data) || count($data)) {
-                $id = \PreguntaCabecera::insertGetId($data);
-            }
-        } catch (Exception $e) {
-            throw $e;
-        }
-
-        return $id;
-    }
 
     /**
      * Display a listing of cuentas
@@ -60,16 +41,18 @@ class CuentasController extends \ApiController
      */
     public function store()
     {
-        $rules = array(
+        $rules    = array(
             'cliente.nombre_cliente'         => 'required|string',
+            'cliente.nombre_legal_cliente'   => 'string',
             'cliente.rut_cliente'            => 'required|between:8,12|rut',
             'cliente.fono_fijo_cliente'      => 'required|between:7,16',
-            'cliente.fono_delular_cliente'   => 'required|between:7,16',
+            'cliente.fono_celular_cliente'   => 'required|between:7,16',
             'cliente.correo_cliente'         => 'required|email',
             'cliente.pais'                   => 'required|',
-            'cliente.region'                 => 'required|',
-            'cliente.id_ciudad'              => 'required|',
+            'cliente.region'                 => '',
+            'cliente.id_ciudad'              => '',
             'cliente.id_sector'              => 'required|',
+            'cliente.id_encuesta'            => 'required|',
             'cliente.id_plan'                => 'required|',
             'apariencia.logo_header'         => 'required|image|max:700',
             'apariencia.logo_incentivo'      => 'required|image|max:700',
@@ -82,41 +65,40 @@ class CuentasController extends \ApiController
             'apariencia.color_text_body'     => 'required|',
             'apariencia.color_text_footer'   => 'required|',
             'apariencia.color_instrucciones' => 'required|',
-            'apariencia.desea_captura_datos' => '',
             'encuesta.titulo'                => 'required|',
-            'encuesta.slogan'                => 'required|',
-            'encuesta.description'           => 'required|',
+            'encuesta.slogan'                => '',
+            'encuesta.description'           => '',
         );
+        $required = ' es requerido.';
 
-        $messages = array(
-            'cliente.nombre_cliente.required'         => '',
-            'cliente.rut_cliente.required'            => '',
-            'cliente.fono_fijo_cliente.required'      => '',
-            'cliente.fono_celular_cliente.required'   => '',
-            'cliente.correo_cliente.required'         => '',
-            'cliente.pais.required'                   => '',
-            'cliente.region.required'                 => '',
-            'cliente.id_ciudad.required'              => '',
-            'cliente.id_sector.required'              => '',
-            'cliente.id_plan.required'                => '',
-            'apariencia.logo_header.required'         => '',
-            'apariencia.logo_incentivo.required'      => '',
-            'apariencia.color_header.required'        => '',
-            'apariencia.color_body.required'          => '',
-            'apariencia.color_footer.required'        => '',
-            'apariencia.color_boton.required'         => '',
-            'apariencia.color_opciones.required'      => '',
-            'apariencia.color_text_header.required'   => '',
-            'apariencia.color_text_body.required'     => '',
-            'apariencia.color_text_footer.required'   => '',
-            'apariencia.color_instrucciones.required' => '',
-            'apariencia.desea_captura_datos.required' => '',
-            'encuesta.titulo.required'                => '',
-            'encuesta.slogan.required'                => '',
-            'encuesta.description.required'           => '',
+        $messages  = array(
+            'cliente.nombre_cliente.required'         => 'El campo nombre' . $required,
+            'cliente.nombre_legal_cliente.required'   => 'El campo nombre legal' . $required,
+            'cliente.rut_cliente.required'            => 'El campo RUT' . $required,
+            'cliente.fono_fijo_cliente.required'      => 'El campo fono fijo' . $required,
+            'cliente.fono_celular_cliente.required'   => 'El campo fono celular' . $required,
+            'cliente.correo_cliente.required'         => 'El campo e-mail' . $required,
+            'cliente.pais.required'                   => 'El campo pais' . $required,
+            'cliente.region.required'                 => 'El campo region' . $required,
+            'cliente.id_ciudad.required'              => 'El campo ciudad' . $required,
+            'cliente.id_sector.required'              => 'El campo sector' . $required,
+            'cliente.id_plan.required'                => 'El campo plan' . $required,
+            'apariencia.logo_header.required'         => 'El campo imagen logo' . $required,
+            'apariencia.logo_incentivo.required'      => 'El campo imagen incentivo' . $required,
+            'apariencia.color_header.required'        => 'El campo color header' . $required,
+            'apariencia.color_body.required'          => 'El campo color body' . $required,
+            'apariencia.color_footer.required'        => 'El campo color footer' . $required,
+            'apariencia.color_boton.required'         => 'El campo color botón' . $required,
+            'apariencia.color_opciones.required'      => 'El campo color opciones' . $required,
+            'apariencia.color_text_header.required'   => 'El campo color texto header' . $required,
+            'apariencia.color_text_body.required'     => 'El campo color texto body' . $required,
+            'apariencia.color_text_footer.required'   => 'El campo color texto footer' . $required,
+            'apariencia.color_instrucciones.required' => 'El campo color instrucciones' . $required,
+            'encuesta.titulo.required'                => 'El campo título' . $required,
+            'encuesta.slogan.required'                => 'El campo subtitulo' . $required,
+            'encuesta.description.required'           => 'El campo descripcion encuesta' . $required,
         );
-        $data     = Input::all();
-        dd($data);
+        $data      = Input::all();
         $validator = Validator::make($data, $rules);
 
         if ($validator->fails()) {
@@ -124,186 +106,24 @@ class CuentasController extends \ApiController
         }
 
         try {
-            $survey  = self::saveSurvey(Input::get('encuesta'));
-            $client  = self::saveClient(Input::get('cliente'), $survey);
-            $user    = self::saveAdministrator(Input::get('usuario'), $client, $survey);
-            $moments = self::saveMoments(Input::get('momentos'));
-            $theme   = self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
-            $client->encuesta()->associate($survey);
-            $client->save();
+            $survey = Encuesta::find(Input::get('cliente.id_encuesta')); // self::saveSurvey(Input::get('encuesta'));
+            if (!is_null($survey)) {
+                $client  = self::saveClient(Input::get('cliente'), $survey);
+                $user    = self::saveAdministrator(Input::get('usuario'), $client, $survey);
+                $moments = self::saveMoments(Input::get('momentos'));
+                $theme   = self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
+                $client->encuesta()->associate($survey);
+                $client->save();
 
-            return Redirect::route('admin.cuentas.index');
+                return Redirect::route('admin.cuentas.index');
+            }
+
+            $error = new MessageBag(['Sector sin encuesta definida']);
+
+            return Redirect::back()->withErrors($error)->withInput();
         } catch (Exception $e) {
             dd($e);
         }
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return null|static
-     */
-    public static function saveSurvey($data = array())
-    {
-        $survey = null;
-
-        try {
-            if (!is_null($data) || count($data)) {
-                $data = array_add($data, 'id_estado', 1);
-
-                $survey = \Encuesta::firstOrCreate($data);
-                \PreguntaCabecera::generateDefaultQuestions($survey);
-
-            }
-        } catch (Exception $e) {
-            throw $e;
-        }
-
-        return $survey;
-    }
-
-    /**
-     * @param $data
-     * @param $survey
-     *
-     * @return null|static
-     * @throws Exception
-     */
-    public static function saveClient($data, $survey)
-    {
-        $client = null;
-
-        try {
-            if (!is_null($data) || count($data)) {
-                array_forget($data, 'pais');
-                array_forget($data, 'region');
-                $data = array_add($data, 'id_encuesta', $survey->id_encuesta);
-                $data = array_add($data, 'id_estado', 1);
-
-                $client = \Cliente::firstOrCreate($data);
-            }
-        } catch (Exception $e) {
-            throw $e;
-        }
-
-        return $client;
-    }
-
-    /**
-     * @param      $admin
-     * @param null $client
-     * @param null $survey
-     */
-    public static function saveAdministrator($data, $client = null, $survey = null)
-    {
-        $admin = null;
-
-        try {
-            if (!is_null($data) || count($data)) {
-
-                $username = self::randomUsername($data);
-
-                $data = array_add($data, 'username', $username);
-                $data = array_add($data, 'password', Hash::make('123456'));
-
-                $admin = \Usuario::firstOrCreate($data);
-            }
-        } catch (Exception $e) {
-            throw $e;
-        }
-
-        return $admin;
-    }
-
-    /**
-     * @param     $user
-     * @param int $add
-     *
-     * @return null|string
-     * @throws Exception
-     */
-    public static function randomUsername($user, $add = 0)
-    {
-        $username = null;
-
-        try {
-            if (!is_null($user)) {
-                $fname    = array_get($user, 'nombre_usuario');
-                $lname    = array_get($user, 'apellido_usuario');
-                $username = Str::lower(Str::camel(Str::ascii(mb_substr($fname, 0, 1) . $lname)));
-
-                if ($add != 0) {
-                    $username .= $add;
-                }
-
-                $exist = Usuario::where('username', $username)->first();
-
-                if (!is_null($exist)) {
-                    $add++;
-                    $username = self::randomUsername($user, $add);
-                }
-            }
-        } catch (Exception $e) {
-            throw $e;
-        }
-
-        return $username;
-    }
-
-    /**
-     * @param $data
-     */
-    public static function saveMoments($data)
-    {
-
-    }
-
-    /**
-     * @param $name
-     * @param $data
-     * @param $inputs
-     *
-     * @return null|static
-     */
-    public static function saveTheme($name, $data, $inputs)
-    {
-        $theme = null;
-
-        try {
-            if (!is_null($data) || count($data)) {
-                // $logoHeader = array_get($inputs, 'logo_header');
-                // $logoHeader = array_get($inputs, 'logo_incentivo');
-
-                // Mover archivos a las carpetas
-                $folder = public_path('image' . DIRECTORY_SEPARATOR . $name);
-                if (!\File::exists($folder)) {
-                    \File::makeDirectory($folder);
-                }
-
-                foreach ($inputs as $key => $value) {
-                    $filename = $key . '.' . $value->guessClientExtension();
-                    $path     = '/image' . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . $filename;
-
-                    $files = File::allFiles($folder);
-                    foreach ($files as $file) {
-                        if (File::exists((string)$file) && Str::contains((string)$file, $key)) {
-                            File::delete((string)$file);
-                        }
-                    }
-
-                    $value->move($folder, $filename);
-                    $data = array_add($data, $key, $path);
-                }
-
-                array_get($data, 'desea_captura_datos') == 'on' ? array_set($data, 'desea_captura_datos', true) : array_set($data, 'desea_captura_datos', false);
-
-                $theme = \Apariencia::firstOrCreate($data);
-            }
-        } catch (Exception $e) {
-            throw $e;
-        }
-
-        return $theme;
     }
 
     /**

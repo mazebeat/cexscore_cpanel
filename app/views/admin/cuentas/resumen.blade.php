@@ -5,12 +5,12 @@
 @endsection
 
 @section('page-title')
-	<i class="fa fa-eye fa-fw"></i>Resumen {{ array_get($resumen, 'cliente.nombre_cliente') }}
+	<i class="fa fa-eye fa-fw"></i>Resumen {{ Session::get('account.name', array_get($resumen, 'cliente.nombre_cliente')) }}
 @endsection
 
 @section('breadcrumb')
 	@parent
-	<li>Cuenta</li>
+	<li class=""><a href="{{ url('admin/cuentas')  }}">Cuenta</a></li>
 	<li class="active">Resumen</li>
 @endsection
 
@@ -18,26 +18,13 @@
 	<div class="masonry-container clearfix" style="font-size: 12px;">
 		{{ HTML::resumenAccount($resumen) }}
 	</div>
-	<div class="clearfix"></div>
-	{{--	{{ \HTML::resumenUsuarios($resumen['usuarios'], ['class' => 'col-md-8 col-sm-12 col-xs-12 ']) }}--}}
-	{{--<div class="clearfix"></div>--}}
 	@endsection
 
 	@section('style')    <!-- DataTables -->
 	{{ HTML::style('template/plugins/datatables/dataTables.bootstrap.css') }}
-	<style>
-		.item {
-			/*float: right;*/
-			/*width: 80px;*/
-			/*height: 60px;*/
-			/*border: 2px solid hsla(0, 0%, 0%, 0.5);*/
-		}
-	</style>
-	@endsection
+@endsection
 
-	@section('script')        <!-- DataTables -->
-	{{ HTML::script('template/plugins/datatables/jquery.dataTables.min.js') }}
-	{{ HTML::script('template/plugins/datatables/dataTables.bootstrap.min.js') }}
+@section('script')
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>
 	<script>
 		(function ($) {
@@ -49,14 +36,14 @@
 				isAnimated: true
 			});
 
-			$('#userTable').DataTable({
-				"paging": true,
-				"lengthChange": false,
-				"searching": true,
-				"ordering": true,
-				"info": true,
-				"autoWidth": true
-			});
+//			$('#userTable').DataTable({
+//				"paging": true,
+//				"lengthChange": false,
+//				"searching": false,
+//				"ordering": true,
+//				"info": true,
+//				"autoWidth": true
+//			});
 		})(jQuery);
 	</script>
 @endsection

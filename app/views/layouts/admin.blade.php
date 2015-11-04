@@ -9,17 +9,8 @@
 	{{--<link rel = "shortcut icon" href = "http://www.umayor.cl/favicon.ico" />--}}
 	{{--<link rel = "apple-touch-icon-precomposed" href = "http://www.umayor.cl/favicon.ico" >--}}
 
-	{{ HTML::style('css/bootstrap.min.css') }}
-	{{ HTML::style('backend/css/bootstrap-lumen.min.css') }}
-	{{ HTML::style('backend/css/backend.min.css') }}
-	{{ HTML::style('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css') }}
-	{{ HTML::style('plugins/formvalidation/css/formValidation.min.css') }}
-							<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-	{{ HTML::script('http://html5shim.googlecode.com/svn/trunk/html5.js') }}
-	{{ HTML::script('https://oss.maxcdn.com/respond/1.4.2/respond.min.js') }}
-	<![endif]-->
+	{{ HTML::style('css/bootstrap.min.css') }}	{{ HTML::style('backend/css/bootstrap-lumen.min.css') }}	{{ HTML::style('backend/css/backend.min.css') }}	{{ HTML::style('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css') }}	{{ HTML::style('plugins/formvalidation/css/formValidation.min.css') }}							<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->	<!--[if lt IE 9]>	{{ HTML::script('http://html5shim.googlecode.com/svn/trunk/html5.js') }}	{{ HTML::script('https://oss.maxcdn.com/respond/1.4.2/respond.min.js') }}	<![endif]-->
 
 	{{--EXTRAS--}}
 	{{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js') }}
@@ -43,7 +34,6 @@
 {{ HTML::script('js/jquery.rut.min.js') }}
 {{ HTML::script('plugins/formvalidation/js/formValidation.min.js') }}
 {{ HTML::script('plugins/formvalidation/js/framework/bootstrap.min.js') }}
-{{ HTML::script('js/backend.min.js') }}
 @yield('script')
 </body>
 </html>

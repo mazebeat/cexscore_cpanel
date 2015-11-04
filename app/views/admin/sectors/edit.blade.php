@@ -29,16 +29,16 @@
 
 	{{ Form::model($sector, array('class' => 'form-horizontal', 'method' => 'PATCH', 'route' => array('admin.sectors.update', $sector->id_sector))) }}
 
-	<div class="form-group">
-		{{ Form::label('descripcion_sector', 'Descripción:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::text('descripcion_sector', Input::old('descripcion_sector'), array('class'=>'form-control', 'placeholder'=>'Descripcion_sector')) }}
+	@if(isset($isMy))
+		<div class="form-group">
+			{{ Form::label('descripcion_sector', 'Descripción:', array('class'=>'col-md-2 control-label')) }}
+			<div class="col-sm-10">
+				{{ Form::text('descripcion_sector', Input::old('descripcion_sector'), array('class'=>'form-control', 'placeholder'=>'Descripcion_sector', (!$isMy) ? 'readonly' : '' )) }}
+			</div>
 		</div>
-	</div>
-
+	@endif
 
 	@if(isset($survey))
-		{{--<h3>Preguntas encuesta <strong>"{{ $survey->titulo }}"</strong></h3>--}}
 		@if(isset($survey)  && isset($isMy))
 			{{ Form::loadSurvey($survey, $isMy) }}
 		@endif
@@ -100,9 +100,9 @@
 @section('script')
 	{{ HTML::script('plugins/ckeditor/ckeditor.js') }}
 	{{ HTML::script('plugins/ckeditor/config.js') }}
-	{{ HTML::script('plugins/bootstrap_wizard/jquery.bootstrap.wizard.min.js')  }}
-	{{ HTML::script('plugins/jquery-steps/js/jquery.steps.min.js')  }}
-	{{ HTML::script('plugins/bootstrap_wizard/prettify.min.js')  }}
+{{--	{{ HTML::script('plugins/bootstrap_wizard/jquery.bootstrap.wizard.min.js')  }}--}}
+	{{--{{ HTML::script('plugins/jquery-steps/js/jquery.steps.min.js')  }}--}}
+	{{--{{ HTML::script('plugins/bootstrap_wizard/prettify.min.js')  }}--}}
 
 	<script>
 		(function ($) {
@@ -124,6 +124,6 @@
 					CKEDITOR.instances[$name].setData(data.descripcion_1);
 				})
 			});
-		}.(jQuery));
+		})(jQuery);
 	</script>
 @endsection

@@ -95,20 +95,27 @@ Route::group(array('prefix' => 'admin'), function () {
                 return null;
             }
 
-            return Response::json($result->encuesta->preguntas);
+            return Response::json(['id' => $result->encuesta->id_encuesta, 'preguntas' => $result->encuesta->preguntas]);
         });
         Route::get('cpanel', function () {
             return Response::json(array(
+                'totalClients'  => Cliente::all()->count(),
+                'totalUsers'    => CsUsuario::all()->count(),
+                'totalPlans'    => Plan::all()->count(),
                 'clientsByPlan' => Cliente::clientsByPlan(),
                 'countClients'  => Cliente::countClients(),
+                'npsTable'      => AdminController::npsTable(),
             ), 200);
         });
     });
 });
+// TESTING
 Route::get('test/test', function () {
-
-    var_dump(Cliente::clientResumen(1));
-    var_dump(Cliente::clientsByPlan());
-    dd(Cliente::countClients());
+    //    dd(Momento::find(2));
+    //    $r = Auth::user()->cliente->encuesta->momentos()->save(Momento::find(2), array('descripcion_momento' => 'aaaaaaaaaaa'));
+//    $r = Auth::user()->cliente->id_cliente;
+//    dd($r);
+    $r = Auth::user()->cliente->encuesta->momentos->find();
+    $r->pivot->descripcion_momento = "Chao ";
+    $r->pivot->save();
 });
-

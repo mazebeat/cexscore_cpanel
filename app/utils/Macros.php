@@ -716,8 +716,11 @@
                 <tbody>';
     foreach ($moments as $key => $value) {
         $out .= '<tr>';
-        //        $out .= '<td><b>Momento ' . ($key + 1) . ':</b></td>';
-        $out .= '<td>' . $value['descripcion_momento'] . '</td>';
+        if (!is_null(array_get($value, 'url', null))) {
+            $out .= '<td>' . $value['descripcion_momento'] . '<a href="' . array_get($value, 'url') . '" target="_blank" class="btn btn-link btn-xs pull-right">URL</a></td>';
+        } else {
+            $out .= '<td>' . $value['descripcion_momento'] . '</td>';
+        }
         $out .= '</tr>';
     }
     $out .= '</tbody>
@@ -780,7 +783,7 @@
     $out .= '<td><strong>Fono Celular:</strong> <span class="pull-right">' . $client['fono_celular_cliente'] . '</span></td>';
     $out .= '</tr>';
     $out .= '<tr>';
-    $out .= '<td><strong>Código Postal:</strong> <span class="pull-right">' . $client['codigo_postal'] . '</span></td>';
+    $out .= '<td><strong>Código Postal:</strong> <span class="pull-right">' . $client['codigo_postal_cliente'] . '</span></td>';
     $out .= '</tr>';
     $out .= '<tr>';
     $out .= '<td><strong>Dirección:</strong> <span class="pull-right">' . $client['direccion_cliente'] . '</span></td>';

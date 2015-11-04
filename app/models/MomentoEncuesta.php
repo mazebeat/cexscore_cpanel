@@ -25,4 +25,11 @@ class MomentoEncuesta extends Eloquent
     protected     $guarded    = array();
     protected     $table      = 'momento_encuesta';
     protected     $primaryKey = 'id_momento_encuesta';
+
+    public function urls()
+    {
+        return $this->hasMany('Url', 'id_momento', 'id_momento');
+    }
+
+
 }

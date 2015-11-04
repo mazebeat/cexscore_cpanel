@@ -174,5 +174,5 @@
 	{{ HTML::script('plugins/input-mask/jquery.inputmask.extensions.min.js') }}
 
 	{{--JS Create cliente--}}
-	{{ HTML::script('js/cliente.create.min.js') }}
+	{{ HTML::script('js/cliente.create.js') }}
 @endsection

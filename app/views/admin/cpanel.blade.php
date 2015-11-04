@@ -15,26 +15,50 @@
 	<div class="row">
 		<div class="col-md-3 col-sm-6 col-xs-12">
 			<div class="info-box">
-				<span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+				<span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
 
 				<div class="info-box-content">
-					<span class="info-box-text">Cuentas</span> <span class="info-box-number">5</span>
+					<span class="info-box-text">Cuentas</span> <span class="info-box-number" id="qAccounts"></span>
 				</div><!-- /.info-box-content -->
 			</div><!-- /.info-box -->
 			<div class="info-box">
-				<span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+				<span class="info-box-icon bg-green"><i class="fa fa-bookmark-o"></i></span>
 
 				<div class="info-box-content">
-					<span class="info-box-text">Planes</span> <span class="info-box-number">3</span>
+					<span class="info-box-text">Planes</span> <span class="info-box-number" id="qPlans"></span>
 				</div><!-- /.info-box-content -->
 			</div>
 			<div class="info-box">
-				<span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+				<span class="info-box-icon bg-aqua"><i class="fa fa-user-plus"></i></span>
 
 				<div class="info-box-content">
-					<span class="info-box-text">Usuarios</span> <span class="info-box-number">90<small></small></span>
+					<span class="info-box-text">Usuarios</span> <span class="info-box-number" id="qUsers"><small></small></span>
 				</div><!-- /.info-box-content -->
 			</div>
+			<div class="box box-default">
+				<div class="box-header with-border">
+					<h3 class="box-title">Tabla NPS</h3>
+
+					<div class="box-tools pull-right">
+						<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+						<button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+					</div>
+				</div><!-- /.box-header -->
+				<div class="box-body">
+					<table class='table table-condensed table-striped table-hover borderless2'>
+						<thead>
+						<tr>
+							<th class='text-left datatable-header'></th>
+							<th class='text-center datatable-header'><i class='fa fa-thumbs-o-up fa-2x good'></th>
+							<th class='text-center datatable-header'><i class='fa fa-thumbs-o-down fa-2x bad'></th>
+							<th class='text-center datatable-header'>
+								<span style='font-size: 14px' title='NPS: Índice de Promotores Netos&#13;Obtenido por la diferencia entre el % de promotores menos el % de detractores'>NPS</span></th>
+						</tr>
+						</thead>
+						<tbody id="npsTable"></tbody>
+					</table>
+				</div><!-- /.box-body -->
+			</div><!-- /.box -->
 		</div>
 		<div class="col-md-4 col-sm-12 col-xs-12">
 			<div class="box box-danger">
@@ -67,37 +91,6 @@
 			</div><!-- /.box -->
 		</div>
 	</div>
-	<div class="row">
-
-	</div>
-	<div class="row">
-		<div class="col-xs-5">
-			<div class="box box-default">
-				<div class="box-header with-border">
-					<h3 class="box-title">Browser Usage</h3>
-
-					<div class="box-tools pull-right">
-						<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-						<button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-					</div>
-				</div><!-- /.box-header -->
-				<div class="box-body"></div><!-- /.box-body -->
-			</div><!-- /.box -->
-		</div>
-		<div class="col-xs-7">
-			<div class="box box-default">
-				<div class="box-header with-border">
-					<h3 class="box-title">Browser Usage</h3>
-
-					<div class="box-tools pull-right">
-						<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-						<button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-					</div>
-				</div><!-- /.box-header -->
-				<div class="box-body"></div><!-- /.box-body -->
-			</div><!-- /.box -->
-		</div>
-	</div>
 @endsection
 
 @section('style')
@@ -109,7 +102,6 @@
 	<!-- ChartJS 1.0.1 -->
 	{{ HTML::script('template/plugins/chartjs/Chart.min.js') }}
 	<script type="text/javascript">
-
 		(function ($) {
 			var clientsByPlan, countClients;
 			$.get('/admin/find/cpanel', function (data) {
@@ -172,7 +164,6 @@
 					"titles": [],
 					"dataProvider": data.clientsByPlan
 				});
-
 				var activeAccounts = AmCharts.makeChart("activeAccounts", {
 					"type": "pie",
 					"adjustPrecision": true,
@@ -234,10 +225,12 @@
 				});
 				accountsByPlan.validateNow();
 				activeAccounts.validateNow();
+
+				$('#qAccounts').text(data.totalClients);
+				$('#qPlans').text(data.totalPlans);
+				$('#qUsers').text(data.totalUsers);
+				$('#npsTable').html(data.npsTable);
 			});
-
-
-		})
-		(jQuery)
+		})(jQuery);
 	</script>
 @endsection

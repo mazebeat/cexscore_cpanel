@@ -8,6 +8,7 @@
         <item url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/sqlqueries/widget.min.js" />
         <item url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/templates/widget.min.js" />
         <item url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/highlightjs/highlight.pack.min.js" />
+        <item url="file://$PROJECT_DIR$/public/js/cliente.edit.min.js" />
         <item url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/mails/widget.min.js" />
         <item url="file://$PROJECT_DIR$/public/plugins/ckeditor/config.min.js" />
         <item url="file://$PROJECT_DIR$/public/plugins/bootstrap_wizard/jquery.bootstrap.wizard.min.js" />
@@ -21,6 +22,7 @@
         <item url="file://$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.phone.extensions.min.min.js" />
         <item url="file://$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.min.min.js" />
         <item url="file://$PROJECT_DIR$/public/js/select2_locale_es.min.js" />
+        <item url="file://$PROJECT_DIR$/public/js/bootbox.min.min.js" />
         <item url="file://$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.extensions.min.min.js" />
         <item url="file://$PROJECT_DIR$/public/js/backend.min.js" />
         <item url="file://$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.regex.extensions.min.min.js" />
@@ -38,6 +40,7 @@
       <root url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/sqlqueries/widget.min.js" />
       <root url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/templates/widget.min.js" />
       <root url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/vendor/highlightjs/highlight.pack.min.js" />
+      <root url="file://$PROJECT_DIR$/public/js/cliente.edit.min.js" />
       <root url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets/mails/widget.min.js" />
       <root url="file://$PROJECT_DIR$/public/plugins/ckeditor/config.min.js" />
       <root url="file://$PROJECT_DIR$/public/plugins/bootstrap_wizard/jquery.bootstrap.wizard.min.js" />
@@ -51,6 +54,7 @@
       <root url="file://$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.phone.extensions.min.min.js" />
       <root url="file://$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.min.min.js" />
       <root url="file://$PROJECT_DIR$/public/js/select2_locale_es.min.js" />
+      <root url="file://$PROJECT_DIR$/public/js/bootbox.min.min.js" />
       <root url="file://$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.extensions.min.min.js" />
       <root url="file://$PROJECT_DIR$/public/js/backend.min.js" />
       <root url="file://$PROJECT_DIR$/public/plugins/input-mask/jquery.inputmask.regex.extensions.min.min.js" />

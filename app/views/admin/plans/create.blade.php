@@ -51,7 +51,7 @@
 	</div>
 
 	<div class="form-group">
-		{{ Form::label('cantidad_momentos_plan', 'Cantidad Momentoss:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('cantidad_momentos_plan', 'Cantidad Momentos:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
 			{{ Form::number('cantidad_momentos_plan', Input::old('cantidad_momentos_plan', 0), null, array('class'=>'form-control', 'minmax' =>  Config::get('config.cpanel.numberLimit') )) }}
 		</div>

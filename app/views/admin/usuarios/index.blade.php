@@ -48,8 +48,8 @@
 						{{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
 						{{ Form::close() }}
 						{{ link_to_route('admin.usuarios.edit', 'Editar', array($usuario->id_usuario), array('class' => 'btn btn-info')) }}
-						{{ Form::open(array('style' => 'display: inline-block;', 'method' => 'POST', 'url' => array('admin/usuarios/resetPassword', $usuario->id_usuario)))}}
-						{{ Form::submit('Reset Password', array('class' => 'btn btn-link')) }}
+						{{ Form::open(array('class' => 'resetForm','style' => 'display: inline-block;', 'method' => 'POST', 'url' => array('admin/usuarios/resetPassword', $usuario->id_usuario)))}}
+						{{ Form::submit('Reset Password', array('class' => 'btn btn-link resetButton')) }}
 						{{ Form::close() }}
 						{{--						<a href="{{ url('/admin/usuarios/resetPassword', array($usuario->id_usuario)) }}" class="bnt btn-link">Reset Password</a>--}}
 					</td>
@@ -60,4 +60,25 @@
 	@else
 		No se han encontrado usuarios.
 	@endif
+@endsection
+
+@section('script')
+	{{ HTML::script('js/bootbox.min.js') }}
+	<script>
+		(function ($) {
+			$('.resetButton').on('click', function (e) {
+				e.preventDefault();
+
+				var $form = $(this).parents('form:first');
+
+				bootbox.confirm("Está seguro que desea restaurar la contraseña?", function (result) {
+					if (result) {
+						$form.submit();
+					}
+				});
+
+				return false;
+			});
+		})(jQuery);
+	</script>
 @endsection

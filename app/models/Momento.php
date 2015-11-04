@@ -25,4 +25,11 @@ class Momento extends \Eloquent
         'medicion',
         'id_estado',
     );
+
+    public function encuestas()
+    {
+        return $this->belongsToMany('Encuesta', 'momento_encuesta', 'id_momento', 'id_encuesta')->withPivot('descripcion_momento');
+//        return $this->hasManyThrough('Encuesta', 'MomentoEncuesta', 'id_momento', 'id_encuesta');
+    }
+
 }

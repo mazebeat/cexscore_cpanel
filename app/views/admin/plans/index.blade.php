@@ -1,19 +1,19 @@
-{{--@extends('layouts.cpanel')--}}
+@extends('layouts.cpanel')
 
-{{--@section('title')--}}
-	{{--Todos Plans--}}
-{{--@endsection--}}
+@section('title')
+	Todos Plans
+@endsection
 
-{{--@section('page-title')--}}
-	{{--<i class="fa fa-home fa-fw"></i>Todos Plans--}}
-{{--@endsection--}}
+@section('page-title')
+	<i class="fa fa-home fa-fw"></i>Todos Plans
+@endsection
 
-{{--@section('breadcrumb')--}}
-	{{--@parent--}}
-	{{--<li class="active">Plans</li>--}}
-{{--@endsection--}}
+@section('breadcrumb')
+	@parent
+	<li class="active">Plans</li>
+@endsection
 
-{{--@section('content')--}}
+@section('content')
 	<p>{{ link_to_route('admin.plans.create', 'Agregar Nuevo Plan', null, array('class' => 'btn btn-lg btn-success')) }}</p>
 
 	@if ($plans->count())
@@ -42,4 +42,4 @@
 	@else
 		No se han encontrado plans.
 	@endif
-{{--@endsection--}}
+@endsection

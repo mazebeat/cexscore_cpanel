@@ -45,7 +45,7 @@
 
 		<header class="main-header">
 			<!-- Logo -->
-			<a href="../../index2.html" class="logo">
+			<a href="{{('admin/login')  }}" class="logo">
 				<!-- mini logo for sidebar mini 50x50 pixels -->
 				<span class="logo-mini"><b>C</b>PANEL</span>
 				<!-- logo for regular state and mobile devices -->
@@ -110,7 +110,7 @@
 									{{--<a href="#" class="btn btn-default btn-flat">Profile</a>--}}
 									{{--</div>--}}
 									<div class="pull-right">
-										<a href="{{ URL::to('admin/logout') }}" class="btn btn-default btn-flat">{{ Lang::get('messages.signout') }}</a>
+										<a href="{{ url('admin/logout') }}" class="btn btn-default btn-flat">{{ Lang::get('messages.signout') }}</a>
 									</div>
 								</li>
 							</ul>

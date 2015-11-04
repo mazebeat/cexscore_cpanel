@@ -38,15 +38,15 @@ class Usuario extends \Eloquent
 {
 
     public static $rules      = array(
-        'username'             => 'required',
+        'usuario'             => 'required',
         'nombre_usuario'       => 'required',
         'password'             => 'required',
-        'edad_usuario'         => 'required',
-        'fecha_nacimiento'     => 'required',
-        'genero_usuario'       => 'required',
+        'edad_usuario'         => '',
+        'fecha_nacimiento'     => '',
+        'genero_usuario'       => '',
         'correo_usuario'       => 'required',
         'rut_usuario'          => 'required',
-        'desea_correo_usuario' => 'required',
+        'desea_correo_usuario' => '',
         'id_tipo_usuario'      => 'required',
         'id_cliente'           => 'required',
         'id_encuesta'          => 'required',

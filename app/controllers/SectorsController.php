@@ -54,6 +54,11 @@ class SectorsController extends \ApiController
         if ($validation->passes()) {
             $this->sector->create($input);
 
+            $survey = self::saveSurvey(Input::only(['titulo']));
+            if ($survey != null) {
+                \PreguntaCabecera::generateDefaultQuestions($survey, Input::only(['preguntaCabecera']));
+            }
+
             return Redirect::route('admin.sectors.index');
         }
 
@@ -84,14 +89,15 @@ class SectorsController extends \ApiController
     public function edit($id)
     {
 
-        $sector = $this->sector->find($id);
-        $catgs  = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
-        $survey = EncuestaSector::where('id_sector', $id)->first(['id_encuesta'])->encuesta;
-        $isMy   = false;
+        $sector   = $this->sector->find($id);
+        $catgs    = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
+        $survey   = EncuestaSector::where('id_sector', $id)->first(['id_encuesta'])->encuesta;
+        $isMy     = false;
+        $tipouser = Auth::user()->id_tipo_usuario;
 
-        $x = Auth::user()->cliente->encuesta->id_encuesta;
-
-        if ($survey->id_encuesta == $x || Auth::user()->id_tipo_usuario == 2) {
+        //        $x = Auth::user()->cliente->encuesta->id_encuesta;
+        //        if ($survey->id_encuesta == $x || Auth::user()->id_tipo_usuario <= Config::get('tipousuario.admin')) {
+        if ($tipouser <= Config::get('tipousuario.admin')) {
             $isMy = true;
         }
 

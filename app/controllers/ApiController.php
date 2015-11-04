@@ -32,6 +32,213 @@ class ApiController extends \BaseController
     }
 
     /**
+     * @param $data
+     * @param $survey
+     *
+     * @return null|static
+     * @throws Exception
+     */
+    public static function saveClient($data, $survey)
+    {
+        $client = null;
+
+        try {
+            if (!is_null($data) || count($data)) {
+                array_forget($data, 'pais');
+                array_forget($data, 'region');
+                $data = array_add($data, 'id_encuesta', $survey->id_encuesta);
+                $data = array_add($data, 'id_estado', 1);
+
+                $client = \Cliente::firstOrCreate($data);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $client;
+    }
+
+    /**
+     * @param      $admin
+     * @param null $client
+     * @param null $survey
+     */
+    public static function saveAdministrator($data, $client = null, $survey = null)
+    {
+        $admin = null;
+
+        try {
+            if (!is_null($data) || count($data)) {
+
+                $username = self::randomUsername($data);
+
+                $data = array_add($data, 'username', $username);
+                $data = array_add($data, 'password', Hash::make('123456'));
+
+                $admin = \Usuario::firstOrCreate($data);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $admin;
+    }
+
+    /**
+     * @param     $user
+     * @param int $add
+     *
+     * @return null|string
+     * @throws Exception
+     */
+    public static function randomUsername($user, $add = 0)
+    {
+        $username = null;
+
+        try {
+            if (!is_null($user)) {
+                $fname    = array_get($user, 'nombre_usuario');
+                $lname    = array_get($user, 'apellido_usuario');
+                $username = Str::lower(Str::camel(Str::ascii(mb_substr($fname, 0, 1) . $lname)));
+
+                if ($add != 0) {
+                    $username .= $add;
+                }
+
+                $exist = Usuario::where('username', $username)->first();
+
+                if (!is_null($exist)) {
+                    $add++;
+                    $username = self::randomUsername($user, $add);
+                }
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $username;
+    }
+
+    /**
+     * @param $data
+     */
+    public static function saveMoments($data, $cliente = null)
+    {
+        if (!is_null($data)) {
+            if (!is_null($cliente)) {
+                foreach ($data as $key => $value) {
+                    $moment                             = $client->encuesta->momentos()->find($value['id_momento']);
+                    $moment->pivot->descripcion_momento = $value['descripcion_momento'];
+                    $moment->pivot->save();
+                }
+            } else {
+                foreach ($data as $key => $value) {
+                    $moment                             = $client->encuesta->momentos()->find($value['id_momento']);
+                    $moment->pivot->descripcion_momento = $value['descripcion_momento'];
+                    $moment->pivot->save();
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $name
+     * @param $data
+     * @param $inputs
+     *
+     * @return null|static
+     */
+    public static function saveTheme($name, $data, $inputs)
+    {
+        $theme = null;
+
+        try {
+            if (!is_null($data) || count($data)) {
+                // $logoHeader = array_get($inputs, 'logo_header');
+                // $logoHeader = array_get($inputs, 'logo_incentivo');
+
+                // Mover archivos a las carpetas
+                $folder = public_path('image' . DIRECTORY_SEPARATOR . $name);
+                if (!\File::exists($folder)) {
+                    \File::makeDirectory($folder);
+                }
+
+                foreach ($inputs as $key => $value) {
+                    $filename = $key . '.' . $value->guessClientExtension();
+                    $path     = '/image' . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . $filename;
+
+                    $files = File::allFiles($folder);
+                    foreach ($files as $file) {
+                        if (File::exists((string)$file) && Str::contains((string)$file, $key)) {
+                            File::delete((string)$file);
+                        }
+                    }
+
+                    $value->move($folder, $filename);
+                    $data = array_add($data, $key, $path);
+                }
+
+                array_get($data, 'desea_captura_datos') == 'on' ? array_set($data, 'desea_captura_datos', true) : array_set($data, 'desea_captura_datos', false);
+
+                $theme = \Apariencia::firstOrCreate($data);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $theme;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return null
+     * @throws Exception
+     */
+    public static function saveQuestions($data = array())
+    {
+        $id = null;
+
+        try {
+            if (!is_null($data) || count($data)) {
+                $id = \PreguntaCabecera::insertGetId($data);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $id;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return null|static
+     */
+    public static function saveSurvey($data = array())
+    {
+        $survey = null;
+
+        try {
+            if (!is_null($data) || count($data)) {
+                $data = array_add($data, 'id_estado', 1);
+                array_forget($data, 'title');
+
+                $validation = \Validator::make($data, \Encuesta::$rules);
+
+                if ($validation->passes()) {
+                    $survey = \Encuesta::firstOrCreate($data);
+
+                }
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $survey;
+    }
+
+    /**
      * @return \Illuminate\Http\RedirectResponse
      */
     public function generateMessage()
@@ -104,6 +311,114 @@ class ApiController extends \BaseController
         throw $e;
     }
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function modifySurvey()
+    {
+        try {
+            $inputs    = \Input::except(['_token', 'survey', 'plan']);
+            $valid     = self::createBasicRules($inputs);
+            $validator = \Validator::make(\Input::all(), $valid['rules'], $valid['messages']);
+
+            if ($validator->fails()) {
+                return \Redirect::back()->withErrors($validator)->withInput(\Input::except('_token'));
+            }
+
+            $questions = \Auth::user()->cliente->encuesta->preguntas;
+            //            $idencuesta = \Crypt::decrypt(\Input::get('survey'));
+            //            $idplan     = \Crypt::decrypt(\Input::get('plan'));
+            $x = 0;
+
+            //            if ($idplan == 1) {
+            //                $errors = new \MessageBag();
+            //                $errors->add('inesperado', 'No mantiene los privilegios para modificar.');
+            //
+            //                return \Redirect::back()->withErrors($errors)->withInput(\Input::except('_token'));
+            //            }
+
+            if (count($inputs) <= 0) {
+                $errors = new \MessageBag();
+                $errors->add('inesperado', 'Cantidad de textos incorrecta.');
+
+                return \Redirect::back()->withErrors($errors)->withInput(\Input::except('_token'));
+            }
+
+            $ids = self::FilterQuestions($inputs);
+
+            foreach ($questions as $question) {
+                if ($question->id_encuesta == $idencuesta && array_key_exists($question->id_pregunta_cabecera, $ids) && is_null($question->id_pregunta_padre)) {
+                    $question->descripcion_1 = $ids[$question->id_pregunta_cabecera];
+
+                    if ($question->save()) {
+                        $x++;
+                    }
+                }
+            }
+
+            if ($x != 4) {
+                $errors = new MessageBag();
+                $errors->add('inesperado', 'Error al procesar solicitud.');
+
+                return Redirect::back()->withErrors($errors)->withInput(Input::except('_token'));
+            }
+
+            return Redirect::to('admin/survey/load');
+        } catch (Exception $e) {
+            return $e->getMessage();
+        } finally {
+
+        }
+    }
+
+    /**
+     * @param null $inputs
+     *
+     * @return array
+     */
+    public static function createBasicRules($inputs = null)
+    {
+        try {
+            $rules    = [];
+            $messages = [];
+            $count    = 1;
+
+            if (!is_null($inputs)) {
+                foreach ($inputs as $key => $value) {
+                    $rules[$key]                  = 'required';
+                    $messages[$key . '.required'] = 'El texto en la pregunta ' . $count++ . ' es obligatorio.';
+                }
+            }
+
+            return array('rules' => $rules, 'messages' => $messages);
+
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * @param $inputs
+     * @param $ids
+     *
+     * @return mixed
+     */
+    public static function FilterQuestions($inputs)
+    {
+        try {
+            foreach ($inputs as $key => $value) {
+                if (\Str::startsWith($key, 'question')) {
+                    $id       = (int)str_replace('question', '', $key);
+                    $ids[$id] = $value;
+                }
+            }
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        return $ids;
+    }
+
     protected function setError($str)
     {
         if (!isset($this->view_params['err']) || $this->view_params['err'] == null) {
@@ -121,4 +436,5 @@ class ApiController extends \BaseController
     {
         return $this->errors;
     }
+
 }

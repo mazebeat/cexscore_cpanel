@@ -1,6 +1,7 @@
 @extends('layouts.cpanel')
 
 @section('title')
+	Sector {{{ $survey->titulo or '' }}}
 @endsection
 
 @section('page-title')
@@ -31,7 +32,7 @@
 			@if(isset($survey))
 				{{ Form::open(['action' => 'AdminController@modifySurvey', 'method' => 'POST', 'role' => 'form', 'id' => 'editSurvey', 'class' => '']) }}
 				<fieldset>
-					<h2>Preguntas encuesta <strong>"{{ $survey->titulo }}"</strong></h2>
+					{{--<h2>Preguntas encuesta <strong>"{{ $survey->titulo }}"</strong></h2>--}}
 					@if(isset($survey)  && isset($isMy))
 						{{ Form::loadSurvey($survey, $isMy) }}
 						@if($isMy)

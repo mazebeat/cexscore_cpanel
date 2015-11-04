@@ -10,7 +10,7 @@
 
 @section('breadcrumb')
 	@parent
-	<li class="active">Cuenta</li>
+	<li class="active"><a href="{{ url('admin/cuentas')  }}">Cuenta</a></li>
 @endsection
 
 @section('content')

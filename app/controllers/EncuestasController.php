@@ -83,7 +83,13 @@ class EncuestasController extends \ApiController
     public function edit($id)
     {
         $encuestum = $this->encuestum->find($id);
-        $isMy      = \Auth::user()->cliente->encuesta->id_encuesta == $id ? true : false;
+        $isMy      = false;
+        $tipouser  = Auth::user()->id_tipo_usuario;
+
+        //        if ($tipouser <= Config::get('tipousuario.admin') || ($tipouser == 3 && \Auth::user()->cliente->encuesta->id_encuesta == $id)) {
+        if ($tipouser <= Config::get('tipousuario.admin')) {
+            $isMy = true;
+        }
 
         if (is_null($encuestum)) {
             return \Redirect::route('admin.encuesta.index');

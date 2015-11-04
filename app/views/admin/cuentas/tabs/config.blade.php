@@ -1,13 +1,13 @@
 <div class="form-group">
-	{{ Form::label('id_plan', 'Plan:', array('class'=>'col-md-2 control-label')) }}
+	{{ Form::label('cliente[id_plan]', 'Plan:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::bsRadioForm('cliente[id_plan]', $plans, Input::old('id_plan', 1), array('class'=>'form-control
+		{{ Form::bsRadioForm('cliente[id_plan]', $plans, Input::old('cliente[id_plan]', 1), array('class'=>'form-control
 		')) }}
 	</div>
 </div>
 
 <div class="form-group cant_moment_plan">
-	{{ Form::label('id_plan', 'Cantidad Momentos:', array('class'=>'col-md-2 control-label')) }}
+	{{ Form::label('cant_moment_plan', 'Cantidad Momentos:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-8">
 		{{ Form::number('cant_moment_plan', Input::old('cant_moment_plan'), null, ['id' => 'cant_moment_plan', 'class'=>'form-control',  'data-fv-integer' =>"true",
 		'data-fv-greaterthan' => 'true', 'data-fv-greaterthan-value' => 1, 'data-fv-lessthan' => 'true', 'data-fv-lessthan-value' => 999,

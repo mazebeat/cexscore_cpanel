@@ -131,20 +131,20 @@ class CsUsuariosController extends BaseController
 
     public function resetPassword($id)
     {
-        $ok        = $this->csusuario->find($id)->resetPassword();
-        $idCliente = \Auth::user()->cliente->id_cliente;
-        $usuarios  = Usuario::where('id_cliente', $idCliente)->get();
+        $client = $this->csusuario->find($id);
+        if (!is_null($client)) {
+            //            $idCliente = \Auth::user()->cliente->id_cliente;
+            //            $usuarios  = Usuario::where('id_cliente', $idCliente)->get();
 
-        if ($ok) {
-            Session::flash('message', 'Reset Password, OK!');
+            if ($client->resetPassword()) {
+                Session::flash('message', 'Reset Password, OK!');
 
-            return Redirect::route('admin.usuarios.index');
+                return Redirect::route('admin.usuarios.index');
+            }
         }
 
         Session::flash('message', 'Reset Password, Wrong!');
 
         return Redirect::route('admin.usuarios.index');
-
     }
-
 }

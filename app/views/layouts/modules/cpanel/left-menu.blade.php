@@ -23,7 +23,7 @@
 </li> --}}
 
 <li class="header">MENÚ</li>
-<li class="active"><a href="{{ URL::to('/admin/login') }}"><i class="fa fa-home fa-fw"></i> <span>{{ Lang::get('messages.home') }}</span></a></li>{{-- MAIN --}}
+<li class="active"><a href="{{ url('/admin/login') }}"><i class="fa fa-home fa-fw"></i> <span>{{ Lang::get('messages.home') }}</span></a></li>{{-- MAIN --}}
 <li class="treeview">
 	<a href="#"> <i class="fa fa-share"></i> <span>Administración</span> <i class="fa fa-angle-left pull-right"></i> </a>
 	<ul class="treeview-menu">
@@ -31,9 +31,9 @@
 		<li><a href="{{ url('/admin/sectors') }}"><i class="fa fa-circle fa-fw"></i>Sector</a></li>
 		{{--<li><a href="{{ url('/admin/momentos') }}"><i class="fa fa-circle fa-fw"></i>Momento</a></li>--}}
 		<li><a href="{{ url('/admin/canals') }}"><i class="fa fa-circle fa-fw"></i>Canal</a></li>
-		<li><a href="{{ url('/admin/cuentas') }}"><i class="fa fa-circle fa-fw"></i>Cuenta</a></li>
-		<li><a href="{{ url('/admin/encuesta') }}"><i class="fa fa-circle fa-fw"></i> Encuesta</a></li>
-		<li><a href=""><i class="fa fa-circle fa-fw"></i>Periodos</a></li>
+
+		<li><a href="{{ url('/admin/encuesta') }}"><i class="fa fa-circle fa-fw"></i>Encuesta</a></li>
+		<li><a href="{{ url('/admin/periodos') }}"><i class="fa fa-circle fa-fw"></i>Periodos</a></li>
 
 		{{-- GEO --}}
 		<li class="treeview">
@@ -51,9 +51,10 @@
 <li class="treeview">
 	<a href="#"><i class="fa fa-file-text-o fa-fw"></i> <span>Cuenta</span> <i class="fa fa-angle-left pull-right"></i></a>
 	<ul class="treeview-menu">
-		<li><a href="{{ url('/admin/shorten/generate') }}"><i class="fa fa-flash fa-fw"></i>Generar URL Corta</a></li>
-		<li><a href="{{ url('/admin/survey/load') }}"><i class="fa fa-circle fa-fw"></i>Mi Encuesta</a></li>
-		<li><a href="#"><i class="fa fa-circle fa-fw"></i>Momentos por Encuesta</a></li>
+		<li><a href="{{ url('/admin/cuentas') }}"><i class="fa fa-circle fa-fw"></i>Cuenta</a></li>
+		{{--<li><a href="{{ url('/admin/shorten/generate') }}"><i class="fa fa-flash fa-fw"></i>Generar URL Corta</a></li>--}}
+		{{--<li><a href="{{ url('/admin/survey/load') }}"><i class="fa fa-circle fa-fw"></i>Mi Encuesta</a></li>--}}
+		{{--<li><a href="#"><i class="fa fa-circle fa-fw"></i>Momentos por Encuesta</a></li>--}}
 		<li><a href="{{ url('/admin/usuarios') }}"><i class="fa fa-circle fa-fw"></i>Usuarios</a></li>
 	</ul>
 </li>

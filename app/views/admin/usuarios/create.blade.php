@@ -87,14 +87,14 @@
 	{{--<div class="form-group">--}}
 	{{--{{ Form::label('desea_correo_usuario', 'Desea_correo_usuario:', array('class'=>'col-md-2 control-label')) }}--}}
 	{{--<div class="col-sm-10">--}}
-	{{--{{ Form::text('desea_correo_usuario', Input::old('desea_correo_usuario'), array('class'=>'form-control', 'placeholder'=>'Desea_correo_usuario')) }}--}}
+{{--	{{ Form::text('desea_correo_usuario', Input::old('desea_correo_usuario'), array('class'=>'form-control', 'placeholder'=>'Desea_correo_usuario')) }}--}}
 	{{--</div>--}}
 	{{--</div>--}}
 
 	{{--<div class="form-group">--}}
 	{{--{{ Form::label('responsable_usuario', 'Responsable_usuario:', array('class'=>'col-md-2 control-label')) }}--}}
 	{{--<div class="col-sm-10">--}}
-	{{--{{ Form::text('responsable_usuario', Input::old('responsable_usuario'), array('class'=>'form-control', 'placeholder'=>'Responsable_usuario')) }}--}}
+{{--	{{ Form::text('responsable_usuario', Input::old('responsable_usuario'), array('class'=>'form-control', 'placeholder'=>'Responsable_usuario')) }}--}}
 	{{--</div>--}}
 	{{--</div>--}}
 
@@ -108,7 +108,7 @@
 	{{--<div class="form-group">--}}
 	{{--{{ Form::label('id_tipo_usuario', 'Id_tipo_usuario:', array('class'=>'col-md-2 control-label')) }}--}}
 	{{--<div class="col-sm-10">--}}
-	{{--{{ Form::input('number', 'id_tipo_usuario', Input::old('id_tipo_usuario', 3), array('class'=>'form-control')) }}--}}
+	{{ Form::input('hidden', 'id_tipo_usuario', Input::old('id_tipo_usuario', 2), array('class'=>'form-control')) }}
 	{{--</div>--}}
 	{{--</div>--}}
 
@@ -122,7 +122,7 @@
 	{{--<div class="form-group">--}}
 	{{--{{ Form::label('id_encuesta', 'Id_encuesta:', array('class'=>'col-md-2 control-label')) }}--}}
 	{{--<div class="col-sm-10">--}}
-	{{--{{ Form::input('number', 'id_encuesta', Input::old('id_encuesta'), array('class'=>'form-control')) }}--}}
+	{{ Form::input('hidden', 'id_encuesta', Input::old('id_encuesta', Auth::user()->cliente->encuesta->id_encuesta), array('class'=>'form-control')) }}
 	{{--</div>--}}
 	{{--</div>--}}
 

@@ -22,21 +22,22 @@
 <div class="form-group">
 	{{ Form::label('id_sector', 'Sector Empresarial:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::select2('cliente[id_sector]', $sectors, Input::old('id_sector'), array('id'=> 'id_sector', 'class'=>'form-control', 'required')) }}
+		{{ Form::select2('cliente[id_sector]', $sectors, Input::old('cliente[id_sector]'), array('id'=> 'id_sector', 'class'=>'form-control', 'required')) }}
+		{{ Form::hidden('cliente[id_encuesta]', Input::old('cliente[id_encuesta]'), array('id'=> 'id_encuesta', 'class'=>'form-control', 'required')) }}
 	</div>
 </div>
 
 <div class="form-group">
 	{{ Form::label('cliente[fono_fijo_cliente]', 'Fono Fijo:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::number('cliente[fono_fijo_cliente]', null, Input::old('cliente[fono_fijo_cliente]'), array('class'=>'form-control', 'placeholders'=>'+56 9 2123 4567', 'required', 'minmax' =>false)) }}
+		{{ Form::number('cliente[fono_fijo_cliente]', null, Input::old('cliente[fono_fijo_cliente]'), array('class'=>'form-control', 'placeholders'=>'+56 9 2123 4567', 'minmax' =>false)) }}
 	</div>
 </div>
 
 <div class="form-group">
 	{{ Form::label('cliente[fono_celular_cliente]', 'Fono Celular:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::number('cliente[fono_celular_cliente]', null, Input::old('cliente[fono_celular_cliente]'), array('class'=>'form-control', 'placeholders'=>'+56 9 9123 4567', 'required', 'minmax' =>false)) }}
+		{{ Form::number('cliente[fono_celular_cliente]', null, Input::old('cliente[fono_celular_cliente]'), array('class'=>'form-control', 'placeholders'=>'+56 9 9123 4567', 'minmax' => false)) }}
 	</div>
 </div>
 
@@ -50,7 +51,7 @@
 <div class="form-group">
 	{{ Form::label('cliente[codigo_postal_cliente]', 'Código Postal:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::number('cliente[codigo_postal_cliente]', Input::old('cliente[codigo_postal_cliente]'), null, array('class'=>'form-control', 'placeholders'=>'Código Postal', 'required', 'minmax' => false)) }}
+		{{ Form::number('cliente[codigo_postal_cliente]', Input::old('cliente[codigo_postal_cliente]'), null, array('class'=>'form-control', 'placeholders'=>'Código Postal', 'minmax' => false)) }}
 	</div>
 </div>
 

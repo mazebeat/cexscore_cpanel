@@ -44,8 +44,9 @@
 						<div class="form-group">
 							{{ Form::password('password', ['class' => 'form-control', 'required', 'placeholder' => 'Contraseña...']) }}
 						</div>
-						 <input class="btn btn-lg btn-warning btn-block text-uppercase" type="submit" value="Entrar">
-					</fieldset> {{ Form::close()  }}
+						<input class="btn btn-lg btn-warning btn-block text-uppercase" type="submit" value="Entrar">
+					</fieldset>
+					{{ Form::close() }}
 				</div>
 			</div>
 		</article>
@@ -53,4 +54,28 @@
 @endsection
 
 @section('script')
+	<script>
+		(function ($) {
+			$('#loginForm').formValidation({
+				fields: {
+					username: {
+						message: 'El Usuario no es valido',
+						validators: {
+							notEmpty: {
+								message: 'El campo Usuario es requerido'
+							},
+						}
+					},
+					password: {
+						message: 'La contraseña es obligatoria.',
+						validators: {
+							notEmpty: {
+								message: 'El campo Contraseña es requerido.'
+							},
+						}
+					}
+				}
+			});
+		})(jQuery);
+	</script>
 @endsection

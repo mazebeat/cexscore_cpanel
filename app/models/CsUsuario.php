@@ -37,8 +37,7 @@ class CsUsuario extends \Eloquent
 
     public function resetPassword()
     {
-        $default          = 'e10adc3949ba59abbe56e057f20f883e'; // 123456
-        $this->pwdusuario = $default;
+        $this->pwdusuario = 'e10adc3949ba59abbe56e057f20f883e'; // 123456
 
         return $this->save();
     }

@@ -9,23 +9,36 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
 {
     use UserTrait, RemindableTrait;
 
-    public static $rules = array(
-        'rut_cliente'          => 'required|unique:cliente',
-        'nombre_cliente'       => 'required',
-        'nombre_legal_cliente' => 'required',
-        'fono_fijo_cliente'    => 'required',
-        'fono_celular_cliente' => 'required',
-        'correo_cliente'       => 'required|email',
-        'direccion_cliente'    => 'required',
-        'informacion_cliente'  => 'required',
-        'desea_correo_cliente' => 'required',
-        'id_estado'            => 'required',
-        'id_ciudad'            => 'required',
-        'id_tipo_cliente'      => 'required',
-        'id_sector'            => 'required',
-        'id_apariencia'        => 'required',
-        'id_plan'              => 'required',
-    );
+    public static $rules = [
+        'create' => [
+            'rut_cliente'          => 'required|unique:cliente',
+            'nombre_cliente'       => 'required',
+            'nombre_legal_cliente' => '',
+            'fono_fijo_cliente'    => '',
+            'fono_celular_cliente' => '',
+            'correo_cliente'       => 'required|email',
+            'direccion_cliente'    => '',
+            'id_estado'            => 'required',
+            'id_ciudad'            => '',
+            'id_sector'            => 'required',
+            'id_encuesta'          => 'required',
+            'id_plan'              => 'required',
+        ],
+        'update' => [
+            'rut_cliente'          => 'required',
+            'nombre_cliente'       => 'required',
+            'nombre_legal_cliente' => '',
+            'fono_fijo_cliente'    => '',
+            'fono_celular_cliente' => '',
+            'correo_cliente'       => 'required|email',
+            'direccion_cliente'    => '',
+            'id_estado'            => 'required',
+            'id_ciudad'            => '',
+            'id_sector'            => 'required',
+            'id_encuesta'          => 'required',
+            'id_plan'              => 'required',
+        ],
+    ];
 
     protected $table      = 'cliente';
     protected $primaryKey = 'id_cliente';
@@ -37,31 +50,37 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
         'fono_celular_cliente',
         'correo_cliente',
         'direccion_cliente',
-        'informacion_cliente',
-        'desea_correo_cliente',
+        'codigo_postal_cliente',
         'id_estado',
         'id_ciudad',
         'id_tipo_cliente',
         'id_sector',
-        'id_apariencia',
+        'id_encuesta',
         'id_plan',
     );
 
     public static function clientResumen($id)
     {
-        $cliente = Cliente::find($id);
-        $resumen = array(
+        $cliente    = Cliente::find($id);
+        $momentos   = array();
+        $allMoments = MomentoEncuesta::where('id_encuesta', $cliente->encuesta->id_encuesta)->get();
+        foreach ($allMoments as $key => $value) {
+            $given = $value->urls()->where('id_cliente', $id)->first();
+            if (!is_null($given)) {
+                $url = array_add($value->toArray(), 'url', url($given->given));
+            } else {
+                $url = $value->toArray();
+            }
+            array_push($momentos, $url);
+        }
+
+        return array(
             'cliente'  => $cliente->toArray(),
             'usuarios' => CsUsuario::where('id_cliente', $id)->get()->toArray(),
             'plan'     => $cliente->plan->toArray(),
             'sector'   => $cliente->sector->toArray(),
-            'momentos' => MomentoEncuesta::where('id_encuesta', $cliente->encuesta->id_encuesta)->get()->toArray());
-        //
-        //        $resumen = array_merge(['cliente' => $cliente->toArray()], ['plan' => $plans], ['sector' => $sector], ['usuarios' => $usuarios]);
-
-        //        $resumen = array_merge(['cliente' => $cliente->toArray()], ['usuarios' => $usuarios]);
-
-        return $resumen;
+            'momentos' => $momentos,
+        );
     }
 
     /**
@@ -102,6 +121,19 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
     public static function clientsByPlan()
     {
         return self::select([DB::raw('COUNT(*) AS count, plan.descripcion_plan as plan')])->join('plan', 'cliente.id_plan', '=', 'plan.id_plan')->groupBy('cliente.id_plan')->get()->toArray();
+    }
+
+    public static function rules($action, $merge = [], $id = false)
+    {
+        $rules = self::$rules[$action];
+
+        if ($id) {
+            foreach ($rules as &$rule) {
+                $rule = str_replace(':id', $id, $rule);
+            }
+        }
+
+        return array_merge($rules, $merge);
     }
 
     /**
@@ -158,6 +190,14 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
     public function preguntas()
     {
         return $this->hasManyThrough('Sector', 'Encuesta', 'id_sector', 'id_encuesta');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function momentos()
+    {
+        return $this->hasManyThrough('Momento', 'Encuesta', 'id_momento', 'id_encuesta');
     }
 
     /**

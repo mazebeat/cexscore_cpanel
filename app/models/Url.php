@@ -3,15 +3,15 @@
 /**
  * Url
  *
- * @property integer $id 
- * @property string $given 
- * @property string $url 
- * @property string $params 
- * @property integer $id_canal 
- * @property integer $id_momento 
- * @property integer $id_cliente 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
+ * @property integer        $id
+ * @property string         $given
+ * @property string         $url
+ * @property string         $params
+ * @property integer        $id_canal
+ * @property integer        $id_momento
+ * @property integer        $id_cliente
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\Url whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Url whereGiven($value)
  * @method static \Illuminate\Database\Query\Builder|\Url whereUrl($value)
@@ -24,16 +24,16 @@
  */
 class Url extends Eloquent
 {
-    public static $rules = array('url' => 'required|url');
-    protected     $table = 'urls';
+    public static $rules    = array('url' => 'required|url');
+    protected     $table    = 'urls';
     protected     $fillable = [
-    'id',
-    'given',
-    'url',
-    'params',
-    'id_canal',
-    'id_momento',
-    'id_cliente'
+        'id',
+        'given',
+        'url',
+        'params',
+        'id_canal',
+        'id_momento',
+        'id_cliente',
     ];
 
     public static function validate($input)
@@ -53,4 +53,8 @@ class Url extends Eloquent
         return $shortened;
     }
 
+    public function momento()
+    {
+        return $this->belongsTo('MomentoEncuesta', 'id_momento');
+    }
 }

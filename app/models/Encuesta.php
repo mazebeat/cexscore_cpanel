@@ -3,16 +3,16 @@
 /**
  * Encuesta
  *
- * @property integer $id_encuesta 
- * @property string $titulo 
- * @property string $slogan 
- * @property string $description 
- * @property integer $id_estado 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property-read \Illuminate\Database\Eloquent\Collection|\Cliente[] $clientes 
- * @property-read \Illuminate\Database\Eloquent\Collection|\Sector[] $sectores 
- * @property-read \Illuminate\Database\Eloquent\Collection|\PreguntaCabecera[] $preguntas 
+ * @property integer                                                           $id_encuesta
+ * @property string                                                            $titulo
+ * @property string                                                            $slogan
+ * @property string                                                            $description
+ * @property integer                                                           $id_estado
+ * @property \Carbon\Carbon                                                    $created_at
+ * @property \Carbon\Carbon                                                    $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Cliente[]          $clientes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Sector[]           $sectores
+ * @property-read \Illuminate\Database\Eloquent\Collection|\PreguntaCabecera[] $preguntas
  * @method static \Illuminate\Database\Query\Builder|\Encuesta whereIdEncuesta($value)
  * @method static \Illuminate\Database\Query\Builder|\Encuesta whereTitulo($value)
  * @method static \Illuminate\Database\Query\Builder|\Encuesta whereSlogan($value)
@@ -24,9 +24,9 @@
 class Encuesta extends \Eloquent
 {
     public static $rules      = array(
-        'titulo'      => 'required',
-        'slogan'      => 'required',
-        'description' => 'required',
+        'titulo'      => '',
+        'slogan'      => '',
+        'description' => '',
         'id_estado'   => 'required',
     );
     protected     $table      = 'encuesta';
@@ -49,4 +49,11 @@ class Encuesta extends \Eloquent
         //return $this->HasMany('PreguntaCabecera', 'id_encuesta')->orderBy('numero_pregunta', 'ASC');
         return $this->HasMany('PreguntaCabecera', 'id_encuesta');
     }
+
+    public function momentos()
+    {
+//        return $this->hasManyThrough('Momento', 'MomentoEncuesta', 'id_encuesta', 'id_momento');
+        return $this->belongsToMany('Momento', 'momento_encuesta', 'id_encuesta', 'id_momento')->withPivot('descripcion_momento');
+    }
+
 }

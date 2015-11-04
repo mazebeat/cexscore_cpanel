@@ -28,15 +28,16 @@
 	</div>
 
 	{{ Form::open(array('route' => 'admin.sectors.store', 'class' => 'form-horizontal')) }}
+
 	<div class="form-group">
-		{{ Form::label('descripcion_sector', 'Descripción:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('descripcion_sector', 'Nombre Sector:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::text('descripcion_sector', Input::old('descripcion_sector'), array('class'=>'form-control', 'placeholder'=>'Descripción sector')) }}
+			{{ Form::text('descripcion_sector', Input::old('descripcion_sector'), array('class'=>'form-control', 'placeholder'=>'Nombre Sector')) }}
 		</div>
 	</div>
 
 	<div class="form-group">
-		{{ Form::label('titulo', 'Título:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('titulo', 'Título Encuesta:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
 			{{ Form::text('titulo', Input::old('titulo'), array('class'=>'form-control', 'placeholder'=>'Titulo')) }}
 		</div>

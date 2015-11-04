@@ -28,18 +28,13 @@ function validateTab(index) {
 
 (function ($) {
     //Datemask dd/mm/yyyy
-    //$("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+    $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
     //Datemask2 mm/dd/yyyy
-    //$("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+    $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
 
-    $('textarea').ckeditor()
-        .editor
-        .on('change', function (e) {
-        });
-
-    $("#rut_cliente").rut({
-        formatOn: 'change keyup',
-        validateOn: 'change keyup'
+   $("#rut_cliente").rut({
+        formatOn: 'keyup',
+        validateOn: 'change'
     });
 
     $('input[type="checkbox"], input[type="radio"]').iCheck({
@@ -63,10 +58,9 @@ function validateTab(index) {
     //		VALIDATIONS
     var $fields = {
         'cliente[rut_cliente]': {
+            message: 'El RUT no es valido',
             validators: {
-                notEmpty: {
-                    message: 'El RUT es requerido',
-                },
+                notEmpty: {},
                 callback: {
                     callback: function (value, validator) {
 //							console.log($.validateRut(value));
@@ -90,10 +84,9 @@ function validateTab(index) {
             }
         },
         'usuario[rut_usuario]': {
+            message: 'El RUT no es valido',
             validators: {
-                notEmpty: {
-                    message: 'El RUT es requerido',
-                },
+                notEmpty: {},
                 callback: {
                     callback: function (value, validator) {
                         return $.validateRut(value);
@@ -103,28 +96,6 @@ function validateTab(index) {
                 stringLength: {
                     min: 8,
                     max: 12
-                }
-            }
-        },
-        'apariencia[logo_header]': {
-            message: 'El archivo no es valido.',
-            validators: {
-                file: {
-                    extension: 'jpeg,png',
-                    type: 'image/jpeg,image/png,image/gif',
-                    maxSize: 2097152,   // 2048 * 1024
-                    message: 'Seleccione un archivo valido.'
-                }
-            }
-        },
-        'apariencia[logo_incentivo]': {
-            message: 'El archivo no es valido.',
-            validators: {
-                file: {
-                    extension: 'jpeg,png',
-                    type: 'image/jpeg,image/png,image/gif',
-                    maxSize: 2097152,   // 2048 * 1024
-                    message: 'Seleccione un archivo valido.'
                 }
             }
         }
@@ -202,8 +173,8 @@ function validateTab(index) {
                     q = 999;
                 }
 
-                var $name = $('#cant_moment_plan').attr('name');
-                $('#cant_moment_plan').attr('max', q)
+                var $name = $('#cant_moment_plan').attr('name')
+                    .attr('max', q)
                     .attr('data-fv-lessthan-value', q)
                     .end();
 
@@ -216,75 +187,71 @@ function validateTab(index) {
             e.preventDefault();
         })
         .end()
-        .find('#addMoments')
-        .click(function (e) {
-            var times = parseInt($('#cant_moment_plan').val(), 10);
-            var num = 1;
-            $('.cloneMoment').remove();
-
-            for (var x = 0; x < times; x++) {
-                var $template = $('#optionTemplate');
-                var $clone = $template.clone()
-                    .removeClass('hide')
-                    .addClass('cloneMoment')
-                    .removeAttr('id')
-                    .find(".control-label")
-                    .text('Momento ' + num++)
-                    .end()
-                    .insertBefore($template)
-                    .end();
-
-                var $option = $clone.find('input[name="momento"]');
-                $clone.find('[name="momento"]')
-                    .attr('data-fv-notempty', 'true')
-                    .attr('id', 'momento' + x)
-                    .attr('required', 'required')
-                    .attr('name', 'momento_encuesta[' + x + '][descripcion_momento]')
-                    .end()
-                    .find('[name="canal"]')
-                    .attr('id', 'canal' + x)
-                    .attr('required', 'required')
-                    .attr('name', 'momento_encuesta[' + x + '][canal]')
-                    .end();
-
-                // Add new field
-                $('#createClientForm').formValidation('addField', $option);
-            }
-
-            e.preventDefault();
-        })
-        .end()
-        .find('#id_sector')
-        .on('change', function (e) {
-            $.get('/admin/find/survey', {id_sector: $(this).val()}, function (survey) {
-                var count = 0, $name = '';
-
-                $('[name="cliente[id_encuesta]"]').val(survey.id);
-
-                $('#createClientForm').formValidation('revalidateField', $('[name="cliente[id_encuesta]"]'));
-
-                $.each(survey.preguntas, function (key, data) {
-                    if (data.id_pregunta_padre == null) {
-                        $name = 'preguntaCabecera[' + count + '][descripcion_1]';
-                    } else {
-                        $name = 'preguntaCabecera[' + count + '][sub][descripcion_1]';
-                        count++;
-                    }
-                    CKEDITOR.instances[$name].setData(data.descripcion_1);
-                })
-            });
-
-            e.preventDefault();
-        })
-        .end()
+        //.find('#addMoments')
+        //.click(function (e) {
+        //    var times = parseInt($('#cant_moment_plan').val(), 10);
+        //    var num = 1;
+        //    $('.cloneMoment').remove();
+        //
+        //    for (var x = 0; x < times; x++) {
+        //        var $template = $('#optionTemplate');
+        //        var $clone = $template.clone()
+        //            .removeClass('hide')
+        //            .addClass('cloneMoment')
+        //            .removeAttr('id')
+        //            .find(".control-label")
+        //            .text('Momento ' + num++)
+        //            .end()
+        //            .insertBefore($template)
+        //            .end();
+        //
+        //        var $option = $clone.find('input[name="momento"]');
+        //        $clone.find('[name="momento"]')
+        //            .attr('data-fv-notempty', 'true')
+        //            .attr('id', 'momento' + x)
+        //            .attr('required', 'required')
+        //            .attr('name', 'momento_encuesta[' + x + '][descripcion_momento]')
+        //            .end()
+        //            .find('[name="canal"]')
+        //            .attr('id', 'canal' + x)
+        //            .attr('required', 'required')
+        //            .attr('name', 'momento_encuesta[' + x + '][canal]')
+        //            .end();
+        //
+        //        // Add new field
+        //        $('#createClientForm').formValidation('addField', $option);
+        //    }
+        //
+        //    e.preventDefault();
+        //})
+        //.end()
+        //.find('#id_sector')
+        //.on('change', function (e) {
+        //    $.get('/admin/find/survey', {id_sector: $(this).val()}, function (survey) {
+        //        var count = 0, $name = '';
+        //        // preguntaCabecera[0][descripcion_1]
+        //        $.each(survey, function (key, data) {
+        //            if (data.id_pregunta_padre == null) {
+        //                $name = 'preguntaCabecera[' + count + '][descripcion_1]';
+        //            } else {
+        //                $name = 'preguntaCabecera[' + count + '][sub][descripcion_1]';
+        //                count++;
+        //            }
+        //            CKEDITOR.instances[$name].setData(data.descripcion_1);
+        //        })
+        //    });
+        //
+        //    e.preventDefault();
+        //})
+        //.end()
         .formValidation({
             framework: 'bootstrap',
             excluded: [':disabled'],
             live: 'enabled',
             locale: 'es_CL',
             button: {
-                //selector: '[type="submit"]',
-                //disabled: 'disabled'
+                selector: '[type="submit"]',
+                disabled: 'disabled'
             },
             fields: $fields
         })
@@ -292,14 +259,11 @@ function validateTab(index) {
             var $tabPane = data.element.parents('.tab-pane');
             var $tabId = $tabPane.attr('id');
 
-            $('a[href="#' + $tabId + '"][data-toggle="tab"]')
-                .parent()
+            $('a[href="#' + $tabId + '"][data-toggle="tab"]').parent()
                 .addClass('error')
-                .end()
                 .find('i')
                 .removeClass('fa-check')
-                .addClass('fa-times')
-                .end();
+                .addClass('fa-times');
 
             if (data.field == 'cant_moment_plan') {
                 $('#addMoments').attr('disabled', 'disabled');
@@ -308,25 +272,16 @@ function validateTab(index) {
         .on('success.field.fv', function (e, data) {
             var $tabPane = data.element.parents('.tab-pane');
             var tabId = $tabPane.attr('id');
+            var $icon = $('a[href="#' + tabId + '"][data-toggle="tab"]')
+                .parent()
+                .find('i')
+                .removeClass('fa-check fa-times')
+                .end();
+
             var isValidTab = data.fv.isValidContainer($tabPane);
-            var $icon = $('a[href="#' + tabId + '"][data-toggle="tab"]').parent().find('i');
 
-            $icon.parent().find('i').removeClass('fa-times').addClass('fa-check');
-
-            console.log(isValidTab);
             if (isValidTab !== null) {
-                var $class = '';
-                if (isValidTab) {
-                    $add = 'fa-check'
-                    $rem = 'fa-times'
-                    $icon.parent().parent().removeClass('error');
-                } else {
-                    $add = 'fa-times'
-                    $rem = 'fa-check'
-                    $icon.parent().parent().addClass('error');
-                }
-                $icon.addClass($add).removeClass($rem);
-
+                $icon.addClass(isValidTab ? 'fa-check' : 'fa-times');
             }
 
             if (data.field == 'cant_moment_plan') {
@@ -338,64 +293,64 @@ function validateTab(index) {
             }
         })
         .on('success.form.fv', function (e) {
-        })
-        .bootstrapWizard({
-            tabClass: 'nav nav-pills',
-            onTabClick: function (tab, navigation, index) {
-                return validateTab(index);
-            },
-            onNext: function (tab, navigation, index) {
-                adjustIframeHeight();
-                var numTabs = $('#createClientForm').find('.tab-pane').length;
-                var isValidTab = validateTab(index - 1);
-
-                if (!isValidTab) {
-                    return false;
-                }
-
-                if (index === numTabs) {
-                }
-
-                tab.removeClass('success-tab').removeClass('error');
-
-                return true;
-            },
-            onPrevious: function (tab, navigation, index) {
-                var isValidTab = validateTab(index + 1);
-
-                if (!isValidTab) {
-                    tab.removeClass('success-tab').addClass('error');
-                    return false;
-                }
-
-                tab.addClass('success-tab');
-
-                return true;
-            },
-            onLast: function (tab, navigation, index) {
-                var isValidTab = validateTab(index);
-
-                if (!isValidTab) {
-                    return false;
-                }
-
-                $('#createClientForm').formValidation('defaultSubmit');
-
-                return true;
-            },
-            onTabShow: function (tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-                var $percent = ($current / $total) * 100;
-
-                if ($current >= $total) {
-                    $('#rootwizard').find('.pager .next').hide().end()
-                        .find('.pager .finish').css('display', 'inline').end()
-                        .find('.pager .finish').removeClass('disabled').end();
-                } else {
-                    $('#rootwizard').find('.pager .next').show().end()
-                        .find('.pager .finish').hide().end();
-                }
-            }
         });
+        //.bootstrapWizard({
+        //    tabClass: 'nav nav-pills',
+        //    onTabClick: function (tab, navigation, index) {
+        //        return validateTab(index);
+        //    },
+        //    onNext: function (tab, navigation, index) {
+        //        adjustIframeHeight();
+        //        var numTabs = $('#createClientForm').find('.tab-pane').length;
+        //        var isValidTab = validateTab(index - 1);
+        //
+        //        if (!isValidTab) {
+        //            return false;
+        //        }
+        //
+        //        if (index === numTabs) {
+        //        }
+        //
+        //        tab.removeClass('success-tab').removeClass('error');
+        //
+        //        return true;
+        //    },
+        //    onPrevious: function (tab, navigation, index) {
+        //        var isValidTab = validateTab(index + 1);
+        //
+        //        if (!isValidTab) {
+        //            tab.removeClass('success-tab').addClass('error');
+        //            return false;
+        //        }
+        //
+        //        tab.addClass('success-tab');
+        //
+        //        return true;
+        //    },
+        //    onLast: function (tab, navigation, index) {
+        //        var isValidTab = validateTab(index);
+        //
+        //        if (!isValidTab) {
+        //            return false;
+        //        }
+        //
+        //        $('#createClientForm').formValidation('defaultSubmit');
+        //
+        //        return true;
+        //    },
+        //    onTabShow: function (tab, navigation, index) {
+        //        var $total = navigation.find('li').length;
+        //        var $current = index + 1;
+        //        var $percent = ($current / $total) * 100;
+        //
+        //        if ($current >= $total) {
+        //            $('#rootwizard').find('.pager .next').hide().end()
+        //                .find('.pager .finish').css('display', 'inline').end()
+        //                .find('.pager .finish').removeClass('disabled').end();
+        //        } else {
+        //            $('#rootwizard').find('.pager .next').show().end()
+        //                .find('.pager .finish').hide().end();
+        //        }
+        //    }
+        //});
 })(jQuery);

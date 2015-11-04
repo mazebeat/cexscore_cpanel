@@ -6,13 +6,13 @@
 
 @section('page-title')
 	{{--<i class="fa fa-pencil fa-fw"></i>Editar Cliente--}}
-	<i class="fa fa-user fa-fw"></i>{{ $cliente->nombre_cliente }}
+	<i class="fa fa-user fa-fw"></i>{{ Session::get('account.name', $cliente->nombre_cliente) }}
 @endsection
 
 @section('breadcrumb')
 	@parent
-	<li>Cuenta</li>
-	<li class="active">{{ $cliente->nombre_cliente  }}</li>
+	<li class=""><a href="{{ url('admin/cuentas')  }}">Cuenta</a></li>
+	<li class="active">{{ Session::get('account.name', $cliente->nombre_cliente)  }}</li>
 @endsection
 
 @section('content')
@@ -28,113 +28,28 @@
 		</div>
 	</div>
 
+
 	<div class="nav-tabs-custom">
 		<ul class="nav nav-tabs" id="myTabs">
-			<li class="active"><a href="#home" data-url="/admin/cuentas/create">Información Básica</a></li>
-			<li><a href="#profile" data-url="/admin/plans">Profile</a></li>
-			<li><a href="#messages" data-url="/admin/canals">Messages</a></li>
+			<li class="active"><a href="#home">Información Básica</a></li>
+			<li><a href="#plan">Plan</a></li>
+			<li><a href="#momentos">Momentos</a></li>
 		</ul>
 
 		<div class="tab-content">
-			<div class="tab-pane active" id="home"></div>
-			<div class="tab-pane" id="profile"></div>
-			<div class="tab-pane" id="messages"></div>
+			<div class="tab-pane active" id="home">@include('admin.cuentas.tabs.edit.home')</div>
+			<div class="tab-pane" id="plan">@include('admin.cuentas.tabs.edit.plan')</div>
+			<div class="tab-pane" id="momentos">@include('admin.cuentas.tabs.edit.momentos')</div>
 		</div>
 	</div>
 
-	{{ Form::model($cliente, array('class' => 'form-horizontal', 'method' => 'PATCH', 'route' => array('admin.cuentas.update', $cliente->id_cliente))) }}
-
-	<div class="form-group">
-		{{ Form::label('rut_cliente', 'RUT:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::text('rut_cliente', Input::old('rut_cliente'), array('class'=>'form-control', 'placeholder'=>'Rut_cliente')) }}
-		</div>
-	</div>
-
-	<div class="form-group">
-		{{ Form::label('nombre_cliente', 'Nombre:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::text('nombre_cliente', Input::old('nombre_cliente'), array('class'=>'form-control', 'placeholder'=>'Nombre')) }}
-		</div>
-	</div>
-
-	<div class="form-group">
-		{{ Form::label('fono_cliente', 'Fono:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::text('fono_cliente', Input::old('fono_cliente'), array('class'=>'form-control', 'placeholder'=>'Fono')) }}
-		</div>
-	</div>
-
-	<div class="form-group">
-		{{ Form::label('correo_cliente', 'Correo:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::text('correo_cliente', Input::old('correo_cliente'), array('class'=>'form-control', 'placeholder'=>'Correo')) }}
-		</div>
-	</div>
-
-	<div class="form-group">
-		{{ Form::label('codigo_postal', 'Código Postal:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::text('codigo_postal', Input::old('codigo_postal'), array('class'=>'form-control', 'placeholder'=>'Código Postal', 'required')) }}
-		</div>
-	</div>
-
-	<div class="form-group">
-		{{ Form::label('direccion_cliente', 'Dirección:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::text('direccion_cliente', Input::old('direccion_cliente'), array('class'=>'form-control', 'placeholder'=>'Dirección')) }}
-		</div>
-	</div>
-
-	<div class="form-group">
-		{{ Form::label('id_ciudad', 'Ciudad:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::select('id_ciudad', $ciudads, Input::old('id_ciudad'), array('class'=>'form-control')) }}
-		</div>
-	</div>
-
-	<div class="form-group">
-		{{ Form::label('id_sector', 'Sector Empresarial:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::select('id_sector', $sectors, Input::old('id_sector'), array('class'=>'form-control')) }}
-		</div>
-	</div>
-
-	<div class="form-group">
-		{{ Form::label('id_plan', 'Plan:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::select('id_plan', $plans, Input::old('id_plan'), array('class'=>'form-control')) }}
-		</div>
-	</div>
-
-	{{--<div class="form-group">--}}
-	{{--		{{ Form::label('id_encuesta', 'Encuesta:', array('class'=>'col-md-2 control-label')) }}--}}
-	{{--<div class="col-sm-10">--}}
-	{{ Form::hidden('id_encuesta', Input::old('id_encuesta'), array('class'=>'form-control')) }}
-	{{--</div>                     --}}
-	{{--</div>--}}
-
-	<div class="form-group">
-		{{ Form::label('id_estado', 'Estado:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::select('id_estado', ['1' => 'Activado', '2' => 'Desactivado'], Input::old('id_estado'), array('class'=>'form-control')) }}
-		</div>
-	</div>
-
-
-	<div class="form-group">
-		<label class="col-sm-2 control-label">&nbsp;</label>
-
-		<div class="col-sm-10">
-			{{ Form::submit('Actualizar', array('class' => 'btn btn-lg btn-primary')) }}
-			{{ link_to_route('admin.cuentas.show', 'Cancelar', $cliente->id_cliente, array('class' => 'btn btn-lg btn-default')) }}
-		</div>
-	</div>
-
-	{{ Form::close() }}
+	{{ link_to_route('admin.cuentas.show', 'Volver', $cliente->id_cliente, array('class' => 'btn btn-lg btn-default pull-right')) }}
 @endsection
 
 @section('style')
+	{{ HTML::style('plugins/bootstrap_wizard/prettify.min.css')  }}
+	{{ HTML::style('plugins/jquery-steps/css/jquery.steps.min.css')  }}
+	{{ HTML::style('backend/css/nav-wizard.bootstrap.min.css') }}
 	<style>
 		.texthide {
 			display: none
@@ -143,19 +58,40 @@
 @endsection
 
 @section('script')
+
+	{{--Bootstrap Wizard--}}
+	{{--{{ HTML::script('plugins/bootstrap_wizard/jquery.bootstrap.wizard.min.js') }}--}}
+	{{--{{ HTML::script('plugins/jquery-steps/js/jquery.steps.min.js') }}--}}
+	{{--{{ HTML::script('plugins/bootstrap_wizard/prettify.min.js') }}--}}
+
+	{{--jQuery RUT--}}
+	{{ HTML::script('js/jquery.rut.min.js') }}
+
+	{{--CKEditor--}}
+	{{--{{ HTML::script('plugins/ckeditor/ckeditor.js') }}--}}
+	{{--{{ HTML::script('plugins/ckeditor/adapters/jquery.min.js') }}--}}
+	{{--{{ HTML::script('plugins/ckeditor/config.js') }}--}}
+
+	{{--InputMask--}}
+	{{ HTML::script('plugins/input-mask/jquery.inputmask.min.js') }}
+	{{ HTML::script('plugins/input-mask/jquery.inputmask.date.extensions.min.js') }}
+	{{ HTML::script('plugins/input-mask/jquery.inputmask.extensions.min.js') }}
+
+	{{--JS Create cliente--}}
+	{{ HTML::script('js/cliente.edit.js') }}
 	<script>
 		(function ($) {
 			$('#myTabs a').click(function (e) {
 				e.preventDefault();
 
-				var url = $(this).attr("data-url");
-				var href = this.hash;
+//				var url = $(this).attr("data-url");
+//				var href = this.hash;
 				var pane = $(this);
 
 				// ajax load from data-url
-				$(href).load(url, function (result) {
-					pane.tab('show');
-				});
+//				$(href).load(url, function (result) {
+				pane.tab('show');
+//				});
 			});
 
 			// load first tab content

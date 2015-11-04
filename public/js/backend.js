@@ -25,4 +25,3 @@ var jq = jQuery.noConflict();
 //});
 
 
-jq('#loginForm').formValidation();

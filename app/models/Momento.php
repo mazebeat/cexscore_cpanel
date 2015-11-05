@@ -8,6 +8,7 @@
  * @property integer $id_estado 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Encuesta[] $encuestas 
  * @method static \Illuminate\Database\Query\Builder|\Momento whereIdMomento($value)
  * @method static \Illuminate\Database\Query\Builder|\Momento whereDescripcionMomento($value)
  * @method static \Illuminate\Database\Query\Builder|\Momento whereIdEstado($value)
@@ -17,7 +18,7 @@
 class Momento extends \Eloquent
 {
 
-    public static $rules      = ['descripcion_momento' => 'required', 'id_estado' => 'required'];
+    public static $rules      = array('descripcion_momento' => 'required', 'id_estado' => 'required');
     protected     $table      = 'momento';
     protected     $primaryKey = 'id_momento';
     protected     $fillable   = array(
@@ -29,7 +30,5 @@ class Momento extends \Eloquent
     public function encuestas()
     {
         return $this->belongsToMany('Encuesta', 'momento_encuesta', 'id_momento', 'id_encuesta')->withPivot('descripcion_momento');
-//        return $this->hasManyThrough('Encuesta', 'MomentoEncuesta', 'id_momento', 'id_encuesta');
     }
-
 }

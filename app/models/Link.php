@@ -7,8 +7,7 @@
 class Link extends \Eloquent
 {
 
-    public static $rules      = array(// 'title'            => 'required'
-    );
+    public static $rules      = array();
     protected     $table      = 'link';
     protected     $primaryKey = 'id_link';
     protected     $fillable   = array(

@@ -3,13 +3,13 @@
 /**
  * ClienteRespuesta
  *
- * @property integer $id_cliente_respuesta 
- * @property string $ultima_respuesta 
- * @property integer $id_cliente 
- * @property integer $id_respuesta 
- * @property integer $id_estado 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
+ * @property integer $id_cliente_respuesta
+ * @property string $ultima_respuesta
+ * @property integer $id_cliente
+ * @property integer $id_respuesta
+ * @property integer $id_estado
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\ClienteRespuesta whereIdClienteRespuesta($value)
  * @method static \Illuminate\Database\Query\Builder|\ClienteRespuesta whereUltimaRespuesta($value)
  * @method static \Illuminate\Database\Query\Builder|\ClienteRespuesta whereIdCliente($value)

@@ -28,7 +28,8 @@ return array(
     |
     */
 
-    'host' => 'smtp.mailgun.org',
+//    'host' => 'smtp.mailgun.org',
+    'host' => 'smtp.gmail.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +55,8 @@ return array(
     |
     */
 
-    'from' => array('address' => null, 'name' => null),
+//    'from' => array('address' => null, 'name' => null),
+    'from' => array('address' => 'mazebeat@myjauz.cl', 'name' => 'Diego Ignacio F.'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +82,8 @@ return array(
     |
     */
 
-    'username' => null,
+//    'username' => null,
+    'username' => 'diego.pintod@gmail.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +96,8 @@ return array(
     |
     */
 
-    'password' => null,
+//    'password' => null,
+    'password' => 'maze1207',
 
     /*
     |--------------------------------------------------------------------------

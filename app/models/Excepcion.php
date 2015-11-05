@@ -14,7 +14,7 @@
  */
 class Excepcion extends \Eloquent
 {
-    public static $rules      = [];
+    public static $rules      = array();
     protected     $table      = 'excepcion';
     protected     $primaryKey = 'id_excepcion';
     protected     $fillable   = array('descripcion_excepcion');

@@ -20,6 +20,7 @@
  * @method static \Illuminate\Database\Query\Builder|\Encuesta whereIdEstado($value)
  * @method static \Illuminate\Database\Query\Builder|\Encuesta whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Encuesta whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Momento[] $momentos 
  */
 class Encuesta extends \Eloquent
 {
@@ -33,6 +34,15 @@ class Encuesta extends \Eloquent
     protected     $primaryKey = 'id_encuesta';
     protected     $guarded    = array();
     protected     $fillable   = ['titulo', 'slogan', 'id_estado', 'description'];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($encuesta) {
+            $encuesta->preguntas()->delete();
+        });
+    }
 
     public function clientes()
     {
@@ -52,8 +62,7 @@ class Encuesta extends \Eloquent
 
     public function momentos()
     {
-//        return $this->hasManyThrough('Momento', 'MomentoEncuesta', 'id_encuesta', 'id_momento');
+        //        return $this->hasManyThrough('Momento', 'MomentoEncuesta', 'id_encuesta', 'id_momento');
         return $this->belongsToMany('Momento', 'momento_encuesta', 'id_encuesta', 'id_momento')->withPivot('descripcion_momento');
     }
-
 }

@@ -16,9 +16,8 @@
  */
 class Canal extends \Eloquent
 {
-    public static $rules      = [];
+    public static $rules      = array();
     protected     $table      = 'canal';
     protected     $primaryKey = 'id_canal';
     protected     $fillable   = array('codigo_canal', 'descripcion_canal');
-
 }

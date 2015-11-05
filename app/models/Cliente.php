@@ -5,12 +5,55 @@ use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\UserTrait;
 
+/**
+ * Cliente
+ *
+ * @property integer $id_cliente 
+ * @property string $rut_cliente 
+ * @property string $nombre_cliente 
+ * @property string $nombre_legal_cliente 
+ * @property string $fono_fijo_cliente 
+ * @property string $fono_celular_cliente 
+ * @property string $correo_cliente 
+ * @property string $codigo_postal_cliente 
+ * @property string $direccion_cliente 
+ * @property integer $id_ciudad 
+ * @property integer $id_sector 
+ * @property integer $id_plan 
+ * @property integer $id_encuesta 
+ * @property integer $id_estado 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property-read mixed $is_admin 
+ * @property-read \Encuesta $encuesta 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Apariencia[] $apariencias 
+ * @property-read \Sector $sector 
+ * @property-read \Plan $plan 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Respuesta[] $respuestas 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Usuario[] $usuarios 
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereIdCliente($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereRutCliente($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereNombreCliente($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereNombreLegalCliente($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereFonoFijoCliente($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereFonoCelularCliente($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereCorreoCliente($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereCodigoPostalCliente($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereDireccionCliente($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereIdCiudad($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereIdSector($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereIdPlan($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereIdEncuesta($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereIdEstado($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereUpdatedAt($value)
+ */
 class Cliente extends \Eloquent implements UserInterface, RemindableInterface
 {
     use UserTrait, RemindableTrait;
 
-    public static $rules = [
-        'create' => [
+    public static $rules = array(
+        'create' =>  array(
             'rut_cliente'          => 'required|unique:cliente',
             'nombre_cliente'       => 'required',
             'nombre_legal_cliente' => '',
@@ -23,8 +66,8 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
             'id_sector'            => 'required',
             'id_encuesta'          => 'required',
             'id_plan'              => 'required',
-        ],
-        'update' => [
+        ),
+        'update' =>  array(
             'rut_cliente'          => 'required',
             'nombre_cliente'       => 'required',
             'nombre_legal_cliente' => '',
@@ -37,8 +80,8 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
             'id_sector'            => 'required',
             'id_encuesta'          => 'required',
             'id_plan'              => 'required',
-        ],
-    ];
+        ),
+    );
 
     protected $table      = 'cliente';
     protected $primaryKey = 'id_cliente';
@@ -123,6 +166,13 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
         return self::select([DB::raw('COUNT(*) AS count, plan.descripcion_plan as plan')])->join('plan', 'cliente.id_plan', '=', 'plan.id_plan')->groupBy('cliente.id_plan')->get()->toArray();
     }
 
+    /**
+     * @param            $action
+     * @param array      $merge
+     * @param bool|false $id
+     *
+     * @return array
+     */
     public static function rules($action, $merge = [], $id = false)
     {
         $rules = self::$rules[$action];

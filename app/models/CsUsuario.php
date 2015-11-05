@@ -1,5 +1,28 @@
 <?php
 
+/**
+ * CsUsuario
+ *
+ * @property integer $id_usuario 
+ * @property integer $id_perfil 
+ * @property string $usuario 
+ * @property string $pwdusuario 
+ * @property string $nombre 
+ * @property string $email 
+ * @property integer $activo 
+ * @property string $fecha_registro 
+ * @property integer $id_cliente 
+ * @property-read \Cliente $cliente 
+ * @method static \Illuminate\Database\Query\Builder|\CsUsuario whereIdUsuario($value)
+ * @method static \Illuminate\Database\Query\Builder|\CsUsuario whereIdPerfil($value)
+ * @method static \Illuminate\Database\Query\Builder|\CsUsuario whereUsuario($value)
+ * @method static \Illuminate\Database\Query\Builder|\CsUsuario wherePwdusuario($value)
+ * @method static \Illuminate\Database\Query\Builder|\CsUsuario whereNombre($value)
+ * @method static \Illuminate\Database\Query\Builder|\CsUsuario whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\CsUsuario whereActivo($value)
+ * @method static \Illuminate\Database\Query\Builder|\CsUsuario whereFechaRegistro($value)
+ * @method static \Illuminate\Database\Query\Builder|\CsUsuario whereIdCliente($value)
+ */
 class CsUsuario extends \Eloquent
 {
 

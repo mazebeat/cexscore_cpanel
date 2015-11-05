@@ -98,6 +98,14 @@
 			$('#home').load($('.active a').attr("data-url"), function (result) {
 				$('.active a').tab('show');
 			});
+
+			$('#id_sector').on('change', function (e) {
+				e.preventDefault();
+
+				$.get('/admin/find/survey', {id_sector: $(this).val()}, function (survey) {
+					$('[name="id_encuesta"]').val(survey.id);
+				});
+			});
 		})(jQuery);
 	</script>
 @endsection

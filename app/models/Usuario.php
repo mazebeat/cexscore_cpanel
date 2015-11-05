@@ -3,30 +3,39 @@
 /**
  * Usuario
  *
- * @property integer        $id_usuario
- * @property string         $nombre_usuario
- * @property string         $password
- * @property string         $fecha_nacimiento
- * @property integer        $edad_usuario
- * @property string         $genero_usuario
- * @property string         $correo_usuario
- * @property string         $rut_usuario
- * @property string         $desea_correo_usuario
- * @property integer        $id_tipo_usuario
- * @property integer        $id_cliente
- * @property string         $id_encuesta
- * @property string         $remember_token
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
+ * @property integer $id_usuario 
+ * @property string $username 
+ * @property string $password 
+ * @property string $nombre_usuario 
+ * @property string $fecha_nacimiento 
+ * @property integer $edad_usuario 
+ * @property string $genero_usuario 
+ * @property string $correo_usuario 
+ * @property string $linkedlin_usuario 
+ * @property string $rut_usuario 
+ * @property string $desea_correo_usuario 
+ * @property boolean $responsable_usuario 
+ * @property string $rol_organizacion_usuario 
+ * @property integer $id_tipo_usuario 
+ * @property integer $id_cliente 
+ * @property string $id_encuesta 
+ * @property string $remember_token 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property-read \Cliente $cliente 
  * @method static \Illuminate\Database\Query\Builder|\Usuario whereIdUsuario($value)
- * @method static \Illuminate\Database\Query\Builder|\Usuario whereNombreUsuario($value)
+ * @method static \Illuminate\Database\Query\Builder|\Usuario whereUsername($value)
  * @method static \Illuminate\Database\Query\Builder|\Usuario wherePassword($value)
+ * @method static \Illuminate\Database\Query\Builder|\Usuario whereNombreUsuario($value)
  * @method static \Illuminate\Database\Query\Builder|\Usuario whereFechaNacimiento($value)
  * @method static \Illuminate\Database\Query\Builder|\Usuario whereEdadUsuario($value)
  * @method static \Illuminate\Database\Query\Builder|\Usuario whereGeneroUsuario($value)
  * @method static \Illuminate\Database\Query\Builder|\Usuario whereCorreoUsuario($value)
+ * @method static \Illuminate\Database\Query\Builder|\Usuario whereLinkedlinUsuario($value)
  * @method static \Illuminate\Database\Query\Builder|\Usuario whereRutUsuario($value)
  * @method static \Illuminate\Database\Query\Builder|\Usuario whereDeseaCorreoUsuario($value)
+ * @method static \Illuminate\Database\Query\Builder|\Usuario whereResponsableUsuario($value)
+ * @method static \Illuminate\Database\Query\Builder|\Usuario whereRolOrganizacionUsuario($value)
  * @method static \Illuminate\Database\Query\Builder|\Usuario whereIdTipoUsuario($value)
  * @method static \Illuminate\Database\Query\Builder|\Usuario whereIdCliente($value)
  * @method static \Illuminate\Database\Query\Builder|\Usuario whereIdEncuesta($value)

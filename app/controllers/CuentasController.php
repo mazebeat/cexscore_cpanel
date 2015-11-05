@@ -3,8 +3,88 @@
 
 class CuentasController extends \ApiController
 {
+    /**
+     * @param null $inputs
+     *
+     * @return array
+     */
+    public static function createBasicRules($inputs = null)
+    {
+        try {
+            $rules    = [];
+            $messages = [];
+            $count    = 1;
 
+            if (!is_null($inputs)) {
+                foreach ($inputs as $key => $value) {
+                    $rules[$key]                  = 'required';
+                    $messages[$key . '.required'] = 'El texto en la pregunta ' . $count++ . ' es obligatorio';
+                }
+            }
 
+            return array('rules' => $rules, 'messages' => $messages);
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function modifySurvey()
+    {
+        try {
+            $inputs    = \Input::except(['_token', 'survey', 'plan']);
+            $valid     = self::createBasicRules($inputs);
+            $validator = \Validator::make(\Input::all(), $valid['rules'], $valid['messages']);
+
+            if ($validator->fails()) {
+                return \Redirect::back()->withErrors($validator)->withInput(\Input::except('_token'));
+            }
+
+            $questions  = \Auth::user()->cliente->encuesta->preguntas;
+            $idencuesta = \Crypt::decrypt(\Input::get('survey'));
+            $idplan     = \Crypt::decrypt(\Input::get('plan'));
+            $x          = 0;
+
+            if ($idplan == 1) {
+                $errors = new \MessageBag();
+                $errors->add('inesperado', 'No mantiene los privilegios para modificar');
+
+                return \Redirect::back()->withErrors($errors)->withInput(\Input::except('_token'));
+            }
+
+            if (count($inputs) <= 0) {
+                $errors = new \MessageBag();
+                $errors->add('inesperado', 'Cantidad de textos incorrecta');
+
+                return \Redirect::back()->withErrors($errors)->withInput(\Input::except('_token'));
+            }
+
+            $ids = self::FilterQuestions($inputs);
+
+            foreach ($questions as $question) {
+                if ($question->id_encuesta == $idencuesta && array_key_exists($question->id_pregunta_cabecera, $ids) && is_null($question->id_pregunta_padre)) {
+                    $question->descripcion_1 = $ids[$question->id_pregunta_cabecera];
+
+                    if ($question->save()) {
+                        $x++;
+                    }
+                }
+            }
+
+            if ($x != 4) {
+                $errors = new MessageBag();
+                $errors->add('inesperado', 'Error al procesar solicitud');
+
+                return Redirect::back()->withErrors($errors)->withInput(Input::except('_token'));
+            }
+
+            return Redirect::to('admin/survey/load');
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
 
     /**
      * Display a listing of cuentas
@@ -99,6 +179,7 @@ class CuentasController extends \ApiController
             'encuesta.description.required'           => 'El campo descripcion encuesta' . $required,
         );
         $data      = Input::all();
+
         $validator = Validator::make($data, $rules);
 
         if ($validator->fails()) {
@@ -115,6 +196,25 @@ class CuentasController extends \ApiController
                 $client->encuesta()->associate($survey);
                 $client->save();
 
+                $urls = Url::whereIdCliente($client->id_cliente)->get(['given', 'id_momento', 'id_cliente'])->toArray();
+
+                foreach ($urls as $k => $v) {
+                    array_set($urls[$k], 'given', url($v['given']));
+                    $urls[$k] = array_add($urls[$k], 'descripcion_momento',
+                        MomentoEncuesta::where('id_cliente', $v['id_cliente'])->where('id_momento', $v['id_momento'])->first()->descripcion_momento);
+                }
+
+                if ($client->save()) {
+                    self::sendWelcomeMail(array(
+                        'email' => $user->usuario,
+                        'name'  => 'Lar',
+                    ), array(
+                        'nombre_usuario' => $user->usuario,
+                        'usuario'        => $user->usuario,
+                        'urls'           => $urls,
+                    ));
+                }
+
                 return Redirect::route('admin.cuentas.index');
             }
 
@@ -124,6 +224,33 @@ class CuentasController extends \ApiController
         } catch (Exception $e) {
             dd($e);
         }
+    }
+
+    public static function sendWelcomeMail($mail = array(), $data = array())
+    {
+        if (count($mail) || count($data)) {
+            return false;
+        }
+
+        if (!array_key_exists('subject', $mail)) {
+            $subject = 'Bienvenido a CustomerExperience SCORE | CustomerTrigger.com';
+            $mail    = array_add($mail, 'subject', $subject);
+        }
+
+        if (!array_key_exists('email', $mail)) {
+            return false;
+        }
+        // $datas = [
+        //      'email'   => 'asanmartin@intelidata.cl',
+        //      'name'    => 'Lar',
+        //      'subject' => $subject,
+        // ];
+
+        Mail::queue('emails.bienvenida', $data, function ($message) use ($mail) {
+            $message->to($mail['email'], $mail['name'])->cc('diego.pintod@gmail.com')->subject($mail['subject']);
+        });
+
+        return true;
     }
 
     /**
@@ -156,9 +283,11 @@ class CuentasController extends \ApiController
         $catgs   = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
         $ciudads = Ciudad::lists('descripcion_ciudad', 'id_ciudad');
         $cliente = Cliente::find($id);
+        //        $momentoencuestum = $cliente->encuesta->momentos;
+        $momentoencuestum = MomentoEncuesta::where('id_encuesta', $cliente->encuesta->id_encuesta)->where('id_cliente', $cliente->id_cliente)->get();
 
         return View::make('admin.cuentas.edit', compact('cliente'))->with('pais', $pais)->with('states', $states)->with('plans', $plans)->with('sectors', $sectors)->with('ciudads',
-            $ciudads)->with('catgs', $catgs);
+            $ciudads)->with('catgs', $catgs)->with('momentoencuestum', $momentoencuestum);
     }
 
     /**
@@ -171,16 +300,29 @@ class CuentasController extends \ApiController
     public function update($id)
     {
         $cliente = Cliente::findOrFail($id);
-
-        $validator = Validator::make($data = Input::all(), Cliente::$rules);
-
-        if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator)->withInput();
+        if (!Input::has('accion')) {
         }
 
-        $cliente->update($data = array());
+        switch (Input::get('accion')) {
+            case 'update.account':
+                $validator = Validator::make(Input::all(), Cliente::$rules['update']);
 
-        return Redirect::route('admin.cuentas.index');
+                if ($validator->fails()) {
+                    return Redirect::back()->withErrors($validator)->withInput();
+                }
+
+                $cliente->update(Input::all());
+
+                break;
+            case 'update.plan':
+                break;
+            case 'update.moments':
+                self::saveMoments(Input::only('momentos'), $cliente);
+                break;
+        }
+
+
+        return Redirect::route('admin.cuentas.edit', [$id]);
     }
 
     /**
@@ -255,89 +397,6 @@ class CuentasController extends \ApiController
             // Assciate survey to client
             $client->encuesta()->associate($survey);
             $client->save();
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function modifySurvey()
-    {
-        try {
-            $inputs    = \Input::except(['_token', 'survey', 'plan']);
-            $valid     = self::createBasicRules($inputs);
-            $validator = \Validator::make(\Input::all(), $valid['rules'], $valid['messages']);
-
-            if ($validator->fails()) {
-                return \Redirect::back()->withErrors($validator)->withInput(\Input::except('_token'));
-            }
-
-            $questions  = \Auth::user()->cliente->encuesta->preguntas;
-            $idencuesta = \Crypt::decrypt(\Input::get('survey'));
-            $idplan     = \Crypt::decrypt(\Input::get('plan'));
-            $x          = 0;
-
-            if ($idplan == 1) {
-                $errors = new \MessageBag();
-                $errors->add('inesperado', 'No mantiene los privilegios para modificar');
-
-                return \Redirect::back()->withErrors($errors)->withInput(\Input::except('_token'));
-            }
-
-            if (count($inputs) <= 0) {
-                $errors = new \MessageBag();
-                $errors->add('inesperado', 'Cantidad de textos incorrecta');
-
-                return \Redirect::back()->withErrors($errors)->withInput(\Input::except('_token'));
-            }
-
-            $ids = self::FilterQuestions($inputs);
-
-            foreach ($questions as $question) {
-                if ($question->id_encuesta == $idencuesta && array_key_exists($question->id_pregunta_cabecera, $ids) && is_null($question->id_pregunta_padre)) {
-                    $question->descripcion_1 = $ids[$question->id_pregunta_cabecera];
-
-                    if ($question->save()) {
-                        $x++;
-                    }
-                }
-            }
-
-            if ($x != 4) {
-                $errors = new MessageBag();
-                $errors->add('inesperado', 'Error al procesar solicitud');
-
-                return Redirect::back()->withErrors($errors)->withInput(Input::except('_token'));
-            }
-
-            return Redirect::to('admin/survey/load');
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
-    /**
-     * @param null $inputs
-     *
-     * @return array
-     */
-    public static function createBasicRules($inputs = null)
-    {
-        try {
-            $rules    = [];
-            $messages = [];
-            $count    = 1;
-
-            if (!is_null($inputs)) {
-                foreach ($inputs as $key => $value) {
-                    $rules[$key]                  = 'required';
-                    $messages[$key . '.required'] = 'El texto en la pregunta ' . $count++ . ' es obligatorio';
-                }
-            }
-
-            return array('rules' => $rules, 'messages' => $messages);
         } catch (Exception $e) {
             throw $e;
         }

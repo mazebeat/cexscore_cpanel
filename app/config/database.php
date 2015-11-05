@@ -26,7 +26,7 @@ return array(
     |
     */
 
-    'default' => 'mysql',
+    'default' => 'mysql2',
 
     /*
     |--------------------------------------------------------------------------
@@ -50,6 +50,17 @@ return array(
             'driver'   => 'sqlite',
             'database' => __DIR__ . '/../database/production.sqlite',
             'prefix'   => '',
+        ),
+
+        'mysql2' => array(
+            'driver'    => 'mysql',
+            'host'      => 'localhost:33060',
+            'database'  => 'panel_exscore',
+            'username'  => 'homestead',
+            'password'  => 'secret',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
         ),
 
         'mysql' => array(

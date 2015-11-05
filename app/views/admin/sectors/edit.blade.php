@@ -39,7 +39,7 @@
 	@endif
 
 	@if(isset($survey))
-		@if(isset($survey)  && isset($isMy))
+		@if(isset($survey) && isset($isMy))
 			{{ Form::loadSurvey($survey, $isMy) }}
 		@endif
 	@endif

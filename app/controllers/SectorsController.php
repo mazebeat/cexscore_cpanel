@@ -52,12 +52,14 @@ class SectorsController extends \ApiController
         $validation = Validator::make($input, Sector::$rules);
 
         if ($validation->passes()) {
-            $this->sector->create($input);
+            $this->sector = $this->sector->create($input);
 
             $survey = self::saveSurvey(Input::only(['titulo']));
             if ($survey != null) {
                 \PreguntaCabecera::generateDefaultQuestions($survey, Input::only(['preguntaCabecera']));
             }
+
+            $this->sector->encuestas()->save($survey);
 
             return Redirect::route('admin.sectors.index');
         }
@@ -88,10 +90,9 @@ class SectorsController extends \ApiController
      */
     public function edit($id)
     {
-
         $sector   = $this->sector->find($id);
         $catgs    = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
-        $survey   = EncuestaSector::where('id_sector', $id)->first(['id_encuesta'])->encuesta;
+        $survey   = $sector->encuestas()->first();
         $isMy     = false;
         $tipouser = Auth::user()->id_tipo_usuario;
 
@@ -124,6 +125,8 @@ class SectorsController extends \ApiController
             $sector = $this->sector->find($id);
             $sector->update($input);
 
+            self::modifySurvey2(Input::except(['_token', 'descripcion_sector', '_method']), $sector->encuestas()->first());
+
             return Redirect::route('admin.sectors.show', $id);
         }
 
@@ -139,7 +142,11 @@ class SectorsController extends \ApiController
      */
     public function destroy($id)
     {
-        $this->sector->find($id)->delete();
+        $this->sector = $this->sector->find($id);
+        $survey       = $this->sector->encuestas()->first();
+        $this->sector->encuestas()->detach();
+        $this->sector->delete();
+        $survey->delete();
 
         return Redirect::route('admin.sectors.index');
     }

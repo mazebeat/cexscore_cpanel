@@ -126,14 +126,14 @@ class ApiController extends \BaseController
     {
         if (!is_null($data)) {
             if (!is_null($cliente)) {
-                foreach ($data as $key => $value) {
-                    $moment                             = $client->encuesta->momentos()->find($value['id_momento']);
+                foreach ($data['momentos'] as $key => $value) {
+                    $moment                             = $cliente->encuesta->momentos->find($value['id_momento']);
                     $moment->pivot->descripcion_momento = $value['descripcion_momento'];
                     $moment->pivot->save();
                 }
             } else {
                 foreach ($data as $key => $value) {
-                    $moment                             = $client->encuesta->momentos()->find($value['id_momento']);
+                    $moment                             = $cliente->encuesta->momentos()->find($value['id_momento']);
                     $moment->pivot->descripcion_momento = $value['descripcion_momento'];
                     $moment->pivot->save();
                 }
@@ -325,20 +325,22 @@ class ApiController extends \BaseController
                 return \Redirect::back()->withErrors($validator)->withInput(\Input::except('_token'));
             }
 
-            $questions = \Auth::user()->cliente->encuesta->preguntas;
+            $questions  = \Auth::user()->cliente->encuesta->preguntas;
+            $idencuesta = null;
             //            $idencuesta = \Crypt::decrypt(\Input::get('survey'));
+            $idplan = null;
             //            $idplan     = \Crypt::decrypt(\Input::get('plan'));
             $x = 0;
 
-            //            if ($idplan == 1) {
-            //                $errors = new \MessageBag();
-            //                $errors->add('inesperado', 'No mantiene los privilegios para modificar.');
-            //
-            //                return \Redirect::back()->withErrors($errors)->withInput(\Input::except('_token'));
-            //            }
+            if ($idplan == 1) {
+                $errors = new MessageBag();
+                $errors->add('inesperado', 'No mantiene los privilegios para modificar.');
+
+                return \Redirect::back()->withErrors($errors)->withInput(\Input::except('_token'));
+            }
 
             if (count($inputs) <= 0) {
-                $errors = new \MessageBag();
+                $errors = new MessageBag();
                 $errors->add('inesperado', 'Cantidad de textos incorrecta.');
 
                 return \Redirect::back()->withErrors($errors)->withInput(\Input::except('_token'));
@@ -356,12 +358,11 @@ class ApiController extends \BaseController
                 }
             }
 
-            if ($x != 4) {
-                $errors = new MessageBag();
-                $errors->add('inesperado', 'Error al procesar solicitud.');
-
-                return Redirect::back()->withErrors($errors)->withInput(Input::except('_token'));
-            }
+            //            if ($x != 4) {
+            //                $errors = new MessageBag(['inesperado', 'Error al procesar solicitud.']);
+            //
+            //                return Redirect::back()->withErrors($errors)->withInput(Input::except('_token'));
+            //            }
 
             return Redirect::to('admin/survey/load');
         } catch (Exception $e) {
@@ -417,6 +418,59 @@ class ApiController extends \BaseController
         }
 
         return $ids;
+    }
+
+    /**
+     * @param $data
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function modifySurvey2($data, $survey)
+    {
+        try {
+            $valid     = self::createBasicRules($data);
+            $validator = \Validator::make($data, $valid['rules'], $valid['messages']);
+
+            if ($validator->fails()) {
+                return \Redirect::back()->withErrors($validator)->withInput();
+            }
+
+            $questions = $survey->preguntas;
+            $x         = 0;
+
+            if (count($data) <= 0) {
+                $errors = new \MessageBag();
+                $errors->add('inesperado', 'Cantidad de textos incorrecta.');
+
+                return \Redirect::back()->withErrors($errors)->withInput(\Input::except('_token'));
+            }
+
+            $ids = self::FilterQuestions($data);
+
+            foreach ($questions as $question) {
+                if ($question->id_encuesta == $survey->id_encuesta && array_key_exists($question->id_pregunta_cabecera, $ids) && is_null($question->id_pregunta_padre)) {
+                    $question->descripcion_1 = $ids[$question->id_pregunta_cabecera];
+
+                    if ($question->save()) {
+                        $x++;
+                    }
+                }
+            }
+
+            if ($x != 4) {
+                $errors = new MessageBag();
+                $errors->add('inesperado', 'Error al procesar solicitud.');
+
+                return Redirect::back()->withErrors($errors)->withInput(Input::except('_token'));
+            }
+
+            return Redirect::to('admin/survey/load');
+        } catch (Exception $e) {
+            return $e->getMessage();
+        } finally {
+
+        }
     }
 
     protected function setError($str)

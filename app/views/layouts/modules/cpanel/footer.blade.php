@@ -1,5 +1,4 @@
 <div class="pull-right text-right">
-	{{--<b>Version</b> 1.0.0--}}
 	<small>
 		<b>Desarrollado por &copy; <a href="http://www.customertrigger.com/">Customer Trigger S.A.</a> {{ Carbon::now()->year == '2015' ? Carbon::now()->year : '2015-' . Carbon::now()->year }}</b>
 		<br> <a href="http://www.customertrigger.com/termino-de-uso-politicas-de-privacidad-customerexperience-score/" target="_blank">T&eacute;rminos de Uso</a> |
@@ -10,7 +9,7 @@
 </div>
 
 <small class="hidden-xs hidden-sm">
-	Dirección Comercial: Fanor Velasco No.85, Piso 9, Santiago <br> <a href="tel:+56222198993"><abbr title="Tel&eacute;fono">T:</abbr> +562 22 198 993</a> | <a href="http://www.customertrigger.com">http://www.customertrigger.com</a> |
-	<a href="mailto:ayuda@customertrigger.com">ayuda@customertrigger.com</a>
+	<abbr title="Dirección Comercial">Dirección:</abbr> Fanor Velasco No.85, Piso 9, Santiago <br> <a href="tel:+56222198993"><abbr title="Tel&eacute;fono">T:</abbr> +562 22 198 993</a> |
+	<a href="http://www.customertrigger.com">http://www.customertrigger.com</a> | <a href="mailto:ayuda@customertrigger.com&subject=Consulta%20CExScore&body">ayuda@customertrigger.com</a>
 </small>
 <div class="clearfix"></div>

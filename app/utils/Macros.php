@@ -674,11 +674,12 @@
     $sector  = $data['sector'];
     $users   = $data['usuarios'];
     $moments = $data['momentos'];
+    $admin   = $data['admin'];
 
     $template = \HTML::resumenCuentas($client, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
     $template .= \HTML::resumenSectors($sector, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
     $template .= \HTML::resumenMoments($moments, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
-    $template .= \HTML::resumenAdministrador($plan, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
+    $template .= \HTML::resumenAdministrador($admin, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
     $template .= \HTML::resumenPlans($plan, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
     $template .= \HTML::resumenUsuarios($users, ['class' => 'col-md-8 col-sm-12 col-xs-12 item']);
 
@@ -837,19 +838,22 @@
  * @param       $client
  * @param array $attr
  */
-\HTML::macro('resumenAdministrador', function ($plan, $attr = array()) {
+\HTML::macro('resumenAdministrador', function ($admin, $attr = array()) {
     $out = '<table class="table table-condensed table-hover">';
     $out .= '<tr>';
-    $out .= '<td><strong>Nombre:</strong> <span class="pull-right">' . \Str::upper($plan['descripcion_plan']) . '</span></td>';
+    $out .= '<td><strong>Nombre:</strong> <span class="pull-right">' . \Str::upper($admin['nombre']) . '</span></td>';
     $out .= '</tr>';
     $out .= '<tr>';
-    $out .= '<td><strong>E-Mail:</strong> <span class="pull-right">' . $plan['cantidad_encuestas_plan'] . '</span></td>';
+    $out .= '<td><strong>Usuario:</strong> <span class="pull-right">' . $admin['usuario'] . '</span></td>';
     $out .= '</tr>';
     $out .= '<tr>';
-    $out .= '<td><strong>Linked-In:</strong> <span class="pull-right">' . $plan['cantidad_momentos_plan'] . '</span></td>';
+    $out .= '<td><strong>E-Mail:</strong> <span class="pull-right">' . $admin['email'] . '</span></td>';
     $out .= '</tr>';
     $out .= '<tr>';
-    $out .= '<td><strong>Rol Organización:</strong> <span class="pull-right">' . $plan['cantidad_momentos_plan'] . '</span></td>';
+    $out .= '<td><strong>Linked-In:</strong> <span class="pull-right">' . $admin['linkedlin'] . '</span></td>';
+    $out .= '</tr>';
+    $out .= '<tr>';
+    $out .= '<td><strong>Rol Organización:</strong> <span class="pull-right">' . $admin['rol_organizacion'] . '</span></td>';
     $out .= '</tr>';
     $out .= '</table>';
 

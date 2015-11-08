@@ -1539,7 +1539,7 @@
 				",sans-serif;color: #38434d;font-weight: bold;Margin-bottom: 0;text-align: center;font-size: 0px !important;line-height: 0 !important;" align="center" id="emb-email-header">
 				<a style="transition: opacity 0.2s ease-in;color: gray;text-decoration: none;" href="http://www.customertrigger.cl/">
 
-					<img style="border: 0;-ms-interpolation-mode: bicubic;display: block;Margin-left: auto;Margin-right: auto;max-width: 420px;" src="{{ $message->embed('image/customertrigger/customertrigger.png') }}" alt="CustomerTrigger" width="352" height="80"/></a>				</div>
+					<img style="border: 0;-ms-interpolation-mode: bicubic;display: block;Margin-left: auto;Margin-right: auto;max-width: 420px;" src="{{ $message->embed('image/customertrigger/customertrigger.png') }}" alt="CustomerTrigger" width="352" height="80"/></a>                </div>
 			</td>
 			<td style="padding: 0;vertical-align: middle;">&nbsp;</td>
 		</tr>
@@ -1593,18 +1593,19 @@
 								<tr>
 									<td class="padded" style="padding: 0;vertical-align: middle;padding-left: 56px;padding-right: 56px;word-break: break-word;word-wrap: break-word;">
 										<ul style='list-style: none; font-style: normal;font-weight: 400;padding-left: 0;Margin-bottom: 22px;Margin-top: 0;font-size: 13px;line-height: 22px;font-family: "Arial","PT Serif",Georgia,serif;color: #7c7e7f;Margin-left: 18px;'>
-											<li class="font-avenir" style="padding-left: 0;font-family: " Arial
-											", sans-serif;Margin-bottom: 0;Margin-top: 0;text-align: left;">
-											<strong>Usuario:</strong>&nbsp; {{{ $usuario }}}											</li>
-											<li class="font-avenir" style="padding-left: 0;font-family: " Arial
-											", sans-serif;Margin-bottom: 0;Margin-top: 0px;text-align: left;">
-											<strong>Contrase&#241;a:</strong>&nbsp;"123456"											</li>
-											<li class="font-avenir" style="padding-left: 0;font-family: " Arial
-											", sans-serif;Margin-bottom: 0;Margin-top: 0px;text-align: left;"> <strong>Enlaces:</strong>&nbsp;</li>
+											<li class="font-avenir" style="padding-left: 0;font-family: 'Arial', sans-serif;Margin-bottom: 0;Margin-top: 0;text-align: left;">
+												<strong>Usuario:</strong>&nbsp;{{{ $usuario }}}
+											</li>
+											<li class="font-avenir" style="padding-left: 0;font-family: 'Arial', sans-serif;Margin-bottom: 0;Margin-top: 0px;text-align: left;">
+												<strong>Contrase&#241;a:</strong>&nbsp;123456
+											</li>
+											<li class="font-avenir" style="padding-left: 0;font-family: 'Arial', sans-serif;Margin-bottom: 0;Margin-top: 0px;text-align: left;">
+												<strong>Enlaces:</strong>&nbsp;</li>
 											<ul style="list-style: none;">
 												@foreach($urls as $url)
-													<li class="font-avenir" style="padding-left: 0;font-family: " Arial", sans-serif;Margin-bottom: 0;Margin-top: 0px;text-align: left;">
-													<strong>{{{ $url['descripcion_momento'] }}}:</strong>&nbsp;<a href="http://{{ url($url['url']) }}" target="_blank">{{{ $url['given'] }}}</a></li>
+													<li class="font-avenir" style="padding-left: 0;font-family: 'Arial', sans-serif;Margin-bottom: 0;Margin-top: 0px;text-align: left;">
+														<strong>{{{ $url['descripcion_momento'] }}}:</strong>&nbsp; <a href="http://{{ url($url['given']) }}" target="_blank">{{{ $url['given'] }}}</a>
+													</li>
 												@endforeach
 											</ul>
 											</li>

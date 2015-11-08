@@ -8,29 +8,29 @@ use Illuminate\Auth\UserTrait;
 /**
  * Cliente
  *
- * @property integer $id_cliente 
- * @property string $rut_cliente 
- * @property string $nombre_cliente 
- * @property string $nombre_legal_cliente 
- * @property string $fono_fijo_cliente 
- * @property string $fono_celular_cliente 
- * @property string $correo_cliente 
- * @property string $codigo_postal_cliente 
- * @property string $direccion_cliente 
- * @property integer $id_ciudad 
- * @property integer $id_sector 
- * @property integer $id_plan 
- * @property integer $id_encuesta 
- * @property integer $id_estado 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property-read mixed $is_admin 
- * @property-read \Encuesta $encuesta 
- * @property-read \Illuminate\Database\Eloquent\Collection|\Apariencia[] $apariencias 
- * @property-read \Sector $sector 
- * @property-read \Plan $plan 
- * @property-read \Illuminate\Database\Eloquent\Collection|\Respuesta[] $respuestas 
- * @property-read \Illuminate\Database\Eloquent\Collection|\Usuario[] $usuarios 
+ * @property integer                                                     $id_cliente
+ * @property string                                                      $rut_cliente
+ * @property string                                                      $nombre_cliente
+ * @property string                                                      $nombre_legal_cliente
+ * @property string                                                      $fono_fijo_cliente
+ * @property string                                                      $fono_celular_cliente
+ * @property string                                                      $correo_cliente
+ * @property string                                                      $codigo_postal_cliente
+ * @property string                                                      $direccion_cliente
+ * @property integer                                                     $id_ciudad
+ * @property integer                                                     $id_sector
+ * @property integer                                                     $id_plan
+ * @property integer                                                     $id_encuesta
+ * @property integer                                                     $id_estado
+ * @property \Carbon\Carbon                                              $created_at
+ * @property \Carbon\Carbon                                              $updated_at
+ * @property-read mixed                                                  $is_admin
+ * @property-read \Encuesta                                              $encuesta
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Apariencia[] $apariencias
+ * @property-read \Sector                                                $sector
+ * @property-read \Plan                                                  $plan
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Respuesta[]  $respuestas
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Usuario[]    $usuarios
  * @method static \Illuminate\Database\Query\Builder|\Cliente whereIdCliente($value)
  * @method static \Illuminate\Database\Query\Builder|\Cliente whereRutCliente($value)
  * @method static \Illuminate\Database\Query\Builder|\Cliente whereNombreCliente($value)
@@ -53,10 +53,11 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
     use UserTrait, RemindableTrait;
 
     public static $rules = array(
-        'create' =>  array(
+        'create' => array(
             'rut_cliente'          => 'required|unique:cliente',
             'nombre_cliente'       => 'required',
             'nombre_legal_cliente' => '',
+            'rut_cliente'          => 'required',
             'fono_fijo_cliente'    => '',
             'fono_celular_cliente' => '',
             'correo_cliente'       => 'required|email',
@@ -67,7 +68,7 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
             'id_encuesta'          => 'required',
             'id_plan'              => 'required',
         ),
-        'update' =>  array(
+        'update' => array(
             'rut_cliente'          => 'required',
             'nombre_cliente'       => 'required',
             'nombre_legal_cliente' => '',
@@ -119,6 +120,7 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
 
         return array(
             'cliente'  => $cliente->toArray(),
+            'admin'    => CsUsuario::responsable()->where('id_cliente', $id)->first()->toArray(),
             'usuarios' => CsUsuario::where('id_cliente', $id)->get()->toArray(),
             'plan'     => $cliente->plan->toArray(),
             'sector'   => $cliente->sector->toArray(),

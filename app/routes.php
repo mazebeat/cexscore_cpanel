@@ -52,7 +52,9 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::resource('momentoencuesta', 'MomentoEncuestaController');
         Route::resource('apariencia', 'AparienciaController');
         Route::resource('usuarios', 'UsuariosController');
-        Route::post('usuarios/resetPassword/{id?}', 'CsUsuariosController@resetPassword');
+        Route::resource('csusuarios', 'CsUsuariosController');
+        Route::post('usuarios/resetPassword/{id?}', 'UsuariosController@resetPassword');
+        Route::post('csusuarios/resetPassword/{id?}', 'CsUsuariosController@resetPassword');
         Route::resource('periodos', 'PeriodosController');
     });
     Route::group(array('prefix' => 'find'), function () {
@@ -111,6 +113,14 @@ Route::group(array('prefix' => 'admin'), function () {
 });
 // TESTING
 Route::get('test/test', function () {
+//    dd('tester');
+
+    $cliente = Cliente::find(2);
+            $r = $cliente->encuesta->momentos->all();
+//    $r = MomentoEncuesta::where('id_encuesta', $cliente->encuesta->id_encuesta)->where('id_cliente', $cliente->id_cliente)->get();
+    dd($r[0]->pivot->descripcion_momento);
+
+
     //    dd(Momento::find(2));
     //    $r = Auth::user()->cliente->encuesta->momentos()->save(Momento::find(2), array('descripcion_momento' => 'aaaaaaaaaaa'));
     //    $r = Auth::user()->cliente->id_cliente;
@@ -121,39 +131,33 @@ Route::get('test/test', function () {
     //    }
     //    $r->pivot->descripcion_momento = "Chao ";
     //    $r->pivot->save();
+
+    $r = Cliente::clientResumen(2);
+    $r = CsUsuario::responsable()->where('id_cliente', 2)->first()->toArray();
+
+    dd($r);
+
     $urls = Url::whereIdCliente(2)->get(['given', 'id_momento', 'id_cliente'])->toArray();
 
-    foreach($urls as $k => $v) {
+    foreach ($urls as $k => $v) {
         array_set($urls[$k], 'given', url($v['given']));
         $urls[$k] = array_add($urls[$k], 'descripcion_momento', MomentoEncuesta::where('id_cliente', $v['id_cliente'])->where('id_momento', $v['id_momento'])->first()->descripcion_momento);
     }
-    dd($urls);
 
     $data = [
         'nombre_usuario' => 'User Tester',
         'usuario'        => 'usernaame.user',
-        'urls'           => [
-            [
-                'given'                 => 'url1',
-                'descripcion_momento' => 'M1',
-            ],
-            [
-                'given'                 => 'url2',
-                'descripcion_momento' => 'M2',
-            ],
-        ],
+        'urls'           => $urls,
     ];
 
     $datas = [
-        'email'      => 'asanmartin@intelidata.cl',
+        'email'      => 'dpinto@intelidata.cl',
         'first_name' => 'Lar',
         'from'       => 'sample@sample.comt',
         'from_name'  => 'Vel',
     ];
 
     Mail::queue('emails.bienvenida', $data, function ($message) use ($datas) {
-        $message->to($datas['email'])
-            ->cc('diego.pintod@gmail.com')
-            ->subject('Bienvenido a CustomerExperience SCORE | CustomerTrigger.com');
+        $message->to($datas['email'])->cc('diego.pintod@gmail.com')->subject('Bienvenido a CustomerExperience SCORE | CustomerTrigger.com');
     });
 });

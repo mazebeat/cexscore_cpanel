@@ -46,7 +46,9 @@ class ApiController extends \BaseController
             if (!is_null($data) || count($data)) {
                 array_forget($data, 'pais');
                 array_forget($data, 'region');
-                $data = array_add($data, 'id_encuesta', $survey->id_encuesta);
+                if (!array_key_exists('id_ciudad', $data)) {
+                    $data = array_add($data, 'id_ciudad', 1);
+                }
                 $data = array_add($data, 'id_estado', 1);
 
                 $client = \Cliente::firstOrCreate($data);
@@ -66,16 +68,18 @@ class ApiController extends \BaseController
     public static function saveAdministrator($data, $client = null, $survey = null)
     {
         $admin = null;
-
         try {
             if (!is_null($data) || count($data)) {
 
-                $username = self::randomUsername($data);
+                $username = self::randomCsUsername($data);
+                $data     = array_add($data, 'usuario', $username);
+                $data     = array_add($data, 'responsable', 1);
+                $data     = array_add($data, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
+                array_set($data, 'id_cliente', $client->id_cliente);
+                dd($data);
 
-                $data = array_add($data, 'username', $username);
-                $data = array_add($data, 'password', Hash::make('123456'));
 
-                $admin = \Usuario::firstOrCreate($data);
+                $admin = \CsUsuario::firstOrCreate($data);
             }
         } catch (Exception $e) {
             throw $e;
@@ -120,10 +124,74 @@ class ApiController extends \BaseController
     }
 
     /**
+     * @param     $user
+     * @param int $add
+     *
+     * @return null|string
+     * @throws Exception
+     */
+    public static function randomCsUsername($user, $add = 0)
+    {
+        $username = null;
+
+        try {
+            if (!is_null($user)) {
+                $fname    = array_get($user, 'nombre_usuario');
+                $lname    = array_get($user, 'apellido_usuario');
+                $username = Str::lower(Str::camel(Str::ascii(mb_substr($fname, 0, 1) . $lname)));
+
+                if ($add != 0) {
+                    $username .= $add;
+                }
+
+                $exist = CsUsuario::where('usuario', $username)->first();
+
+                if (!is_null($exist)) {
+                    $add++;
+                    $username = self::randomCsUsername($user, $add);
+                }
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $username;
+    }
+
+
+    /**
+     * @param      $admin
+     * @param null $client
+     * @param null $survey
+     */
+    public static function saveCurrentUser($data, $client = null, $survey = null)
+    {
+        $user = null;
+
+        try {
+            if (!is_null($data) || count($data)) {
+
+                $username = self::randomCsUsername($data);
+                $data     = array_add($data, 'usuario', $username);
+                $data     = array_add($data, 'responsable', 0);
+                $data     = array_add($data, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
+
+                $user = \CsUsuario::firstOrCreate($data);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $user;
+    }
+
+    /**
      * @param $data
      */
     public static function saveMoments($data, $cliente = null)
     {
+        dd($data);
+        $moments = array();
         if (!is_null($data)) {
             if (!is_null($cliente)) {
                 foreach ($data['momentos'] as $key => $value) {
@@ -139,6 +207,8 @@ class ApiController extends \BaseController
                 }
             }
         }
+
+        return $moments;
     }
 
     /**
@@ -152,12 +222,10 @@ class ApiController extends \BaseController
     {
         $theme = null;
 
+        dd($inputs);
+
         try {
             if (!is_null($data) || count($data)) {
-                // $logoHeader = array_get($inputs, 'logo_header');
-                // $logoHeader = array_get($inputs, 'logo_incentivo');
-
-                // Mover archivos a las carpetas
                 $folder = public_path('image' . DIRECTORY_SEPARATOR . $name);
                 if (!\File::exists($folder)) {
                     \File::makeDirectory($folder);
@@ -178,9 +246,49 @@ class ApiController extends \BaseController
                     $data = array_add($data, $key, $path);
                 }
 
-                array_get($data, 'desea_captura_datos') == 'on' ? array_set($data, 'desea_captura_datos', true) : array_set($data, 'desea_captura_datos', false);
-
                 $theme = \Apariencia::firstOrCreate($data);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $theme;
+    }
+
+    /**
+     * @param $name
+     * @param $data
+     * @param $inputs
+     *
+     * @return null|static
+     */
+    public static function updateTheme($cliente, $data, $inputs)
+    {
+        $theme = null;
+
+        try {
+            if (!is_null($data) || count($data)) {
+                $folder = public_path('image' . DIRECTORY_SEPARATOR . $name);
+                if (!\File::exists($folder)) {
+                    \File::makeDirectory($folder);
+                }
+
+                foreach ($inputs as $key => $value) {
+                    $filename = $key . '.' . $value->guessClientExtension();
+                    $path     = '/image' . DIRECTORY_SEPARATOR . Str::camel($cliente->nombre_cliente) . DIRECTORY_SEPARATOR . $filename;
+
+                    $files = File::allFiles($folder);
+                    foreach ($files as $file) {
+                        if (File::exists((string)$file) && Str::contains((string)$file, $key)) {
+                            File::delete((string)$file);
+                        }
+                    }
+
+                    $value->move($folder, $filename);
+                    $data = array_add($data, $key, $path);
+                }
+
+                $theme = $cliente->theme->update($data);
             }
         } catch (Exception $e) {
             throw $e;

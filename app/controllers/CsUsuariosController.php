@@ -1,6 +1,6 @@
 <?php
 
-class CsUsuariosController extends BaseController
+class CsUsuariosController extends \ApiController
 {
 
     /**
@@ -22,10 +22,10 @@ class CsUsuariosController extends BaseController
      */
     public function index()
     {
-        $idCliente = \Auth::user()->cliente->id_cliente;
-        $csusuario = $this->csusuario->where('id_cliente', $idCliente)->get();
+        $idCliente  = \Auth::user()->cliente->id_cliente;
+        $csusuarios = $this->csusuario->where('id_cliente', $idCliente)->get();
 
-        return View::make('admin.usuarios.index', compact('csusuario'));
+        return View::make('admin.csusuarios.index', compact('csusuarios'));
     }
 
     /**
@@ -35,7 +35,7 @@ class CsUsuariosController extends BaseController
      */
     public function create()
     {
-        return View::make('admin.usuarios.create');
+        return View::make('admin.csusuarios.create');
     }
 
     /**
@@ -45,20 +45,25 @@ class CsUsuariosController extends BaseController
      */
     public function store()
     {
-        $input      = Input::all();
-        $validation = Validator::make($input, Usuario::$rules);
-        $idCliente  = \Auth::user()->cliente->id_cliente;
-        $idEncuesta = \Auth::user()->cliente->encuesta->id_encuesta;
+        $input     = Input::all();
+        $username  = self::randomCsUsername($input);
+        $input     = array_add($input, 'nombre', Input::get('nombre_usuario') . ' ' . Input::get('apellido_usuario'));
+        $input     = array_add($input, 'usuario', $username);
+        $input     = array_add($input, 'responsable', 0);
+        $input     = array_add($input, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
+        $idCliente = \Auth::user()->cliente->id_cliente;
         array_set($input, 'id_cliente', $idCliente);
-        array_set($input, 'id_encuesta', $idEncuesta);
+        array_set($input, 'id_perfil', 3);
+
+        $validation = Validator::make($input, CsUsuario::$rules);
 
         if ($validation->passes()) {
             $this->csusuario->create($input);
 
-            return Redirect::route('admin.usuarios.index');
+            return Redirect::route('admin.csusuarios.index');
         }
 
-        return Redirect::route('admin.usuarios.create')->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
+        return Redirect::route('admin.csusuarios.create')->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
     }
 
     /**
@@ -72,7 +77,7 @@ class CsUsuariosController extends BaseController
     {
         $usuario = $this->csusuario->findOrFail($id);
 
-        return View::make('admin.usuarios.show', compact('usuario'));
+        return View::make('admin.csusuarios.show', compact('usuario'));
     }
 
     /**
@@ -87,10 +92,10 @@ class CsUsuariosController extends BaseController
         $csusuario = $this->csusuario->find($id);
 
         if (is_null($csusuario)) {
-            return Redirect::route('admin.usuarios.index');
+            return Redirect::route('admin.csusuarios.index');
         }
 
-        return View::make('admin.usuarios.edit', compact('csusuario'));
+        return View::make('admin.csusuarios.edit', compact('csusuario'));
     }
 
     /**
@@ -103,16 +108,30 @@ class CsUsuariosController extends BaseController
     public function update($id)
     {
         $input      = array_except(Input::all(), '_method');
-        $validation = Validator::make($input, Usuario::$rules);
+        $validation = Validator::make($input, array(
+            'id_perfil'        => '',
+            'usuario'          => 'required',
+            'pwdusuario'       => '',
+            'nombre'           => '',
+            'rut'              => 'rut',
+            'fecha_nacimiento' => '',
+            'edad'             => '',
+            'genero'           => '',
+            'linkedlin'        => '',
+            'email'            => 'email',
+            'activo'           => '',
+            'fecha_registro'   => '',
+            'id_cliente'       => 'required',
+        ));
 
         if ($validation->passes()) {
             $csusuario = $this->csusuario->find($id);
             $csusuario->update($input);
 
-            return Redirect::route('admin.usuarios.show', $id);
+            return Redirect::route('admin.csusuarios.show', $id);
         }
 
-        return Redirect::route('admin.usuarios.edit', $id)->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
+        return Redirect::route('admin.csusuarios.edit', $id)->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
     }
 
     /**
@@ -126,25 +145,27 @@ class CsUsuariosController extends BaseController
     {
         $this->csusuario->find($id)->delete();
 
-        return Redirect::route('admin.usuarios.index');
+        return Redirect::route('admin.csusuarios.index');
     }
 
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
     public function resetPassword($id)
     {
         $client = $this->csusuario->find($id);
         if (!is_null($client)) {
-            //            $idCliente = \Auth::user()->cliente->id_cliente;
-            //            $usuarios  = Usuario::where('id_cliente', $idCliente)->get();
-
             if ($client->resetPassword()) {
                 Session::flash('message', 'Reset Password, OK!');
 
-                return Redirect::route('admin.usuarios.index');
+                return Redirect::route('admin.csusuarios.index');
             }
         }
 
         Session::flash('message', 'Reset Password, Wrong!');
 
-        return Redirect::route('admin.usuarios.index');
+        return Redirect::route('admin.csusuarios.index');
     }
 }

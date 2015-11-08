@@ -27,33 +27,33 @@
 		</div>
 	</div>
 
-	{{ Form::model($usuario, array('class' => 'form-horizontal', 'method' => 'PATCH', 'route' => array('admin.usuarios.update', $usuario->id_usuario))) }}
+	{{ Form::model($csusuario, array('class' => 'form-horizontal', 'method' => 'PATCH', 'route' => array('admin.csusuarios.update', $csusuario->id_usuario))) }}
 
 	<div class="form-group">
 		{{ Form::label('usuario', 'Usuario:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::text('usuario', Input::old('usuario'), array('class'=>'form-control', 'placeholder'=>'Usuario')) }}
+			{{ Form::text('usuario', Input::old('usuario'), array('class'=>'form-control', 'placeholder'=>'Usuario', 'readonly')) }}
 		</div>
 	</div>
 
-	<div class="form-group">
-		{{ Form::label('password', 'Password:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'Password')) }}
-		</div>
-	</div>
+	{{--<div class="form-group">--}}
+	{{--{{ Form::label('password', 'Password:', array('class'=>'col-md-2 control-label')) }}--}}
+	{{--<div class="col-sm-10">--}}
+	{{--{{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'Password')) }}--}}
+	{{--</div>--}}
+	{{--</div>--}}
+
+	{{--<div class="form-group">--}}
+	{{--{{ Form::label('nombre_usuario', 'Nombre Completo:', array('class'=>'col-md-2 control-label')) }}--}}
+	{{--<div class="col-sm-10">--}}
+	{{--{{ Form::text('nombre_usuario', Input::old('nombre_usuario'), array('class'=>'form-control', 'placeholder'=>'Nombre_usuario')) }}--}}
+	{{--</div>--}}
+	{{--</div>--}}
 
 	<div class="form-group">
-		{{ Form::label('nombre_usuario', 'Nombre Completo:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('rut', 'RUT:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::text('nombre_usuario', Input::old('nombre_usuario'), array('class'=>'form-control', 'placeholder'=>'Nombre_usuario')) }}
-		</div>
-	</div>
-
-	<div class="form-group">
-		{{ Form::label('rut_usuario', 'RUT:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::text('rut_usuario', Input::old('rut_usuario'), array('class'=>'form-control', 'placeholder'=>'Rut_usuario')) }}
+			{{ Form::text('rut', Input::old('rut'), array('class'=>'form-control', 'placeholder'=>'Rut_usuario')) }}
 		</div>
 	</div>
 
@@ -65,23 +65,23 @@
 	</div>
 
 	<div class="form-group">
-		{{ Form::label('genero_usuario', 'Genero:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('genero', 'Genero:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::select('genero_usuario', ['' => '','F' => 'Femenino', 'M' => 'Masculino'], Input::old('genero_usuario'), array('class'=>'form-control', 'placeholder'=>'Genero_usuario')) }}
+			{{ Form::select('genero', ['' => '','F' => 'Femenino', 'M' => 'Masculino'], Input::old('genero'), array('class'=>'form-control', 'placeholder'=>'Genero_usuario')) }}
 		</div>
 	</div>
 
 	<div class="form-group">
-		{{ Form::label('correo_usuario', 'Email:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('email', 'Email:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::email('correo_usuario', Input::old('correo_usuario'), array('class'=>'form-control', 'placeholder'=>'Correo_usuario')) }}
+			{{ Form::email('email', Input::old('email'), array('class'=>'form-control', 'placeholder'=>'Correo_usuario')) }}
 		</div>
 	</div>
 
 	<div class="form-group">
-		{{ Form::label('linkedlin_usuario', 'LinkedlIn:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('linkedlin', 'LinkedlIn:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::url('linkedlin_usuario', Input::old('linkedlin_usuario'), array('class'=>'form-control', 'placeholder'=>'Linkedlin_usuario')) }}
+			{{ Form::url('linkedlin', Input::old('linkedlin'), array('class'=>'form-control', 'placeholder'=>'Linkedlin_usuario')) }}
 		</div>
 	</div>
 
@@ -100,9 +100,9 @@
 	{{--</div>--}}
 
 	<div class="form-group">
-		{{ Form::label('rol_organizacion_usuario', 'Rol Organización:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('rol_organizacion', 'Rol Organización:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::select('rol_organizacion_usuario', ['0' => '', '1' => 'Servicio', '2' => 'Marketing', '3' => 'Ventas/Comercial', '4' => 'Finanzas', '5' => 'Dirección', '6' => 'Operaciones'], Input::old('rol_organizacion_usuario'), array('class'=>'form-control')) }}
+			{{ Form::select('rol_organizacion', ['0' => '', '1' => 'Servicio', '2' => 'Marketing', '3' => 'Ventas/Comercial', '4' => 'Finanzas', '5' => 'Dirección', '6' => 'Operaciones'], Input::old('rol_organizacion'), array('class'=>'form-control')) }}
 		</div>
 	</div>
 
@@ -132,23 +132,9 @@
 
 		<div class="col-sm-10">
 			{{ Form::submit('Actualizar', array('class' => 'btn btn-lg btn-primary')) }}
-			{{ link_to_route('admin.usuarios.show', 'Cancelar', $usuario->id_usuario, array('class' => 'btn btn-lg btn-default')) }}
+			{{ link_to_route('admin.csusuarios.show', 'Cancelar', $csusuario->id_usuario, array('class' => 'btn btn-lg btn-default')) }}
 		</div>
 	</div>
 
 	{{ Form::close() }}
-@endsection
-
-@section('script')
-	{{--jQuery RUT--}}
-	{{ HTML::script('js/jquery.rut.min.js') }}
-
-	<script>
-		(function ($) {
-			$("[name='rut_usuario'").rut({
-				formatOn: 'change keyup',
-				validateOn: 'change keyup'
-			});
-		})(jQuery);
-	</script>
 @endsection

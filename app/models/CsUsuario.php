@@ -3,16 +3,16 @@
 /**
  * CsUsuario
  *
- * @property integer $id_usuario 
- * @property integer $id_perfil 
- * @property string $usuario 
- * @property string $pwdusuario 
- * @property string $nombre 
- * @property string $email 
- * @property integer $activo 
- * @property string $fecha_registro 
- * @property integer $id_cliente 
- * @property-read \Cliente $cliente 
+ * @property integer       $id_usuario
+ * @property integer       $id_perfil
+ * @property string        $usuario
+ * @property string        $pwdusuario
+ * @property string        $nombre
+ * @property string        $email
+ * @property integer       $activo
+ * @property string        $fecha_registro
+ * @property integer       $id_cliente
+ * @property-read \Cliente $cliente
  * @method static \Illuminate\Database\Query\Builder|\CsUsuario whereIdUsuario($value)
  * @method static \Illuminate\Database\Query\Builder|\CsUsuario whereIdPerfil($value)
  * @method static \Illuminate\Database\Query\Builder|\CsUsuario whereUsuario($value)
@@ -27,14 +27,19 @@ class CsUsuario extends \Eloquent
 {
 
     public static $rules      = array(
-        'id_perfil'      => '',
-        'usuario'        => 'required',
-        'pwdusuario'     => 'required',
-        'nombre'         => '',
-        'email'          => '',
-        'activo'         => '',
-        'fecha_registro' => '',
-        'id_cliente'     => 'required',
+        'id_perfil'        => '',
+        'usuario'          => 'required',
+        'pwdusuario'       => 'required',
+        'nombre'           => '',
+        'rut'              => 'between:8,12|rut',
+        'fecha_nacimiento' => '',
+        'edad'             => '',
+        'genero'           => '',
+        'linkedlin'        => '',
+        'email'            => 'email',
+        'activo'           => '',
+        'fecha_registro'   => '',
+        'id_cliente'       => 'required',
     );
     public        $timestamps = false;
     protected     $table      = 'cs_usuarios';
@@ -53,9 +58,13 @@ class CsUsuario extends \Eloquent
         'pwdusuario',
         'nombre',
         'email',
+        'fecha_nacimiento',
+        'edad',
         'activo',
+        'linkedlin',
         'fecha_registro',
         'id_cliente',
+        'responsable',
     );
 
     public function resetPassword()
@@ -68,5 +77,10 @@ class CsUsuario extends \Eloquent
     public function cliente()
     {
         $this->belongsTo('Cliente', 'id_cliente');
+    }
+
+    public function scopeResponsable($query)
+    {
+        return $query->whereResponsable(1);
     }
 }

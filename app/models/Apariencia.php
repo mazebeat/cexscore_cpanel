@@ -3,21 +3,21 @@
 /**
  * Apariencia
  *
- * @property integer $id_apariencia 
- * @property string $logo_header 
- * @property string $logo_incentivo 
- * @property string $color_header 
- * @property string $color_body 
- * @property string $color_footer 
- * @property string $color_boton 
- * @property string $color_opciones 
- * @property string $color_text_header 
- * @property string $color_text_body 
- * @property string $color_text_footer 
- * @property string $color_instrucciones 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property-read \Illuminate\Database\Eloquent\Collection|\Cliente[] $clientes 
+ * @property integer                                                  $id_apariencia
+ * @property string                                                   $logo_header
+ * @property string                                                   $logo_incentivo
+ * @property string                                                   $color_header
+ * @property string                                                   $color_body
+ * @property string                                                   $color_footer
+ * @property string                                                   $color_boton
+ * @property string                                                   $color_opciones
+ * @property string                                                   $color_text_header
+ * @property string                                                   $color_text_body
+ * @property string                                                   $color_text_footer
+ * @property string                                                   $color_instrucciones
+ * @property \Carbon\Carbon                                           $created_at
+ * @property \Carbon\Carbon                                           $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Cliente[] $clientes
  * @method static \Illuminate\Database\Query\Builder|\Apariencia whereIdApariencia($value)
  * @method static \Illuminate\Database\Query\Builder|\Apariencia whereLogoHeader($value)
  * @method static \Illuminate\Database\Query\Builder|\Apariencia whereLogoIncentivo($value)
@@ -48,7 +48,6 @@ class Apariencia extends \Eloquent
         'color_text_body'     => 'required',
         'color_text_footer'   => 'required',
         'color_instrucciones' => 'required',
-        'desea_captura_datos' => 'required',
     );
     protected     $table      = 'apariencia';
     protected     $primaryKey = 'id_apariencia';
@@ -64,20 +63,10 @@ class Apariencia extends \Eloquent
         'color_text_body',
         'color_text_footer',
         'color_instrucciones',
-        'desea_captura_datos',
     );
 
     public function clientes()
     {
         return $this->belongsToMany('Cliente', 'cliente_apariencia', 'id_apariencia', 'id_cliente');
-    }
-
-    public function deseaCaptura()
-    {
-        if ($this->attributes['desea_captura_datos'] == 1) {
-            return true;
-        }
-
-        return false;
     }
 }

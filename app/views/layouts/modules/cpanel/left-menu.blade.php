@@ -55,6 +55,12 @@
 		{{--<li><a href="{{ url('/admin/shorten/generate') }}"><i class="fa fa-flash fa-fw"></i>Generar URL Corta</a></li>--}}
 		{{--<li><a href="{{ url('/admin/survey/load') }}"><i class="fa fa-circle fa-fw"></i>Mi Encuesta</a></li>--}}
 		{{--<li><a href="#"><i class="fa fa-circle fa-fw"></i>Momentos por Encuesta</a></li>--}}
-		<li><a href="{{ url('/admin/usuarios') }}"><i class="fa fa-circle fa-fw"></i>Usuarios</a></li>
+		<li class="treeview">
+			<a href="#"> <i class="fa fa-user fa-fw"></i><span>Usuarios</span> <i class="fa fa-angle-left pull-right"></i> </a>
+			<ul class="treeview-menu">
+				<li><a href="{{ url('/admin/usuarios') }}"><i class="fa fa-circle fa-fw"></i>Control Panel</a></li>
+				<li><a href="{{ url('/admin/csusuarios') }}"><i class="fa fa-circle fa-fw"></i>Panel ExScore</a></li>
+			</ul>
+		</li>
 	</ul>
 </li>

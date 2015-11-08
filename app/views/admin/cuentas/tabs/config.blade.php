@@ -1,7 +1,7 @@
 <div class="form-group">
 	{{ Form::label('cliente[id_plan]', 'Plan:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::bsRadioForm('cliente[id_plan]', $plans, Input::old('cliente[id_plan]', 1), array('class'=>'form-control
+		{{ Form::bsRadioForm('cliente[id_plan]', $plans, Input::old('cliente[id_plan]'), array('class'=>'form-control
 		')) }}
 	</div>
 </div>

@@ -1,6 +1,6 @@
 <?php
 
-class UsuariosController extends BaseController
+class UsuariosController extends \ApiController
 {
 
     /**
@@ -45,12 +45,16 @@ class UsuariosController extends BaseController
      */
     public function store()
     {
-        $input      = Input::all();
+        $input    = Input::all();
+        $username = self::randomUsername($input);
+        $input    = array_add($input, 'username', $username);
+        $input    = array_add($input, 'responsable', 0);
+        $input    = array_add($input, 'password', Hash::make('123456'));
+        $cliente  = \Auth::user()->cliente;
+        array_set($input, 'id_cliente', $cliente->id_cliente);
+        array_set($input, 'id_encuesta', $cliente->encuesta->id_encuesta);
+
         $validation = Validator::make($input, Usuario::$rules);
-        $idCliente  = \Auth::user()->cliente->id_cliente;
-        $idEncuesta = \Auth::user()->cliente->encuesta->id_encuesta;
-        array_set($input, 'id_cliente', $idCliente);
-        array_set($input, 'id_encuesta', $idEncuesta);
 
         if ($validation->passes()) {
             $this->usuario->create($input);
@@ -131,7 +135,7 @@ class UsuariosController extends BaseController
 
     public function resetPassword()
     {
-        CsUsuario::resetPassword();
+        Usuario::resetPassword();
     }
 
 }

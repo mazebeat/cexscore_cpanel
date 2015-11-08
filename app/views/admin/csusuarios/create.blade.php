@@ -27,7 +27,7 @@
 		</div>
 	</div>
 
-	{{ Form::open(array('route' => 'admin.usuarios.store', 'class' => 'form-horizontal')) }}
+	{{ Form::open(array('route' => 'admin.csusuarios.store', 'class' => 'form-horizontal')) }}
 	{{--<div class="form-group">--}}
 	{{--{{ Form::label('usuario', 'Usuario:', array('class'=>'col-md-2 control-label')) }}--}}
 	{{--<div class="col-sm-10">--}}
@@ -78,23 +78,23 @@
 	</div>
 
 	<div class="form-group">
-		{{ Form::label('genero_usuario', 'Genero:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('genero', 'Genero:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::select('genero_usuario', ['' => '','F' => 'Femenino', 'M' => 'Masculino'], Input::old('genero_usuario'), array('class'=>'form-control', 'placeholder'=>'Genero_usuario')) }}
+			{{ Form::select('genero', ['' => '','F' => 'Femenino', 'M' => 'Masculino'], Input::old('genero'), array('class'=>'form-control', 'placeholder'=>'Genero usuario')) }}
 		</div>
 	</div>
 
 	<div class="form-group">
-		{{ Form::label('correo_usuario', 'Email:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('email', 'Email:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::email('correo_usuario', Input::old('correo_usuario'), array('class'=>'form-control', 'placeholder'=>'Correo_usuario')) }}
+			{{ Form::email('email', Input::old('email'), array('class'=>'form-control', 'placeholder'=>'Correo usuario')) }}
 		</div>
 	</div>
 
 	<div class="form-group">
-		{{ Form::label('linkedlin_usuario', 'LinkedlIn:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('linkedlin', 'LinkedlIn:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::url('linkedlin_usuario', Input::old('linkedlin_usuario'), array('class'=>'form-control', 'placeholder'=>'Linkedlin_usuario')) }}
+			{{ Form::url('linkedlin', Input::old('linkedlin'), array('class'=>'form-control', 'placeholder'=>'Linkedlin usuario')) }}
 		</div>
 	</div>
 
@@ -148,18 +148,4 @@
 		</div>
 	</div>
 	{{ Form::close() }}
-@endsection
-
-@section('script')
-	{{--jQuery RUT--}}
-	{{ HTML::script('js/jquery.rut.min.js') }}
-
-	<script>
-		(function ($) {
-			$("[name='rut_usuario'").rut({
-				formatOn: 'change keyup',
-				validateOn: 'change keyup'
-			});
-		})(jQuery);
-	</script>
 @endsection

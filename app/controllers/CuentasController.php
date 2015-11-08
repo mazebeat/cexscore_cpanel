@@ -145,13 +145,13 @@ class CuentasController extends \ApiController
             'apariencia.color_text_body'     => 'required|',
             'apariencia.color_text_footer'   => 'required|',
             'apariencia.color_instrucciones' => 'required|',
-            'encuesta.titulo'                => 'required|',
+            'encuesta.titulo'                => '',
             'encuesta.slogan'                => '',
             'encuesta.description'           => '',
         );
         $required = ' es requerido.';
 
-        $messages  = array(
+        $messages = array(
             'cliente.nombre_cliente.required'         => 'El campo nombre' . $required,
             'cliente.nombre_legal_cliente.required'   => 'El campo nombre legal' . $required,
             'cliente.rut_cliente.required'            => 'El campo RUT' . $required,
@@ -178,9 +178,9 @@ class CuentasController extends \ApiController
             'encuesta.slogan.required'                => 'El campo subtitulo' . $required,
             'encuesta.description.required'           => 'El campo descripcion encuesta' . $required,
         );
-        $data      = Input::all();
 
-        $validator = Validator::make($data, $rules);
+        $data      = Input::all();
+        $validator = Validator::make($data, $rules, $messages);
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
@@ -189,12 +189,16 @@ class CuentasController extends \ApiController
         try {
             $survey = Encuesta::find(Input::get('cliente.id_encuesta')); // self::saveSurvey(Input::get('encuesta'));
             if (!is_null($survey)) {
-                $client  = self::saveClient(Input::get('cliente'), $survey);
-                $user    = self::saveAdministrator(Input::get('usuario'), $client, $survey);
-                $moments = self::saveMoments(Input::get('momentos'));
-                $theme   = self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
+                $client = self::saveClient(Input::get('cliente'), $survey);
                 $client->encuesta()->associate($survey);
                 $client->save();
+
+                $user   = self::saveAdministrator(Input::get('usuario'), $client, $survey);
+                dd('HOLA');
+                $moments = self::saveMoments(Input::get('momentos'));
+                // TODO; Agregar generación de short url para el proceso de creación de cuentas.
+
+                $theme = self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
 
                 $urls = Url::whereIdCliente($client->id_cliente)->get(['given', 'id_momento', 'id_cliente'])->toArray();
 
@@ -205,6 +209,8 @@ class CuentasController extends \ApiController
                 }
 
                 if ($client->save()) {
+                    // TODO; Agregar log de eventos para sabe que se ha enviado el correo al
+                    // responsable de la cuenta.
                     self::sendWelcomeMail(array(
                         'email' => $user->usuario,
                         'name'  => 'Lar',
@@ -276,15 +282,14 @@ class CuentasController extends \ApiController
      */
     public function edit($id)
     {
-        $pais    = Pais::lists('descripcion_pais', 'id_pais');
-        $plans   = Plan::lists('descripcion_plan', 'id_plan');
-        $sectors = Sector::lists('descripcion_sector', 'id_sector');
-        $states  = Estado::lists('descripcion_estado', 'id_estado');
-        $catgs   = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
-        $ciudads = Ciudad::lists('descripcion_ciudad', 'id_ciudad');
-        $cliente = Cliente::find($id);
-        //        $momentoencuestum = $cliente->encuesta->momentos;
-        $momentoencuestum = MomentoEncuesta::where('id_encuesta', $cliente->encuesta->id_encuesta)->where('id_cliente', $cliente->id_cliente)->get();
+        $pais             = Pais::lists('descripcion_pais', 'id_pais');
+        $plans            = Plan::lists('descripcion_plan', 'id_plan');
+        $sectors          = Sector::lists('descripcion_sector', 'id_sector');
+        $states           = Estado::lists('descripcion_estado', 'id_estado');
+        $catgs            = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
+        $ciudads          = Ciudad::lists('descripcion_ciudad', 'id_ciudad');
+        $cliente          = Cliente::find($id);
+        $momentoencuestum = $cliente->encuesta->momentos->all();
 
         return View::make('admin.cuentas.edit', compact('cliente'))->with('pais', $pais)->with('states', $states)->with('plans', $plans)->with('sectors', $sectors)->with('ciudads',
             $ciudads)->with('catgs', $catgs)->with('momentoencuestum', $momentoencuestum);
@@ -299,9 +304,11 @@ class CuentasController extends \ApiController
      */
     public function update($id)
     {
-        $cliente = Cliente::findOrFail($id);
         if (!Input::has('accion')) {
+            return Redirect::route('admin.cuentas.edit', [$id]);
         }
+
+        $cliente = Cliente::findOrFail($id);
 
         switch (Input::get('accion')) {
             case 'update.account':
@@ -315,12 +322,19 @@ class CuentasController extends \ApiController
 
                 break;
             case 'update.plan':
+                $cliente->id_plan = Input::get('id_plan');
+                $cliente->save();
+
                 break;
             case 'update.moments':
                 self::saveMoments(Input::only('momentos'), $cliente);
+
+                break;
+            case 'update.skin':
+                self::updateTheme($cliente, Input::all(), Input::file());
+
                 break;
         }
-
 
         return Redirect::route('admin.cuentas.edit', [$id]);
     }
@@ -334,6 +348,7 @@ class CuentasController extends \ApiController
      */
     public function destroy($id)
     {
+        // TODO; Agregar softdelete para los artifactos cuenta
         Cliente::destroy($id);
 
         return Redirect::route('admin.cuentas.index');

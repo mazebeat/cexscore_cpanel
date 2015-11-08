@@ -103,6 +103,17 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
         'id_plan',
     );
 
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($cliente) {
+            $cliente->usuarios()->delete();
+            $cliente->csusuarios()->delete();
+        });
+    }
+
     public static function clientResumen($id)
     {
         $cliente    = Cliente::find($id);
@@ -258,6 +269,14 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
     public function usuarios()
     {
         return $this->hasMany('Usuario', 'id_usuario');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function csusuarios()
+    {
+        return $this->hasMany('CsUsuario', 'id_usuario');
     }
 
     /**

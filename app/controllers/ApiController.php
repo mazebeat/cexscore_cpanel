@@ -48,6 +48,10 @@ class ApiController extends \BaseController
                 array_forget($data, 'region');
                 if (!array_key_exists('id_ciudad', $data)) {
                     $data = array_add($data, 'id_ciudad', 1);
+                } else {
+                    if(array_get($data, 'id_ciudad') == '' || array_get($data, 'id_ciudad') == null || !count(array_get($data, 'id_ciudad'))) {
+                        array_set($data, 'id_ciudad', 1);
+                    }
                 }
                 $data = array_add($data, 'id_estado', 1);
 
@@ -76,8 +80,6 @@ class ApiController extends \BaseController
                 $data     = array_add($data, 'responsable', 1);
                 $data     = array_add($data, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
                 array_set($data, 'id_cliente', $client->id_cliente);
-                dd($data);
-
 
                 $admin = \CsUsuario::firstOrCreate($data);
             }
@@ -175,7 +177,7 @@ class ApiController extends \BaseController
                 $data     = array_add($data, 'usuario', $username);
                 $data     = array_add($data, 'responsable', 0);
                 $data     = array_add($data, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
-
+            dd($data);
                 $user = \CsUsuario::firstOrCreate($data);
             }
         } catch (Exception $e) {
@@ -188,7 +190,7 @@ class ApiController extends \BaseController
     /**
      * @param $data
      */
-    public static function saveMoments($data, $cliente = null)
+    public static function saveMoments($data, $cliente = null, $save = false)
     {
         dd($data);
         $moments = array();

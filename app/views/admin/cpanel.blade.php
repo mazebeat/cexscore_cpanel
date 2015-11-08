@@ -21,20 +21,28 @@
 					<span class="info-box-text">Cuentas</span> <span class="info-box-number" id="qAccounts"></span>
 				</div><!-- /.info-box-content -->
 			</div><!-- /.info-box -->
+		</div>
+		<div class="col-md-3 col-sm-6 col-xs-12">
 			<div class="info-box">
 				<span class="info-box-icon bg-green"><i class="fa fa-bookmark-o"></i></span>
 
 				<div class="info-box-content">
 					<span class="info-box-text">Planes</span> <span class="info-box-number" id="qPlans"></span>
 				</div><!-- /.info-box-content -->
-			</div>
+			</div><!-- /.info-box -->
+		</div>
+		<div class="col-md-3 col-sm-6 col-xs-12">
 			<div class="info-box">
 				<span class="info-box-icon bg-aqua"><i class="fa fa-user-plus"></i></span>
 
 				<div class="info-box-content">
 					<span class="info-box-text">Usuarios</span> <span class="info-box-number" id="qUsers"><small></small></span>
 				</div><!-- /.info-box-content -->
-			</div>
+			</div><!-- /.info-box -->
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-6 col-xs-12">
 			<div class="box box-default">
 				<div class="box-header with-border">
 					<h3 class="box-title">Tabla NPS</h3>

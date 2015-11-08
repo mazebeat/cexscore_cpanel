@@ -46,6 +46,16 @@ if (Config::get('config.logs.path', storage_path() . '/logs/') != '') {
     Log::useFiles(storage_path() . '/logs/AmicarLanding_App.log');
 }
 
+Log::listen(function($level, $message, $context)
+{
+    $monolog = Log::getMonolog();
+    $monolog->pushProcessor(function ($record) {
+        $record['extra']['user'] = Auth::user() ? Auth::user()->username : 'anonymous';
+        $record['extra']['ip'] = Request::getClientIp();
+        return $record;
+    });
+});
+
 /*
 |--------------------------------------------------------------------------
 | Application Error Handler
@@ -62,6 +72,13 @@ if (Config::get('config.logs.path', storage_path() . '/logs/') != '') {
 //App::error(function (Exception $exception, $code) {
 //	Log::error($exception);
 //});
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+App::error(function(ModelNotFoundException $e)
+{
+    return Response::make('No encontrado [ERROR]: ' . $e->getMessage(), 404);
+});
 
 App::error(function (Exception $exception, $code) {
     Log::error($exception);

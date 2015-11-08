@@ -6,6 +6,7 @@
 //ini_set('session.cookie_secure', false);
 //ini_set('session.use_only_cookies', true);
 
+
 Route::get('/', function () {
     $error = new Illuminate\Support\MessageBag();
     $error->add('error', 'P�gina no encontrada');
@@ -113,11 +114,20 @@ Route::group(array('prefix' => 'admin'), function () {
 });
 // TESTING
 Route::get('test/test', function () {
-//    dd('tester');
+    //    dd('tester');
+
+    try {
+        $user = User::findOrFail(11);
+    }
+    catch (ModelNotFoundException $e) {
+        App::abort(404, 'Error al realizar acción');
+        dd(get_class_methods($e));
+        dd($e);
+    }
 
     $cliente = Cliente::find(2);
-            $r = $cliente->encuesta->momentos->all();
-//    $r = MomentoEncuesta::where('id_encuesta', $cliente->encuesta->id_encuesta)->where('id_cliente', $cliente->id_cliente)->get();
+    $r       = $cliente->encuesta->momentos->all();
+    //    $r = MomentoEncuesta::where('id_encuesta', $cliente->encuesta->id_encuesta)->where('id_cliente', $cliente->id_cliente)->get();
     dd($r[0]->pivot->descripcion_momento);
 
 

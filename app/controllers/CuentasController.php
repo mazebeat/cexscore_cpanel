@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CuentasController extends \ApiController
 {
@@ -125,8 +127,8 @@ class CuentasController extends \ApiController
             'cliente.nombre_cliente'         => 'required|string',
             'cliente.nombre_legal_cliente'   => 'string',
             'cliente.rut_cliente'            => 'required|between:8,12|rut',
-            'cliente.fono_fijo_cliente'      => 'required|between:7,16',
-            'cliente.fono_celular_cliente'   => 'required|between:7,16',
+            'cliente.fono_fijo_cliente'      => 'between:7,16',
+            'cliente.fono_celular_cliente'   => 'between:7,16',
             'cliente.correo_cliente'         => 'required|email',
             'cliente.pais'                   => 'required|',
             'cliente.region'                 => '',
@@ -186,21 +188,17 @@ class CuentasController extends \ApiController
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
-        try {
-            $survey = Encuesta::find(Input::get('cliente.id_encuesta')); // self::saveSurvey(Input::get('encuesta'));
-            if (!is_null($survey)) {
+        $survey = Encuesta::find(Input::get('cliente.id_encuesta')); // self::saveSurvey(Input::get('encuesta'));
+
+        if (!is_null($survey)) {
+            try {
                 $client = self::saveClient(Input::get('cliente'), $survey);
-                $client->encuesta()->associate($survey);
-                $client->save();
-
                 $user   = self::saveAdministrator(Input::get('usuario'), $client, $survey);
-                dd('HOLA');
-                $moments = self::saveMoments(Input::get('momentos'));
+                dd($user);
+                $moments = self::saveMoments(Input::get('momentos'), $client, true);
                 // TODO; Agregar generación de short url para el proceso de creación de cuentas.
-
                 $theme = self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
-
-                $urls = Url::whereIdCliente($client->id_cliente)->get(['given', 'id_momento', 'id_cliente'])->toArray();
+                $urls  = Url::whereIdCliente($client->id_cliente)->get(['given', 'id_momento', 'id_cliente'])->toArray();
 
                 foreach ($urls as $k => $v) {
                     array_set($urls[$k], 'given', url($v['given']));
@@ -208,9 +206,10 @@ class CuentasController extends \ApiController
                         MomentoEncuesta::where('id_cliente', $v['id_cliente'])->where('id_momento', $v['id_momento'])->first()->descripcion_momento);
                 }
 
+                $client->encuesta()->associate($survey);
+
                 if ($client->save()) {
-                    // TODO; Agregar log de eventos para sabe que se ha enviado el correo al
-                    // responsable de la cuenta.
+                    // TODO; Agregar log de eventos para sabe que se ha enviado el correo al responsable de la cuenta.
                     self::sendWelcomeMail(array(
                         'email' => $user->usuario,
                         'name'  => 'Lar',
@@ -221,15 +220,21 @@ class CuentasController extends \ApiController
                     ));
                 }
 
-                return Redirect::route('admin.cuentas.index');
+            } catch (QueryException $e) {
+                $errorCode = $e->errorInfo[1];
+                if ($errorCode == 1062) {
+                    // houston, we have a duplicate entry problem
+                }
             }
 
-            $error = new MessageBag(['Sector sin encuesta definida']);
 
-            return Redirect::back()->withErrors($error)->withInput();
-        } catch (Exception $e) {
-            dd($e);
+            return Redirect::route('admin.cuentas.index');
         }
+
+        App::abort(404, 'Sector sin encuesta definida');
+
+        return Redirect::back()->withInput();
+
     }
 
     public static function sendWelcomeMail($mail = array(), $data = array())

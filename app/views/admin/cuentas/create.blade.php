@@ -164,9 +164,9 @@
 	{{ HTML::script('js/jquery.rut.min.js') }}
 
 	{{--CKEditor--}}
-	{{ HTML::script('plugins/ckeditor/ckeditor.js') }}
-	{{ HTML::script('plugins/ckeditor/adapters/jquery.min.js') }}
-	{{ HTML::script('plugins/ckeditor/config.js') }}
+	{{--{{ HTML::script('plugins/ckeditor/ckeditor.js') }}--}}
+	{{--{{ HTML::script('plugins/ckeditor/adapters/jquery.min.js') }}--}}
+	{{--{{ HTML::script('plugins/ckeditor/config.js') }}--}}
 
 	{{--InputMask--}}
 	{{ HTML::script('plugins/input-mask/jquery.inputmask.min.js') }}

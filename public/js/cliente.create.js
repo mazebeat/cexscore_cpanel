@@ -32,10 +32,10 @@ function validateTab(index) {
     //Datemask2 mm/dd/yyyy
     //$("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
 
-    $('textarea').ckeditor()
-        .editor
-        .on('change', function (e) {
-        });
+    //$('textarea').ckeditor()
+    //    .editor
+    //    .on('change', function (e) {
+    //    });
 
     $("#rut_cliente").rut({
         formatOn: 'change keyup',
@@ -109,6 +109,9 @@ function validateTab(index) {
         'apariencia[logo_header]': {
             message: 'El archivo no es valido.',
             validators: {
+                notEmpty: {
+                    message: 'El archivo es requerido',
+                },
                 file: {
                     extension: 'jpeg,png',
                     type: 'image/jpeg,image/png,image/gif',
@@ -120,6 +123,9 @@ function validateTab(index) {
         'apariencia[logo_incentivo]': {
             message: 'El archivo no es valido.',
             validators: {
+                notEmpty: {
+                    message: 'El archivo es requerido',
+                },
                 file: {
                     extension: 'jpeg,png',
                     type: 'image/jpeg,image/png,image/gif',
@@ -270,7 +276,8 @@ function validateTab(index) {
                         $name = 'preguntaCabecera[' + count + '][sub][descripcion_1]';
                         count++;
                     }
-                    CKEDITOR.instances[$name].setData(data.descripcion_1);
+                    //CKEDITOR.instances[$name].setData(data.descripcion_1);
+                    $($name).val(data.descripcion_1);
                 })
             });
 
@@ -279,7 +286,7 @@ function validateTab(index) {
         .end()
         .formValidation({
             framework: 'bootstrap',
-            excluded: [':disabled'],
+            excluded: [':disabled', ':hidden'],
             live: 'enabled',
             locale: 'es_CL',
             button: {
@@ -313,7 +320,7 @@ function validateTab(index) {
 
             $icon.parent().find('i').removeClass('fa-times').addClass('fa-check');
 
-            console.log(isValidTab);
+            //console.log(isValidTab);
             if (isValidTab !== null) {
                 var $class = '';
                 if (isValidTab) {

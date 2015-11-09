@@ -188,12 +188,12 @@ class CuentasController extends \ApiController
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
-        $survey = Encuesta::find(Input::get('cliente.id_encuesta')); // self::saveSurvey(Input::get('encuesta'));
+        try {
+            $survey = Encuesta::findOrFail(Input::get('cliente.id_encuesta')); // self::saveSurvey(Input::get('encuesta'));
 
-        if (!is_null($survey)) {
-            try {
+            if (!is_null($survey)) {
                 $client = self::saveClient(Input::get('cliente'), $survey);
-                $user   = self::saveAdministrator(Input::get('usuario'), $client, $survey);
+                $user = self::saveAdministrator(Input::get('usuario'), $client, $survey);
                 dd($user);
                 $moments = self::saveMoments(Input::get('momentos'), $client, true);
                 // TODO; Agregar generación de short url para el proceso de creación de cuentas.
@@ -220,15 +220,18 @@ class CuentasController extends \ApiController
                     ));
                 }
 
-            } catch (QueryException $e) {
-                $errorCode = $e->errorInfo[1];
-                if ($errorCode == 1062) {
-                    // houston, we have a duplicate entry problem
-                }
+                return Redirect::route('admin.cuentas.index');
             }
 
-
-            return Redirect::route('admin.cuentas.index');
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1062) {
+                // houston, we have a duplicate entry problem
+            }
+            dd($e);
+        } catch (ModelNotFoundException $e) {
+            // Error handling code
+            dd($e);
         }
 
         App::abort(404, 'Sector sin encuesta definida');
@@ -237,9 +240,23 @@ class CuentasController extends \ApiController
 
     }
 
+    /**
+     * @param array $mail = array(
+     *                    'email'   => 'asanmartin@intelidata.cl',
+     *                    'name'    => 'Lar',
+     *                    'subject' => $subject,
+     *                    );
+     * @param array $data
+     *
+     * @return bool
+     */
     public static function sendWelcomeMail($mail = array(), $data = array())
     {
-        if (count($mail) || count($data)) {
+        if (!count($mail) && !count($data)) {
+            return false;
+        }
+
+        if (!array_key_exists('email', $mail)) {
             return false;
         }
 
@@ -248,16 +265,7 @@ class CuentasController extends \ApiController
             $mail    = array_add($mail, 'subject', $subject);
         }
 
-        if (!array_key_exists('email', $mail)) {
-            return false;
-        }
-        // $datas = [
-        //      'email'   => 'asanmartin@intelidata.cl',
-        //      'name'    => 'Lar',
-        //      'subject' => $subject,
-        // ];
-
-        Mail::queue('emails.bienvenida', $data, function ($message) use ($mail) {
+        \Mail::queue('emails.bienvenida', $data, function ($message) use ($mail) {
             $message->to($mail['email'], $mail['name'])->cc('diego.pintod@gmail.com')->subject($mail['subject']);
         });
 
@@ -267,7 +275,7 @@ class CuentasController extends \ApiController
     /**
      * Display the specified cliente.
      *
-     * @param  int $i .requiredd => '',
+     * @param  int $i .required => '',
      *
      * @return Response
      */
@@ -422,6 +430,11 @@ class CuentasController extends \ApiController
         }
     }
 
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
     public function resumen($id)
     {
         return View::make('admin.cuentas.resumen')->with('resumen', Cliente::clientResumen($id));

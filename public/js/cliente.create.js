@@ -276,8 +276,9 @@ function validateTab(index) {
                         $name = 'preguntaCabecera[' + count + '][sub][descripcion_1]';
                         count++;
                     }
+
                     //CKEDITOR.instances[$name].setData(data.descripcion_1);
-                    $($name).val(data.descripcion_1);
+                    $('[name="' + $name + '"]').text($.parseHTML(data.descripcion_1));
                 })
             });
 

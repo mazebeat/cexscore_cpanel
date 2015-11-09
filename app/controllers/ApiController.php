@@ -82,6 +82,8 @@ class ApiController extends \BaseController
                 array_set($data, 'id_cliente', $client->id_cliente);
 
                 $admin = \CsUsuario::firstOrCreate($data);
+
+                dd($admin);
             }
         } catch (Exception $e) {
             throw $e;

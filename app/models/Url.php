@@ -58,4 +58,13 @@ class Url extends Eloquent
     {
         return $this->belongsTo('MomentoEncuesta', 'id_momento');
     }
+
+    /**
+     * @return mixed
+     */
+    public function clientes()
+    {
+        return $this->belongsToMany('Cliente', 'id_cliente');
+    }
+
 }

@@ -1136,6 +1136,37 @@
                     "offsetUnset": "($key)"
                 }
             },
+            "PDF": {
+                "functions": {
+                    "snappy": "()",
+                    "setPaper": "($paper, $orientation = null)",
+                    "setOrientation": "($orientation)",
+                    "setWarnings": "($warnings)",
+                    "setOption": "($name, $value)",
+                    "setOptions": "($options)",
+                    "loadHTML": "($string)",
+                    "loadFile": "($file)",
+                    "loadView": "($view, $data = array(), $mergeData = array())",
+                    "output": "()",
+                    "save": "($filename)",
+                    "download": "($filename = 'document.pdf')",
+                    "stream": "($filename = 'document.pdf')"
+                }
+            },
+            "Image": {
+                "functions": {
+                    "snappy": "()",
+                    "setOption": "($name, $value)",
+                    "setOptions": "($options)",
+                    "loadHTML": "($string)",
+                    "loadFile": "($file)",
+                    "loadView": "($view, $data = array(), $mergeData = array())",
+                    "output": "()",
+                    "save": "($filename)",
+                    "download": "($filename = 'image.jpg')",
+                    "stream": "($filename = 'image.jpg')"
+                }
+            },
             "Rut": {
                 "functions": {
                     "isValid": "($rut, $dv = null)",

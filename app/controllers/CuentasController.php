@@ -2,6 +2,7 @@
 
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Input;
 
 class CuentasController extends \ApiController
 {
@@ -193,29 +194,28 @@ class CuentasController extends \ApiController
 
             if (!is_null($survey)) {
                 $client = self::saveClient(Input::get('cliente'), $survey);
-                $user = self::saveAdministrator(Input::get('usuario'), $client, $survey);
-                dd($user);
-                $moments = self::saveMoments(Input::get('momentos'), $client, true);
-                // TODO; Agregar generación de short url para el proceso de creación de cuentas.
-                $theme = self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
-                $urls  = Url::whereIdCliente($client->id_cliente)->get(['given', 'id_momento', 'id_cliente'])->toArray();
+                $client->encuesta()->associate($survey);
+                $client->save();
+
+                $admin   = self::saveAdministrator(Input::get('usuario'), $client, $survey);
+                $moments = self::saveMoments(Input::get('momento_encuesta'), $client, true);
+                $theme   = self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
+                $urls    = Url::whereIdCliente($client->id_cliente)->get(['given', 'id_momento', 'id_cliente'])->toArray();
 
                 foreach ($urls as $k => $v) {
                     array_set($urls[$k], 'given', url($v['given']));
-                    $urls[$k] = array_add($urls[$k], 'descripcion_momento',
-                        MomentoEncuesta::where('id_cliente', $v['id_cliente'])->where('id_momento', $v['id_momento'])->first()->descripcion_momento);
+                    $a        = MomentoEncuesta::where('id_cliente', $v['id_cliente'])->where('id_momento', $v['id_momento'])->first()->descripcion_momento;
+                    $urls[$k] = array_add($urls[$k], 'descripcion_momento', $a);
                 }
 
-                $client->encuesta()->associate($survey);
-
-                if ($client->save()) {
+                if (true) {
                     // TODO; Agregar log de eventos para sabe que se ha enviado el correo al responsable de la cuenta.
                     self::sendWelcomeMail(array(
-                        'email' => $user->usuario,
-                        'name'  => 'Lar',
+                        'email' => $admin->email,
+                        'name'  => $admin->nombre,
                     ), array(
-                        'nombre_usuario' => $user->usuario,
-                        'usuario'        => $user->usuario,
+                        'nombre_usuario' => $admin->nombre,
+                        'usuario'        => $admin->usuario,
                         'urls'           => $urls,
                     ));
                 }
@@ -295,17 +295,17 @@ class CuentasController extends \ApiController
      */
     public function edit($id)
     {
-        $pais             = Pais::lists('descripcion_pais', 'id_pais');
-        $plans            = Plan::lists('descripcion_plan', 'id_plan');
-        $sectors          = Sector::lists('descripcion_sector', 'id_sector');
-        $states           = Estado::lists('descripcion_estado', 'id_estado');
-        $catgs            = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
-        $ciudads          = Ciudad::lists('descripcion_ciudad', 'id_ciudad');
-        $cliente          = Cliente::find($id);
-        $momentoencuestum = $cliente->encuesta->momentos->all();
+        $pais     = Pais::lists('descripcion_pais', 'id_pais');
+        $plans    = Plan::lists('descripcion_plan', 'id_plan');
+        $sectors  = Sector::lists('descripcion_sector', 'id_sector');
+        $states   = Estado::lists('descripcion_estado', 'id_estado');
+        $catgs    = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
+        $ciudads  = Ciudad::lists('descripcion_ciudad', 'id_ciudad');
+        $cliente  = Cliente::find($id);
+        $momentos = $cliente->encuesta->momentos()->where('id_cliente', 10)->get();
 
         return View::make('admin.cuentas.edit', compact('cliente'))->with('pais', $pais)->with('states', $states)->with('plans', $plans)->with('sectors', $sectors)->with('ciudads',
-            $ciudads)->with('catgs', $catgs)->with('momentoencuestum', $momentoencuestum);
+            $ciudads)->with('catgs', $catgs)->with('momentoencuestum', $momentos);
     }
 
     /**
@@ -416,9 +416,9 @@ class CuentasController extends \ApiController
                 'fono_celular_cliente' => \Input::get('fono_celular_cliente'),
                 'correo_cliente'       => \Input::get('correo_cliente'),
                 'direccion_cliente'    => \Input::get('direccion_cliente'),
-                'id_sector'            => \Input::get('sector'), // ????
+                'id_sector'            => \Input::get('sector'),
                 'id_ciudad'            => \Input::get('ciudad'),
-                'id_tipo_cliente'      => \Input::get(''), // 1
+                'id_tipo_cliente'      => \Input::get(''),
                 'id_plan'              => \Input::get('plan'),
             ]);
 

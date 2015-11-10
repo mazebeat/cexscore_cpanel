@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Session;
-use SebastianBergmann\Exporter\Exception;
 
 class ApiController extends \BaseController
 {
@@ -49,7 +48,7 @@ class ApiController extends \BaseController
                 if (!array_key_exists('id_ciudad', $data)) {
                     $data = array_add($data, 'id_ciudad', 1);
                 } else {
-                    if(array_get($data, 'id_ciudad') == '' || array_get($data, 'id_ciudad') == null || !count(array_get($data, 'id_ciudad'))) {
+                    if (array_get($data, 'id_ciudad') == '' || array_get($data, 'id_ciudad') == null || !count(array_get($data, 'id_ciudad'))) {
                         array_set($data, 'id_ciudad', 1);
                     }
                 }
@@ -73,17 +72,17 @@ class ApiController extends \BaseController
     {
         $admin = null;
         try {
-            if (!is_null($data) || count($data)) {
-
+            if (!is_null($data) && !is_null($client)) {
                 $username = self::randomCsUsername($data);
+                $data     = array_add($data, 'nombre', $data['nombre_usuario'] . ' ' . $data['apellido_usuario']);
                 $data     = array_add($data, 'usuario', $username);
                 $data     = array_add($data, 'responsable', 1);
                 $data     = array_add($data, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
                 array_set($data, 'id_cliente', $client->id_cliente);
 
-                $admin = \CsUsuario::firstOrCreate($data);
+                array_forget($data, ['nombre_usuario', 'apellido_usuario']);
 
-                dd($admin);
+                $admin = \CsUsuario::firstOrCreate($data);
             }
         } catch (Exception $e) {
             throw $e;
@@ -162,7 +161,6 @@ class ApiController extends \BaseController
         return $username;
     }
 
-
     /**
      * @param      $admin
      * @param null $client
@@ -179,7 +177,7 @@ class ApiController extends \BaseController
                 $data     = array_add($data, 'usuario', $username);
                 $data     = array_add($data, 'responsable', 0);
                 $data     = array_add($data, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
-            dd($data);
+                dd($data);
                 $user = \CsUsuario::firstOrCreate($data);
             }
         } catch (Exception $e) {
@@ -194,25 +192,48 @@ class ApiController extends \BaseController
      */
     public static function saveMoments($data, $cliente = null, $save = false)
     {
-        dd($data);
         $moments = array();
-        if (!is_null($data)) {
-            if (!is_null($cliente)) {
+        if (!is_null($data) && !is_null($cliente)) {
+            if (!$save) {
                 foreach ($data['momentos'] as $key => $value) {
                     $moment                             = $cliente->encuesta->momentos->find($value['id_momento']);
                     $moment->pivot->descripcion_momento = $value['descripcion_momento'];
                     $moment->pivot->save();
+
+                    array_push($moments, $moment);
                 }
             } else {
                 foreach ($data as $key => $value) {
-                    $moment                             = $cliente->encuesta->momentos()->find($value['id_momento']);
-                    $moment->pivot->descripcion_momento = $value['descripcion_momento'];
-                    $moment->pivot->save();
+                    $n      = ($key + 1);
+                    $moment = Momento::firstOrCreate(['id_momento' => $n, 'descripcion_momento' => 'Momento ' . $n]);
+                    $moment = $moment->encuestas()->first();
+                    dd($moment);
+
+                    if (!is_null($moment)) {
+                        $moment->pivot->descripcion_momento = $value['descripcion_momento'];
+                        $moment->pivot->id_cliente          = $cliente->id_cliente;
+                        $moment->pivot->id_encuesta         = $cliente->encuesta->id_cliente;
+
+                        if ($moment->pivot->save()) {
+                            $canal            = Canal::find($value['canal']);
+                            $url              = '/survey' . '/' . Crypt::encrypt($cliente->id_cliente) . '/' . Crypt::encrypt($canal->id_canal) . '/' . Crypt::encrypt($n);
+                            $data             = new Url;
+                            $data->url        = $url;
+                            $data->given      = Url::getShortenedUrl();
+                            $data->id_cliente = $cliente->id_cliente;
+                            $data->id_canal   = $canal->id_canal;
+                            $data->id_momento = $n;
+
+                            if ($data->save()) {
+                                array_push($moments, $moment);
+                            }
+                        }
+                    }
                 }
             }
-        }
 
-        return $moments;
+            return $moments;
+        }
     }
 
     /**
@@ -225,8 +246,6 @@ class ApiController extends \BaseController
     public static function saveTheme($name, $data, $inputs)
     {
         $theme = null;
-
-        dd($inputs);
 
         try {
             if (!is_null($data) || count($data)) {
@@ -406,11 +425,11 @@ class ApiController extends \BaseController
     }
 
     /**
-     * @param \SebastianBergmann\Exporter\Exception $e
+     * @param Exception $e
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    function throwError(Exception $e)
+    function throwError(\Exception $e)
     {
         if (!Config::get('app.debug')) {
             $error          = new stdClass();
@@ -439,10 +458,8 @@ class ApiController extends \BaseController
 
             $questions  = \Auth::user()->cliente->encuesta->preguntas;
             $idencuesta = null;
-            //            $idencuesta = \Crypt::decrypt(\Input::get('survey'));
-            $idplan = null;
-            //            $idplan     = \Crypt::decrypt(\Input::get('plan'));
-            $x = 0;
+            $idplan     = null;
+            $x          = 0;
 
             if ($idplan == 1) {
                 $errors = new MessageBag();
@@ -470,17 +487,9 @@ class ApiController extends \BaseController
                 }
             }
 
-            //            if ($x != 4) {
-            //                $errors = new MessageBag(['inesperado', 'Error al procesar solicitud.']);
-            //
-            //                return Redirect::back()->withErrors($errors)->withInput(Input::except('_token'));
-            //            }
-
             return Redirect::to('admin/survey/load');
         } catch (Exception $e) {
             return $e->getMessage();
-        } finally {
-
         }
     }
 
@@ -580,8 +589,6 @@ class ApiController extends \BaseController
             return Redirect::to('admin/survey/load');
         } catch (Exception $e) {
             return $e->getMessage();
-        } finally {
-
         }
     }
 

@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\MessageBag;
-use SebastianBergmann\Exporter\Exception;
 
 class AdminController extends \ApiController
 {
@@ -110,16 +109,6 @@ class AdminController extends \ApiController
         $etiqueta_porc_7   = null;
         $etiqueta_porc_4   = null;
         $etiqueta_porc_nps = null;
-        $nps_7             = 0.0;
-        $nps_5             = 0.0;
-        $nps_4             = 0.0;
-        $porc_7            = 0.0;
-        $porc_4            = 0.0;
-        $nps_7_2           = 0.0;
-        $nps_5_2           = 0.0;
-        $nps_4_2           = 0.0;
-        $porc_7_2          = 0.0;
-        $porc_4_2          = 0.0;
         $porc_nps          = null;
         $porc_promotores   = null;
         $porc_detractores  = null;
@@ -140,9 +129,6 @@ class AdminController extends \ApiController
             $result = DB::select($strSQL_NPS);
 
             foreach ($result as $key => $value) {
-                //                $CS_Tipo_Fecha = $value->CS_Tipo_Fecha;
-
-                //                if ($value->CS_Tipo_Fecha == "ACTUAL") {
                 if ($value->promedio >= 6.0) {
                     $promotor++;
                 } else if ($value->promedio <= 4.0) {
@@ -151,20 +137,6 @@ class AdminController extends \ApiController
                     $neutro++;
                 }
                 $total++;
-                //                }
-
-                //                if ($CS_Tipo_Fecha == "ANTERIOR") {
-                //                    $ENCONTRO_ANTERIOR = true;
-                //
-                //                    if ($value->promedio >= 6.0) {
-                //                        $promotor_2++;
-                //                    } else if ($value->promedio <= 4.0) {
-                //                        $detractor_2++;
-                //                    } else {
-                //                         $neutro_2++;
-                //                    }
-                //                    $total_2++;
-                //                }
             }
 
             $nps_7 = (double)((float)($promotor * 100) / $total);
@@ -229,9 +201,8 @@ class AdminController extends \ApiController
             $out .= "<td class='text-center'><b>" . $porc_detractores . $etiqueta_porc_4 . "</b></td>";
             $out .= "<td class='text-center'><b>" . $porc_nps . $etiqueta_porc_nps . "</b></td>";
             $out .= "</tr>";
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
-        } finally {
         }
 
         return $out;
@@ -291,7 +262,7 @@ class AdminController extends \ApiController
             $error->add('username', 'Error al ingresar al panel de control.');
 
             return \Redirect::back()->withErrors($error)->withInput();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             dd($e);
         }
     }
@@ -328,14 +299,12 @@ class AdminController extends \ApiController
         $plan   = $client->plan;
 
         if (!is_null($plan)) {
-            //            $idplan = $plan->id_plan;
             $survey = $client->encuesta;
 
             if (is_null($survey)) {
                 throw new \Exception('Cliente no tiene encuesta');
             }
 
-            //            return \View::make('admin.survey.loadSurvey')->withSurvey($survey)->withIdplan($idplan);
             return \View::make('admin.survey.loadSurvey')->withSurvey($survey)->with('isMy', true);
         }
 

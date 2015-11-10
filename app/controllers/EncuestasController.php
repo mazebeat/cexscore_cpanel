@@ -139,5 +139,4 @@ class EncuestasController extends \ApiController
 
         return Redirect::route('admin.encuesta.index');
     }
-
 }

@@ -116,10 +116,12 @@ Route::group(array('prefix' => 'admin'), function () {
 Route::get('test/test', function () {
     //    dd('tester');
 
+    dd(Cliente::find(10)->urls()->delete());
+    dd(Cliente::find(10)->encuesta->momentos()->toSql());
+
     try {
         $user = User::findOrFail(11);
-    }
-    catch (ModelNotFoundException $e) {
+    } catch (ModelNotFoundException $e) {
         App::abort(404, 'Error al realizar acción');
         dd(get_class_methods($e));
         dd($e);
@@ -170,4 +172,16 @@ Route::get('test/test', function () {
     Mail::queue('emails.bienvenida', $data, function ($message) use ($datas) {
         $message->to($datas['email'])->cc('diego.pintod@gmail.com')->subject('Bienvenido a CustomerExperience SCORE | CustomerTrigger.com');
     });
+});
+
+Route::get('test/pdf', function () {
+
+    try {
+        // SHOW PDF
+        $html = View::make('pdf.reporte')->render();
+
+        return PDFTools::showPDF($html);
+    } catch (Exception $e) {
+        throw $e;
+    }
 });

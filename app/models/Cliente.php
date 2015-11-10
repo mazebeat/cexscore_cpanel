@@ -109,6 +109,8 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
         parent::boot();
 
         static::deleting(function ($cliente) {
+            $cliente->urls()->delete();
+            $cliente->encuesta->momentos()->detach();
             $cliente->usuarios()->delete();
             $cliente->csusuarios()->delete();
         });
@@ -116,9 +118,11 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
 
     public static function clientResumen($id)
     {
-        $cliente    = Cliente::find($id);
-        $momentos   = array();
-        $allMoments = MomentoEncuesta::where('id_encuesta', $cliente->encuesta->id_encuesta)->get();
+        $cliente  = Cliente::find($id);
+        $momentos = array();
+
+        $allMoments = $cliente->momentos()->get();
+
         foreach ($allMoments as $key => $value) {
             $given = $value->urls()->where('id_cliente', $id)->first();
             if (!is_null($given)) {
@@ -260,7 +264,7 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
      */
     public function momentos()
     {
-        return $this->hasManyThrough('Momento', 'Encuesta', 'id_momento', 'id_encuesta');
+        return $this->hasManyThrough('MomentoEncuesta', 'Cliente', 'id_cliente', 'id_cliente');
     }
 
     /**
@@ -278,6 +282,15 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
     {
         return $this->hasMany('CsUsuario', 'id_usuario');
     }
+
+    /**
+     * @return mixed
+     */
+    public function urls()
+    {
+        return $this->hasMany('Url', 'id_cliente');
+    }
+
 
     /**
      * @return mixed

@@ -3,12 +3,12 @@
 /**
  * Momento
  *
- * @property integer $id_momento 
- * @property string $descripcion_momento 
- * @property integer $id_estado 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property-read \Illuminate\Database\Eloquent\Collection|\Encuesta[] $encuestas 
+ * @property integer                                                   $id_momento
+ * @property string                                                    $descripcion_momento
+ * @property integer                                                   $id_estado
+ * @property \Carbon\Carbon                                            $created_at
+ * @property \Carbon\Carbon                                            $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Encuesta[] $encuestas
  * @method static \Illuminate\Database\Query\Builder|\Momento whereIdMomento($value)
  * @method static \Illuminate\Database\Query\Builder|\Momento whereDescripcionMomento($value)
  * @method static \Illuminate\Database\Query\Builder|\Momento whereIdEstado($value)

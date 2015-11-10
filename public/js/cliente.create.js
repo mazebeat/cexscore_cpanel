@@ -1,32 +1,28 @@
-/**
- * Created by Maze on 27-10-2015.
- */
-
-function adjustIframeHeight() {
-    var $body = $('body');
-    var $iframe = $body.data('iframe.fv');
-    if ($iframe) {
-        $iframe.height($body.height());
-    }
-}
-
-function validateTab(index) {
-    var $form = $('#createClientForm');
-    var fv = $form.data('formValidation');
-    var $tab = $form.find('.tab-pane').eq(index);
-
-    //	Validate the container
-    fv.validateContainer($tab);
-
-    var isValidStep = fv.isValidContainer($tab);
-    if (isValidStep === false || isValidStep === null) {
-        return false;
-    }
-
-    return true;
-}
-
 (function ($) {
+    function adjustIframeHeight() {
+        var $body = $('body');
+        var $iframe = $body.data('iframe.fv');
+        if ($iframe) {
+            $iframe.height($body.height());
+        }
+    }
+
+    function validateTab(index) {
+        var $form = $('#createClientForm');
+        var fv = $form.data('formValidation');
+        var $tab = $form.find('.tab-pane').eq(index);
+
+        //	Validate the container
+        fv.validateContainer($tab);
+
+        var isValidStep = fv.isValidContainer($tab);
+        if (isValidStep === false || isValidStep === null) {
+            return false;
+        }
+
+        return true;
+    }
+
     //Datemask dd/mm/yyyy
     //$("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
     //Datemask2 mm/dd/yyyy
@@ -278,7 +274,8 @@ function validateTab(index) {
                     }
 
                     //CKEDITOR.instances[$name].setData(data.descripcion_1);
-                    $('[name="' + $name + '"]').text($.parseHTML(data.descripcion_1));
+                    //$('[name="' + $name + '"]').html($.parseHTML(data.descripcion_1));
+                    $('[name="' + $name + '"]').html(data.descripcion_1);
                 })
             });
 

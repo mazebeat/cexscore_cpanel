@@ -115,12 +115,14 @@ return array(
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
+        //
         'Barryvdh\Debugbar\ServiceProvider',
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
-        'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider',
+        'Barryvdh\Snappy\ServiceProvider',
         'Barryvdh\VendorCleanup\VendorCleanupServiceProvider',
-        'Dollar\Generators\GeneratorsServiceProvider',
         'Braunson\LaravelHTML5Forms\LaravelHTML5FormsServiceProvider',
+        'Dollar\Generators\GeneratorsServiceProvider',
+        'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider',
         'Freshwork\ChileanBundle\Laravel\ChileanBundleServiceProvider',
     ),
     /*
@@ -186,8 +188,11 @@ return array(
         'URL'               => 'Illuminate\Support\Facades\URL',
         'Validator'         => 'Illuminate\Support\Facades\Validator',
         'View'              => 'Illuminate\Support\Facades\View',
+        //
         'Carbon'            => 'Carbon\Carbon',
         'Debugbar'          => 'Barryvdh\Debugbar\Facade',
+        'PDF'               => 'Barryvdh\Snappy\Facades\SnappyPdf',
+        'Image'             => 'Barryvdh\Snappy\Facades\SnappyImage',
     ),
 
 );

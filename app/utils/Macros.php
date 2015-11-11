@@ -6,6 +6,8 @@
  * -------------------------------------
  *
  */
+use Carbon\Carbon;
+
 \Str::macro('hes', function ($str) {
     $find    = array("�", "�", "�", "�", "�", "�", "�", "�", "�", "�", "�", "�");
     $replace = array(
@@ -858,4 +860,75 @@
     $out .= '</table>';
 
     return \HTML::templateResumenAccount('Administrador', $out, $attr);
+});
+
+
+/**
+ * ==================================
+ *      Reporte Ejecutivo - PDF
+ * ==================================
+ */
+\HTML::macro('reportTable', function ($type) {
+    $out  = '';
+    $date = Carbon::now();
+
+    switch ($type) {
+        case 'week':
+            $header = '<tr>
+                            <th class="col-xs-6"></th>
+                            <th class="col-xs-2">Última Semana</th>
+                            <th class="col-xs-2">Semana Anterior</th>
+                            <th class="col-xs-2">Tendencia</th>
+                        </tr>';
+
+            $start      = $date->startOfMonth();
+            $end        = $date->endOfMonth();
+            $startlater = $end->startOfMonth();
+            $endlater   = $end->endOfMonth();
+            break;
+
+        case 'month':
+            $header = '<tr>
+                            <th class="col-xs-6"></th>
+                            <th class="col-xs-2">Último mes (acum)</th>
+                            <th class="col-xs-2">Mes Anterior</th>
+                            <th class="col-xs-2">Tendencia</th>
+                        </tr>';
+
+            $start      = $date->startOfWeek();
+            $end        = $date->endOfWeek();
+            $startlater = $end->startOfWeek();
+            $endlater   = $end->endOfWeek();
+            break;
+    }
+
+    $visits      = \Visita::whereBetween('created_at', [$start, $end])->count();
+    $visitslater = \Visita::whereBetween('created_at', [$startlater, $endlater])->count();
+
+    $show = [
+        'Visitas al sistema de respuesta',
+        'Respuestas efectivas',
+        'Tasa de respuesta',
+        'Promotores %',
+        'Detractores %',
+        'NPS',
+        'Lealtad',
+    ];
+    $body = '';
+
+    foreach ($show as $key => $value) {
+        //        var_dump($value);
+        $$visits > 0 ? $color = 'red' : $color = 'green';
+        $body .= '<tr>
+					<td>' . $value . '</td>
+					<td>14</td>
+					<td>21</td>
+					<td style="color: ' . $color . '">-50%</td>
+				</tr>';
+    }
+
+    return '<table class="table">
+				<thead>' . $header . '</thead>
+				<tbody>' . $body . '</tbody>
+            </table>';
 });

@@ -117,9 +117,8 @@ class EncuestasClienteController extends \ApiController
                 Cache::forget('survey.finish');
 
                 if (!is_null($client) && $client->first()->exists) {
-                    $plan = $client->plan;
 
-                    if (!is_null($plan)) {
+                    if (!is_null($client->plan)) {
                         $survey = $client->encuesta;
                         $theme  = $client->theme();
 
@@ -132,7 +131,7 @@ class EncuestasClienteController extends \ApiController
                         }
 
                         if (!Session::has('survey.client')) {
-                            Session::put('survey.client', $idcliente);
+                            Session::put('survey.client', $client);
                         }
 
                         if (!Session::has('survey.moment')) {
@@ -140,7 +139,7 @@ class EncuestasClienteController extends \ApiController
                         }
                     }
 
-                    return View::make('survey.encuesta')->withMoment($moment)->withTheme($theme)->withSurvey($survey)->withIdplan($plan->id_plan);
+                    return View::make('survey.encuesta')->withMoment($moment)->withTheme($theme)->withSurvey($survey)->withClient($client);
                 }
 
             } catch (Exception $e) {

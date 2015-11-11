@@ -1,10 +1,10 @@
 <?php
 
-//ini_set('session.gc_maxlifetime', 3 * 60 * 60); // 3 hours
-//ini_set('session.gc_probability', 1);
-//ini_set('session.gc_divisor', 100);
-//ini_set('session.cookie_secure', false);
-//ini_set('session.use_only_cookies', true);
+ini_set('session.gc_maxlifetime', 3 * 60 * 60); // 3 hours
+ini_set('session.gc_probability', 1);
+ini_set('session.gc_divisor', 100);
+ini_set('session.cookie_secure', false);
+ini_set('session.use_only_cookies', true);
 
 
 Route::get('/', function () {
@@ -114,7 +114,16 @@ Route::group(array('prefix' => 'admin'), function () {
 });
 // TESTING
 Route::get('test/test', function () {
-    //    dd('tester');
+
+    $str = '123456';
+
+    if (md5($str) === 'e10adc3949ba59abbe56e057f20f883e') {
+//        echo 'true n' ;
+        echo md5('123456');
+    } else {
+        echo 'false';
+    }
+    dd('tester');
 
     dd(Cliente::find(10)->urls()->delete());
     dd(Cliente::find(10)->encuesta->momentos()->toSql());
@@ -175,13 +184,15 @@ Route::get('test/test', function () {
 });
 
 Route::get('test/pdf', function () {
-
     try {
         // SHOW PDF
+        //        return \PDF::loadFile('http://www.github.com')->stream('github.pdf');
+
         $html = View::make('pdf.reporte')->render();
 
-        return PDFTools::showPDF($html);
+        return App\Util\PDFTools::showPDF($html);
     } catch (Exception $e) {
-        throw $e;
+        dd($e);
+        //        throw $e;
     }
 });

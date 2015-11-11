@@ -46,12 +46,12 @@ if (Config::get('config.logs.path', storage_path() . '/logs/') != '') {
     Log::useFiles(storage_path() . '/logs/AmicarLanding_App.log');
 }
 
-Log::listen(function($level, $message, $context)
-{
+Log::listen(function ($level, $message, $context) {
     $monolog = Log::getMonolog();
     $monolog->pushProcessor(function ($record) {
         $record['extra']['user'] = Auth::user() ? Auth::user()->username : 'anonymous';
-        $record['extra']['ip'] = Request::getClientIp();
+        $record['extra']['ip']   = Request::getClientIp();
+
         return $record;
     });
 });
@@ -75,48 +75,12 @@ Log::listen(function($level, $message, $context)
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-App::error(function(ModelNotFoundException $e)
-{
+App::error(function (ModelNotFoundException $e) {
     return Response::make('No encontrado [ERROR]: ' . $e->getMessage(), 404);
 });
 
 App::error(function (Exception $exception, $code) {
     Log::error($exception);
-
-    //    if (Config::get('app.debug') === true) {
-    //        switch ($code) {
-    //            case 401:
-    //                return Response::view('survey.errors', array(
-    //                    'code'      => $code,
-    //                    'exception' => $exception,
-    //                ), 403);
-    //
-    //            case 403:
-    //                return Response::view('survey.errors', array(
-    //                    'code'      => $code,
-    //                    'exception' => $exception,
-    //                ), 403);
-    //
-    //            case 404:
-    //                return Response::view('survey.errors', array(
-    //                    'code'      => $code,
-    //                    'exception' => $exception,
-    //                ), 404);
-    //
-    //            case 500:
-    //                return Response::view('survey.errors', array(
-    //                    'code'      => $code,
-    //                    'exception' => $exception,
-    //                ), 500);
-    //
-    //            default:
-    //                return Response::view('survey.errors', array(
-    //                    'code'      => $code,
-    //                    'exception' => $exception,
-    //                ), $code);
-    //        }
-    //
-    //    }
 });
 
 App::missing(function ($exception) {

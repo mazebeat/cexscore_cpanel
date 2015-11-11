@@ -21,9 +21,9 @@
 					{{ HTML::image($theme->logo_header, 'header-logo', array('class' => 'img-responsive center-block')) }}
 				</article>
 			</section>
-			<h1>{{ $survey->titulo }}</h1>
+			{{--<h1>{{ $survey->titulo }}</h1>--}}
 
-			<h2>{{ $survey->slogan }}</h2>
+			{{--<h2>{{ $survey->slogan }}</h2>--}}
 		</article>
 	</section>
 @endsection
@@ -56,7 +56,7 @@
 						{{ HTML::generateSurvey($survey) }}
 					</section>
 				</article>
-				@if(isset($idplan) && $idplan->deseaCaptura())
+				@if(isset($client) && $client->plan->scopeOptInt())
 					<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						@include('layouts.form_cliente')
 					</article>
@@ -76,7 +76,7 @@
 
 @section('script')
 	<script type="text/javascript">
-		(function () {
+		(function ($) {
 			var $username = '{{ Session::get('user_name') }}';
 			var color = '{{ $theme->color_opciones }}';
 			var input_color = 'blue';
@@ -101,18 +101,20 @@
 
 			$.datepicker.setDefaults($.datepicker.regional['es']);
 
-			if ($('#age')[0].type != 'date') {
-				$('#age').datepicker({
-					dateFormat: 'dd-mm-yy',
+			if ($('#age').length > 0) {
+				if ($('#age')[0].type != 'date') {
+					$('#age').datepicker({
+						dateFormat: 'dd-mm-yy',
 
-					showOtherMonths: true,
-					selectOtherMonths: true,
-					changeMonth: true,
-					changeYear: true,
+						showOtherMonths: true,
+						selectOtherMonths: true,
+						changeMonth: true,
+						changeYear: true,
 
-					minDate: new Date(1960, 01, 01),
-					maxDate: new Date()
-				});
+						minDate: new Date(1960, 01, 01),
+						maxDate: new Date()
+					});
+				}
 			}
 
 			if ($('input#rut').length) {
@@ -231,6 +233,6 @@
 			}).on('err.field.fv', function (e, data) {
 				// console.warn(e);
 			});
-		}.(jQuery));
+		}(jQuery));
 	</script>
 @endsection

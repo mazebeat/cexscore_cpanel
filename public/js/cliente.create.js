@@ -28,10 +28,11 @@
     //Datemask2 mm/dd/yyyy
     //$("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
 
-    //$('textarea').ckeditor()
-    //    .editor
-    //    .on('change', function (e) {
-    //    });
+    $('textarea')
+        .ckeditor()
+        .editor
+        .on('change', function (e) {
+        });
 
     $("#rut_cliente").rut({
         formatOn: 'change keyup',
@@ -273,8 +274,7 @@
                         count++;
                     }
 
-                    //CKEDITOR.instances[$name].setData(data.descripcion_1);
-                    //$('[name="' + $name + '"]').html($.parseHTML(data.descripcion_1));
+                    CKEDITOR.instances[$name].setData(data.descripcion_1);
                     $('[name="' + $name + '"]').html(data.descripcion_1);
                 })
             });

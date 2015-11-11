@@ -21,7 +21,8 @@
 		"dollar/generators": "dev-master",
 		"fitztrev/laravel-html-minify": "1.*",
 		"freshwork/chilean-bundle": "dev-master",
-		"fzaninotto/faker": "^1.6@dev"
+		"fzaninotto/faker": "^1.6@dev",
+		"wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "4.0.*@dev"

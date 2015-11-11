@@ -155,9 +155,9 @@ class CsUsuariosController extends \ApiController
      */
     public function resetPassword($id)
     {
-        $client = $this->csusuario->find($id);
-        if (!is_null($client)) {
-            if ($client->resetPassword()) {
+        $csusuario = $this->csusuario->find($id);
+        if (!is_null($csusuario)) {
+            if ($csusuario->resetPassword()) {
                 Session::flash('message', 'Reset Password, OK!');
 
                 return Redirect::route('admin.csusuarios.index');

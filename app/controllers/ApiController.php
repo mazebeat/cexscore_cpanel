@@ -79,6 +79,7 @@ class ApiController extends \BaseController
                 $data     = array_add($data, 'responsable', 1);
                 $data     = array_add($data, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
                 array_set($data, 'id_cliente', $client->id_cliente);
+                array_set($data, 'id_perfil', 4);
 
                 array_forget($data, ['nombre_usuario', 'apellido_usuario']);
 
@@ -177,6 +178,7 @@ class ApiController extends \BaseController
                 $data     = array_add($data, 'usuario', $username);
                 $data     = array_add($data, 'responsable', 0);
                 $data     = array_add($data, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
+                $data     = array_add($data, 'id_perfil', 3);
                 dd($data);
                 $user = \CsUsuario::firstOrCreate($data);
             }

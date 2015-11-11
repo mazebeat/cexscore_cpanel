@@ -56,6 +56,10 @@ class Plan extends \Eloquent
 
     public function scopeOptInt()
     {
-        return $this->attributes['optin_plan'];
+        if (is_null($this->attributes['optin_plan']) || $this->attributes['optin_plan'] == 0) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -39,7 +39,7 @@
 	<div class="form-group col-sm-6">
 		{{ Form::label('apariencia[color_opciones]', 'Color Opciones:', array('class'=>'col-md-4 control-label')) }}
 		<div class="col-sm-8">
-			{{ Form::select('apariencia[color_opciones]', ['red' => 'Rojo', 'green' => 'Verde', 'blue' => 'Azul', 'grey' => 'Gris', 'orange' => 'Naraja', 'yellow' => 'Amarillo', 'pink' => 'Rosado', 'purple' => 'Morado'], Input::old('apariencia[color_opciones]'), array('class'=>'form-control', 'placeholders'=>'Color Opciones')) }}
+			{{ Form::select('apariencia[color_opciones]', ['red' => 'Rojo', 'green' => 'Verde', 'blue' => 'Azul', 'grey' => 'Gris', 'orange' => 'Naranjo', 'yellow' => 'Amarillo', 'pink' => 'Rosado', 'purple' => 'Morado'], Input::old('apariencia[color_opciones]'), array('class'=>'form-control', 'placeholders'=>'Color Opciones')) }}
 		</div>
 	</div>
 </div>

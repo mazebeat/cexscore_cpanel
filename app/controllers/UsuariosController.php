@@ -133,9 +133,25 @@ class UsuariosController extends \ApiController
         return Redirect::route('admin.usuarios.index');
     }
 
-    public function resetPassword()
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function resetPassword($id)
     {
-        Usuario::resetPassword();
+        $usuario = $this->usuario->find($id);
+        if (!is_null($usuario)) {
+            if ($usuario->resetPassword()) {
+                Session::flash('message', 'Reset Password, OK!');
+
+                return Redirect::route('admin.csusuarios.index');
+            }
+        }
+
+        Session::flash('message', 'Reset Password, Wrong!');
+
+        return Redirect::route('admin.csusuarios.index');
     }
 
 }

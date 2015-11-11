@@ -226,12 +226,12 @@ class CuentasController extends \ApiController
         } catch (QueryException $e) {
             $errorCode = $e->errorInfo[1];
             if ($errorCode == 1062) {
-                // houston, we have a duplicate entry problem
             }
-            dd($e);
+            App::abort(500, 'Error al procesar inserción de la cuenta.');
+            //            dd($e->getMessage());
         } catch (ModelNotFoundException $e) {
-            // Error handling code
-            dd($e);
+            App::abort(500, 'Error al procesar cuenta.');
+            //            dd($e->getMessage());
         }
 
         App::abort(404, 'Sector sin encuesta definida');

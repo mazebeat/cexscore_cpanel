@@ -45,9 +45,8 @@
  */
 class Usuario extends \Eloquent
 {
-
     public static $rules      = array(
-        'username'              => 'required',
+        'username'             => 'required',
         'nombre_usuario'       => 'required',
         'password'             => 'required',
         'edad_usuario'         => '',

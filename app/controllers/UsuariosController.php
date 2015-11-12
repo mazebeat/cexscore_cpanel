@@ -2,7 +2,6 @@
 
 class UsuariosController extends \ApiController
 {
-
     /**
      * Usuario Repository
      *
@@ -154,4 +153,37 @@ class UsuariosController extends \ApiController
         return Redirect::route('admin.usuarios.index');
     }
 
+    /**
+     *
+     */
+    public function showChangePassword() {
+
+    }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function changePassword($id)
+    {
+        if (Input::get('password') != '' || !is_null(Input::get('password'))) {
+            Session::flash('message', 'Reset Password, Wrong!');
+
+            return Redirect::route('admin.csusuarios.index');
+        }
+
+        $usuario = $this->usuario->find($id);
+        if (!is_null($usuario)) {
+            $usuario->password = Hash::make(Input::get('password'));
+
+            if ($usuario->save()) {
+                return Redirect::route('admin.usuarios.index');
+            }
+        }
+
+        Session::flash('message', 'Reset Password, Wrong!');
+
+        return Redirect::route('admin.usuarios.index');
+    }
 }

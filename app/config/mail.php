@@ -55,8 +55,7 @@ return array(
     |
     */
 
-    'from' => array('address' => null, 'name' => null),
-    //    'from' => array('address' => 'mazebeat@myjauz.cl', 'name' => 'Diego Ignacio F.'),
+    'from' => array('address' => 'ayuda@customertrigger.com', 'name' => 'Customer Trigger S.A.'),
 
     /*
     |--------------------------------------------------------------------------

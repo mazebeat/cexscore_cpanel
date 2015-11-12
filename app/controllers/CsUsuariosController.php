@@ -2,7 +2,6 @@
 
 class CsUsuariosController extends \ApiController
 {
-
     /**
      * Usuario Repository
      *
@@ -160,6 +159,41 @@ class CsUsuariosController extends \ApiController
             if ($csusuario->resetPassword()) {
                 Session::flash('message', 'Reset Password, OK!');
 
+                return Redirect::route('admin.csusuarios.index');
+            }
+        }
+
+        Session::flash('message', 'Reset Password, Wrong!');
+
+        return Redirect::route('admin.csusuarios.index');
+    }
+
+    /**
+     *
+     */
+    public function showChangePassword()
+    {
+
+    }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function changePassword($id)
+    {
+        if (Input::get('pwdusuario') != '' || !is_null(Input::get('pwdusuario'))) {
+            Session::flash('message', 'Reset Password, Wrong!');
+
+            return Redirect::route('admin.csusuarios.index');
+        }
+
+        $csusuario = $this->csusuario->find($id);
+        if (!is_null($csusuario)) {
+            $csusuario->pwdusuario = md5(Input::get('pwdusuario'));
+
+            if ($csusuario->save()) {
                 return Redirect::route('admin.csusuarios.index');
             }
         }

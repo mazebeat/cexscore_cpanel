@@ -54,9 +54,15 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::resource('apariencia', 'AparienciaController');
         Route::resource('usuarios', 'UsuariosController');
         Route::resource('csusuarios', 'CsUsuariosController');
-        Route::post('usuarios/resetPassword/{id?}', 'UsuariosController@resetPassword');
-        Route::post('csusuarios/resetPassword/{id?}', 'CsUsuariosController@resetPassword');
         Route::resource('periodos', 'PeriodosController');
+        // Password csusuario
+        Route::get('usuarios/changePassword', 'UsuariosController@showChangePassword');
+        Route::post('usuarios/changePassword/{id}', 'UsuariosController@changePassword');
+        Route::post('usuarios/resetPassword/{id}', 'UsuariosController@resetPassword');
+        // Password usuario
+        Route::get('csusuarios/changePassword', 'CsUsuariosController@showChangePassword');
+        Route::post('csusuarios/changePassword/{id}', 'CsUsuariosController@changePassword');
+        Route::post('csusuarios/resetPassword/{id}', 'CsUsuariosController@resetPassword');
     });
     Route::group(array('prefix' => 'find'), function () {
         route::get('locate', function () {
@@ -112,87 +118,14 @@ Route::group(array('prefix' => 'admin'), function () {
         });
     });
 });
+
 // TESTING
-Route::get('test/test', function () {
-
-    $str = '123456';
-
-    if (md5($str) === 'e10adc3949ba59abbe56e057f20f883e') {
-//        echo 'true n' ;
-        echo md5('123456');
-    } else {
-        echo 'false';
-    }
-    dd('tester');
-
-    dd(Cliente::find(10)->urls()->delete());
-    dd(Cliente::find(10)->encuesta->momentos()->toSql());
-
-    try {
-        $user = User::findOrFail(11);
-    } catch (ModelNotFoundException $e) {
-        App::abort(404, 'Error al realizar acción');
-        dd(get_class_methods($e));
-        dd($e);
-    }
-
-    $cliente = Cliente::find(2);
-    $r       = $cliente->encuesta->momentos->all();
-    //    $r = MomentoEncuesta::where('id_encuesta', $cliente->encuesta->id_encuesta)->where('id_cliente', $cliente->id_cliente)->get();
-    dd($r[0]->pivot->descripcion_momento);
-
-
-    //    dd(Momento::find(2));
-    //    $r = Auth::user()->cliente->encuesta->momentos()->save(Momento::find(2), array('descripcion_momento' => 'aaaaaaaaaaa'));
-    //    $r = Auth::user()->cliente->id_cliente;
-    //    dd($r);
-    //    $r = Cliente::find(2)->encuesta->momentos->all();
-    //    foreach($r as $k => $v) {
-    //        dd($v->pivot->descripcion_momento);
-    //    }
-    //    $r->pivot->descripcion_momento = "Chao ";
-    //    $r->pivot->save();
-
-    $r = Cliente::clientResumen(2);
-    $r = CsUsuario::responsable()->where('id_cliente', 2)->first()->toArray();
-
-    dd($r);
-
-    $urls = Url::whereIdCliente(2)->get(['given', 'id_momento', 'id_cliente'])->toArray();
-
-    foreach ($urls as $k => $v) {
-        array_set($urls[$k], 'given', url($v['given']));
-        $urls[$k] = array_add($urls[$k], 'descripcion_momento', MomentoEncuesta::where('id_cliente', $v['id_cliente'])->where('id_momento', $v['id_momento'])->first()->descripcion_momento);
-    }
-
-    $data = [
-        'nombre_usuario' => 'User Tester',
-        'usuario'        => 'usernaame.user',
-        'urls'           => $urls,
-    ];
-
-    $datas = [
-        'email'      => 'dpinto@intelidata.cl',
-        'first_name' => 'Lar',
-        'from'       => 'sample@sample.comt',
-        'from_name'  => 'Vel',
-    ];
-
-    Mail::queue('emails.bienvenida', $data, function ($message) use ($datas) {
-        $message->to($datas['email'])->cc('diego.pintod@gmail.com')->subject('Bienvenido a CustomerExperience SCORE | CustomerTrigger.com');
-    });
-});
-
 Route::get('test/pdf', function () {
     try {
-        // SHOW PDF
-        //        return \PDF::loadFile('http://www.github.com')->stream('github.pdf');
-
         $html = View::make('pdf.reporte')->render();
 
         return App\Util\PDFTools::showPDF($html);
     } catch (Exception $e) {
-        dd($e);
-        //        throw $e;
+        App::abort($e->getMessage());
     }
 });

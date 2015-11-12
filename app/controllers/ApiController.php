@@ -221,7 +221,7 @@ class ApiController extends \BaseController
 
                         if (!is_null($moment)) {
                             $canal         = Canal::find($value['canal']);
-                            $url           = '/survey' . '/' . Crypt::encrypt($cliente->id_cliente) . '/' . Crypt::encrypt($canal->id_canal) . '/' . Crypt::encrypt($n);
+                            $url           = '/survey' . '/' . Crypt::encrypt($cliente->id_cliente) . '/' . Crypt::encrypt($canal->codigo_canal) . '/' . Crypt::encrypt($n);
                             $u             = new Url;
                             $u->url        = $url;
                             $u->given      = Url::getShortenedUrl();

@@ -191,11 +191,12 @@ class CuentasController extends \ApiController
         }
 
         try {
-            if (count(Input::get('momento_encuesta')) || is_null(Input::get('momento_encuesta'))) {
+            if (!Input::has('momento_encuesta')) {
                 $error = new \Illuminate\Support\MessageBag(['Debe ingresar Momentos a la cuenta.']);
 
                 return Redirect::back()->withErrors($error)->withInput();
             }
+
 
             $survey = Encuesta::findOrFail(Input::get('cliente.id_encuesta'));
 
@@ -205,8 +206,19 @@ class CuentasController extends \ApiController
                 $client->save();
 
                 $admin = self::saveAdministrator(Input::get('usuario'), $client, $survey);
-                self::saveMoments(Input::get('momento_encuesta'), $client);
-                self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
+                self::saveMoments(Input::get('momento_encuesta'), $client, true);
+                $theme = self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
+
+                if (!is_null($theme)) {
+                    $client->apariencias()->save($theme);
+                } else {
+                    $e     = 'No se puede asociar apariencia.';
+                    $error = new \Illuminate\Support\MessageBag([$e]);
+                    Log::error($e);
+
+                    return Redirect::back()->withErrors($error)->withInput();
+                }
+
                 $urls = Url::whereIdCliente($client->id_cliente)->get(['given', 'id_momento', 'id_cliente'])->toArray();
 
                 foreach ($urls as $k => $v) {
@@ -229,12 +241,14 @@ class CuentasController extends \ApiController
 
         } catch (QueryException $e) {
             $error = new \Illuminate\Support\MessageBag(['Error al procesar inserción de la cuenta.']);
+            Log::error($e->getMessage());
 
             return Redirect::back()->withErrors($error)->withInput();
             //            App::abort(500, 'Error al procesar inserción de la cuenta.');
             //            dd($e->getMessage());
         } catch (ModelNotFoundException $e) {
             $error = new \Illuminate\Support\MessageBag(['Error al procesar cuenta.']);
+            Log::error($e->getMessage());
 
             return Redirect::back()->withErrors($error)->withInput();
             //            App::abort(500, 'Error al procesar cuenta.');
@@ -273,7 +287,7 @@ class CuentasController extends \ApiController
         }
 
         \Mail::queue('emails.bienvenida', $data, function ($message) use ($mail) {
-            $message->to($mail['email'], $mail['name'])->cc('diego.pintod@gmail.com')->subject($mail['subject']);
+            $message->to($mail['email'], $mail['name'])->subject($mail['subject']);
         });
 
         return true;

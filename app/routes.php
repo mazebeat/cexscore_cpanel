@@ -129,3 +129,7 @@ Route::get('test/pdf', function () {
         App::abort($e->getMessage());
     }
 });
+
+Route::get('test/test', function(){
+
+});

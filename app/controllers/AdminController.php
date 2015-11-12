@@ -264,7 +264,8 @@ class AdminController extends \ApiController
 
             return \Redirect::back()->withErrors($error)->withInput();
         } catch (\Exception $e) {
-            dd($e);
+            App::abort('Error al iniciar sesión.');
+            //            dd($e->getMessage());
         }
     }
 

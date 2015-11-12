@@ -1539,7 +1539,7 @@
 				",sans-serif;color: #38434d;font-weight: bold;Margin-bottom: 0;text-align: center;font-size: 0px !important;line-height: 0 !important;" align="center" id="emb-email-header">
 				<a style="transition: opacity 0.2s ease-in;color: gray;text-decoration: none;" href="http://www.customertrigger.cl/">
 
-					<img style="border: 0;-ms-interpolation-mode: bicubic;display: block;Margin-left: auto;Margin-right: auto;max-width: 420px;" src="{{ $message->embed('image/customertrigger/customertrigger.png') }}" alt="CustomerTrigger" width="352" height="80"/></a>                </div>
+					<img style="border: 0;-ms-interpolation-mode: bicubic;display: block;Margin-left: auto;Margin-right: auto;max-width: 420px;" src="{{ $message->embed(public_path('image/customertrigger/customertrigger.png')) }}" alt="CustomerTrigger" width="352" height="80"/></a>                </div>
 			</td>
 			<td style="padding: 0;vertical-align: middle;">&nbsp;</td>
 		</tr>
@@ -1604,7 +1604,7 @@
 											<ul style="list-style: none;">
 												@foreach($urls as $url)
 													<li class="font-avenir" style="padding-left: 0;font-family: 'Arial', sans-serif;Margin-bottom: 0;Margin-top: 0px;text-align: left;">
-														<strong>{{{ $url['descripcion_momento'] }}}:</strong>&nbsp; <a href="http://{{ url($url['given']) }}" target="_blank">{{{ $url['given'] }}}</a>
+														<strong>{{{ $url['descripcion_momento'] }}}:</strong>&nbsp; <a href="{{{ url($url['given']) }}}" target="_blank">{{{ $url['given'] }}}</a>
 													</li>
 												@endforeach
 											</ul>

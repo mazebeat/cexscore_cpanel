@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Crypt;
+
 class EncuestasClienteController extends \ApiController
 {
     public function __construct()
@@ -138,6 +140,8 @@ class EncuestasClienteController extends \ApiController
                             Session::put('survey.moment', $moment);
                         }
                     }
+
+                    dd($theme);
 
                     return View::make('survey.encuesta')->withMoment($moment)->withTheme($theme)->withSurvey($survey)->withClient($client);
                 }

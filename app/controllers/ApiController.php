@@ -179,8 +179,7 @@ class ApiController extends \BaseController
                 $data     = array_add($data, 'responsable', 0);
                 $data     = array_add($data, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
                 $data     = array_add($data, 'id_perfil', 3);
-                dd($data);
-                $user = \CsUsuario::firstOrCreate($data);
+                $user     = \CsUsuario::firstOrCreate($data);
             }
         } catch (Exception $e) {
             throw $e;
@@ -208,25 +207,29 @@ class ApiController extends \BaseController
                 foreach ($data as $key => $value) {
                     $n      = ($key + 1);
                     $moment = Momento::firstOrCreate(['id_momento' => $n, 'descripcion_momento' => 'Momento ' . $n]);
-                    $moment = $moment->encuestas()->first();
-                    dd($moment);
+                    $moment = $moment->encuestas->first();
 
                     if (!is_null($moment)) {
-                        $moment->pivot->descripcion_momento = $value['descripcion_momento'];
-                        $moment->pivot->id_cliente          = $cliente->id_cliente;
-                        $moment->pivot->id_encuesta         = $cliente->encuesta->id_cliente;
+                        $da     = [
+                            'id_momento_encuesta' => 0,
+                            'id_momento'          => $n,
+                            'descripcion_momento' => $value['descripcion_momento'],
+                            'id_cliente'          => $cliente->id_cliente,
+                            'id_encuesta'         => $cliente->encuesta->id_encuesta,
+                        ];
+                        $moment = MomentoEncuesta::firstOrCreate($da);
 
-                        if ($moment->pivot->save()) {
-                            $canal            = Canal::find($value['canal']);
-                            $url              = '/survey' . '/' . Crypt::encrypt($cliente->id_cliente) . '/' . Crypt::encrypt($canal->id_canal) . '/' . Crypt::encrypt($n);
-                            $data             = new Url;
-                            $data->url        = $url;
-                            $data->given      = Url::getShortenedUrl();
-                            $data->id_cliente = $cliente->id_cliente;
-                            $data->id_canal   = $canal->id_canal;
-                            $data->id_momento = $n;
+                        if (!is_null($moment)) {
+                            $canal         = Canal::find($value['canal']);
+                            $url           = '/survey' . '/' . Crypt::encrypt($cliente->id_cliente) . '/' . Crypt::encrypt($canal->id_canal) . '/' . Crypt::encrypt($n);
+                            $d             = new Url;
+                            $d->url        = $url;
+                            $d->given      = Url::getShortenedUrl();
+                            $d->id_cliente = $cliente->id_cliente;
+                            $d->id_canal   = $canal->id_canal;
+                            $d->id_momento = $n;
 
-                            if ($data->save()) {
+                            if ($d->save()) {
                                 array_push($moments, $moment);
                             }
                         }

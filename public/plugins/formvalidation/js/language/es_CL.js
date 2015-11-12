@@ -292,7 +292,7 @@
                 between: 'Por favor ingrese un valor con una longitud entre %s y %s caracteres'
             },
             uri: {
-                'default': 'Por favor ingresese una URI válida'
+                'default': 'Por favor ingrese una URI válida'
             },
             uuid: {
                 'default': 'Por favor ingrese un número UUID válido',

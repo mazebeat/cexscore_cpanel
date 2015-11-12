@@ -31,6 +31,7 @@
         <item url="file://$PROJECT_DIR$/public/js/cliente.create.min.js" />
         <item url="file://$PROJECT_DIR$/public/plugins/bootstrap_wizard/prettify.min.js" />
         <item url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets.min.js" />
+        <item url="file://$PROJECT_DIR$/public/plugins/formvalidation/js/language/es_CL.min.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
@@ -63,6 +64,7 @@
       <root url="file://$PROJECT_DIR$/public/js/cliente.create.min.js" />
       <root url="file://$PROJECT_DIR$/public/plugins/bootstrap_wizard/prettify.min.js" />
       <root url="file://$PROJECT_DIR$/vendor/maximebf/debugbar/src/DebugBar/Resources/widgets.min.js" />
+      <root url="file://$PROJECT_DIR$/public/plugins/formvalidation/js/language/es_CL.min.js" />
     </CLASSES>
     <SOURCES />
   </library>

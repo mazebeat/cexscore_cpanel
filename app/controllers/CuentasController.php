@@ -199,8 +199,9 @@ class CuentasController extends \ApiController
 
                 $admin   = self::saveAdministrator(Input::get('usuario'), $client, $survey);
                 $moments = self::saveMoments(Input::get('momento_encuesta'), $client, true);
-                $theme   = self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
-                $urls    = Url::whereIdCliente($client->id_cliente)->get(['given', 'id_momento', 'id_cliente'])->toArray();
+                dd($moments);
+                $theme = self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
+                $urls  = Url::whereIdCliente($client->id_cliente)->get(['given', 'id_momento', 'id_cliente'])->toArray();
 
                 foreach ($urls as $k => $v) {
                     array_set($urls[$k], 'given', url($v['given']));
@@ -228,7 +229,7 @@ class CuentasController extends \ApiController
             if ($errorCode == 1062) {
             }
             App::abort(500, 'Error al procesar inserción de la cuenta.');
-            //            dd($e->getMessage());
+            //                        dd($e->getMessage());
         } catch (ModelNotFoundException $e) {
             App::abort(500, 'Error al procesar cuenta.');
             //            dd($e->getMessage());

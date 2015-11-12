@@ -34,17 +34,17 @@ Validator::resolver(function ($translator, $data, $rules, $messages) {
 |
 */
 
-Log::useFiles(storage_path() . '/logs/laravel.log');
+//Log::useFiles(storage_path() . '/logs/laravel.log');
 
-//if (Config::get('config.logs.path') != '') {
-//    if (!File::exists(Config::get('config.logs.path'))) {
-//        File::makeDirectory(Config::get('config.logs.path'), 777, true, true);
-//    }
-//
-//    Log::useFiles(Config::get('config.logs.path') . 'PanelCExScore.log');
-//} else {
-//    Log::useFiles(storage_path() . '/logs/AmicarLanding_App.log');
-//}
+if (Config::get('config.logs.path') != '') {
+    if (!File::exists(Config::get('config.logs.path'))) {
+        File::makeDirectory(Config::get('config.logs.path'), 777, true, true);
+    }
+
+    Log::useFiles(Config::get('config.logs.path') . 'PanelCExScore.log');
+} else {
+    Log::useFiles(storage_path() . '/logs/AmicarLanding_App.log');
+}
 
 Log::listen(function ($level, $message, $context) {
     $monolog = Log::getMonolog();
@@ -77,6 +77,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 App::error(function (ModelNotFoundException $exception) {
     Log::error($exception);
+
     return Response::make('No encontrado [ERROR]: ' . $exception->getMessage(), 404);
 });
 

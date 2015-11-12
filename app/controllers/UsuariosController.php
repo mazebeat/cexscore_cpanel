@@ -145,13 +145,13 @@ class UsuariosController extends \ApiController
             if ($usuario->resetPassword()) {
                 Session::flash('message', 'Reset Password, OK!');
 
-                return Redirect::route('admin.csusuarios.index');
+                return Redirect::route('admin.usuarios.index');
             }
         }
 
         Session::flash('message', 'Reset Password, Wrong!');
 
-        return Redirect::route('admin.csusuarios.index');
+        return Redirect::route('admin.usuarios.index');
     }
 
 }

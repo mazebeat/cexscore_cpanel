@@ -25,7 +25,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'panel_exscore',
 			'username'  => 'root',
-			'password'  => 'MZ.120712',
+			'password'  => 'mz.120712',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

@@ -246,6 +246,7 @@ class AdminController extends \ApiController
 
             $validator = \Validator::make($credentials, $rules);
 
+
             if ($validator->fails()) {
                 if (\Request::ajax()) {
                     return json_encode('ERROR');

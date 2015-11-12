@@ -3,6 +3,7 @@
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\MessageBag;
 
 class CuentasController extends \ApiController
 {
@@ -190,18 +191,23 @@ class CuentasController extends \ApiController
         }
 
         try {
-            $survey = Encuesta::findOrFail(Input::get('cliente.id_encuesta')); // self::saveSurvey(Input::get('encuesta'));
+            if (count(Input::get('momento_encuesta')) || is_null(Input::get('momento_encuesta'))) {
+                $error = new \Illuminate\Support\MessageBag(['Debe ingresar Momentos a la cuenta.']);
+
+                return Redirect::back()->withErrors($error)->withInput();
+            }
+
+            $survey = Encuesta::findOrFail(Input::get('cliente.id_encuesta'));
 
             if (!is_null($survey)) {
                 $client = self::saveClient(Input::get('cliente'), $survey);
                 $client->encuesta()->associate($survey);
                 $client->save();
 
-                $admin   = self::saveAdministrator(Input::get('usuario'), $client, $survey);
-                $moments = self::saveMoments(Input::get('momento_encuesta'), $client, true);
-                dd($moments);
-                $theme = self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
-                $urls  = Url::whereIdCliente($client->id_cliente)->get(['given', 'id_momento', 'id_cliente'])->toArray();
+                $admin = self::saveAdministrator(Input::get('usuario'), $client, $survey);
+                self::saveMoments(Input::get('momento_encuesta'), $client);
+                self::saveTheme(Str::camel(Input::get('cliente.nombre_cliente')), Input::get('apariencia'), Input::file('apariencia'));
+                $urls = Url::whereIdCliente($client->id_cliente)->get(['given', 'id_momento', 'id_cliente'])->toArray();
 
                 foreach ($urls as $k => $v) {
                     array_set($urls[$k], 'given', url($v['given']));
@@ -209,29 +215,29 @@ class CuentasController extends \ApiController
                     $urls[$k] = array_add($urls[$k], 'descripcion_momento', $a);
                 }
 
-                if (true) {
-                    // TODO; Agregar log de eventos para sabe que se ha enviado el correo al responsable de la cuenta.
-                    self::sendWelcomeMail(array(
-                        'email' => $admin->email,
-                        'name'  => $admin->nombre,
-                    ), array(
-                        'nombre_usuario' => $admin->nombre,
-                        'usuario'        => $admin->usuario,
-                        'urls'           => $urls,
-                    ));
-                }
+                self::sendWelcomeMail(array(
+                    'email' => $admin->email,
+                    'name'  => $admin->nombre,
+                ), array(
+                    'nombre_usuario' => $admin->nombre,
+                    'usuario'        => $admin->usuario,
+                    'urls'           => $urls,
+                ));
 
                 return Redirect::route('admin.cuentas.index');
             }
 
         } catch (QueryException $e) {
-            $errorCode = $e->errorInfo[1];
-            if ($errorCode == 1062) {
-            }
-            App::abort(500, 'Error al procesar inserción de la cuenta.');
-            //                        dd($e->getMessage());
+            $error = new \Illuminate\Support\MessageBag(['Error al procesar inserción de la cuenta.']);
+
+            return Redirect::back()->withErrors($error)->withInput();
+            //            App::abort(500, 'Error al procesar inserción de la cuenta.');
+            //            dd($e->getMessage());
         } catch (ModelNotFoundException $e) {
-            App::abort(500, 'Error al procesar cuenta.');
+            $error = new \Illuminate\Support\MessageBag(['Error al procesar cuenta.']);
+
+            return Redirect::back()->withErrors($error)->withInput();
+            //            App::abort(500, 'Error al procesar cuenta.');
             //            dd($e->getMessage());
         }
 

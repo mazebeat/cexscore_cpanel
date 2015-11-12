@@ -9,7 +9,7 @@ ini_set('session.use_only_cookies', true);
 
 Route::get('/', function () {
     $error = new Illuminate\Support\MessageBag();
-    $error->add('error', 'P�gina no encontrada');
+    $error->add('error', 'Página no encontrada');
 
     return View::make('survey.errors')->withErrors($error)->withCode('500');
 });

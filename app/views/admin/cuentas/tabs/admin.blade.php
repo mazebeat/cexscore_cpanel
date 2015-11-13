@@ -34,7 +34,7 @@
 </div>
 
 <div class="form-group">
-	{{ Form::label('usuario[linkedlin]', 'LinkedlIn:', array('class'=>'col-md-2 control-label')) }}
+	{{ Form::label('usuario[linkedlin]', 'LinkedIn:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
 		{{ Form::url('usuario[linkedlin]', Input::old('linkedlin]'), array('class'=>'form-control', 'placeholder'=>'Linkedin Usuario')) }}
 	</div>

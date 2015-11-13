@@ -101,6 +101,8 @@ App::missing(function ($exception) {
 */
 
 App::down(function () {
+    Log::warning('App down!...');
+    
     return Response::make("<h3>Estamos en mantención,</h3><h1>Pronto Volveremos!</h1>", 503);
 });
 

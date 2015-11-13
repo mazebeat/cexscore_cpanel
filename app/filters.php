@@ -18,9 +18,9 @@ App::before(function ($request) {
 
 App::after(function ($request, $response) {
     // if (!Config::get('app.debug')) {
-//    if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') || strpos($_SERVER['HTTP_USER_AGENT'], 'Safari')) {
-//        $response->header('P3P', 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
-//    }
+    //    if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') || strpos($_SERVER['HTTP_USER_AGENT'], 'Safari')) {
+    //        $response->header('P3P', 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
+    //    }
     // }
 });
 
@@ -40,17 +40,6 @@ Route::filter('auth', function () {
         if (Request::ajax()) {
             return Response::make('Unauthorized', 401);
         } else {
-            //			return Redirect::guest('admin/login');
-            //$msg = array('data'    => array('type'  => 'danger',
-            //                                'title' => 'Atención',
-            //                                'text'  => 'Usuario no logueado'),
-            //             'options' => array('left' => HTML::link(URL::to('/'), 'Salir', array('class' => 'col-md-3 btn btn-default btn-lg pull-right text-uppercase'))));
-            //$message           = new \stdClass();
-            //$message->title    = 'Atención';
-            //$message->subtitle = 'Usuario no logueado';
-            //
-            //return View::make('survey.messages')->withMessage($message);
-
             return Redirect::to('admin/login');
         }
     }
@@ -100,13 +89,8 @@ Route::filter('csrf', function ($route, $request) {
             return Redirect::back();
         } catch (Illuminate\Session\TokenMismatchException $exception) {
             Log::error($exception);
+
             throw new Illuminate\Session\TokenMismatchException;
         }
     }
 });
-
-// Route::filter('csrf', function () {
-// 	if (Request::getMethod() !== 'GET' && Session::token() != Input::get('_token')) {
-// 		throw new Illuminate\Session\TokenMismatchException;
-// 	}
-// });

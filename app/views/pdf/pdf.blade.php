@@ -35,7 +35,7 @@
 	@yield('script')
 </head>
 
-<body style="border:0; margin: 0;" onload="subst()">
+<body style="border:0; margin: 0;" onload="init()">
 <div id="wrap">
 	<div class="container">
 		@yield('content')

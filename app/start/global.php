@@ -43,7 +43,7 @@ if (Config::get('config.logs.path') != '') {
 
     Log::useFiles(Config::get('config.logs.path') . 'PanelCExScore.log');
 } else {
-    Log::useFiles(storage_path() . '/logs/AmicarLanding_App.log');
+    Log::useFiles(storage_path() . '/logs/PanelCExScore.log');
 }
 
 

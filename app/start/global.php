@@ -46,15 +46,6 @@ if (Config::get('config.logs.path') != '') {
     Log::useFiles(storage_path() . '/logs/AmicarLanding_App.log');
 }
 
-Log::listen(function ($level, $message, $context) {
-    $monolog = Log::getMonolog();
-    $monolog->pushProcessor(function ($record) {
-        $record['extra']['user'] = Auth::user() ? Auth::user()->username : 'anonymous';
-        $record['extra']['ip']   = Request::getClientIp();
-
-        return $record;
-    });
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -102,7 +93,7 @@ App::missing(function ($exception) {
 
 App::down(function () {
     Log::warning('App down!...');
-    
+
     return Response::make("<h3>Estamos en mantención,</h3><h1>Pronto Volveremos!</h1>", 503);
 });
 

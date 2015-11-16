@@ -15,7 +15,7 @@
 @endsection
 
 @section('content')
-	<p>{{ link_to_route('admin.ciudads.index', 'Volver a Ciudad', null, array('class'=>'btn btn-lg btn-primary')) }}</p>
+	<p>{{ link_to_route('admin.ciudads.index', 'Volver a Ciudades', null, array('class'=>'btn btn-lg btn-primary')) }}</p>
 
 	<table class="table table-striped table-condensed table-hover">
 		<thead>

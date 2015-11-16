@@ -29,12 +29,12 @@
 
 	{{ Form::model($csusuario, array('class' => 'form-horizontal', 'method' => 'PATCH', 'route' => array('admin.csusuarios.update', $csusuario->id_usuario))) }}
 
-	<div class="form-group">
-		{{ Form::label('usuario', 'Usuario:', array('class'=>'col-md-2 control-label')) }}
-		<div class="col-sm-10">
-			{{ Form::text('usuario', Input::old('usuario'), array('class'=>'form-control', 'placeholder'=>'Usuario', 'readonly')) }}
-		</div>
-	</div>
+	{{--<div class="form-group">--}}
+	{{--{{ Form::label('usuario', 'Usuario:', array('class'=>'col-md-2 control-label')) }}--}}
+	{{--<div class="col-sm-10">--}}
+	{{--{{ Form::text('usuario', Input::old('usuario'), array('class'=>'form-control', 'placeholder'=>'Usuario', 'readonly')) }}--}}
+	{{--</div>--}}
+	{{--</div>--}}
 
 	{{--<div class="form-group">--}}
 	{{--{{ Form::label('password', 'Password:', array('class'=>'col-md-2 control-label')) }}--}}
@@ -43,12 +43,12 @@
 	{{--</div>--}}
 	{{--</div>--}}
 
-	{{--<div class="form-group">--}}
-	{{--{{ Form::label('nombre_usuario', 'Nombre Completo:', array('class'=>'col-md-2 control-label')) }}--}}
-	{{--<div class="col-sm-10">--}}
-	{{--{{ Form::text('nombre_usuario', Input::old('nombre_usuario'), array('class'=>'form-control', 'placeholder'=>'Nombre_usuario')) }}--}}
-	{{--</div>--}}
-	{{--</div>--}}
+	<div class="form-group">
+		{{ Form::label('nombre', 'Nombre Completo:', array('class'=>'col-md-2 control-label')) }}
+		<div class="col-sm-10">
+			{{ Form::text('nombre', Input::old('nombre'), array('class'=>'form-control', 'placeholder'=>'Nombre_usuario')) }}
+		</div>
+	</div>
 
 	<div class="form-group">
 		{{ Form::label('rut', 'RUT:', array('class'=>'col-md-2 control-label')) }}
@@ -102,7 +102,7 @@
 	<div class="form-group">
 		{{ Form::label('rol_organizacion', 'Rol Organización:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::select('rol_organizacion', ['0' => '', '1' => 'Servicio', '2' => 'Marketing', '3' => 'Ventas/Comercial', '4' => 'Finanzas', '5' => 'Dirección', '6' => 'Operaciones'], Input::old('rol_organizacion'), array('class'=>'form-control')) }}
+			{{ Form::select('rol_organizacion', ['null' => '', 'Servicio' => 'Servicio', 'Marketing' => 'Marketing', 'Ventas/Comercial' => 'Ventas/Comercial', 'Finanzas' => 'Finanzas', 'Dirección' => 'Dirección', 'Operaciones' => 'Operaciones'], Input::old('rol_organizacion'), array('class'=>'form-control')) }}
 		</div>
 	</div>
 

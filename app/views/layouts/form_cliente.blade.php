@@ -46,7 +46,7 @@
 	<div class="form-group">
 		<div class="col-sm-10">
 			<div class="checkbox">
-				<label>{{ \Str::hes('No quiero recibir información vía e-mail') }}&nbsp;&nbsp;{{ Form::checkbox('wish_email', 1, false, array('class' => 'form-control')) }}
+				<label>{{ \Str::hes('No quiero recibir informaciÃ³n vÃ­a e-mail') }}&nbsp;&nbsp;{{ Form::checkbox('wish_email', 1, false, array('class' => 'form-control')) }}
 				</label>
 			</div>
 		</div>

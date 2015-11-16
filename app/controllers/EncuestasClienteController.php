@@ -109,14 +109,11 @@ class EncuestasClienteController extends \ApiController
 
                 $client = Cliente::find(Crypt::decrypt($idcliente));
 
-                if (!Cache::has('survey.finish')) {
-                    $visit             = new Visita();
-                    $visit->id_cliente = Crypt::decrypt($idcliente);
-                    $visit->id_canal   = $idCanal;
-                    $visit->id_momento = Crypt::decrypt($moment);;
-                }
-
-                Cache::forget('survey.finish');
+                Visita::create([
+                    'id_cliente' => Crypt::decrypt($idcliente),
+                    'id_momento' => Crypt::decrypt($moment),
+                    'id_canal'   => $idCanal,
+                ]);
 
                 if (!is_null($client) && $client->first()->exists) {
 
@@ -140,8 +137,6 @@ class EncuestasClienteController extends \ApiController
                             Session::put('survey.moment', $moment);
                         }
                     }
-
-                    dd($theme);
 
                     return View::make('survey.encuesta')->withMoment($moment)->withTheme($theme)->withSurvey($survey)->withClient($client);
                 }

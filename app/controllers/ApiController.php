@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
 class ApiController extends \BaseController
@@ -193,52 +194,67 @@ class ApiController extends \BaseController
      */
     public static function saveMoments($data, $cliente = null, $save = false)
     {
-        $moments = array();
-        if (!is_null($data) && !is_null($cliente)) {
-            if (!$save) {
-                foreach ($data['momentos'] as $key => $value) {
-                    $moment                             = $cliente->encuesta->momentos->find($value['id_momento']);
-                    $moment->pivot->descripcion_momento = $value['descripcion_momento'];
-                    $moment->pivot->save();
+        try {
+            $moments = array();
+            if (!is_null($data) && !is_null($cliente)) {
+                if (!$save) {
+                    if (count($data['momentos']) > 0) {
+                        foreach ($data['momentos'] as $key => $value) {
+                            $moment = $cliente->encuesta->momentos->find($value['id_momento']);
+                            if ($moment->pivot->descripcion_momento != $value['descripcion_momento']) {
+                                $moment->pivot->descripcion_momento = $value['descripcion_momento'];
+                                $moment->pivot->updated_at          = Carbon::now();
+                                $moment->pivot->save();
+                            }
 
-                    array_push($moments, $moment);
-                }
-            } else {
-                foreach ($data as $key => $value) {
-                    $n      = ($key + 1);
-                    $moment = Momento::firstOrCreate(['id_momento' => $n, 'descripcion_momento' => 'Momento ' . $n]);
-                    $moment = $moment->encuestas->first();
+                            array_push($moments, $moment);
+                        }
+                    }
+                } else {
+                    for ($i = 1; $i <= count($data); $i++) {
+                        $moment = Momento::firstOrCreate(['id_momento' => $i, 'descripcion_momento' => 'Momento ' . $i, 'id_estado' => 1]);
+                    }
 
                     if (!is_null($moment)) {
-                        $da     = [
-                            'id_momento_encuesta' => 0,
-                            'id_momento'          => $n,
-                            'descripcion_momento' => $value['descripcion_momento'],
-                            'id_cliente'          => $cliente->id_cliente,
-                            'id_encuesta'         => $cliente->encuesta->id_encuesta,
-                        ];
-                        $moment = MomentoEncuesta::firstOrCreate($da);
+                        $count = 1;
+                        foreach ($data as $key => $value) {
+                            $momentoencuesta = MomentoEncuesta::firstOrCreate([
+                                'id_momento'          => $count,
+                                'descripcion_momento' => $value['descripcion_momento'],
+                                'id_cliente'          => $cliente->id_cliente,
+                                'id_encuesta'         => $cliente->encuesta->id_encuesta,
+                            ]);
 
-                        if (!is_null($moment)) {
-                            $canal         = Canal::find($value['canal']);
-                            $url           = '/survey' . '/' . Crypt::encrypt($cliente->id_cliente) . '/' . Crypt::encrypt($canal->codigo_canal) . '/' . Crypt::encrypt($n);
-                            $u             = new Url;
-                            $u->url        = $url;
-                            $u->given      = Url::getShortenedUrl();
-                            $u->id_cliente = $cliente->id_cliente;
-                            $u->id_canal   = $canal->id_canal;
-                            $u->id_momento = $n;
+                            if (!is_null($momentoencuesta)) {
+                                $canal = Canal::find($value['canal']);
+                                $uri   = '/survey' . '/' . Crypt::encrypt($cliente->id_cliente) . '/' . Crypt::encrypt($canal->codigo_canal) . '/' . Crypt::encrypt($count);
 
-                            if ($u->save()) {
-                                array_push($moments, $moment);
+                                $url = Url::firstOrCreate([
+                                    'url'        => $uri,
+                                    'given'      => Url::getShortenedUrl(),
+                                    'id_cliente' => $cliente->id_cliente,
+                                    'id_canal'   => $canal->id_canal,
+                                    'id_momento' => $count,
+                                ]);
+
+                                if (!is_null($url)) {
+                                    array_push($moments, $momentoencuesta);
+                                }
+                            } else {
+                                throw new \Exception('Error al crear momento/encuesta', 500);
                             }
+                            $count++;
                         }
+                    } else {
+                        throw new \Exception('Error al crear momentos', 500);
                     }
                 }
             }
-
-            return $moments;
+        } catch (\Exception $e) {
+            throw $e;
         }
+
+        return $moments;
     }
 
     /**
@@ -434,8 +450,10 @@ class ApiController extends \BaseController
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    function throwError(\Exception $e)
+    function throwError($e)
     {
+        Log::error($e->getMessage());
+
         if (!Config::get('app.debug')) {
             $error          = new stdClass();
             $error->code    = $e->getCode();

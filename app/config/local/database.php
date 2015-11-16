@@ -23,7 +23,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'panel_exscore',
+			'database'  => 'panel_exscore_productivo',
 			'username'  => 'root',
 			'password'  => 'mz.120712',
 			'charset'   => 'utf8',

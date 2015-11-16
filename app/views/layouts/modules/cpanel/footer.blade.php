@@ -1,6 +1,6 @@
 <div class="pull-right text-right">
 	<small>
-		<b>Desarrollado por &copy; <a href="http://www.customertrigger.com/">Customer Trigger S.A.</a> {{ Carbon::now()->year == '2015' ? Carbon::now()->year : '2015-' . Carbon::now()->year }}</b>
+		<b>Desarrollado por &copy; <a href="http://www.customertrigger.com/">CustomerTrigger S.A.</a > {{ Carbon::now()->year == '2015' ? Carbon::now()->year : '2015-' . Carbon::now()->year }}</b>
 		<br> <a href="http://www.customertrigger.com/termino-de-uso-politicas-de-privacidad-customerexperience-score/" target="_blank">T&eacute;rminos de Uso</a> |
 		<a href="http://www.customertrigger.com/termino-de-uso-politicas-de-privacidad-customerexperience-score/" target="_blank">Pol&iacute;tica de Privacidad</a> |
 		<a href="http://www.customertrigger.com/customer-experience-score/" target="_blank">Nuestra Soluci&oacute;n</a> |

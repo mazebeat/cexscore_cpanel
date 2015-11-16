@@ -3,7 +3,6 @@
 	header {
 		background-color: {{ $theme->color_header }};
 		color: {{ $theme->color_text_header }};
-
 	}
 
 	.header_text {
@@ -16,6 +15,7 @@
 	}
 
 	body {
+		color: {{ $theme->color_text_body }};
 		background-color: {{ $theme->color_body }};
 	}
 
@@ -25,9 +25,9 @@
 
 	#surveyForm input[type=submit], input[type=button], .btn {
 		@if(isset($theme->color_boton) && $theme->color_boton != '')
-			  background-color: {{ $theme->color_boton  }};
+	      background-color: {{ $theme->color_boton  }};
 		@else
-			  background-color: {{ $theme->color_text_header  }};
+	      background-color: {{ $theme->color_text_header  }};
 		@endif
 	}
 
@@ -48,13 +48,12 @@
 		color: {{ $theme->color_text_footer }};
 	}
 
-	footer.text_footer {
-		background-color: {{ $theme->color_body }};
-		color: {{ $theme->color_text_body }};
+	footer a {
+		color: {{ $theme->color_text_footer }};
 	}
 
-	/*.user img {*/
-		/*-webkit-filter: drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.1));*/
-		/*filter: drop-shadow(4px 4px 3px rgba(0, 0, 0, 0.1));*/
-	/*}*/
+	footer .text_footer {
+		background-color: {{ $theme->color_footer }};
+		color: {{ $theme->color_text_footer }};
+	}
 </style>

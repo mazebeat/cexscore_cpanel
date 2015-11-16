@@ -49,7 +49,18 @@ class CsUsuariosController extends \ApiController
         $input     = array_add($input, 'nombre', Input::get('nombre_usuario') . ' ' . Input::get('apellido_usuario'));
         $input     = array_add($input, 'usuario', $username);
         $input     = array_add($input, 'responsable', 0);
-        $input     = array_add($input, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
+        $input     = array_add($input, 'pwdusuario', md5('123456')); // 'e10adc3949ba59abbe56e057f20f883e'
+
+        if (array_get($input, 'fecha_nacimiento') == "") {
+            array_set($input, 'fecha_nacimiento', null);
+        } else {
+            $born = Carbon::parse(array_get($input, 'fecha_nacimiento'));
+            $age  = $born->age;
+
+            array_set($input, 'fecha_nacimiento', $born);
+            array_set($input, 'edad', $age);
+        }
+
         $idCliente = \Auth::user()->cliente->id_cliente;
         array_set($input, 'id_cliente', $idCliente);
         array_set($input, 'id_perfil', 3);

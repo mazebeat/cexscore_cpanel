@@ -133,11 +133,15 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
             array_push($momentos, $url);
         }
 
+        $plan = $cliente->plan->toArray();
+        array_get($plan, 'optin_plan') == 0 ? array_set($plan, 'optin_plan', 'No') : array_set($plan, 'optin_plan', 'Sí');
+        array_get($plan, 'descarga_datos_plan') == 0 ? array_set($plan, 'descarga_datos_plan', 'No') : array_set($plan, 'descarga_datos_plan', 'Sí');
+
         return array(
             'cliente'  => $cliente->toArray(),
             'admin'    => CsUsuario::responsable()->where('id_cliente', $id)->first()->toArray(),
             'usuarios' => CsUsuario::where('id_cliente', $id)->get()->toArray(),
-            'plan'     => $cliente->plan->toArray(),
+            'plan'     => $plan,
             'sector'   => $cliente->sector->toArray(),
             'momentos' => $momentos,
         );

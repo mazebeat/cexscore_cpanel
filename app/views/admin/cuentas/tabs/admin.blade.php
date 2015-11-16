@@ -36,14 +36,14 @@
 <div class="form-group">
 	{{ Form::label('usuario[linkedlin]', 'LinkedIn:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::url('usuario[linkedlin]', Input::old('linkedlin]'), array('class'=>'form-control', 'placeholder'=>'Linkedin Usuario')) }}
+		{{ Form::url('usuario[linkedlin]', Input::old('linkedlin]'), array('class'=>'form-control', 'placeholder'=>'LinkedIn Usuario')) }}
 	</div>
 </div>
 
 <div class="form-group">
 	{{ Form::label('usuario[rol_organizacion]', 'Rol Organización:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::select('usuario[rol_organizacion]', ['0' => '', '1' => 'Servicio', '2' => 'Marketing', '3' => 'Ventas/Comercial', '4' => 'Finanzas', '5' => 'Dirección', '6' => 'Operaciones'], Input::old('usuario[rol_organizacion]'), array('class'=>'form-control')) }}
+		{{ Form::select('usuario[rol_organizacion]', ['null' => '', 'Servicio' => 'Servicio', 'Marketing' => 'Marketing', 'Ventas/Comercial' => 'Ventas/Comercial', 'Finanzas' => 'Finanzas', 'Dirección' => 'Dirección', 'Operaciones' => 'Operaciones'], Input::old('usuario[rol_organizacion]'), array('class'=>'form-control')) }}
 	</div>
 </div>
 

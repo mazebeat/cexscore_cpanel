@@ -115,7 +115,7 @@
 	<div class="form-group">
 		{{ Form::label('rol_organizacion_usuario', 'Rol Organización:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::select('rol_organizacion_usuario', ['0' => '', '1' => 'Servicio', '2' => 'Marketing', '3' => 'Ventas/Comercial', '4' => 'Finanzas', '5' => 'Dirección', '6' => 'Operaciones'], Input::old('rol_organizacion_usuario'), array('class'=>'form-control')) }}
+			{{ Form::select('rol_organizacion_usuario', ['null' => '', 'Servicio' => 'Servicio', 'Marketing' => 'Marketing', 'Ventas/Comercial' => 'Ventas/Comercial', 'Finanzas' => 'Finanzas', 'Dirección' => 'Dirección', 'Operaciones' => 'Operaciones'], Input::old('rol_organizacion_usuario'), array('class'=>'form-control')) }}
 		</div>
 	</div>
 

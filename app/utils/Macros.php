@@ -9,7 +9,7 @@
 use Carbon\Carbon;
 
 \Str::macro('hes', function ($str) {
-    $find    = array("�", "�", "�", "�", "�", "�", "�", "�", "�", "�", "�", "�");
+    $find    = array("á", "é", "í", "ó", "ú", "ñ", "Á", "É", "Í", "Ó", "Ú", "Ñ");
     $replace = array(
         "&aacute;",
         "&eacute;",
@@ -319,7 +319,7 @@ use Carbon\Carbon;
         $out .= '</div>';
         $out .= '<div class="messageContainer"></div>';
     } else {
-        $out .= \HTML::alert('warning', array('Cantidad de opciones no declarada en la funci�n.'), 'ATENCI�N!...');
+        $out .= \HTML::alert('warning', array('Cantidad de opciones no declarada en la función.'), 'ATENCIÓN!...');
     }
 
     return $out;
@@ -456,7 +456,7 @@ use Carbon\Carbon;
 		</thead>
 		<tbody class=" text-center">
 			<tr class="">
-				<td style="width: 33 %;" class="text-left vertical-align"><label class="control-label">' . \Str::hes('Opci�n') . '</label></td>
+				<td style="width: 33 %;" class="text-left vertical-align"><label class="control-label">' . \Str::hes('Opción') . '</label></td>
 				<td style="width: 33 %;"><input type="radio" name="question_' . $numero_pregunta . '_' . $id_pregunta_padre . '[text]" value="SI" data-fv-notempty data-fv-notempty-message="' . \Lang::get('validation . required',
             ['attribute' => '']) . '"></td>
 				<td style="width: 33 %;"><input type="radio" name="question_' . $numero_pregunta . '_' . $id_pregunta_padre . '[text]" value="NO"></td>
@@ -482,11 +482,11 @@ use Carbon\Carbon;
     //dd($question->id_tipo_respuesta);
     switch ($question->id_tipo_respuesta) {
         case 1:
-            //Opcion �nica
+            //Opcion única
             $out .= \HTML::singleOptions($question, 7, $isSubQuestion);
             break;
         case 2:
-            //Multiopcion
+            //Multiopción
             $out .= \HTML::multiOptions($question, $isSubQuestion);
             break;
         case 3:
@@ -527,13 +527,13 @@ use Carbon\Carbon;
 \HTML::macro('generateSurvey', function ($survey = null) {
 
     if (!isset($survey) && !$survey->exists) {
-        return \HTML::alert('danger', array('No existe encuesta asociada.'), 'Atenci�n!...');
+        return \HTML::alert('danger', array('No existe encuesta asociada.'), 'Atención!...');
     }
 
     $questions = $survey->preguntas;
 
     if (count($questions) <= 0) {
-        return \HTML::alert('warning', array('No existen preguntas para esta encuesta.'), 'Atenci�n!...');
+        return \HTML::alert('warning', array('No existen preguntas para esta encuesta.'), 'Atención!...');
     }
 
     //$options_count = 7;
@@ -878,7 +878,7 @@ use Carbon\Carbon;
                             <th class="col-xs-6"></th>
                             <th class="col-xs-2">Última Semana</th>
                             <th class="col-xs-2">Semana Anterior</th>
-                            <th class="col-xs-2">Tendencia</th>
+                            <th class="col-xs-2">Variación</th>
                         </tr>';
 
             $start      = $date->startOfMonth();
@@ -892,7 +892,7 @@ use Carbon\Carbon;
                             <th class="col-xs-6"></th>
                             <th class="col-xs-2">Último mes (acum)</th>
                             <th class="col-xs-2">Mes Anterior</th>
-                            <th class="col-xs-2">Tendencia</th>
+                            <th class="col-xs-2">Variación</th>
                         </tr>';
 
             $start      = $date->startOfWeek();

@@ -49,7 +49,17 @@ class UsuariosController extends \ApiController
         $input    = array_add($input, 'username', $username);
         $input    = array_add($input, 'responsable', 0);
         $input    = array_add($input, 'password', Hash::make('123456'));
-        $cliente  = \Auth::user()->cliente;
+        if (array_get($input, 'fecha_nacimiento') == "") {
+            array_set($input, 'fecha_nacimiento', null);
+        } else {
+            $born = Carbon::parse(array_get($input, 'fecha_nacimiento'));
+            $age  = $born->age;
+
+            array_set($input, 'fecha_nacimiento', $born);
+            array_set($input, 'edad_usuario', $age);
+        }
+
+        $cliente = \Auth::user()->cliente;
         array_set($input, 'id_cliente', $cliente->id_cliente);
         array_set($input, 'id_encuesta', $cliente->encuesta->id_encuesta);
 
@@ -105,8 +115,23 @@ class UsuariosController extends \ApiController
      */
     public function update($id)
     {
+        $rules = array(
+//            'username'             => 'required',
+            'nombre_usuario'       => 'required',
+            'password'             => 'required',
+            'edad_usuario'         => '',
+            'fecha_nacimiento'     => '',
+            'genero_usuario'       => '',
+            'correo_usuario'       => 'required',
+            'rut_usuario'          => 'required',
+            'desea_correo_usuario' => '',
+            'id_tipo_usuario'      => 'required',
+            'id_cliente'           => 'required',
+            'id_encuesta'          => 'required',
+        );
+
         $input      = array_except(Input::all(), '_method');
-        $validation = Validator::make($input, Usuario::$rules);
+        $validation = Validator::make($input, $rules);
 
         if ($validation->passes()) {
             $usuario = $this->usuario->find($id);
@@ -156,7 +181,8 @@ class UsuariosController extends \ApiController
     /**
      *
      */
-    public function showChangePassword() {
+    public function showChangePassword()
+    {
 
     }
 

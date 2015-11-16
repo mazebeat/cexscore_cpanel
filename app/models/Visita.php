@@ -18,8 +18,8 @@
  */
 class Visita extends Eloquent
 {
-    public static $rules      = array('id_cliente' => 'required', 'id_canal' => 'required', 'momento' => 'required');
+    public static $rules      = array('id_cliente' => 'required', 'id_canal' => 'required', 'id_momento' => 'required');
     protected     $table      = 'visita';
     protected     $primaryKey = 'id_visita';
-    protected     $fillable   = array('id_cliente', 'id_canal', 'momento');
+    protected     $fillable   = array('id_cliente', 'id_canal', 'id_momento');
 }

@@ -28,7 +28,7 @@ class CuentasController extends \ApiController
 
             return array('rules' => $rules, 'messages' => $messages);
         } catch (Exception $e) {
-            throw $e;
+            self::throwError($e);
         }
     }
 
@@ -86,7 +86,7 @@ class CuentasController extends \ApiController
 
             return Redirect::to('admin/survey/load');
         } catch (Exception $e) {
-            return $e->getMessage();
+            self::throwError($e);
         }
     }
 
@@ -196,7 +196,6 @@ class CuentasController extends \ApiController
 
                 return Redirect::back()->withErrors($error)->withInput();
             }
-
 
             $survey = Encuesta::findOrFail(Input::get('cliente.id_encuesta'));
 
@@ -323,7 +322,9 @@ class CuentasController extends \ApiController
         $catgs    = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
         $ciudads  = Ciudad::lists('descripcion_ciudad', 'id_ciudad');
         $cliente  = Cliente::find($id);
-        $momentos = $cliente->encuesta->momentos()->where('id_cliente', 10)->get();
+        $momentos = $cliente->encuesta->momentos()->get();
+
+//        dd($momentos);
 
         return View::make('admin.cuentas.edit', compact('cliente'))->with('pais', $pais)->with('states', $states)->with('plans', $plans)->with('sectors', $sectors)->with('ciudads',
             $ciudads)->with('catgs', $catgs)->with('momentoencuestum', $momentos);
@@ -413,7 +414,7 @@ class CuentasController extends \ApiController
             throw new Exception('Cliente no tiene plan');
 
         } catch (Exception $e) {
-            throw $e;
+            self::throwError($e);
         }
     }
 
@@ -447,7 +448,7 @@ class CuentasController extends \ApiController
             $client->encuesta()->associate($survey);
             $client->save();
         } catch (Exception $e) {
-            throw $e;
+            self::throwError($e);
         }
     }
 

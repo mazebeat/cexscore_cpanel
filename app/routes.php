@@ -131,5 +131,4 @@ Route::get('test/pdf', function () {
 });
 
 Route::get('test/test', function(){
-
 });

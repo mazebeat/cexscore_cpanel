@@ -295,6 +295,10 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
         return $this->hasMany('Url', 'id_cliente');
     }
 
+    public function periodos()
+    {
+        return $this->belongsToMany('Periodo');
+    }
 
     /**
      * @return mixed

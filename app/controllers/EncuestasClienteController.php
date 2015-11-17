@@ -168,10 +168,6 @@ class EncuestasClienteController extends \ApiController
                 return Redirect::back()->withErrors($errors)->withInput($inputs);
             }
 
-            $client = Crypt::decrypt($client);
-            $canal  = Crypt::decrypt($canal);
-            $moment = Crypt::decrypt($moment);
-
             if (!self::validateAnswers($inputs)) {
                 $errors = 'Debe contestar todas las preguntas.';
 
@@ -186,7 +182,6 @@ class EncuestasClienteController extends \ApiController
                 return Redirect::back()->withErrors($errors)->withInput($inputs);
             }
 
-            $client   = Cliente::find($client);
             $idsurvey = $survey->id_encuesta;
 
             if (count($data['user']) && self::objectHasProperty($data['user'])) {
@@ -224,11 +219,11 @@ class EncuestasClienteController extends \ApiController
                 // Inserta cabecera de la respuesta
                 $respuesta                       = new Respuesta();
                 $respuesta->id_estado            = 1;
-                $respuesta->id_canal             = $canal;
+                $respuesta->id_canal             = Crypt::decrypt($canal);
                 $respuesta->id_encuesta          = $idsurvey;
                 $respuesta->id_cliente           = $client->id_cliente;
                 $respuesta->id_pregunta_cabecera = $value->id_pregunta_cabecera;
-                $respuesta->id_momento           = $moment;
+                $respuesta->id_momento           = Crypt::decrypt($moment);
                 $respuesta->id_usuario           = $iduser;
 
                 $respuesta = $client->respuestas()->save($respuesta, ['ultima_respuesta' => Carbon::now(), 'id_estado' => 1]);
@@ -266,7 +261,6 @@ class EncuestasClienteController extends \ApiController
             $nps->promedio      = $promedio;
             $nps->clasificacion = $clasificacion;
             $nps->save();
-
 
         } catch (Exception $e) {
             self::throwError($e);

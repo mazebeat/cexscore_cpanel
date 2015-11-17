@@ -1,6 +1,11 @@
 @extends('layouts.user')
 
 @section('style')
+	<style>
+		a {
+			color: #337ab7;
+		}
+	</style>
 	@if(isset($theme))
 		@include('layouts.theme')
 	@endif

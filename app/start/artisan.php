@@ -10,4 +10,5 @@
 | the console gets access to each of the command object instances.
 |
 */
-
+Artisan::add(App::make("NewPeriodCommand"));
+Artisan::add(App::make("ReportCommand"));

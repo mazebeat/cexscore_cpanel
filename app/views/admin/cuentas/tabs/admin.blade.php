@@ -22,7 +22,7 @@
 <div class="form-group">
 	{{ Form::label('usuario[fecha_nacimiento]', 'Fecha Nacimiento:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::input('date', 'fecha_nacimiento', Input::old('fecha_nacimiento'), array('id'=> 'usuarioFechaNacimiento', 'class'=>'form-control', 'placeholder'=>'Fecha Nacimiento', 'data-mask', 'min' => '1979-12-31', 'max' => Carbon::now()->toDateString())) }}
+		{{ Form::input('date', 'usuario[fecha_nacimiento]', Input::old('usuario[fecha_nacimiento]'), array('id'=> 'usuarioFechaNacimiento', 'class'=>'form-control', 'placeholder'=>'Fecha Nacimiento', 'data-mask', 'min' => '1979-12-31', 'max' => Carbon::now()->toDateString())) }}
 	</div>
 </div>
 

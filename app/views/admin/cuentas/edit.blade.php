@@ -28,7 +28,6 @@
 		</div>
 	</div>
 
-
 	<div class="nav-tabs-custom">
 		<ul class="nav nav-tabs" id="myTabs">
 			<li class="active"><a href="#home">Información Básica</a></li>

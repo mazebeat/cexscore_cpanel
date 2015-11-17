@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\MessageBag;
 
 class AdminController extends \ApiController
@@ -209,6 +210,63 @@ class AdminController extends \ApiController
     }
 
     /**
+     * GET NPS (?) VALUE
+     *
+     * @param strSQL_NPS
+     * @param mostrarComo
+     * @param locale
+     *
+     * @return
+     */
+    public static function genNPS2($data)
+    {
+        try {
+            $promotor  = 0;
+            $neutro    = 0;
+            $detractor = 0;
+            $total     = count($data);
+
+            if ($total > 0) {
+                foreach ($data as $key => $value) {
+                    if ($value >= 6.0) {
+                        $promotor++;
+                    } else if ($value <= 4.0) {
+                        $detractor++;
+                    } else {
+                        $neutro++;
+                    }
+                }
+
+                $nps_7 = (double)((float)($promotor * 100) / $total);
+                $nps_4 = (double)((float)($detractor * 100) / $total);
+                $nps_5 = (double)((float)($nps_7 - $nps_4));
+
+                if (($promotor + $detractor + $neutro) == 0.0) {
+                    $porc_promotores  = 0;
+                    $porc_detractores = 0;
+                    $porc_nps         = 0;
+                } else {
+                    $porc_promotores  = round($nps_7);
+                    $porc_detractores = round($nps_4);
+                    $porc_nps         = round($nps_5);
+                }
+            } else {
+                $porc_promotores  = 0;
+                $porc_detractores = 0;
+                $porc_nps         = 0;
+            }
+
+            return [
+                'promotores'  => $porc_promotores,
+                'detractores' => $porc_detractores,
+                'nps'         => $porc_nps,
+            ];
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
      * Display a listing of the resource.
      * GET /admin
      *
@@ -348,5 +406,4 @@ class AdminController extends \ApiController
         $client->encuesta()->associate($survey);
         $client->save();
     }
-
 }

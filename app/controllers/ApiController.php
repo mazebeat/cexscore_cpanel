@@ -81,8 +81,10 @@ class ApiController extends \BaseController
                 $data     = array_add($data, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
                 array_set($data, 'id_cliente', $client->id_cliente);
                 array_set($data, 'id_perfil', 4);
-
                 array_forget($data, ['nombre_usuario', 'apellido_usuario']);
+
+                $born = Carbon::parse(array_get($data, 'fecha_nacimiento'));
+                array_set($data, 'edad', $born->age);
 
                 $admin = \CsUsuario::firstOrCreate($data);
             }
@@ -178,9 +180,12 @@ class ApiController extends \BaseController
                 $username = self::randomCsUsername($data);
                 $data     = array_add($data, 'usuario', $username);
                 $data     = array_add($data, 'responsable', 0);
-                $data     = array_add($data, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
+                $data     = array_add($data, 'pwdusuario', md5('123456')); // 'e10adc3949ba59abbe56e057f20f883e'
                 $data     = array_add($data, 'id_perfil', 3);
-                $user     = \CsUsuario::firstOrCreate($data);
+                $born     = Carbon::parse(array_get($data, 'fecha_nacimiento'));
+                array_set($data, 'edad', $born->age);
+
+                $user = \CsUsuario::firstOrCreate($data);
             }
         } catch (Exception $e) {
             throw $e;
@@ -615,6 +620,9 @@ class ApiController extends \BaseController
         }
     }
 
+    /**
+     * @param $str
+     */
     protected function setError($str)
     {
         if (!isset($this->view_params['err']) || $this->view_params['err'] == null) {
@@ -628,9 +636,27 @@ class ApiController extends \BaseController
         Session::put('err', $this->errors);
     }
 
+    /**
+     * @return array
+     */
     protected function getErrors()
     {
         return $this->errors;
     }
 
+    public static function calcVariacion($a, $b)
+    {
+        $r = 0;
+        $c = $b * 100;
+
+        if ($c != 0 && $a != 0) {
+            $d = (double)((float)$c / $a);
+
+            if ($d != 0) {
+                $r = (double)((float)$d - 100);
+            }
+        }
+
+        return round($r, 1, PHP_ROUND_HALF_UP);
+    }
 }

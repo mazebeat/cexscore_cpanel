@@ -55,7 +55,7 @@ return array(
     |
     */
 
-    'from' => array('address' => 'ayuda@customertrigger.com', 'name' => 'Customer Trigger S.A.'),
+    'from' => array('address' => 'ayuda@customertrigger.com', 'name' => 'CustomerTrigger S.A.'),
 
     /*
     |--------------------------------------------------------------------------
@@ -81,7 +81,7 @@ return array(
     |
     */
 
-    'username' => 'diego.pintod@gmail.com',
+    'username' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -94,7 +94,7 @@ return array(
     |
     */
 
-    'password' => 'maze1207',
+    'password' => null,
 
     /*
     |--------------------------------------------------------------------------

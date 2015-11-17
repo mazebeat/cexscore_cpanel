@@ -3,12 +3,12 @@
 /**
  * Periodo
  *
- * @property integer $id_periodo 
- * @property string $periodo 
- * @property integer $meta 
- * @property integer $mes 
- * @property integer $anio 
- * @property integer $id_cliente 
+ * @property integer $id_periodo
+ * @property string  $periodo
+ * @property integer $meta
+ * @property integer $mes
+ * @property integer $anio
+ * @property integer $id_cliente
  * @method static \Illuminate\Database\Query\Builder|\Periodo whereIdPeriodo($value)
  * @method static \Illuminate\Database\Query\Builder|\Periodo wherePeriodo($value)
  * @method static \Illuminate\Database\Query\Builder|\Periodo whereMeta($value)
@@ -30,4 +30,11 @@ class Periodo extends Eloquent
     protected     $guarded    = array();
     protected     $table      = 'cs_periodos';
     protected     $primaryKey = 'id_periodo';
+
+
+    public function clientes()
+    {
+        return $this->belongsToMany('Cliente');
+    }
+
 }

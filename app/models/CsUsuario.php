@@ -39,6 +39,7 @@ class CsUsuario extends \Eloquent
         'email'            => 'email',
         'activo'           => '',
         'fecha_registro'   => '',
+        'rol_organizacion'   => '',
         'id_cliente'       => 'required',
     );
     public        $timestamps = false;
@@ -60,11 +61,13 @@ class CsUsuario extends \Eloquent
         'email',
         'fecha_nacimiento',
         'edad',
+        'genero',
         'activo',
         'linkedlin',
         'fecha_registro',
         'id_cliente',
         'responsable',
+        'rol_organizacion'
     );
 
     public function resetPassword()

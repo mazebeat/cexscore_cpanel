@@ -152,6 +152,7 @@ class CuentasController extends \ApiController
             'encuesta.titulo'                => '',
             'encuesta.slogan'                => '',
             'encuesta.description'           => '',
+            'usuario.fecha_nacimiento'       => 'date',
         );
         $required = ' es requerido.';
 
@@ -181,6 +182,8 @@ class CuentasController extends \ApiController
             'encuesta.titulo.required'                => 'El campo título' . $required,
             'encuesta.slogan.required'                => 'El campo subtitulo' . $required,
             'encuesta.description.required'           => 'El campo descripcion encuesta' . $required,
+            'encuesta.description.required'           => 'El campo descripcion encuesta' . $required,
+            'usuario.fecha_nacimiento.date'           => 'El campo fecha de nacimiento no es valido',
         );
 
         $data      = Input::all();
@@ -243,15 +246,15 @@ class CuentasController extends \ApiController
             Log::error($e->getMessage());
 
             return Redirect::back()->withErrors($error)->withInput();
-            //            App::abort(500, 'Error al procesar inserción de la cuenta.');
-            //            dd($e->getMessage());
+            // App::abort(500, 'Error al procesar inserción de la cuenta.');
+            // dd($e->getMessage());
         } catch (ModelNotFoundException $e) {
             $error = new \Illuminate\Support\MessageBag(['Error al procesar cuenta.']);
             Log::error($e->getMessage());
 
             return Redirect::back()->withErrors($error)->withInput();
-            //            App::abort(500, 'Error al procesar cuenta.');
-            //            dd($e->getMessage());
+            // App::abort(500, 'Error al procesar cuenta.');
+            // dd($e->getMessage());
         }
 
         App::abort(404, 'Sector sin encuesta definida');
@@ -324,7 +327,7 @@ class CuentasController extends \ApiController
         $cliente  = Cliente::find($id);
         $momentos = $cliente->encuesta->momentos()->get();
 
-//        dd($momentos);
+        //        dd($momentos);
 
         return View::make('admin.cuentas.edit', compact('cliente'))->with('pais', $pais)->with('states', $states)->with('plans', $plans)->with('sectors', $sectors)->with('ciudads',
             $ciudads)->with('catgs', $catgs)->with('momentoencuestum', $momentos);

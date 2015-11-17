@@ -1,7 +1,15 @@
 @extends('layouts.user')
 
 @section('style')
-	@if(isset($theme) && !is_null($theme))
+	<style>
+		body{
+		 color: #000;
+		}
+		 a {
+			 color: #337ab7;
+		 }
+	</style>
+	@if(isset($theme))
 		@include('layouts.theme')
 	@endif
 	<style>
@@ -18,14 +26,16 @@
 @section('header')
 	<section class="row">
 		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-			{{ HTML::image($theme->logo_header, 'header-logo', array('class' => 'img-responsive center-block')) }}
+			 @if(isset($theme))
+				{{ HTML::image($theme->logo_header, 'header-logo', array('class' => 'img-responsive center-block')) }}
+			@endif
 		</article>
 	</section>
 @endsection
 
 @section('content')
 	<section class="row">
-		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="padding-top: 20px; color: #ffffff;">
+		<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="padding-top: 20px;">
 			<h1><strong>Privacidad y uso de la Información</strong></h1>
 
 			<p>CustomerTrigger S.A. en nombre de esta empresa realiza un proceso de medición de calidad de servicio con el afán de establecer procesos de mejora y transformación del servicio que presta esta empresa a su comunidad. Las preferencias registradas por Usted, junto a sus datos personales, en caso de haberlos entregados, se mantienen en estricta confidencialidad, son de propiedad de esta empresa y serán utilizados solo para los efectos indicados anteriormente, sin perjuicio que la empresa pueda utilizar el conocimiento registrado para entregar información personalizada y relevante a Usted.

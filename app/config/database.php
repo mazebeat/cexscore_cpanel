@@ -52,17 +52,6 @@ return array(
             'prefix'   => '',
         ),
 
-        'mysql2' => array(
-            'driver'    => 'mysql',
-            'host'      => 'localhost:33060',
-            'database'  => 'panel_exscore',
-            'username'  => 'homestead',
-            'password'  => 'secret',
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-        ),
-
         'mysql' => array(
             'read'      => array(
                 'host' => Config::get('config.database.host', 'localhost'),

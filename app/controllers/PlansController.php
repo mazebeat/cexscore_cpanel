@@ -24,6 +24,7 @@ class PlansController extends BaseController
     {
         $plans = $this->plan->all();
 
+
         return View::make('admin.plans.index', compact('plans'));
     }
 
@@ -44,7 +45,10 @@ class PlansController extends BaseController
      */
     public function store()
     {
-        $input      = Input::all();
+        $input = Input::all();
+        $input = $this->cleanCheckboxInputs('optin_plan', $input);
+        $input = $this->cleanCheckboxInputs('descarga_datos_plan', $input);
+
         $validation = Validator::make($input, Plan::$rules);
 
         if ($validation->passes()) {

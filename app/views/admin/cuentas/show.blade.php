@@ -31,7 +31,7 @@
 		<tr>
 			<td>{{{ $cliente->rut_cliente }}}</td>
 			<td>{{{ $cliente->nombre_cliente }}}</td>
-			<td>{{{ $cliente->fono_cliente }}}</td>
+			<td>{{{ $cliente->fono_fijo_cliente }}}</td>
 			<td>{{{ $cliente->correo_cliente }}}</td>
 			<td>
 				{{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.cuentas.destroy', $cliente->id_cliente))) }}

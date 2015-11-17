@@ -120,15 +120,9 @@ Route::group(array('prefix' => 'admin'), function () {
 });
 
 // TESTING
-Route::get('test/pdf', function () {
-    try {
-        $html = View::make('pdf.reporte')->render();
+Route::get('test/test', function () {
 
-        return App\Util\PDFTools::showPDF($html);
-    } catch (Exception $e) {
-        App::abort($e->getMessage());
-    }
-});
+    $nps = Nps::where('fecha', Carbon::now())->lists('promedio');
 
-Route::get('test/test', function(){
+    return AdminController::genNPS2($nps);
 });

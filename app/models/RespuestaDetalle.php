@@ -3,13 +3,13 @@
 /**
  * RespuestaDetalle
  *
- * @property integer $id_respuesta_detalle 
- * @property integer $valor1 
- * @property string $valor2 
- * @property integer $id_respuesta 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property-read \Respuesta $cabecera 
+ * @property integer         $id_respuesta_detalle
+ * @property integer         $valor1
+ * @property string          $valor2
+ * @property integer         $id_respuesta
+ * @property \Carbon\Carbon  $created_at
+ * @property \Carbon\Carbon  $updated_at
+ * @property-read \Respuesta $cabecera
  * @method static \Illuminate\Database\Query\Builder|\RespuestaDetalle whereIdRespuestaDetalle($value)
  * @method static \Illuminate\Database\Query\Builder|\RespuestaDetalle whereValor1($value)
  * @method static \Illuminate\Database\Query\Builder|\RespuestaDetalle whereValor2($value)

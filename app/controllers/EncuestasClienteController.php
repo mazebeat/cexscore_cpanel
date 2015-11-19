@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Session;
 
 class EncuestasClienteController extends \ApiController
 {
@@ -183,6 +184,8 @@ class EncuestasClienteController extends \ApiController
             }
 
             $idsurvey = $survey->id_encuesta;
+            $moment   = Crypt::decrypt($moment);
+            $canal    = Crypt::decrypt($canal);
 
             if (count($data['user']) && self::objectHasProperty($data['user'])) {
                 $value = $data['user'];
@@ -213,17 +216,16 @@ class EncuestasClienteController extends \ApiController
                 $iduser = null;
             }
 
-
             $acumulador = 0;
             foreach ($data['answers'] as $key => $value) {
                 // Inserta cabecera de la respuesta
                 $respuesta                       = new Respuesta();
                 $respuesta->id_estado            = 1;
-                $respuesta->id_canal             = Crypt::decrypt($canal);
+                $respuesta->id_canal             = $canal;
                 $respuesta->id_encuesta          = $idsurvey;
                 $respuesta->id_cliente           = $client->id_cliente;
                 $respuesta->id_pregunta_cabecera = $value->id_pregunta_cabecera;
-                $respuesta->id_momento           = Crypt::decrypt($moment);
+                $respuesta->id_momento           = $moment;
                 $respuesta->id_usuario           = $iduser;
 
                 $respuesta = $client->respuestas()->save($respuesta, ['ultima_respuesta' => Carbon::now(), 'id_estado' => 1]);

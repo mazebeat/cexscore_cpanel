@@ -45,6 +45,11 @@ class CanalsController extends \ApiController {
 	{
 		$input = Input::all();
 		$validation = Validator::make($input, Canal::$rules);
+		$codigo = array_get($input, 'codigo_canal');
+
+		if(Str::length($codigo) > 2) {
+			array_set($input, 'codigo_canal', Str::limit($codigo, 2, ''));
+		}
 
 		if ($validation->passes())
 		{
@@ -103,6 +108,12 @@ class CanalsController extends \ApiController {
 
 		if ($validation->passes())
 		{
+			$codigo = array_get($input, 'codigo_canal');
+
+			if(Str::length($codigo) > 2) {
+				array_set($input, 'codigo_canal', Str::limit($codigo, 2, ''));
+			}
+
 			$canal = $this->canal->find($id);
 			$canal->update($input);
 

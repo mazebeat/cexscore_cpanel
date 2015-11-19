@@ -14,7 +14,9 @@
  */
 class Categoria extends \Eloquent
 {
-    public static $rules      = array('descripcion_categoria' => 'required');
+    public static $rules      = array(
+        'descripcion_categoria' => 'required'
+    );
     protected     $table      = 'categoria';
     protected     $primaryKey = 'id_categoria';
     protected     $fillable   = array('descripcion_categoria');

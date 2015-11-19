@@ -124,6 +124,7 @@ return array(
         'Dollar\Generators\GeneratorsServiceProvider',
         'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider',
         'Freshwork\ChileanBundle\Laravel\ChileanBundleServiceProvider',
+        'SimpleSoftwareIO\QrCode\QrCodeServiceProvider',
     ),
     /*
     |--------------------------------------------------------------------------
@@ -193,6 +194,7 @@ return array(
         'Debugbar'          => 'Barryvdh\Debugbar\Facade',
         'PDF'               => 'Barryvdh\Snappy\Facades\SnappyPdf',
         'Image'             => 'Barryvdh\Snappy\Facades\SnappyImage',
+        'QrCode'            => 'SimpleSoftwareIO\QrCode\Facades\QrCode',
     ),
 
 );

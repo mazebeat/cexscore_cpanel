@@ -66,23 +66,23 @@ Route::group(array('prefix' => 'admin'), function () {
     });
     Route::group(array('prefix' => 'find'), function () {
         route::get('locate', function () {
-            $option   = Input::get('option');
-            $filterBy = Input::get('filterBy');
+            $option   = \Input::get('option');
+            $filterBy = \Input::get('filterBy');
             $list     = null;
 
             switch ($filterBy) {
                 case 'region':
-                    $list = Ciudad::where('id_region', $option)->lists('descripcion_ciudad', 'id_ciudad');
+                    $list = \Ciudad::where('id_region', $option)->lists('descripcion_ciudad', 'id_ciudad');
                     break;
                 case 'pais':
-                    $list = Region::where('id_pais', $option)->lists('descripcion_region', 'id_region');
+                    $list = \Region::where('id_pais', $option)->lists('descripcion_region', 'id_region');
                     break;
             }
 
-            return $list;
+            return \Response::json($list, 200);
         });
         Route::get('configplan', function () {
-            $idPlan = Input::get('idplan', null);
+            $idPlan = \Input::get('idplan', null);
             $plan   = null;
 
             if (!is_null($idPlan)) {
@@ -93,21 +93,25 @@ Route::group(array('prefix' => 'admin'), function () {
                 }
             }
 
-            return $plan;
+            return Response::json($plan, 200);
         });
         Route::get('survey', function () {
-            $id = Input::get('id_sector');
+            $id = \Input::get('id_sector');
 
-            $result = EncuestaSector::whereIdSector($id)->first();
+            $result = \EncuestaSector::whereIdSector($id)->first();
 
             if (is_null($result)) {
                 return null;
             }
 
-            return Response::json(['id' => $result->encuesta->id_encuesta, 'preguntas' => $result->encuesta->preguntas]);
+
+            return Response::json(array(
+                'id'        => $result->encuesta->id_encuesta,
+                'preguntas' => $result->encuesta->preguntas,
+            ), 200);
         });
         Route::get('cpanel', function () {
-            return Response::json(array(
+            return \Response::json(array(
                 'totalClients'  => Cliente::all()->count(),
                 'totalUsers'    => CsUsuario::all()->count(),
                 'totalPlans'    => Plan::all()->count(),
@@ -122,7 +126,34 @@ Route::group(array('prefix' => 'admin'), function () {
 // TESTING
 Route::get('test/test', function () {
 
-    $nps = Nps::where('fecha', Carbon::now())->lists('promedio');
+    $codigo = 'codigo_canal';
 
-    return AdminController::genNPS2($nps);
+    if (Str::length($codigo) > 3) {
+        $codigo = Str::limit($codigo, 2, '');
+    }
+
+    dd($codigo);
+
+    $path = public_path('temp');
+    if (File::exists($path)) {
+        $attachs = File::allFiles($path);
+    } else {
+        $attachs = null;
+    }
+
+    foreach ($attachs as $attach) {
+        var_dump($attach->getPathName());
+    }
+    dd($attachs);
+
+    $id = Input::get('id_sector');
+    $id = 1;
+
+    $result = EncuestaSector::whereIdSector($id)->first();
+
+    if (is_null($result)) {
+        return null;
+    }
+
+    return Response::json(['id' => $result->encuesta->id_encuesta, 'preguntas' => $result->encuesta->preguntas]);
 });

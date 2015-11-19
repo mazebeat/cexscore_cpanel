@@ -3,10 +3,10 @@
 /**
  * TipoUsuario
  *
- * @property integer $id_tipo_usuario 
- * @property string $descripcion_tipo_cliente 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
+ * @property integer        $id_tipo_usuario
+ * @property string         $descripcion_tipo_cliente
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\TipoUsuario whereIdTipoUsuario($value)
  * @method static \Illuminate\Database\Query\Builder|\TipoUsuario whereDescripcionTipoCliente($value)
  * @method static \Illuminate\Database\Query\Builder|\TipoUsuario whereCreatedAt($value)

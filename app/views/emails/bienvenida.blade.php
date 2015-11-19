@@ -1564,7 +1564,8 @@
 
 										<h3 style='font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-size: 16px;line-height: 24px;font-family: "Arial","PT Serif",Georgia,serif;color: #788991;text-align: center;'>HOLA {{{ Str::upper($nombre_usuario) }}},</h3>
 
-										<h1 style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 14px;font-size: 22px;line-height: 30px;font-family: Arial,sans-serif;color: #3e4751;text-align: center;">Le damos la bienvenida a CustomerExperience SCORE!</h1>
+										<h1 style="font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 14px;font-size: 22px;line-height: 30px;font-family: Arial,sans-serif;color: #3e4751;text-align: center;">Le damos la bienvenida a<br> CustomerExperience SCORE!
+										</h1>
 
 										<p style='font-style: normal;font-weight: 400;Margin-bottom: 22px;Margin-top: 18px;font-size: 13px;line-height: 22px;font-family: Arial,"PT Serif",Georgia,serif;color: #7c7e7f;text-align: left;'>Desde ahora usted puede tomar el pulso a la experiencia del cliente para aumentar la fidelizaci&#243;n y recomendaci&#243;n de su marca.&nbsp;</p>
 

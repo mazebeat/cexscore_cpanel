@@ -3,10 +3,10 @@
 /**
  * Pais
  *
- * @property integer $id_pais 
- * @property string $descripcion_pais 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
+ * @property integer        $id_pais
+ * @property string         $descripcion_pais
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\Pais whereIdPais($value)
  * @method static \Illuminate\Database\Query\Builder|\Pais whereDescripcionPais($value)
  * @method static \Illuminate\Database\Query\Builder|\Pais whereCreatedAt($value)

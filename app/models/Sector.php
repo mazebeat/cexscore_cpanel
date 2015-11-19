@@ -3,13 +3,13 @@
 /**
  * Sector
  *
- * @property integer $id_sector 
- * @property string $descripcion_sector 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property-read \Illuminate\Database\Eloquent\Collection|\Cliente[] $clientes 
- * @property-read \Encuesta $encuesta 
- * @property-read \Illuminate\Database\Eloquent\Collection|\Encuesta[] $encuestas 
+ * @property integer                                                   $id_sector
+ * @property string                                                    $descripcion_sector
+ * @property \Carbon\Carbon                                            $created_at
+ * @property \Carbon\Carbon                                            $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Cliente[]  $clientes
+ * @property-read \Encuesta                                            $encuesta
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Encuesta[] $encuestas
  * @method static \Illuminate\Database\Query\Builder|\Sector whereIdSector($value)
  * @method static \Illuminate\Database\Query\Builder|\Sector whereDescripcionSector($value)
  * @method static \Illuminate\Database\Query\Builder|\Sector whereCreatedAt($value)
@@ -18,7 +18,9 @@
 class Sector extends \Eloquent
 {
 
-    public static $rules      = [];
+    public static $rules      = array(
+        'descripcion_sector' => 'required',
+    );
     protected     $table      = 'sector';
     protected     $primaryKey = 'id_sector';
     protected     $fillable   = array('descripcion_sector');
@@ -27,8 +29,7 @@ class Sector extends \Eloquent
     {
         parent::boot();
 
-        static::deleted(function($sector)
-        {
+        static::deleted(function ($sector) {
             $sector->encuestas()->delete();
         });
     }

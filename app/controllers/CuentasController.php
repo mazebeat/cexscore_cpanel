@@ -229,32 +229,45 @@ class CuentasController extends \ApiController
                     $urls[$k] = array_add($urls[$k], 'descripcion_momento', $a);
                 }
 
+                $path = public_path('temp/' . $client->id_cliente);
+
+                if (\File::exists($path)) {
+                    $attachs = File::allFiles($path);
+                } else {
+                    $attachs = null;
+                }
+
                 self::sendWelcomeMail(array(
-                    'email' => $admin->email,
-                    'name'  => $admin->nombre,
+                    'email'   => $admin->email,
+                    'name'    => $admin->nombre,
+                    'attachs' => $attachs,
                 ), array(
                     'nombre_usuario' => $admin->nombre,
                     'usuario'        => $admin->usuario,
                     'urls'           => $urls,
                 ));
 
+                \File::cleanDirectory($path);
+
                 return Redirect::route('admin.cuentas.index');
             }
-
+        } catch (\Exception $e) {
+            throw $e;
+            Log::error($e->getMessage());
         } catch (QueryException $e) {
+            //            dd($e->getMessage());
             $error = new \Illuminate\Support\MessageBag(['Error al procesar inserción de la cuenta.']);
             Log::error($e->getMessage());
 
             return Redirect::back()->withErrors($error)->withInput();
             // App::abort(500, 'Error al procesar inserción de la cuenta.');
-            // dd($e->getMessage());
         } catch (ModelNotFoundException $e) {
+            //            dd($e->getMessage());
             $error = new \Illuminate\Support\MessageBag(['Error al procesar cuenta.']);
             Log::error($e->getMessage());
 
             return Redirect::back()->withErrors($error)->withInput();
             // App::abort(500, 'Error al procesar cuenta.');
-            // dd($e->getMessage());
         }
 
         App::abort(404, 'Sector sin encuesta definida');
@@ -288,9 +301,16 @@ class CuentasController extends \ApiController
             $mail    = array_add($mail, 'subject', $subject);
         }
 
-        \Mail::queue('emails.bienvenida', $data, function ($message) use ($mail) {
-            $message->to($mail['email'], $mail['name'])->subject($mail['subject']);
-        });
+        \Mail::send('emails.bienvenida', $data, function ($message) use ($mail) {
+            $message->to($mail['email'], $mail['name']);
+            $message->subject($mail['subject']);
+
+            $size = sizeOf($mail['attachs']); //get the count of number of attachments
+
+            for ($i = 0; $i < $size; $i++) {
+                $message->attach($mail['attachs'][$i]);
+            }
+        }, true);
 
         return true;
     }
@@ -325,9 +345,7 @@ class CuentasController extends \ApiController
         $catgs    = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
         $ciudads  = Ciudad::lists('descripcion_ciudad', 'id_ciudad');
         $cliente  = Cliente::find($id);
-        $momentos = $cliente->encuesta->momentos()->get();
-
-        //        dd($momentos);
+        $momentos = MomentoEncuesta::where('id_cliente', $id)->where('id_encuesta', $cliente->encuesta->id_encuesta)->get();
 
         return View::make('admin.cuentas.edit', compact('cliente'))->with('pais', $pais)->with('states', $states)->with('plans', $plans)->with('sectors', $sectors)->with('ciudads',
             $ciudads)->with('catgs', $catgs)->with('momentoencuestum', $momentos);

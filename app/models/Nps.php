@@ -3,17 +3,17 @@
 /**
  * Nps
  *
- * @property integer $id_nps 
- * @property integer $id_cliente 
- * @property integer $id_momento 
- * @property string $fecha 
- * @property integer $id_usuario 
- * @property integer $id_canal 
- * @property integer $id_encuesta 
- * @property float $promedio 
- * @property string $clasificacion 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
+ * @property integer        $id_nps
+ * @property integer        $id_cliente
+ * @property integer        $id_momento
+ * @property string         $fecha
+ * @property integer        $id_usuario
+ * @property integer        $id_canal
+ * @property integer        $id_encuesta
+ * @property float          $promedio
+ * @property string         $clasificacion
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\Nps whereIdNps($value)
  * @method static \Illuminate\Database\Query\Builder|\Nps whereIdCliente($value)
  * @method static \Illuminate\Database\Query\Builder|\Nps whereIdMomento($value)

@@ -8,26 +8,26 @@ use Illuminate\Auth\UserTrait;
 /**
  * User
  *
- * @property integer $id_usuario 
- * @property string $username 
- * @property string $password 
- * @property string $nombre_usuario 
- * @property string $fecha_nacimiento 
- * @property integer $edad_usuario 
- * @property string $genero_usuario 
- * @property string $correo_usuario 
- * @property string $linkedlin_usuario 
- * @property string $rut_usuario 
- * @property string $desea_correo_usuario 
- * @property boolean $responsable_usuario 
- * @property string $rol_organizacion_usuario 
- * @property integer $id_tipo_usuario 
- * @property integer $id_cliente 
- * @property string $id_encuesta 
- * @property string $remember_token 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property-read \Cliente $cliente 
+ * @property integer        $id_usuario
+ * @property string         $username
+ * @property string         $password
+ * @property string         $nombre_usuario
+ * @property string         $fecha_nacimiento
+ * @property integer        $edad_usuario
+ * @property string         $genero_usuario
+ * @property string         $correo_usuario
+ * @property string         $linkedlin_usuario
+ * @property string         $rut_usuario
+ * @property string         $desea_correo_usuario
+ * @property boolean        $responsable_usuario
+ * @property string         $rol_organizacion_usuario
+ * @property integer        $id_tipo_usuario
+ * @property integer        $id_cliente
+ * @property string         $id_encuesta
+ * @property string         $remember_token
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \Cliente  $cliente
  * @method static \Illuminate\Database\Query\Builder|\User whereIdUsuario($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereUsername($value)
  * @method static \Illuminate\Database\Query\Builder|\User wherePassword($value)

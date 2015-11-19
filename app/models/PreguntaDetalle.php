@@ -3,15 +3,15 @@
 /**
  * PreguntaDetalle
  *
- * @property integer $id_pregunta_detalle 
- * @property string $descripcion_pregunta_detalle 
- * @property string $fecha_creacion 
- * @property string $fecha_modificacion 
- * @property integer $id_estado 
- * @property integer $id_encuesta 
- * @property integer $id_pregunta_cabecera 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
+ * @property integer        $id_pregunta_detalle
+ * @property string         $descripcion_pregunta_detalle
+ * @property string         $fecha_creacion
+ * @property string         $fecha_modificacion
+ * @property integer        $id_estado
+ * @property integer        $id_encuesta
+ * @property integer        $id_pregunta_cabecera
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\PreguntaDetalle whereIdPreguntaDetalle($value)
  * @method static \Illuminate\Database\Query\Builder|\PreguntaDetalle whereDescripcionPreguntaDetalle($value)
  * @method static \Illuminate\Database\Query\Builder|\PreguntaDetalle whereFechaCreacion($value)

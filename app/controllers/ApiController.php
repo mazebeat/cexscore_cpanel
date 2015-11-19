@@ -83,8 +83,13 @@ class ApiController extends \BaseController
                 array_set($data, 'id_perfil', 4);
                 array_forget($data, ['nombre_usuario', 'apellido_usuario']);
 
-                $born = Carbon::parse(array_get($data, 'fecha_nacimiento'));
-                array_set($data, 'edad', $born->age);
+
+                if (array_get($data, 'fecha_nacimiento') != '' || array_get($data, 'fecha_nacimiento') != null) {
+                    $born = Carbon::parse(array_get($data, 'fecha_nacimiento'));
+                    array_set($data, 'edad', $born->age);
+                } else {
+                    array_set($data, 'fecha_nacimiento', null);
+                }
 
                 $admin = \CsUsuario::firstOrCreate($data);
             }
@@ -243,7 +248,15 @@ class ApiController extends \BaseController
                                 ]);
 
                                 if (!is_null($url)) {
+                                    if (!File::exists(public_path('temp/' . $cliente->id_cliente))) {
+                                        File::makeDirectory(public_path('temp/' . $cliente->id_cliente));
+                                    }
+                                    $file = public_path('temp/' . $cliente->id_cliente . '/' . $count . '.png');
+                                    QrCode::format('png')->errorCorrection('H')->size(1080)->generate(url($url->given), $file);
+
+                                    // if (File::exists($file)) {
                                     array_push($moments, $momentoencuesta);
+                                    // }
                                 }
                             } else {
                                 throw new \Exception('Error al crear momento/encuesta', 500);
@@ -418,6 +431,9 @@ class ApiController extends \BaseController
         } else if (Session::has('theme')) {
             $theme = Session::get('theme');
         }
+
+        Session::flush();
+
 
         return View::make('survey.messages')->withMessage($message)->withScript($script)->withTheme($theme)->withSurvey($survey);
     }

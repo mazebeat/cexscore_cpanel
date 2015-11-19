@@ -3,19 +3,19 @@
 /**
  * PreguntaCabecera
  *
- * @property integer $id_pregunta_cabecera 
- * @property string $descripcion_1 
- * @property string $descripcion_2 
- * @property string $descripcion_3 
- * @property string $numero_pregunta 
- * @property integer $id_pregunta_padre 
- * @property integer $id_encuesta 
- * @property integer $id_categoria 
- * @property integer $id_tipo_respuesta 
- * @property integer $id_estado 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property-read \Encuesta $encuesta 
+ * @property integer        $id_pregunta_cabecera
+ * @property string         $descripcion_1
+ * @property string         $descripcion_2
+ * @property string         $descripcion_3
+ * @property string         $numero_pregunta
+ * @property integer        $id_pregunta_padre
+ * @property integer        $id_encuesta
+ * @property integer        $id_categoria
+ * @property integer        $id_tipo_respuesta
+ * @property integer        $id_estado
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \Encuesta $encuesta
  * @method static \Illuminate\Database\Query\Builder|\PreguntaCabecera whereIdPreguntaCabecera($value)
  * @method static \Illuminate\Database\Query\Builder|\PreguntaCabecera whereDescripcion1($value)
  * @method static \Illuminate\Database\Query\Builder|\PreguntaCabecera whereDescripcion2($value)

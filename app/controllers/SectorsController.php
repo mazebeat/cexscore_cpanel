@@ -52,6 +52,7 @@ class SectorsController extends \ApiController
         $validation = Validator::make($input, Sector::$rules);
 
         if ($validation->passes()) {
+            array_set($input, 'id_estado', true);
             $this->sector = $this->sector->create($input);
 
             $survey = self::saveSurvey(Input::only(['titulo']));

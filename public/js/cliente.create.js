@@ -202,7 +202,7 @@
 
                 var q = parseInt(cant);
                 if (q == 0 || q == 'undefined') {
-                    q = 999;
+                    q = 9999;
                 }
 
                 var $name = $('#cant_moment_plan').attr('name');

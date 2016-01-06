@@ -1,14 +1,14 @@
 <div class="form-group">
 	{{ Form::label('apariencia[logo_header]', 'Imagen Header:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::file('apariencia[logo_header]', ['required']) }}
+		{{ Form::file('apariencia[logo_header]', ['']) }}
 	</div>
 </div>
 
 <div class="form-group">
 	{{ Form::label('apariencia[logo_incentivo]', 'Imagen Incentivo:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::file('apariencia[logo_incentivo]', ['required']) }}
+		{{ Form::file('apariencia[logo_incentivo]', ['']) }}
 	</div>
 </div>
 

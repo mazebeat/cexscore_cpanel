@@ -1,16 +1,16 @@
 @extends('layouts.cpanel')
 
 @section('title')
-	Todos Sectors
+	Sectores
 @endsection
 
 @section('page-title')
-	<i class="fa fa-home fa-fw"></i>Todos Sectors
+	<i class="fa fa-home fa-fw"></i>Sectores
 @endsection
 
 @section('breadcrumb')
 	@parent
-	<li class="active">Sectors</li>
+	<li class="active">Sectores</li>
 @endsection
 
 @section('content')

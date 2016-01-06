@@ -538,7 +538,6 @@
                     "file": "($name, $options = array())",
                     "textarea": "($name, $value = null, $options = array())",
                     "select": "($name, $list = array(), $selected = null, $options = array())",
-                    "select2": "($name, $list = array(), $selected = null, $options = array())",
                     "selectRange": "($name, $begin, $end, $selected = null, $options = array())",
                     "selectYear": "()",
                     "selectMonth": "($name, $selected = null, $options = array(), $format = '%B')",

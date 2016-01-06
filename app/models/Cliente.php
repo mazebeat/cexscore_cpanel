@@ -157,26 +157,25 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
 
         foreach ($total as $k => $v) {
             $cant = $v->respuestas()->actually()->count();
+
             if ($cant > 0) {
                 $count++;
             }
         }
 
-        return [
-            //            [
-            //                'legenda' => 'total',
-            //                'counta'  => (string)$total->count(),
-            //            ],
-            [
+        return array(
+            array(
                 'legend' => Lang::get('messages.active'),
                 'count'  => $count,
-            ],
-            [
+                'color'  => '#0D52D1',
+            ),
+            array(
 
                 'legend' => Lang::get('messages.inactive'),
                 'count'  => ($total->count() - $count),
-            ],
-        ];
+                'color'  => '#FF6600',
+            ),
+        );
     }
 
     /**

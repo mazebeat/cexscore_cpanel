@@ -1,37 +1,12 @@
 <?php
 
-use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\MessageBag;
 
 class CuentasController extends \ApiController
 {
-    /**
-     * @param null $inputs
-     *
-     * @return array
-     */
-    public static function createBasicRules($inputs = null)
-    {
-        try {
-            $rules    = [];
-            $messages = [];
-            $count    = 1;
-
-            if (!is_null($inputs)) {
-                foreach ($inputs as $key => $value) {
-                    $rules[$key]                  = 'required';
-                    $messages[$key . '.required'] = 'El texto en la pregunta ' . $count++ . ' es obligatorio';
-                }
-            }
-
-            return array('rules' => $rules, 'messages' => $messages);
-        } catch (Exception $e) {
-            self::throwError($e);
-        }
-    }
-
     /**
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -85,6 +60,31 @@ class CuentasController extends \ApiController
             }
 
             return Redirect::to('admin/survey/load');
+        } catch (Exception $e) {
+            self::throwError($e);
+        }
+    }
+
+    /**
+     * @param null $inputs
+     *
+     * @return array
+     */
+    public static function createBasicRules($inputs = null)
+    {
+        try {
+            $rules    = [];
+            $messages = [];
+            $count    = 1;
+
+            if (!is_null($inputs)) {
+                foreach ($inputs as $key => $value) {
+                    $rules[$key]                  = 'required';
+                    $messages[$key . '.required'] = 'El texto en la pregunta ' . $count++ . ' es obligatorio';
+                }
+            }
+
+            return array('rules' => $rules, 'messages' => $messages);
         } catch (Exception $e) {
             self::throwError($e);
         }
@@ -247,7 +247,7 @@ class CuentasController extends \ApiController
                     'urls'           => $urls,
                 ));
 
-                \File::cleanDirectory($path);
+                // \File::cleanDirectory($path);
 
                 return Redirect::route('admin.cuentas.index');
             }
@@ -255,19 +255,15 @@ class CuentasController extends \ApiController
             throw $e;
             Log::error($e->getMessage());
         } catch (QueryException $e) {
-            //            dd($e->getMessage());
             $error = new \Illuminate\Support\MessageBag(['Error al procesar inserción de la cuenta.']);
             Log::error($e->getMessage());
 
             return Redirect::back()->withErrors($error)->withInput();
-            // App::abort(500, 'Error al procesar inserción de la cuenta.');
         } catch (ModelNotFoundException $e) {
-            //            dd($e->getMessage());
             $error = new \Illuminate\Support\MessageBag(['Error al procesar cuenta.']);
             Log::error($e->getMessage());
 
             return Redirect::back()->withErrors($error)->withInput();
-            // App::abort(500, 'Error al procesar cuenta.');
         }
 
         App::abort(404, 'Sector sin encuesta definida');
@@ -302,8 +298,11 @@ class CuentasController extends \ApiController
         }
 
         \Mail::send('emails.bienvenida', $data, function ($message) use ($mail) {
-            $message->to($mail['email'], $mail['name']);
-            $message->subject($mail['subject']);
+            $message->to($mail['email'], $mail['name'])
+                    ->subject($mail['subject'])
+                    ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
+                    ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
+                    ->bcc('ligia.pasqualin@customertrigger.com', 'Ligia Pasqualin');
 
             $size = sizeOf($mail['attachs']); //get the count of number of attachments
 

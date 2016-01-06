@@ -56,11 +56,11 @@ use Carbon\Carbon;
             }
             break;
     }
-    $body .= '</tr>
-</tbody>
-</table>';
+    $body .= '</tr></tbody></table>';
+
     echo $header . $body;
 });
+
 \Form::macro('bsRadioForm', function ($name, $data = array(), $old = null, $options = array()) {
     $out   = '';
     $count = 0;
@@ -76,19 +76,20 @@ use Carbon\Carbon;
     return $out;
 
 });
+
 \Form::macro('selectRange2', function ($name, $begin, $end, $selected = null, $options = array()) {
 
-    $list  = ' <option></option> ';
+    $list  = '<option></option>';
     $range = array_combine($range = range($begin, $end), $range);
 
     foreach ($range as $key => $value) {
-        $list .= " < option value = '$key' > $value</option > ";
+        $list .= "<option value='$key'> $value</option>";
     }
 
     $options = \HTML::attributes($options);
     unset($range);
 
-    return '<select name = ' . e($name) . $options . '> ' . $list . '</select> ';
+    return '<select name=' . e($name) . ' ' . $options . '>' . $list . '</select> ';
 });
 
 /** ---------------------------------------------------------------------------------------------------------------------------- */
@@ -189,12 +190,12 @@ use Carbon\Carbon;
         $message .= $value . ' <br>';
     }
     $script = '<script type="text / javascript">
-	setTimeout(function () {
-		jq(" . errors").hide(2000, function() {
-			jq(this).remove();
-		});
-}, 10000);
-</script> ';
+    	setTimeout(function () {
+    		jq(" . errors").hide(2000, function() {
+    			jq(this).remove();
+    		});
+    }, 10000);
+    </script> ';
 
     return '<div class="errors alert alert-' . $type . '"><h5><strong> ' . \Str::hes($head) . '</strong></h5>' . \Str::hes($message) . '</div>' . $script;
 });
@@ -213,23 +214,23 @@ use Carbon\Carbon;
     //Debugbar::addMessage('RESPONSIVEOPTION | ID PREGUNTA: ' . $question->id_pregunta_cabecera . ' NUMERO PREGUNTA: ' . $question->numero_pregunta);
 
     return '<div class="form-group table-responsive hidden-md hidden-lg">
-	<table class="table table-hover table-condensed">
-		<thead class="text-center">
-			<tr>
-				<td></td>
-				<td></td>
-			</tr>
-		</thead>
-		<tbody class="text-center">
-			<tr>
-				<td class="text-left vertical-align">
-					<label class="control-label">' . $text . '</label>
-				</td>
-				<td class="">' . \Form::selectRange2('question_' . $question->numero_pregunta . '_' . $question->id_pregunta_cabecera . '[value]', '1', $max, null, $responsive) . '</td>
-			</tr>
-		</tbody>
-	</table>
-</div>';
+    	<table class="table table-hover table-condensed">
+    		<thead class="text-center">
+    			<tr>
+    				<td></td>
+    				<td></td>
+    			</tr>
+    		</thead>
+    		<tbody class="text-center">
+    			<tr>
+    				<td class="text-left vertical-align">
+    					<label class="control-label">' . $text . '</label>
+    				</td>
+    				<td class="">' . \Form::selectRange2('question_' . $question->numero_pregunta . '_' . $question->id_pregunta_cabecera . '[value]', '1', $max, null, $responsive) . '</td>
+    			</tr>
+    		</tbody>
+    	</table>
+    </div>';
 });
 
 /**
@@ -313,9 +314,7 @@ use Carbon\Carbon;
             }
         }
 
-        $out .= '</tr>
-			</tbody>
-		</table>';
+        $out .= '</tr></tbody></table>';
         $out .= '</div>';
         $out .= '<div class="messageContainer"></div>';
     } else {

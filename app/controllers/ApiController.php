@@ -107,41 +107,6 @@ class ApiController extends \BaseController
      * @return null|string
      * @throws Exception
      */
-    public static function randomUsername($user, $add = 0)
-    {
-        $username = null;
-
-        try {
-            if (!is_null($user)) {
-                $fname    = array_get($user, 'nombre_usuario');
-                $lname    = array_get($user, 'apellido_usuario');
-                $username = Str::lower(Str::camel(Str::ascii(mb_substr($fname, 0, 1) . $lname)));
-
-                if ($add != 0) {
-                    $username .= $add;
-                }
-
-                $exist = Usuario::where('username', $username)->first();
-
-                if (!is_null($exist)) {
-                    $add++;
-                    $username = self::randomUsername($user, $add);
-                }
-            }
-        } catch (Exception $e) {
-            throw $e;
-        }
-
-        return $username;
-    }
-
-    /**
-     * @param     $user
-     * @param int $add
-     *
-     * @return null|string
-     * @throws Exception
-     */
     public static function randomCsUsername($user, $add = 0)
     {
         $username = null;
@@ -161,6 +126,41 @@ class ApiController extends \BaseController
                 if (!is_null($exist)) {
                     $add++;
                     $username = self::randomCsUsername($user, $add);
+                }
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        return $username;
+    }
+
+    /**
+     * @param     $user
+     * @param int $add
+     *
+     * @return null|string
+     * @throws Exception
+     */
+    public static function randomUsername($user, $add = 0)
+    {
+        $username = null;
+
+        try {
+            if (!is_null($user)) {
+                $fname    = array_get($user, 'nombre_usuario');
+                $lname    = array_get($user, 'apellido_usuario');
+                $username = Str::lower(Str::camel(Str::ascii(mb_substr($fname, 0, 1) . $lname)));
+
+                if ($add != 0) {
+                    $username .= $add;
+                }
+
+                $exist = Usuario::where('username', $username)->first();
+
+                if (!is_null($exist)) {
+                    $add++;
+                    $username = self::randomUsername($user, $add);
                 }
             }
         } catch (Exception $e) {
@@ -254,9 +254,9 @@ class ApiController extends \BaseController
                                     $file = public_path('temp/' . $cliente->id_cliente . '/' . $count . '.png');
                                     QrCode::format('png')->errorCorrection('H')->size(1080)->generate(url($url->given), $file);
 
-                                    // if (File::exists($file)) {
-                                    array_push($moments, $momentoencuesta);
-                                    // }
+                                    if (File::exists($file)) {
+                                        array_push($moments, $momentoencuesta);
+                                    }
                                 }
                             } else {
                                 throw new \Exception('Error al crear momento/encuesta', 500);
@@ -408,6 +408,22 @@ class ApiController extends \BaseController
         return $survey;
     }
 
+    public static function calcVariacion($a, $b)
+    {
+        $r = 0;
+        $c = $b * 100;
+
+        if ($c != 0 && $a != 0) {
+            $d = (double)((float)$c / $a);
+
+            if ($d != 0) {
+                $r = (double)((float)$d - 100);
+            }
+        }
+
+        return round($r, 1, PHP_ROUND_HALF_UP);
+    }
+
     /**
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -428,8 +444,10 @@ class ApiController extends \BaseController
 
         if (Session::has('survey-theme')) {
             $theme = Session::get('survey-theme');
-        } else if (Session::has('theme')) {
-            $theme = Session::get('theme');
+        } else {
+            if (Session::has('theme')) {
+                $theme = Session::get('theme');
+            }
         }
 
         Session::flush();
@@ -456,8 +474,10 @@ class ApiController extends \BaseController
 
             if (Session::has('survey-theme')) {
                 $theme = Session::get('survey-theme');
-            } else if (Session::has('theme')) {
-                $theme = Session::get('theme');
+            } else {
+                if (Session::has('theme')) {
+                    $theme = Session::get('theme');
+                }
             }
 
             return View::make('survey.errors')->withError($error)->withTheme($theme)->withSurvey($survey);
@@ -500,7 +520,8 @@ class ApiController extends \BaseController
                 return \Redirect::back()->withErrors($validator)->withInput(\Input::except('_token'));
             }
 
-            $questions  = \Auth::user()->cliente->encuesta->preguntas;
+            $encuesta   = Encuesta::find(Input::get('id_encuesta'));
+            $questions  = $encuesta->preguntas;
             $idencuesta = null;
             $idplan     = null;
             $x          = 0;
@@ -523,7 +544,7 @@ class ApiController extends \BaseController
 
             foreach ($questions as $question) {
                 if ($question->id_encuesta == $idencuesta && array_key_exists($question->id_pregunta_cabecera, $ids) && is_null($question->id_pregunta_padre)) {
-                    $question->descripcion_1 = $ids[$question->id_pregunta_cabecera];
+                    $question->descripcion_1 = trim($ids[$question->id_pregunta_cabecera]);
 
                     if ($question->save()) {
                         $x++;
@@ -531,7 +552,10 @@ class ApiController extends \BaseController
                 }
             }
 
-            return Redirect::to('admin/survey/load');
+            $encuesta->description = Input::get('description');
+            $encuesta->save();
+
+            return Redirect::to('admin/encuesta/' . Input::get('id_encuesta') . '/edit');
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -658,21 +682,5 @@ class ApiController extends \BaseController
     protected function getErrors()
     {
         return $this->errors;
-    }
-
-    public static function calcVariacion($a, $b)
-    {
-        $r = 0;
-        $c = $b * 100;
-
-        if ($c != 0 && $a != 0) {
-            $d = (double)((float)$c / $a);
-
-            if ($d != 0) {
-                $r = (double)((float)$d - 100);
-            }
-        }
-
-        return round($r, 1, PHP_ROUND_HALF_UP);
     }
 }

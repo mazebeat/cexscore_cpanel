@@ -28,7 +28,6 @@ return array(
     |
     */
 
-    //    'host' => 'smtp.mailgun.org',
     'host'   => 'smtp.gmail.com',
 
     /*
@@ -55,7 +54,7 @@ return array(
     |
     */
 
-    'from' => array('address' => 'ayuda@customertrigger.com', 'name' => 'CustomerTrigger S.A.'),
+    'from' => array('address' => 'ayuda@customertrigger.com', 'name' => 'CustomerTrigger'),
 
     /*
     |--------------------------------------------------------------------------
@@ -81,7 +80,7 @@ return array(
     |
     */
 
-    'username' => null,
+    'username' => 'ayuda@customertrigger.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -94,7 +93,7 @@ return array(
     |
     */
 
-    'password' => null,
+    'password' => 'ct123456a*',
 
     /*
     |--------------------------------------------------------------------------

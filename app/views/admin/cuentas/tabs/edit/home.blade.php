@@ -46,9 +46,9 @@
 </div>
 
 <div class="form-group">
-	{{ Form::label('correo_cliente', 'Email:', array('class'=>'col-md-2 control-label')) }}
+	{{ Form::label('correo_cliente', 'Web Site:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::email('correo_cliente', Input::old('correo_cliente'), array('class'=>'form-control', 'placeholders'=>'Correo Cliente', 'required')) }}
+		{{ Form::url('correo_cliente', Input::old('correo_cliente'), array('class'=>'form-control', 'placeholders'=>'Correo Cliente', 'required')) }}
 	</div>
 </div>
 

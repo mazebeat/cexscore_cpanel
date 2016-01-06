@@ -1,72 +1,26 @@
 <?php
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 class NewPeriodCommand extends Command
 {
-
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'newperiod';
+    protected $name        = 'cpanel:newperiod';
+    protected $description = 'Inserta periodo actual en la tabla CS_Periodo.';
     protected $accounts;
     protected $mes;
     protected $anio;
     protected $periodo;
     protected $meta;
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Inserta periodo actual en la tabla CS_Periodo.';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function fire()
     {
         $this->init();
         $this->insert();
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return array(//            array('example', InputArgument::REQUIRED, 'An example argument.'),
-        );
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return array(//            array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
-        );
     }
 
     private function init()
@@ -79,13 +33,13 @@ class NewPeriodCommand extends Command
 
         $this->progressbar = $this->getHelperSet()->get('progress');
         $this->progressbar->start($this->output, count($this->accounts));
-
     }
 
     private function insert()
     {
         try {
             $this->info("Cargando Periodo '{$this->periodo}'");
+
             foreach ($this->accounts as $key => $value) {
                 $this->info("'{$value->nombre_cliente}'");
                 Log::info("Cargando Periodos para '{$value->nombre_cliente}'");
@@ -152,5 +106,15 @@ class NewPeriodCommand extends Command
 
         $this->progressbar->finish();
         $this->info('Done');
+    }
+
+    protected function getArguments()
+    {
+        return array();
+    }
+
+    protected function getOptions()
+    {
+        return array();
     }
 }

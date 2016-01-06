@@ -95,7 +95,7 @@ class EncuestasController extends \ApiController
             return \Redirect::route('admin.encuesta.index');
         }
 
-        return View::make('admin.survey.loadSurvey')->with('survey', $encuestum)->with('isMy', $isMy);
+        return View::make('admin.survey.loadSurvey')->with('survey', $encuestum)->with('isMy', $isMy)->with('id', $encuestum->id_encuesta)->with('description', $encuestum->description);
         //        return View::make('admin.encuesta.edit', compact('encuestum'));
     }
 

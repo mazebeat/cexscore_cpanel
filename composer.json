@@ -1,62 +1,66 @@
 {
-	"name": "customer_trigget/panel_customer_experience_score",
-	"description": "Panel Customer Experience Score",
-	"keywords": [
-		"Customer",
-		"Trigger",
-		"Intelidata",
-		"mazebeat",
-		"statics",
-		"survey"
-	],
-	"license": "MIT",
-	"require": {
-		"laravel/framework": "4.2.*",
-		"barryvdh/laravel-debugbar": "~1.8",
-		"barryvdh/laravel-ide-helper": "1.*",
-		"barryvdh/laravel-snappy": "0.1.x",
-		"barryvdh/laravel-vendor-cleanup": "1.*",
-		"braunson/laravel-html5-forms": "dev-master",
-		"doctrine/dbal": "~2.5.1",
-		"dollar/generators": "dev-master",
-		"fitztrev/laravel-html-minify": "1.*",
-		"freshwork/chilean-bundle": "dev-master",
-		"fzaninotto/faker": "^1.6@dev",
-		"wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",
-		"simplesoftwareio/simple-qrcode": "1.3.*"
-	},
-	"require-dev": {
-		"phpunit/phpunit": "4.0.*@dev"
-	},
-	"autoload": {
-		"classmap": [
-			"app/commands",
-			"app/controllers",
-			"app/models",
-			"app/utils",
-			"app/database/migrations",
-			"app/database/seeds",
-			"app/tests/TestCase.php"
-		]
-	},
-	"scripts": {
-		"post-install-cmd": [
-			"php artisan vendor-cleanup",
-			"php artisan clear-compiled",
-			"php artisan optimize"
-		],
-		"post-update-cmd": [
-			"php artisan vendor-cleanup",
-			"php artisan clear-compiled",
-			"php artisan ide-helper:generate",
-			"php artisan optimize"
-		],
-		"post-create-project-cmd": [
-			"php artisan key:generate"
-		]
-	},
-	"config": {
-		"preferred-install": "dist"
-	},
-	"minimum-stability": "stable"
+  "name": "customer_trigget/panel_customer_experience_score",
+  "description": "Panel Customer Experience Score",
+  "keywords": [
+    "customertrigger",
+    "intelidata",
+    "mazebeat",
+    "statics",
+    "survey",
+    "panel",
+    "cliente",
+    "experiencia"
+  ],
+  "license": "MIT",
+  "require": {
+    "laravel/framework": "4.2.*",
+    "barryvdh/laravel-debugbar": "~1.8",
+    "barryvdh/laravel-ide-helper": "1.*",
+    "barryvdh/laravel-snappy": "0.1.x",
+    "barryvdh/laravel-vendor-cleanup": "1.*",
+    "doctrine/dbal": "~2.5.1",
+    "fitztrev/laravel-html-minify": "1.*",
+    "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",
+    "simplesoftwareio/simple-qrcode": "1.3.*",
+    "phpunit/phpunit": "4.0.*"
+  },
+  "require-dev": {
+    "fzaninotto/faker": "^1.6@dev",
+    "dollar/generators": "dev-master",
+    "braunson/laravel-html5-forms": "dev-master",
+    "freshwork/chilean-bundle": "dev-master"
+  },
+  "autoload": {
+    "classmap": [
+      "app/commands",
+      "app/controllers",
+      "app/models",
+      "app/utils",
+      "app/database/migrations",
+      "app/database/seeds",
+      "app/tests/TestCase.php"
+    ]
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "php artisan vendor-cleanup",
+      "php artisan clear-compiled",
+      "php artisan optimize"
+    ],
+    "post-update-cmd": [
+      "php artisan vendor-cleanup",
+      "php artisan clear-compiled",
+      "php artisan ide-helper:generate",
+      "php artisan optimize"
+    ],
+    "post-create-project-cmd": [
+      "php artisan key:generate"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "minimum-stability": "dev"
 }
+
+Estimado fidel

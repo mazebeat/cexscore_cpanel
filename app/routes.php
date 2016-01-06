@@ -1,18 +1,12 @@
 <?php
-
 ini_set('session.gc_maxlifetime', 3 * 60 * 60); // 3 hours
 ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 100);
 ini_set('session.cookie_secure', false);
 ini_set('session.use_only_cookies', true);
 
+Route::get('/', 'HomeController@index');
 
-Route::get('/', function () {
-    $error = new Illuminate\Support\MessageBag();
-    $error->add('error', 'Página no encontrada');
-
-    return View::make('survey.errors')->withErrors($error)->withCode('500');
-});
 // SHORTEN ROUTES
 Route::get('{shorten}', 'ShortenController@getShorten');
 // SURVEY ROUTES
@@ -65,95 +59,12 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::post('csusuarios/resetPassword/{id}', 'CsUsuariosController@resetPassword');
     });
     Route::group(array('prefix' => 'find'), function () {
-        route::get('locate', function () {
-            $option   = \Input::get('option');
-            $filterBy = \Input::get('filterBy');
-            $list     = null;
-
-            switch ($filterBy) {
-                case 'region':
-                    $list = \Ciudad::where('id_region', $option)->lists('descripcion_ciudad', 'id_ciudad');
-                    break;
-                case 'pais':
-                    $list = \Region::where('id_pais', $option)->lists('descripcion_region', 'id_region');
-                    break;
-            }
-
-            return \Response::json($list, 200);
-        });
-        Route::get('configplan', function () {
-            $idPlan = \Input::get('idplan', null);
-            $plan   = null;
-
-            if (!is_null($idPlan)) {
-                $plan = Plan::find($idPlan)->cantidad_momentos_plan;
-
-                if (is_null($plan)) {
-                    $plan = 0;
-                }
-            }
-
-            return Response::json($plan, 200);
-        });
-        Route::get('survey', function () {
-            $id = \Input::get('id_sector');
-
-            $result = \EncuestaSector::whereIdSector($id)->first();
-
-            if (is_null($result)) {
-                return null;
-            }
-
-
-            return Response::json(array(
-                'id'        => $result->encuesta->id_encuesta,
-                'preguntas' => $result->encuesta->preguntas,
-            ), 200);
-        });
-        Route::get('cpanel', function () {
-            return \Response::json(array(
-                'totalClients'  => Cliente::all()->count(),
-                'totalUsers'    => CsUsuario::all()->count(),
-                'totalPlans'    => Plan::all()->count(),
-                'clientsByPlan' => Cliente::clientsByPlan(),
-                'countClients'  => Cliente::countClients(),
-                'npsTable'      => AdminController::npsTable(),
-            ), 200);
-        });
+        route::get('locate', 'AdminController@locate');
+        Route::get('configplan', 'AdminController@configplan');
+        Route::get('survey', 'AdminController@surveyGet');
+        Route::get('cpanel', 'AdminController@cpanelIndex');
     });
 });
 
 // TESTING
-Route::get('test/test', function () {
-
-    $codigo = 'codigo_canal';
-
-    if (Str::length($codigo) > 3) {
-        $codigo = Str::limit($codigo, 2, '');
-    }
-
-    dd($codigo);
-
-    $path = public_path('temp');
-    if (File::exists($path)) {
-        $attachs = File::allFiles($path);
-    } else {
-        $attachs = null;
-    }
-
-    foreach ($attachs as $attach) {
-        var_dump($attach->getPathName());
-    }
-    dd($attachs);
-
-    $id = Input::get('id_sector');
-    $id = 1;
-
-    $result = EncuestaSector::whereIdSector($id)->first();
-
-    if (is_null($result)) {
-        return null;
-    }
-
-    return Response::json(['id' => $result->encuesta->id_encuesta, 'preguntas' => $result->encuesta->preguntas]);
-});
+Route::get('test/test', function () {});

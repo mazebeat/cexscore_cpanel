@@ -53,7 +53,7 @@ class Respuesta extends \Eloquent
 
     public function scopeActually($query)
     {
-        return $query->whereBetween('respuesta.created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
+        return $query->whereBetween('respuesta.created_at', array(Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()));
     }
 
 }

@@ -21,8 +21,7 @@ class UsuariosController extends \ApiController
      */
     public function index()
     {
-        $idCliente = \Auth::user()->cliente->id_cliente;
-        $usuarios  = $this->usuario->where('id_cliente', $idCliente)->get();
+        $usuarios = Usuario::whereIn('id_tipo_usuario', array(1, 2, 4))->get();
 
         return View::make('admin.usuarios.index', compact('usuarios'));
     }
@@ -71,7 +70,8 @@ class UsuariosController extends \ApiController
             return Redirect::route('admin.usuarios.index');
         }
 
-        return Redirect::route('admin.usuarios.create')->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
+        return Redirect::route('admin.usuarios.create')->withInput()->withErrors($validation)->with('message',
+            'There were validation errors.');
     }
 
     /**
@@ -116,7 +116,6 @@ class UsuariosController extends \ApiController
     public function update($id)
     {
         $rules = array(
-//            'username'             => 'required',
             'nombre_usuario'       => 'required',
             'password'             => 'required',
             'edad_usuario'         => '',
@@ -140,7 +139,8 @@ class UsuariosController extends \ApiController
             return Redirect::route('admin.usuarios.show', $id);
         }
 
-        return Redirect::route('admin.usuarios.edit', $id)->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
+        return Redirect::route('admin.usuarios.edit', $id)->withInput()->withErrors($validation)->with('message',
+            'There were validation errors.');
     }
 
     /**
@@ -193,22 +193,38 @@ class UsuariosController extends \ApiController
      */
     public function changePassword($id)
     {
-        if (Input::get('password') != '' || !is_null(Input::get('password'))) {
-            Session::flash('message', 'Reset Password, Wrong!');
 
-            return Redirect::route('admin.csusuarios.index');
+        $validator = Validator::make(Input::all(), Usuario::$rulesChangePasword, Usuario::$messagesChangePassword);
+
+        if ($validator->fails()) {
+            if (Request::ajax()) {
+                return Response::json(array('message' => $validator->messages(), 'pass' => false));
+            }
+
+            return Redirect::back()->withErrors($validator);
         }
 
         $usuario = $this->usuario->find($id);
+
         if (!is_null($usuario)) {
             $usuario->password = Hash::make(Input::get('password'));
 
             if ($usuario->save()) {
+                if (Request::ajax()) {
+                    return Response::json(array('message' => array('Change Password, OK!'), 'pass' => true));
+                }
+
+                Session::flash('message', 'Change Password, OK!');
+
                 return Redirect::route('admin.usuarios.index');
             }
         }
 
-        Session::flash('message', 'Reset Password, Wrong!');
+        if (Request::ajax()) {
+            return Response::json(array('message' => array('Change Password, Wrong!'), 'pass' => false));
+        }
+
+        Session::flash('message', 'Change Password, Wrong!');
 
         return Redirect::route('admin.usuarios.index');
     }

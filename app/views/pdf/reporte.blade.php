@@ -27,26 +27,26 @@
 @section('content')
 	<div class="row">
 		<div class="col-xs-10 col-xs-offset-1">
-			<h2 class="text-center" style="background-color: #3366FF; color: #ffffff; padding: 10px;">Actualización Semanal CExScore by CustomerTrigger</h2>
+			<h2 class="text-left">Actualización Semanal CExScore by CustomerTrigger</h2>
 		</div>
 	</div>
 	<br>
 	<div class="row">
 		<div class="col-xs-12">
-			<p>Cuenta: <strong>{{{ strtoupper($account->nombre_cliente) }}}</strong></p>
+			<p>Cuenta: <strong>{{ strtoupper($account->nombre_cliente) }}</strong></p>
 
-			<p>{{{ $dateRange  }}}</p>
+			<p>{{ $dateRange  }}</p>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<h3>Por Semana</h3>
+			<h3 class="text-left">Por Semana</h3>
 		</div>
 		<div class="col-xs-12">
 			{{ HTML::reportTable($account, 'week') }}
 		</div>
 		<div class="col-xs-12 text-center">
-			<h3>Por Mes</h3>
+			<h3 class="text-left">Por Mes</h3>
 		</div>
 		<div class="col-xs-12">
 			{{ HTML::reportTable($account, 'month') }}
@@ -68,7 +68,7 @@
 			<a href="http://www.customertrigger.com/termino-de-uso-politicas-de-privacidad-customerexperience-score/" target="_blank">Pol&iacute;tica de Privacidad</a> |
 			<a href="http://www.customertrigger.com/customer-experience-score/" target="_blank">Nuestra Soluci&oacute;n</a> |
 			<a href="http://www.customertrigger.com/registro-zona-de-recursos/" target="_blank">Zona de Recursos</a> <br> Desarrollado por &copy;
-			<a href="http://customertrigger.com/" target="_blank">CustomerTrigger S.A.</a> {{{ Carbon::now()->year }}}<br> Direcci&oacute;n Comercial: Fanor Velasco No.85, Piso 9, Santiago | Direcci&oacute;n Legal: Sotero Del R&iacute;o 508, Oficina 826, Santiago<br>
+			<a href="http://customertrigger.com/" target="_blank">CustomerTrigger S.A.</a> {{ Carbon::now()->year }}<br> Direcci&oacute;n Comercial: Fanor Velasco No.85, Piso 9, Santiago | Direcci&oacute;n Legal: Sotero Del R&iacute;o 508, Oficina 826, Santiago<br>
 			<abbr title="Tel&eacute;fono">T:</abbr> <a href="tel:+56222198993">+562 22 198 993</a> | <a href="http://customertrigger.com/" target="_blank">http://www.customertrigger.com</a> |
 			<a href="mailto:ayuda@customertrigger.com">ayuda@customertrigger.com</a>
 		</address>

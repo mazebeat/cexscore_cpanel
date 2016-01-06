@@ -59,6 +59,17 @@ class Usuario extends \Eloquent
         'id_cliente'           => 'required',
         'id_encuesta'          => 'required',
     );
+    public static $rulesChangePasword = array(
+        'password'      => 'required|alphaNum',
+        'passwordAgain' => 'required|alphaNum|same:password',
+    );
+    public static $messagesChangePassword = array(
+        'password.required'      => 'La contraseña es requerida',
+        'password.alphaNum'      => 'La contraseñas deben ser alfanumericas',
+        'passwordAgain.required' => 'Debe confirmar la contraseña',
+        'passwordAgain.alphaNum' => 'La contraseñas deben ser alfanumericas',
+        'passwordAgain.same'     => 'Las contraseñas no concuerdan',
+    );
     protected     $table      = 'usuario';
     protected     $primaryKey = 'id_usuario';
     protected     $hidden     = array(

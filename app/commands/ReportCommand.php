@@ -1,78 +1,28 @@
 <?php
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 class ReportCommand extends Command
 {
-
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
-    protected $name = 'sendreport';
-
+    protected $name        = 'cpanel:sendreport';
+    protected $description = 'Envia mail reporte ejecutivo a responsables de cuenta.';
     protected $accounts;
     protected $admin;
+    protected $file;
     protected $pathFile;
     protected $date;
     protected $attachFile;
     protected $html;
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Envia mail reporte ejecutivo a responsables de cuenta.';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function fire()
     {
         $this->init();
         $this->send();
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return array(
-            //			array('example', InputArgument::REQUIRED, 'An example argument.'),
-            //			array( 'name', 'mode', 'description', 'defaultValue' )
-        );
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return array(
-            //			array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
-            //			array('name', 'shortcut', 'mode', 'description', 'defaultValue')
-        );
     }
 
     private function init()
@@ -87,8 +37,6 @@ class ReportCommand extends Command
     private function send()
     {
         try {
-
-            // FIND ACCOUNT
             foreach ($this->accounts as $key => $value) {
                 if ($value) {
                     $this->info("Cuenta encontrada '{$value->nombre_cliente}'");
@@ -96,35 +44,39 @@ class ReportCommand extends Command
                     $this->admin = CsUsuario::whereIdCliente($value->id_cliente)->where('responsable', true)->first();
 
                     if (!is_null($this->admin)) {
-                        $this->pathFile = public_path('temp/' . \Str::camel($value->nombre_cliente) . '.pdf');
+                        $start = Carbon::now()->startOfWeek();
+                        $end   = Carbon::now()->endOfWeek();
 
-                        // RENDER VIEW
+                        $this->file     = \Str::title(\Str::camel($value->nombre_cliente)) . '.pdf'; // \Str::camel($value->nombre_cliente) . "_{$start->year}{$start->month}{$start->day}" . '.pdf';
+                        $this->pathFile = public_path('temp' . DIRECTORY_SEPARATOR . $value->id_cliente . DIRECTORY_SEPARATOR);
+                        $realfile       = $this->pathFile . $this->file;
+
+                        $this->validateFileCreatedAt($realfile);
+
                         $this->info("Generando reporte");
-                        $start     = Carbon::now()->startOfWeek();
-                        $end       = Carbon::now()->endOfWeek();
                         $dateRange = "Semana del {$start->day} al {$end->day} de {$end->format('M')} {$end->year}";
 
                         $this->html = View::make('pdf.reporte')->with('account', $value)->with('dateRange', $dateRange)->render();
+                        $semanal    = View::make('pdf.semanal')->with('account', $value)->with('dateRange', $dateRange)->render();
 
-                        // SAVE PDF
                         $pdf = \App::make('snappy.pdf.wrapper');
                         $pdf->loadHTML($this->html)->setPaper('letter');
 
-                        if ($pdf->save($this->pathFile)) {
+                        if ($pdf->save($realfile)) {
                             $this->info("Generando email");
                             $data = array(
                                 'nombre_usuario' => $this->admin->nombre,
+                                'html'           => $semanal,
                             );
                             $mail = array(
                                 'email'   => $this->admin->email,
                                 'name'    => $this->admin->nombre,
                                 'subject' => 'Actualización Semanal Panel de Experiencia del Cliente',
-                                'attach'  => $this->pathFile,
+                                'attach'  => $realfile,
                             );
 
                             $this->line("Enviando email a '{$this->admin->email}'");
                             \Mail::queue('emails.reporte', $data, function ($message) use ($mail) {
-                                $message->from('ayuda@customertrigger.com', 'CExScore');
                                 $message->to($mail['email'], $mail['name'])->subject($mail['subject']);
                                 $message->attach($mail['attach']);
                             });
@@ -136,8 +88,6 @@ class ReportCommand extends Command
 
                 $this->progressbar->advance();
             }
-
-            File::cleanDirectory(public_path('temp'));
         } catch (\Exception $e) {
             $this->error($e->getMessage());
             Log::error($e->getMessage());
@@ -145,5 +95,22 @@ class ReportCommand extends Command
 
         $this->progressbar->finish();
         $this->info('Done');
+    }
+
+    public function validateFileCreatedAt($file)
+    {
+        if (File::exists($file)) {
+            File::delete($file);
+        }
+    }
+
+    protected function getArguments()
+    {
+        return array();
+    }
+
+    protected function getOptions()
+    {
+        return array();
     }
 }

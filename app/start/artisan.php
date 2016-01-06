@@ -12,3 +12,4 @@
 */
 Artisan::add(App::make("NewPeriodCommand"));
 Artisan::add(App::make("ReportCommand"));
+Artisan::add(App::make("OneReportCommand"));

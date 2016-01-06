@@ -56,8 +56,8 @@ class SectorsController extends \ApiController
             $this->sector = $this->sector->create($input);
 
             $survey = self::saveSurvey(Input::only(['titulo']));
-            if ($survey != null) {
-                \PreguntaCabecera::generateDefaultQuestions($survey, Input::only(['preguntaCabecera']));
+            if ($survey != null) {                
+                \PreguntaCabecera::generateQuestions($survey, Input::only(['preguntaCabecera']));
             }
 
             $this->sector->encuestas()->save($survey);
@@ -147,6 +147,7 @@ class SectorsController extends \ApiController
         $survey       = $this->sector->encuestas()->first();
         $this->sector->encuestas()->detach();
         $this->sector->delete();
+        $survey->preguntas()->delete();
         $survey->delete();
 
         return Redirect::route('admin.sectors.index');

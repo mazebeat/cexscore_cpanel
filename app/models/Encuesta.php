@@ -20,14 +20,14 @@
  * @method static \Illuminate\Database\Query\Builder|\Encuesta whereIdEstado($value)
  * @method static \Illuminate\Database\Query\Builder|\Encuesta whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Encuesta whereUpdatedAt($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\Momento[] $momentos 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Momento[]          $momentos
  */
 class Encuesta extends \Eloquent
 {
     public static $rules      = array(
-        'titulo'      => '',
-        'slogan'      => '',
-        'description' => '',
+        'titulo'      => 'required|max:80',
+        'slogan'      => 'max:80',
+        'description' => 'max:220',
         'id_estado'   => 'required',
     );
     protected     $table      = 'encuesta';
@@ -40,6 +40,7 @@ class Encuesta extends \Eloquent
         parent::boot();
 
         static::deleting(function ($encuesta) {
+            Log::warning('Eliminado encuensta ' . $encuesta->id_encuesta);
             $encuesta->preguntas()->delete();
         });
     }

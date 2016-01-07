@@ -41,6 +41,18 @@ class Respuesta extends \Eloquent
         'id_pregunta_detalle',
     );
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($respuesta) {
+            Log::warning('Eliminando Respuestas ' . $respuesta->id_respuesta);
+            dd($respuesta);
+            $respuesta->detalle()->delete();
+            // RespuestaDetalle::whereIdRespuesta($respuesta->id_respuesta);
+        });
+    }
+
     public function clientes()
     {
         return $this->belongsToMany('Cliente', 'cliente_respuesta', 'id_respuesta', 'id_cliente');

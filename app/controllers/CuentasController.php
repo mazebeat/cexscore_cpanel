@@ -404,9 +404,19 @@ class CuentasController extends \ApiController
     public function destroy($id)
     {
         // TODO; Agregar softdelete para los artifactos cuenta
+        if (Cliente::find($id)->respuestas->count() > 0) {
+            return Redirect::back()->withErrors('No se puede eliminar cuenta, contiene respuestas');
+        }
+
+        if (Visita::whereIdCliente($id)->count() > 0) {
+            return Redirect::back()->withErrors('No se puede eliminar cuenta, contiene visitas');
+        }
+
         Cliente::destroy($id);
 
         return Redirect::route('admin.cuentas.index');
+
+
     }
 
     /**

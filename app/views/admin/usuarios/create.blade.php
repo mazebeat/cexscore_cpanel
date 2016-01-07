@@ -1,11 +1,11 @@
 @extends('layouts.cpanel')
 
 @section('title')
-	Crear Usuario
+	Crear Usuario [CPanel]
 @endsection
 
 @section('page-title')
-	<i class="fa fa-plus fa-fw"></i>Agregar Usuario
+	<i class="fa fa-plus fa-fw"></i>Agregar Usuario [CPanel]
 @endsection
 
 @section('breadcrumb')

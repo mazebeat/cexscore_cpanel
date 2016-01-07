@@ -30,6 +30,7 @@ class Sector extends \Eloquent
         parent::boot();
 
         static::deleted(function ($sector) {
+            Log::warning('Eliminado sector ' . $sector->id_sector);
             $sector->encuestas()->delete();
         });
     }

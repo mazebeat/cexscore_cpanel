@@ -57,7 +57,6 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
             'rut_cliente'          => 'required|unique:cliente',
             'nombre_cliente'       => 'required',
             'nombre_legal_cliente' => '',
-            'rut_cliente'          => 'required',
             'fono_fijo_cliente'    => '',
             'fono_celular_cliente' => '',
             'correo_cliente'       => 'required|email',
@@ -109,10 +108,17 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
         parent::boot();
 
         static::deleting(function ($cliente) {
+            Log::warning('Eliminando Cuenta ' . $cliente->id_cliente);
+
             $cliente->urls()->delete();
-            $cliente->encuesta->momentos()->detach();
+            $cliente->momentos()->delete();
             $cliente->usuarios()->delete();
             $cliente->csusuarios()->delete();
+            ClienteRespuesta::whereIdCliente($cliente->id_cliente)->delete();
+            foreach ($cliente->respuestas() as $respuesta) {
+                $respuesta->detalle()->delete();
+            }
+            $cliente->respuestas()->delete();
         });
     }
 

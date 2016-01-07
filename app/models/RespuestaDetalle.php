@@ -28,6 +28,15 @@ class RespuestaDetalle extends \Eloquent
         'id_respuesta',
     );
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($respdetalle) {
+            Log::warning('Eliminando Respuestas detalle ' . $respdetalle->id_respuesta_detalle);
+        });
+    }
+
     public function cabecera()
     {
         return $this->belongsTo('Respuesta', 'id_respuesta_detalle', 'id_respuesta');

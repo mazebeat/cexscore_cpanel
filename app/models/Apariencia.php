@@ -36,18 +36,18 @@
 class Apariencia extends \Eloquent
 {
     public static $rules      = array(
-        'id_apariencia'       => 'required',
-        'logo_header'         => 'required',
-        'logo_incentivo'      => 'required',
-        'color_header'        => 'required',
-        'color_body'          => 'required',
-        'color_footer'        => 'required',
-        'color_boton'         => 'required',
-        'color_opciones'      => 'required',
-        'color_text_header'   => 'required',
-        'color_text_body'     => 'required',
-        'color_text_footer'   => 'required',
-        'color_instrucciones' => 'required',
+        'id_apariencia'       => '',
+        'logo_header'         => '',
+        'logo_incentivo'      => '',
+        'color_header'        => '',
+        'color_body'          => '',
+        'color_footer'        => '',
+        'color_boton'         => '',
+        'color_opciones'      => '',
+        'color_text_header'   => '',
+        'color_text_body'     => '',
+        'color_text_footer'   => '',
+        'color_instrucciones' => '',
     );
     protected     $table      = 'apariencia';
     protected     $primaryKey = 'id_apariencia';

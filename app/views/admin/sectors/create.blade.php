@@ -37,11 +37,18 @@
 	</div>
 
 	<div class="form-group">
-		{{ Form::label('titulo', 'Título Encuesta:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('description', 'Instrucción Encuesta:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::text('titulo', Input::old('titulo'), array('class'=>'form-control', 'placeholder'=>'Titulo')) }}
+			{{ Form::textarea('description', Input::old('description'), array('class'=>'form-control', 'placeholder'=>'Description', 'rows' => 4)) }}
 		</div>
 	</div>
+
+	{{--<div class="form-group">--}}
+		{{--{{ Form::label('titulo', 'Título Encuesta:', array('class'=>'col-md-2 control-label')) }}--}}
+		{{--<div class="col-sm-10">--}}
+			{{--{{ Form::text('titulo', Input::old('titulo'), array('class'=>'form-control', 'placeholder'=>'Titulo')) }}--}}
+		{{--</div>--}}
+	{{--</div>--}}
 
 	<div role="tabpanel" class="tab-pane" id="tab6">
 		<div id="preguntaFormulario">
@@ -82,7 +89,7 @@
 		<label class="col-sm-2 control-label">&nbsp;</label>
 
 		<div class="col-sm-10">
-			{{ Form::submit('Crear', array('class' => 'btn btn-lg btn-primary')) }}
+			{{ Form::submit('Crear', array('class' => 'btn btn-lg btn-primary pull-right')) }}
 		</div>
 	</div>
 	{{ Form::close() }}

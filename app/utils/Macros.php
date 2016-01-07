@@ -2,11 +2,38 @@
 
 /**
  * -------------------------------------
+ *             NAV Macros
+ * -------------------------------------
+ */
+\HTML::macro('isActive', function ($path, $active = 'active') {
+    $request = \Request::path();
+    if (!starts_with($request, '/')) {
+        $request = '/' . $request;
+    }
+    $contain = \Str::contains($request, $path);
+
+    return $contain ? $active : '';
+});
+
+\HTML::macro('isActiveList', function ($paths = array(), $active = 'active') {
+    if (is_array($paths)) {
+        foreach ($paths as $path) {
+            if (\HTML::isActive($path) != '') {
+                return $active;
+            }
+        }
+    }
+
+    return '';
+});
+
+
+/**
+ * -------------------------------------
  *              STRING MACROS
  * -------------------------------------
  *
  */
-use Carbon\Carbon;
 
 \Str::macro('hes', function ($str) {
     $find    = array("á", "é", "í", "ó", "ú", "ñ", "Á", "É", "Í", "Ó", "Ú", "Ñ");

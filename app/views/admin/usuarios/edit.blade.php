@@ -1,11 +1,11 @@
 @extends('layouts.cpanel')
 
 @section('title')
-	Editar Usuario
+	Editar Usuario [CPanel]
 @endsection
 
 @section('page-title')
-	<i class="fa fa-pencil fa-fw"></i>Editar Usuario
+	<i class="fa fa-pencil fa-fw"></i>Editar Usuario [CPanel]
 @endsection
 
 @section('breadcrumb')

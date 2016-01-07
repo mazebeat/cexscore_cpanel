@@ -1,11 +1,11 @@
 @extends('layouts.cpanel')
 
 @section('title')
-	Todos Usuarios
+	Todos Usuarios [Panel Exp]
 @endsection
 
 @section('page-title')
-	<i class="fa fa-home fa-fw"></i>Todos Usuarios
+	<i class="fa fa-home fa-fw"></i>Todos Usuarios [Panel Exp]
 @endsection
 
 @section('breadcrumb')

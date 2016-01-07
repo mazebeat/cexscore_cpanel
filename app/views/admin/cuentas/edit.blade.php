@@ -33,14 +33,14 @@
 			<li class="active"><a href="#home">Información Básica</a></li>
 			<li><a href="#plan">Plan</a></li>
 			<li><a href="#momentos">Momentos</a></li>
-			<li><a href="#momentos">Apariencia</a></li>
+			<li><a href="#apariencia">Apariencia</a></li>
 		</ul>
 
 		<div class="tab-content">
 			<div class="tab-pane active" id="home">@include('admin.cuentas.tabs.edit.home')</div>
 			<div class="tab-pane" id="plan">@include('admin.cuentas.tabs.edit.plan')</div>
 			<div class="tab-pane" id="momentos">@include('admin.cuentas.tabs.edit.momentos')</div>
-			<div class="tab-pane" id="momentos">@include('admin.cuentas.tabs.edit.apariencia')</div>
+			<div class="tab-pane" id="apariencia">@include('admin.cuentas.tabs.edit.apariencia')</div>
 		</div>
 	</div>
 

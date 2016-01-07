@@ -48,24 +48,42 @@ class SectorsController extends \ApiController
      */
     public function store()
     {
-        $input      = Input::all();
-        $validation = Validator::make($input, Sector::$rules);
-
-        if ($validation->passes()) {
+        try {
+            $input = Input::all();
             array_set($input, 'id_estado', true);
-            $this->sector = $this->sector->create($input);
 
-            $survey = self::saveSurvey(Input::only(['titulo']));
-            if ($survey != null) {                
-                \PreguntaCabecera::generateQuestions($survey, Input::only(['preguntaCabecera']));
+            $validation = Validator::make($input, Sector::$rules);
+            if (!$validation->passes()) {
+                return Redirect::route('admin.sectors.create')->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
             }
 
-            $this->sector->encuestas()->save($survey);
+            array_set($input, 'titulo', Input::get('descripcion_sector'));
+            $validation = Validator::make($input, Encuesta::$rules);
+            if (!$validation->passes()) {
+                return Redirect::route('admin.sectors.create')->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
+            }
+
+            $this->sector = $this->sector->create($input);
+
+            $data   = array(
+                'titulo'      => Input::get('descripcion_sector'),
+                'description' => Input::get('description'),
+            );
+            $survey = self::saveSurvey($data);
+            if ($survey != null) {
+                \PreguntaCabecera::generateQuestions($survey, Input::only(['preguntaCabecera']));
+                $this->sector->encuestas()->save($survey);
+            } else {
+                Log::error('Error al guardar Encuesta, Sector ["' . $this->sector->id_sector . '"]');
+
+                return Redirect::back();
+            }
 
             return Redirect::route('admin.sectors.index');
-        }
 
-        return Redirect::route('admin.sectors.create')->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
+        } catch (Exception $e) {
+            self::throwError($e);
+        }
     }
 
     /**
@@ -94,20 +112,14 @@ class SectorsController extends \ApiController
         $sector   = $this->sector->find($id);
         $catgs    = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
         $survey   = $sector->encuestas()->first();
-        $isMy     = false;
-        $tipouser = Auth::user()->id_tipo_usuario;
-
-        //        $x = Auth::user()->cliente->encuesta->id_encuesta;
-        //        if ($survey->id_encuesta == $x || Auth::user()->id_tipo_usuario <= Config::get('tipousuario.admin')) {
-        if ($tipouser <= Config::get('tipousuario.admin')) {
-            $isMy = true;
-        }
 
         if (is_null($sector)) {
             return Redirect::route('admin.sectors.index');
         }
 
-        return View::make('admin.sectors.edit', compact('sector'))->with('catgs', $catgs)->with('survey', $survey)->with('isMy', $isMy);
+        return View::make('admin.sectors.edit', compact('sector'))
+                   ->with('catgs', $catgs)
+                   ->with('survey', $survey);
     }
 
     /**
@@ -119,19 +131,29 @@ class SectorsController extends \ApiController
      */
     public function update($id)
     {
-        $input      = array_except(Input::all(), '_method');
+        $input = array_except(Input::all(), '_method');
+
+        array_set($input, 'id_estado', true);
         $validation = Validator::make($input, Sector::$rules);
-
-        if ($validation->passes()) {
-            $sector = $this->sector->find($id);
-            $sector->update($input);
-
-            self::modifySurvey2(Input::except(['_token', 'descripcion_sector', '_method']), $sector->encuestas()->first());
-
-            return Redirect::route('admin.sectors.show', $id);
+        if (!$validation->passes()) {
+            return Redirect::route('admin.sectors.edit', $id)->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
         }
 
-        return Redirect::route('admin.sectors.edit', $id)->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
+        array_set($input, 'titulo', Input::get('descripcion_sector'));
+        $validation = Validator::make($input, Encuesta::$rules);
+        if (!$validation->passes()) {
+            return Redirect::route('admin.sectors.edit', $id)->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
+        }
+
+        $sector = $this->sector->find($id);
+        $sector->update($input);
+
+        self::modifySurvey2(Input::except(['_token', 'descripcion_sector', '_method']), $sector->encuestas()->first());
+        $survey = $sector->encuestas()->first();
+        $survey->description = Input::get('description');
+        $survey->save();
+
+        return Redirect::route('admin.sectors.show', $id);
     }
 
     /**

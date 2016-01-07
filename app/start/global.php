@@ -19,6 +19,18 @@ ClassLoader::addDirectories(array(
     app_path() . '/database/seeds',
 ));
 
+
+/*
+|--------------------------------------------------------------------------
+| Custom Validator
+|--------------------------------------------------------------------------
+|
+|
+|
+|
+|
+*/
+
 Validator::resolver(function ($translator, $data, $rules, $messages) {
     return new App\Util\CustomValidator($translator, $data, $rules, $messages);
 });
@@ -34,18 +46,18 @@ Validator::resolver(function ($translator, $data, $rules, $messages) {
 |
 */
 
-//Log::useFiles(storage_path() . '/logs/laravel.log');
-
 if (Config::get('config.logs.path') != '') {
     if (!File::exists(Config::get('config.logs.path'))) {
         File::makeDirectory(Config::get('config.logs.path'), 777, true, true);
     }
 
-    Log::useFiles(Config::get('config.logs.path') . 'PanelCExScore.log');
+    $log = Config::get('config.logs.path') . DIRECTORY_SEPARATOR . 'PanelCExScore.log';
 } else {
-    Log::useFiles(storage_path() . '/logs/PanelCExScore.log');
+    $log = storage_path() . '/logs/PanelCExScore.log';
 }
 
+//Log::useFiles(storage_path() . '/logs/laravel.log');
+Log::useFiles($log);
 
 /*
 |--------------------------------------------------------------------------
@@ -59,10 +71,6 @@ if (Config::get('config.logs.path') != '') {
 | shown, which includes a detailed stack trace during debug.
 |
 */
-
-//App::error(function (Exception $exception, $code) {
-//	Log::error($exception);
-//});
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 

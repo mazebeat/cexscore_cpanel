@@ -34,7 +34,7 @@ return array(
             'password'  => '',
             'key'       => '',
             'keyphrase' => '',
-            'root'      => '/var/www',
+            'root'      => '/var/www/www.cex.org/html',
         ),
 
     ),

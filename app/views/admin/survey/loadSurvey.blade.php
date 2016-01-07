@@ -11,7 +11,7 @@
 @section('breadcrumb')
     @parent
     <li>Preguntas</li>
-    <li><a href="{{ url('admin/survey/load') }}">Modificar</a></li>
+    <li><a href="#">Modificar</a></li>
 @endsection
 
 @section('content')

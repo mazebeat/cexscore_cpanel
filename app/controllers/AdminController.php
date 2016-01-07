@@ -263,6 +263,7 @@ class AdminController extends \ApiController
     }
 
     public function cpanelIndex() {
+        Log::info('Generando Panel estadistico');
         return \Response::json(array(
             'totalClients'  => Cliente::all()->count(),
             'totalUsers'    => CsUsuario::all()->count(),
@@ -280,6 +281,7 @@ class AdminController extends \ApiController
      */
     public static function npsTable($id = null)
     {
+        Log::info('NPS Table');
         if (!is_null($id)) {
             $strSQL_NPS       = "SELECT nps.promedio FROM nps WHERE nps.id_cliente = " . $id;
             $strSQL_Lealtad   = "SELECT SUM(CASE WHEN valor2 = 'NO' THEN 1 ELSE 0 END) AS Leal_NO, SUM(CASE WHEN valor2 = 'SI' THEN 1 END) AS Leal_SI FROM (SELECT respuesta.id_cliente, respuesta_detalle.valor2 FROM cliente INNER JOIN cliente_respuesta ON cliente.id_cliente = cliente_respuesta.id_cliente INNER JOIN respuesta ON cliente_respuesta.id_respuesta = respuesta.id_respuesta INNER JOIN respuesta_detalle ON respuesta.id_respuesta = respuesta_detalle.id_respuesta INNER JOIN pregunta_cabecera ON respuesta.id_pregunta_cabecera = pregunta_cabecera.id_pregunta_cabecera INNER JOIN (SELECT cliente_respuesta.id_cliente, MAX(cliente_respuesta.id_cliente_respuesta) AS id_ultima_rpta FROM cliente_respuesta INNER JOIN cliente ON cliente.id_cliente = cliente_respuesta.id_cliente GROUP BY id_cliente) AS Ultima_rpta_x_usuario ON cliente_respuesta.id_cliente = Ultima_rpta_x_usuario.id_cliente WHERE (pregunta_cabecera.numero_pregunta = 4) AND cliente.id_cliente = " . $id . ") AS Datos";

@@ -1,11 +1,11 @@
 @extends('layouts.cpanel')
 
 @section('title')
-    Todos Usuarios [CPanel]
+    Todos Usuarios [Panel de Control]
 @endsection
 
 @section('page-title')
-    <i class="fa fa-home fa-fw"></i>Todos Usuarios [CPanel]
+    <i class="fa fa-home fa-fw"></i>Todos Usuarios [Panel de Control]
 @endsection
 
 @section('breadcrumb')
@@ -28,11 +28,12 @@
         <table class="table table-striped table-condensed table-hover">
             <thead>
             <tr>
-                <th>Nombre</th>
-                <th>RUT Usuario</th>
-                <th>Usuario</th>
-                <th>Correo</th>
-                <th>&nbsp;</th>
+                <th style="width: 3%;">Nombre</th>
+                <th style="width: 2%;">RUT Usuario</th>
+                <th style="width: 2%;">Usuario</th>
+                <th style="width: 5%;">Correo</th>
+                <th style="width: 5%;">Cuenta</th>
+                <th style="width: 20%;">&nbsp;</th>
             </tr>
             </thead>
 
@@ -43,7 +44,12 @@
                     <td>{{ $usuario->rut_usuario }}</td>
                     <td>{{ $usuario->username }}</td>
                     <td>{{ $usuario->correo_usuario }}</td>
-                    <td>
+                    @if($usuario->id_cliente != 0)
+                        <td>{{ Cliente::find($usuario->id_cliente)->nombre_cliente }}</td>
+                    @else
+                        <td>Administrador</td>
+                    @endif
+                    <td class="pull-right">
                         @if($usuario->id_tipo_usuario != 1)
                             {{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.usuarios.destroy', $usuario->id_usuario))) }}
                             {{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
@@ -84,17 +90,13 @@
                     <!-- Modal Body -->
                     <div class="modal-body">
 
-                        <div class="alert alert-dismissible" role="alert">
+                        <div class="alert alert-dismissible hidden" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <strong class="showErrorsTitle"></strong>
                             <ul class="showErrorsList"></ul>
                         </div>
 
                         {{ Form::open(array('id' => 'changePasswordForm', 'class' => '', 'role' => 'form', 'method' => 'POST', 'url' => 'admin/usuarios/changePassword/', 'data-url' => URL::to('admin/usuarios/changePassword/'), 'aria-hidden' => 'true')) }}
-                        {{--<div class="form-group">--}}
-                        {{--<label for="oldPassword">{{ Str::title(Lang::get('user.password')) }}</label>--}}
-                        {{--                            {{ Form::password('oldPassword', array('class' => 'form-control', 'placeholder' => Lang::get('user.password'))) }}--}}
-                        {{--</div>--}}
                         <div class="form-group">
                             <label for="password">{{ Str::title(Lang::get('user.password')) }}</label>
                             {{ Form::password('password', array('class' => 'form-control', 'placeholder' => Lang::get('user.password'))) }}
@@ -158,25 +160,22 @@
                 var $list = $('.showErrorsList');
 
                 $.post($url, $this.serialize(), function (data) {
-                    if (!data.pass) {
-                        if (!jQuery.isEmptyObject(data.message)) {
-                            $list.empty();
-
-                            $list.parent('alert').addClass('alert-danger');
-
-                            $.each(data.message, function (i) {
-                                var $li = $('<li/>')
-                                        .addClass('ui-menu-item')
-                                        .attr('role', 'menuitem')
-                                        .appendTo($list);
-                                var aaa = $('<span/>')
-                                        .addClass('ui-all')
-                                        .text(data.message[i])
-                                        .appendTo($li);
-                            });
+                    if (!$.isEmptyObject(data.message)) {
+                        if (data.pass) {
+                            $list.empty().parents('.alert').removeClass('hidden').removeClass('alert-danger').addClass('alert-success');
+                        } else {
+                            $list.empty().parents('.alert').removeClass('hidden').addClass('alert-danger');
                         }
-                    } else {
-                        $list.parent('alert').addClass('alert-success');
+                        $.each(data.message, function (i) {
+                            var $li = $('<li/>')
+                                    .addClass('ui-menu-item')
+                                    .attr('role', 'menuitem')
+                                    .appendTo($list);
+                            var aaa = $('<span/>')
+                                    .addClass('ui-all')
+                                    .text(data.message[i])
+                                    .appendTo($li);
+                        });
                     }
                 });
             });

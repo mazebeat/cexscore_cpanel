@@ -21,9 +21,10 @@ class UsuariosController extends \ApiController
      */
     public function index()
     {
-        $usuarios = Usuario::whereIn('id_tipo_usuario', array(1, 2, 4))->get();
+        $usuarios = Usuario::all();
+        $cuentas = Cliente::lists('nombre_cliente', 'id_cliente');
 
-        return View::make('admin.usuarios.index', compact('usuarios'));
+        return View::make('admin.usuarios.index', compact('usuarios'))->with('cuentas', $cuentas);;
     }
 
     /**
@@ -33,7 +34,8 @@ class UsuariosController extends \ApiController
      */
     public function create()
     {
-        return View::make('admin.usuarios.create');
+        $cuentas = Cliente::lists('nombre_cliente', 'id_cliente');
+        return View::make('admin.usuarios.create')->with('cuentas', $cuentas);;
     }
 
     /**
@@ -84,8 +86,9 @@ class UsuariosController extends \ApiController
     public function show($id)
     {
         $usuario = $this->usuario->findOrFail($id);
+        $cuentas = Cliente::lists('nombre_cliente', 'id_cliente');
 
-        return View::make('admin.usuarios.show', compact('usuario'));
+        return View::make('admin.usuarios.show', compact('usuario'))->with('cuentas', $cuentas);;
     }
 
     /**
@@ -103,7 +106,9 @@ class UsuariosController extends \ApiController
             return Redirect::route('admin.usuarios.index');
         }
 
-        return View::make('admin.usuarios.edit', compact('usuario'));
+        $cuentas = Cliente::lists('nombre_cliente', 'id_cliente');
+
+        return View::make('admin.usuarios.edit', compact('usuario'))->with('cuentas', $cuentas);;
     }
 
     /**
@@ -193,7 +198,6 @@ class UsuariosController extends \ApiController
      */
     public function changePassword($id)
     {
-
         $validator = Validator::make(Input::all(), Usuario::$rulesChangePasword, Usuario::$messagesChangePassword);
 
         if ($validator->fails()) {

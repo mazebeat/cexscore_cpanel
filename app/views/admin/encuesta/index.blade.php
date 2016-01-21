@@ -33,7 +33,7 @@
                     <td>{{ $encuestum->titulo }}</td>
                     <td>{{ $encuestum->slogan }}</td>
                     <td>{{ str_limit($encuestum->description, $limit = 80, $end = '...') }}</td>
-                    <td>
+                    <td class="pull-right">
                         {{--{{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.encuesta.destroy', $encuestum->id_encuesta))) }}--}}
                         {{--{{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}--}}
                         {{--{{ Form::close() }}--}}

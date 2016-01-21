@@ -66,31 +66,43 @@ class PreguntaCabecera extends \Eloquent
     public static function generateQuestions(Encuesta $survey, $data = array(), $default = false)
     {
         try {
-
             if ($default && count($data) <= 0) {
                 return;
             }
 
             if (!$default) {
                 foreach ($data['preguntaCabecera'] as $key => $value) {
-                    $question1 = new PreguntaCabecera([
-                        'descripcion_1'     => $value['descripcion_1'],
-                        'numero_pregunta'   => (int)($key + 1),
-                        'id_tipo_respuesta' => 1,
-                        'id_estado'         => 1,
-                        'id_categoria'      => 1,
-                    ]);
-                    $question1 = $survey->preguntas()->save($question1);
-
-                    if (array_key_exists('sub', $value)) {
-                        $subquestion1 = new PreguntaCabecera([
-                            'descripcion_1'     => $value['sub']['descripcion_1'],
-                            'id_pregunta_padre' => $question1->id_pregunta_cabecera,
-                            'id_tipo_respuesta' => 5,
+                    $k = (int)($key + 1);
+                    if ($k == 4) {
+                        $question1 = new PreguntaCabecera([
+                            'descripcion_1'     => $value['descripcion_1'],
+                            'numero_pregunta'   => $k,
+                            'id_tipo_respuesta' => 6,
                             'id_estado'         => 1,
-                            'id_categoria'      => 1,
+                            'id_categoria'      => $k,
                         ]);
-                        $survey->preguntas()->save($subquestion1);
+                        $survey->preguntas()->save($question1);
+                    } else {
+
+                        $question1 = new PreguntaCabecera([
+                            'descripcion_1'     => $value['descripcion_1'],
+                            'numero_pregunta'   => $k,
+                            'id_tipo_respuesta' => 1,
+                            'id_estado'         => 1,
+                            'id_categoria'      => $k,
+                        ]);
+                        $question1 = $survey->preguntas()->save($question1);
+
+                        if (array_key_exists('sub', $value)) {
+                            $subquestion1 = new PreguntaCabecera([
+                                'descripcion_1'     => $value['sub']['descripcion_1'],
+                                'id_pregunta_padre' => $question1->id_pregunta_cabecera,
+                                'id_tipo_respuesta' => 5,
+                                'id_estado'         => 1,
+                                'id_categoria'      => $k,
+                            ]);
+                            $survey->preguntas()->save($subquestion1);
+                        }
                     }
                 }
 

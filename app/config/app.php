@@ -13,7 +13,7 @@ return array(
     |
     */
 
-    'debug' => true,
+    'debug' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -125,6 +125,7 @@ return array(
         'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider',
         'Freshwork\ChileanBundle\Laravel\ChileanBundleServiceProvider',
         'SimpleSoftwareIO\QrCode\QrCodeServiceProvider',
+
     ),
     /*
     |--------------------------------------------------------------------------

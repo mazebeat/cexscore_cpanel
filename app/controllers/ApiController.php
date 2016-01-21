@@ -8,9 +8,6 @@ class ApiController extends \BaseController
     protected $view_params = array();
     private   $errors      = array();
 
-    /**
-     * ApiController constructor.
-     */
     public function __construct()
     {
         if (Session::has('err')) {
@@ -19,11 +16,6 @@ class ApiController extends \BaseController
         }
     }
 
-    /**
-     * @param $input
-     *
-     * @return bool
-     */
     public static function objectHasProperty($input)
     {
         return (is_object($input) && array_filter(get_object_vars($input), function ($val) {
@@ -31,13 +23,6 @@ class ApiController extends \BaseController
             })) ? true : false;
     }
 
-    /**
-     * @param $data
-     * @param $survey
-     *
-     * @return null|static
-     * @throws Exception
-     */
     public static function saveClient($data, $survey)
     {
         $client = null;
@@ -64,11 +49,6 @@ class ApiController extends \BaseController
         return $client;
     }
 
-    /**
-     * @param      $admin
-     * @param null $client
-     * @param null $survey
-     */
     public static function saveAdministrator($data, $client = null, $survey = null)
     {
         $admin = null;
@@ -100,13 +80,6 @@ class ApiController extends \BaseController
         return $admin;
     }
 
-    /**
-     * @param     $user
-     * @param int $add
-     *
-     * @return null|string
-     * @throws Exception
-     */
     public static function randomCsUsername($user, $add = 0)
     {
         $username = null;
@@ -135,13 +108,6 @@ class ApiController extends \BaseController
         return $username;
     }
 
-    /**
-     * @param     $user
-     * @param int $add
-     *
-     * @return null|string
-     * @throws Exception
-     */
     public static function randomUsername($user, $add = 0)
     {
         $username = null;
@@ -170,11 +136,6 @@ class ApiController extends \BaseController
         return $username;
     }
 
-    /**
-     * @param      $admin
-     * @param null $client
-     * @param null $survey
-     */
     public static function saveCurrentUser($data, $client = null, $survey = null)
     {
         $user = null;
@@ -199,9 +160,6 @@ class ApiController extends \BaseController
         return $user;
     }
 
-    /**
-     * @param $data
-     */
     public static function saveMoments($data, $cliente = null, $save = false)
     {
         try {
@@ -252,7 +210,7 @@ class ApiController extends \BaseController
                                         File::makeDirectory(public_path('temp/' . $cliente->id_cliente));
                                     }
                                     $file = public_path('temp/' . $cliente->id_cliente . '/' . $count . '.png');
-                                    QrCode::format('png')->errorCorrection('H')->size(1080)->generate(url($url->given), $file);
+                                    self::createQrCode($file, url($url->given));
 
                                     if (File::exists($file)) {
                                         array_push($moments, $momentoencuesta);
@@ -275,13 +233,6 @@ class ApiController extends \BaseController
         return $moments;
     }
 
-    /**
-     * @param $name
-     * @param $data
-     * @param $inputs
-     *
-     * @return null|static
-     */
     public static function saveTheme($name, $data, $inputs)
     {
         $theme = null;
@@ -317,41 +268,43 @@ class ApiController extends \BaseController
         return $theme;
     }
 
-    /**
-     * @param $name
-     * @param $data
-     * @param $inputs
-     *
-     * @return null|static
-     */
     public static function updateTheme($cliente, $data, $inputs)
     {
         $theme = null;
 
         try {
-            if (!is_null($data) || count($data)) {
-                $folder = public_path('image' . DIRECTORY_SEPARATOR . $name);
+            if (count($inputs)) {
+                $folder = public_path('image' . DIRECTORY_SEPARATOR . Str::camel($cliente->nombre_cliente));
                 if (!\File::exists($folder)) {
                     \File::makeDirectory($folder);
                 }
+                $files = File::allFiles($folder);
 
                 foreach ($inputs as $key => $value) {
-                    $filename = $key . '.' . $value->guessClientExtension();
-                    $path     = '/image' . DIRECTORY_SEPARATOR . Str::camel($cliente->nombre_cliente) . DIRECTORY_SEPARATOR . $filename;
+                    if (!is_null($value)) {
+                        $filename = $key . '.' . $value->guessClientExtension();
+                        $path     = '/image/' . Str::camel($cliente->nombre_cliente) . '/' . $filename;
 
-                    $files = File::allFiles($folder);
-                    foreach ($files as $file) {
-                        if (File::exists((string)$file) && Str::contains((string)$file, $key)) {
-                            File::delete((string)$file);
+                        foreach ($files as $file) {
+                            if (File::exists((string)$file) && Str::contains((string)$file, $key)) {
+                                File::delete((string)$file);
+                            }
                         }
+
+                        $value->move($folder, $filename);
+                        $data = array_set($data, $key, $path);
                     }
-
-                    $value->move($folder, $filename);
-                    $data = array_add($data, $key, $path);
                 }
-
-                $theme = $cliente->theme->update($data);
             }
+            if (!is_null($data) || count($data)) {
+                if (array_get($data, 'logo_header') == '') {
+                    array_forget($data, 'logo_header');
+                }
+                if (array_get($data, 'logo_incentivo') == '') {
+                    array_forget($data, 'logo_incentivo');
+                }
+            }
+            $theme = $cliente->theme()->update($data);
         } catch (Exception $e) {
             throw $e;
         }
@@ -359,12 +312,6 @@ class ApiController extends \BaseController
         return $theme;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return null
-     * @throws Exception
-     */
     public static function saveQuestions($data = array())
     {
         $id = null;
@@ -380,11 +327,6 @@ class ApiController extends \BaseController
         return $id;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return null|static
-     */
     public static function saveSurvey($data = array())
     {
         $survey = null;
@@ -408,25 +350,6 @@ class ApiController extends \BaseController
         return $survey;
     }
 
-    public static function calcVariacion($a, $b)
-    {
-        $r = 0;
-        $c = $b * 100;
-
-        if ($c != 0 && $a != 0) {
-            $d = (double)((float)$c / $a);
-
-            if ($d != 0) {
-                $r = (double)((float)$d - 100);
-            }
-        }
-
-        return round($r, 1, PHP_ROUND_HALF_UP);
-    }
-
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function generateMessage()
     {
         $theme  = null;
@@ -456,9 +379,6 @@ class ApiController extends \BaseController
         return View::make('survey.messages')->withMessage($message)->withScript($script)->withTheme($theme)->withSurvey($survey);
     }
 
-    /**
-     * @return mixed
-     */
     public function generateError()
     {
         try {
@@ -486,29 +406,6 @@ class ApiController extends \BaseController
         }
     }
 
-    /**
-     * @param Exception $e
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    function throwError($e)
-    {
-        Log::error($e->getMessage());
-
-        if (!Config::get('app.debug')) {
-            $error          = new stdClass();
-            $error->code    = $e->getCode();
-            $error->message = $e->getMessage();
-
-            return Redirect::to('survey/error')->with('error', $error);
-        }
-
-        throw $e;
-    }
-
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function modifySurvey()
     {
         try {
@@ -561,11 +458,6 @@ class ApiController extends \BaseController
         }
     }
 
-    /**
-     * @param null $inputs
-     *
-     * @return array
-     */
     public static function createBasicRules($inputs = null)
     {
         try {
@@ -587,12 +479,6 @@ class ApiController extends \BaseController
         }
     }
 
-    /**
-     * @param $inputs
-     * @param $ids
-     *
-     * @return mixed
-     */
     public static function FilterQuestions($inputs)
     {
         try {
@@ -609,12 +495,6 @@ class ApiController extends \BaseController
         return $ids;
     }
 
-    /**
-     * @param $data
-     *
-     * @return string
-     * @throws \Exception
-     */
     public function modifySurvey2($data, $survey)
     {
         try {
@@ -660,9 +540,6 @@ class ApiController extends \BaseController
         }
     }
 
-    /**
-     * @param $str
-     */
     protected function setError($str)
     {
         if (!isset($this->view_params['err']) || $this->view_params['err'] == null) {
@@ -676,11 +553,13 @@ class ApiController extends \BaseController
         Session::put('err', $this->errors);
     }
 
-    /**
-     * @return array
-     */
     protected function getErrors()
     {
         return $this->errors;
+    }
+
+    public static function createQrCode($path, $info)
+    {
+        QrCode::format('png')->errorCorrection('H')->size(1080)->generate($info, $path);
     }
 }

@@ -2,6 +2,7 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/public/template/dist/js/app.min.js" />
         <item url="file://$PROJECT_DIR$/public/plugins/amcharts/lang/az.min.js" />
         <item url="file://$PROJECT_DIR$/public/plugins/amcharts/lang/es.min.js" />
         <item url="file://$PROJECT_DIR$/public/plugins/amcharts/lang/bg.min.js" />
@@ -112,6 +113,7 @@
       </sourceFilesUrls>
     </properties>
     <CLASSES>
+      <root url="file://$PROJECT_DIR$/public/template/dist/js/app.min.js" />
       <root url="file://$PROJECT_DIR$/public/plugins/amcharts/lang/az.min.js" />
       <root url="file://$PROJECT_DIR$/public/plugins/amcharts/lang/es.min.js" />
       <root url="file://$PROJECT_DIR$/public/plugins/amcharts/lang/bg.min.js" />

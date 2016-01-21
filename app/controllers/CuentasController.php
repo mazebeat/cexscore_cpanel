@@ -125,38 +125,37 @@ class CuentasController extends \ApiController
      */
     public function store()
     {
-        $rules    = array(
+        $rules     = array(
             'cliente.nombre_cliente'         => 'required|string',
             'cliente.nombre_legal_cliente'   => 'string',
             'cliente.rut_cliente'            => 'required|between:8,12|rut',
             'cliente.fono_fijo_cliente'      => 'between:7,16',
             'cliente.fono_celular_cliente'   => 'between:7,16',
-            'cliente.correo_cliente'         => 'required|email',
+            'cliente.correo_cliente'         => '',
             'cliente.pais'                   => 'required|',
             'cliente.region'                 => '',
             'cliente.id_ciudad'              => '',
             'cliente.id_sector'              => 'required|',
             'cliente.id_encuesta'            => 'required|',
             'cliente.id_plan'                => 'required|',
-            'apariencia.logo_header'         => 'required|image|max:700',
-            'apariencia.logo_incentivo'      => 'required|image|max:700',
-            'apariencia.color_header'        => 'required|',
-            'apariencia.color_body'          => 'required|',
-            'apariencia.color_footer'        => 'required|',
-            'apariencia.color_boton'         => 'required|',
-            'apariencia.color_opciones'      => 'required|',
-            'apariencia.color_text_header'   => 'required|',
-            'apariencia.color_text_body'     => 'required|',
-            'apariencia.color_text_footer'   => 'required|',
-            'apariencia.color_instrucciones' => 'required|',
+            'apariencia.logo_header'         => 'image|max:700',
+            'apariencia.logo_incentivo'      => 'image|max:700',
+            'apariencia.color_header'        => '',
+            'apariencia.color_body'          => '',
+            'apariencia.color_footer'        => '',
+            'apariencia.color_boton'         => '',
+            'apariencia.color_opciones'      => '',
+            'apariencia.color_text_body'     => '',
+            'apariencia.color_text_header'   => '',
+            'apariencia.color_text_footer'   => '',
+            'apariencia.color_instrucciones' => '',
             'encuesta.titulo'                => '',
             'encuesta.slogan'                => '',
             'encuesta.description'           => '',
             'usuario.fecha_nacimiento'       => 'date',
         );
-        $required = ' es requerido.';
-
-        $messages = array(
+        $required  = ' es requerido.';
+        $messages  = array(
             'cliente.nombre_cliente.required'         => 'El campo nombre' . $required,
             'cliente.nombre_legal_cliente.required'   => 'El campo nombre legal' . $required,
             'cliente.rut_cliente.required'            => 'El campo RUT' . $required,
@@ -185,7 +184,6 @@ class CuentasController extends \ApiController
             'encuesta.description.required'           => 'El campo descripcion encuesta' . $required,
             'usuario.fecha_nacimiento.date'           => 'El campo fecha de nacimiento no es valido',
         );
-
         $data      = Input::all();
         $validator = Validator::make($data, $rules, $messages);
 
@@ -247,26 +245,23 @@ class CuentasController extends \ApiController
                     'urls'           => $urls,
                 ));
 
-                // \File::cleanDirectory($path);
-
                 return Redirect::route('admin.cuentas.index');
             }
         } catch (\Exception $e) {
             throw $e;
             Log::error($e->getMessage());
         } catch (QueryException $e) {
-            $error = new \Illuminate\Support\MessageBag(['Error al procesar inserción de la cuenta.']);
             Log::error($e->getMessage());
 
-            return Redirect::back()->withErrors($error)->withInput();
+            return Redirect::back()->withErrors(new \Illuminate\Support\MessageBag(['Error al procesar inserción de la cuenta.']))->withInput();
         } catch (ModelNotFoundException $e) {
-            $error = new \Illuminate\Support\MessageBag(['Error al procesar cuenta.']);
             Log::error($e->getMessage());
 
-            return Redirect::back()->withErrors($error)->withInput();
+            return Redirect::back()->withErrors(new \Illuminate\Support\MessageBag(['Error al procesar cuenta.']))->withInput();
         }
 
         App::abort(404, 'Sector sin encuesta definida');
+        Log::error('Sector sin encuesta definida');
 
         return Redirect::back()->withInput();
 
@@ -297,19 +292,33 @@ class CuentasController extends \ApiController
             $mail    = array_add($mail, 'subject', $subject);
         }
 
-        \Mail::send('emails.bienvenida', $data, function ($message) use ($mail) {
-            $message->to($mail['email'], $mail['name'])
-                    ->subject($mail['subject'])
-                    ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
-                    ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
-                    ->bcc('ligia.pasqualin@customertrigger.com', 'Ligia Pasqualin');
+        if (App::environment('local')) {
+            \Mail::send('emails.bienvenida', $data, function ($message) use ($mail) {
+                $message->to($mail['email'], $mail['name'])
+                        ->subject($mail['subject'])
+                        ->bcc('dpinto@intelidata.cl', 'Diego Feliú');
 
-            $size = sizeOf($mail['attachs']); //get the count of number of attachments
+                $size = sizeOf($mail['attachs']); //get the count of number of attachments
 
-            for ($i = 0; $i < $size; $i++) {
-                $message->attach($mail['attachs'][$i]);
-            }
-        }, true);
+                for ($i = 0; $i < $size; $i++) {
+                    $message->attach($mail['attachs'][$i]);
+                }
+            }, true);
+        } else {
+            \Mail::send('emails.bienvenida', $data, function ($message) use ($mail) {
+                $message->to($mail['email'], $mail['name'])
+                        ->subject($mail['subject'])
+                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
+                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
+                        ->bcc('ligia.pasqualin@customertrigger.com', 'Ligia Pasqualin');
+
+                $size = sizeOf($mail['attachs']); //get the count of number of attachments
+
+                for ($i = 0; $i < $size; $i++) {
+                    $message->attach($mail['attachs'][$i]);
+                }
+            }, true);
+        }
 
         return true;
     }
@@ -321,8 +330,9 @@ class CuentasController extends \ApiController
      *
      * @return Response
      */
-    public function show($id)
-    {
+    public function show(
+        $id
+    ) {
         $cliente = Cliente::findOrFail($id);
 
         return View::make('admin.cuentas.show', compact('cliente'));
@@ -350,13 +360,7 @@ class CuentasController extends \ApiController
             $ciudads)->with('catgs', $catgs)->with('momentoencuestum', $momentos);
     }
 
-    /**
-     * Update the specified cliente in storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
+
     public function update($id)
     {
         if (!Input::has('accion')) {
@@ -387,30 +391,22 @@ class CuentasController extends \ApiController
                 break;
             case 'update.skin':
                 self::updateTheme($cliente, Input::all(), Input::file());
-
                 break;
         }
 
         return Redirect::route('admin.cuentas.edit', [$id]);
     }
 
-    /**
-     * Remove the specified cliente from storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
     public function destroy($id)
     {
         // TODO; Agregar softdelete para los artifactos cuenta
-        if (Cliente::find($id)->respuestas->count() > 0) {
-            return Redirect::back()->withErrors('No se puede eliminar cuenta, contiene respuestas');
-        }
-
-        if (Visita::whereIdCliente($id)->count() > 0) {
-            return Redirect::back()->withErrors('No se puede eliminar cuenta, contiene visitas');
-        }
+//        if (Cliente::find($id)->respuestas->count() > 0) {
+//            return Redirect::back()->withErrors('No se puede eliminar cuenta, contiene respuestas');
+//        }
+//
+//        if (Visita::whereIdCliente($id)->count() > 0) {
+//            return Redirect::back()->withErrors('No se puede eliminar cuenta, contiene visitas');
+//        }
 
         Cliente::destroy($id);
 
@@ -419,10 +415,6 @@ class CuentasController extends \ApiController
 
     }
 
-    /**
-     * @return \Encuesta|null
-     * @throws Exception
-     */
     public function loadSurvey()
     {
         try {
@@ -448,9 +440,7 @@ class CuentasController extends \ApiController
         }
     }
 
-    /**
-     *
-     */
+
     public function createClient()
     {
         try {

@@ -20,7 +20,7 @@
 		<table class="table table-striped table-condensed table-hover">
 			<thead>
 			<tr>
-				<th>Descripción Pais</th>
+				<th>País</th>
 				<th>&nbsp;</th>
 			</tr>
 			</thead>
@@ -28,8 +28,8 @@
 			<tbody>
 			@foreach ($pais as $pai)
 				<tr>
-					<td>{{{ $pai->descripcion_pais }}}</td>
-					<td>
+					<td>{{ $pai->descripcion_pais }}</td>
+					<td class="pull-right">
 						{{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.pais.destroy', $pai->id_pai))) }}
 						{{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
 						{{ Form::close() }}

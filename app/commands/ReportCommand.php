@@ -60,7 +60,7 @@ class ReportCommand extends Command
                         $semanal    = View::make('pdf.semanal')->with('account', $value)->with('dateRange', $dateRange)->render();
 
                         $pdf = \App::make('snappy.pdf.wrapper');
-                        $pdf->loadHTML($this->html)->setPaper('letter');
+                        $pdf->loadHTML($this->html)->setPaper('a4')->setOption('margin-bottom', 0);
 
                         if ($pdf->save($realfile)) {
                             $this->info("Generando email");
@@ -76,8 +76,13 @@ class ReportCommand extends Command
                             );
 
                             $this->line("Enviando email a '{$this->admin->email}'");
+                            Log::info("Enviando email a '{$this->admin->email}'");
+                            
                             \Mail::queue('emails.reporte', $data, function ($message) use ($mail) {
-                                $message->to($mail['email'], $mail['name'])->subject($mail['subject']);
+                                $message->to($mail['email'], $mail['name'])
+                                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
+                                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
+                                        ->subject($mail['subject']);
                                 $message->attach($mail['attach']);
                             });
                         }

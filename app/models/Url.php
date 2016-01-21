@@ -37,6 +37,15 @@ class Url extends Eloquent
         'id_cliente',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($url) {
+            Log::warning('Eliminando URL ' . $url->id);
+        });
+    }
+
     public static function validate($input)
     {
         $v = Validator::make($input, static::$rules);

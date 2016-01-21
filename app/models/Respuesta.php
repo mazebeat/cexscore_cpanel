@@ -47,7 +47,6 @@ class Respuesta extends \Eloquent
 
         static::deleting(function ($respuesta) {
             Log::warning('Eliminando Respuestas ' . $respuesta->id_respuesta);
-            dd($respuesta);
             $respuesta->detalle()->delete();
             // RespuestaDetalle::whereIdRespuesta($respuesta->id_respuesta);
         });
@@ -68,4 +67,7 @@ class Respuesta extends \Eloquent
         return $query->whereBetween('respuesta.created_at', array(Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()));
     }
 
+    public function scopeCountByClient($query) {
+        return $query->count();
+    }
 }

@@ -18,13 +18,24 @@ return array(
     |
     */
 
-    'default' => 'mysql',
+    'default' => 'mysql_prod',
 
     'connections' => array(
 
         'mysql_qa' => array(
             'driver'    => 'mysql',
             'host'      => '192.168.1.103',
+            'database'  => 'panel_exscore',
+            'username'  => 'root',
+            'password'  => 'inteladmin',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ),
+
+        'mysql_prod' => array(
+            'driver'    => 'mysql',
+            'host'      => '192.168.1.52',
             'database'  => 'panel_exscore',
             'username'  => 'root',
             'password'  => 'inteladmin',
@@ -49,7 +60,7 @@ return array(
             'host'      => 'localhost',
             'database'  => 'panel_exscore',
             'username'  => 'root',
-            'password'  => '123456789',
+            'password'  => 'mz.120712',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

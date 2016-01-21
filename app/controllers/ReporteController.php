@@ -2,13 +2,10 @@
 
 class ReporteController extends \ApiController
 {
-    /**
-     * @param $account
-     * @param $type
-     */
     public function processReport(Cliente $account, $type)
     {
         $data = array();
+        $id   = $account->id_cliente;
 
         switch ($type) {
             case 'week':
@@ -16,13 +13,13 @@ class ReporteController extends \ApiController
                                 <th class="col-xs-6 text-center"></th>
                                 <th class="col-xs-2 text-center">Última Semana</th>
                                 <th class="col-xs-2 text-center">Semana Anterior</th>
-                                <th class="col-xs-2 text-center">Variación</th>
+                                <th class="col-xs-2 text-center">Tendencia</th>
                             </tr>';
 
-                $start      = Carbon::now()->startOfWeek();
-                $end        = Carbon::now()->endOfWeek();
-                $startlater = Carbon::now()->subWeek()->startOfWeek();
-                $endlater   = Carbon::now()->subWeek()->endOfWeek();
+                $inicioActual   = Carbon::now()->subWeek()->startOfWeek();
+                $finActual      = Carbon::now()->subWeek()->endOfWeek();
+                $inicioAnterior = Carbon::now()->subWeeks(2)->startOfWeek();
+                $finAnterior    = Carbon::now()->subWeeks(2)->endOfWeek();
 
                 break;
 
@@ -31,41 +28,50 @@ class ReporteController extends \ApiController
                                 <th class="col-xs-6 text-center"></th>
                                 <th class="col-xs-2 text-center">Último mes (acum)</th>
                                 <th class="col-xs-2 text-center">Mes Anterior</th>
-                                <th class="col-xs-2 text-center">Variación</th>
+                                <th class="col-xs-2 text-center">Tendencia</th>
                             </tr>';
 
-                $start      = Carbon::now()->startOfMonth();
-                $end        = Carbon::now()->endOfMonth();
-                $startlater = Carbon::now()->subMonth()->startOfMonth();
-                $endlater   = Carbon::now()->subMonth()->endOfMonth();
+                $inicioActual   = Carbon::now()->startOfMonth();
+                $finActual      = Carbon::now()->endOfMonth();
+                $inicioAnterior = Carbon::now()->subMonth()->startOfMonth();
+                $finAnterior    = Carbon::now()->subMonth()->endOfMonth();
 
                 break;
         }
 
-        $visita = $this->calcVisit($account, $start, $end, $startlater, $endlater);
+        // TITULO   ACTUAL  ANTERIOR    TENDENCIA
+        // VISITAS
+        $visita = $this->calcVisit($id, $inicioActual, $finActual, $inicioAnterior, $finAnterior);
         $data   = array_add($data, 'visitas', $visita);
 
         // RESPUESTAS EFECTIVAS
-        $data = array_add($data, 'respuestasEfectivas', [0, 0, 0]);
+        $respuestas = $this->calcRespuestas($id, $inicioActual, $finActual, $inicioAnterior, $finAnterior);
+        $data       = array_add($data, 'respuestasEfectivas', $respuestas);
 
         // TASA DE RESPUESTAS
-        $tasa = $this->calcTasaRespuesta($account, $start, $end, $startlater, $endlater);
+        $tasa = $this->calcTasaRespuesta($visita, $respuestas);
         $data = array_add($data, 'tasaRespuestas', $tasa);
 
-        // NPS
-        $nps  = $this->calcNps($account, $start, $end, $startlater, $endlater);
-        $data = array_add($data, 'nps', $nps);
-
-        // DETRACTORES
-        $detract = $this->calcDetractor($account, $start, $end, $startlater, $endlater);
-        $data    = array_add($data, 'detractores', $detract);
+        //
+        $v1 = \Nps::whereBetween('created_at', [$inicioActual, $finActual])->where('id_cliente', $id)->lists('promedio');
+        $v2 = \Nps::whereBetween('created_at', [$inicioAnterior, $finAnterior])->where('id_cliente', $id)->lists('promedio');
+        $v1 = \AdminController::genNPS2($v1);
+        $v2 = \AdminController::genNPS2($v2);
 
         // PROMOTORES
-        $promot = $this->calcPromotor($account, $start, $end, $startlater, $endlater);
+        $promot = $this->calcPromotor($v1, $v2);
         $data   = array_add($data, 'promotores', $promot);
 
+        // DETRACTORES
+        $detract = $this->calcDetractor($v1, $v2);
+        $data    = array_add($data, 'detractores', $detract);
+
+        // NPS
+        $nps  = $this->calcNps($v1, $v2);
+        $data = array_add($data, 'nps', $nps);
+
         // LEALTAD
-        $lealtad = $this->calcLealtad($account, $start, $end, $startlater, $endlater);
+        $lealtad = $this->calcLealtad($id, $inicioActual, $finActual, $inicioAnterior, $finAnterior);
         $data    = array_add($data, 'lealtad', $lealtad);
 
         $titles = [
@@ -93,130 +99,141 @@ class ReporteController extends \ApiController
            </tr>";
 
         $body  = '';
-        $color = '';
         $count = 0;
-        foreach ($data as $key => $value) {
-            if ($value[2] < 0) {
-                $color = 'red';
-            } else if ($value[2] > 0) {
-                $color = 'green';
-            } else {
-                $color = 'black';
-            }
+        foreach ($data as $field) {
+            if (is_array($field) && count($field)) {
+                if ($count != 4) {
+                    if ($field[2] < 0) {
+                        $color = 'red';
+                    } else {
+                        if ($field[2] > 0) {
+                            $color = 'green';
+                        } else {
+                            $color = 'black';
+                        }
+                    }
+                } else {
+                    if ($field[2] > 0) {
+                        $color = 'red';
+                    } else {
+                        if ($field[2] < 0) {
+                            $color = 'green';
+                        } else {
+                            $color = 'black';
+                        }
+                    }
+                }
 
-            if ($count == 5) {
-                $body .= sprintf($tmp2, $titles[$count], $value[0], $value[1], $color, $value[2] . "%");
-            } else {
-                $body .= sprintf($tmp, $titles[$count], $value[0], $value[1], $color, $value[2] . "%");
-            }
+                if ($count > 1) {
+                    if ($count == 5) {
+                        $body .= sprintf($tmp2, $titles[$count], $field[0] . "%", $field[1] . "%", $color, $field[2] . "%");
+                    } else {
+                        $body .= sprintf($tmp, $titles[$count], $field[0] . "%", $field[1] . "%", $color, $field[2] . "%");
+                    }
+                } else {
+                    $body .= sprintf($tmp, $titles[$count], $field[0], $field[1], $color, $field[2] . "%");
+                }
 
-            $count++;
+                $count++;
+            }
         }
 
         return ['header' => $header, 'body' => $body];
     }
 
-    /**
-     * @param $account
-     * @param $start
-     * @param $end
-     * @param $startlater
-     * @param $endlater
-     *
-     * @return array
-     */
-    public function calcVisit($account, $start, $end, $startlater, $endlater)
+    public function calcVisit($id, $inicioActual, $finActual, $inicioAnterior, $finAnterior)
     {
         // VISITAS
-        $a = \Visita::whereBetween('created_at', [$start, $end])->where('id_cliente', $account->id_cliente)->count();
-        $b = \Visita::whereBetween('created_at', [$startlater, $endlater])->where('id_cliente', $account->id_cliente)->count();
-        $c = \ApiController::calcVariacion($a, $b);
+        $v1 = \Visita::whereBetween('created_at', [$inicioActual, $finActual])->where('id_cliente', $id)->count();
+        $v2 = \Visita::whereBetween('created_at', [$inicioAnterior, $finAnterior])->where('id_cliente', $id)->count();
+        $t  = $this->calcTrend($v1, $v2);
 
-        return [$a, $b, $c,];
+        // TITULO   ACTUAL  ANTERIOR    TENDENCIA
+        return [$v1, $v2, $t];
     }
 
-    public function calcTasaRespuesta($account, $start, $end, $startlater, $endlater)
+    public function calcRespuestas($id, $inicioActual, $finActual, $inicioAnterior, $finAnterior)
     {
-        $a = (int)\Respuesta::select(\DB::raw('ROUND(COUNT(id_respuesta)/4) as cant'))->whereBetween('created_at', [$start, $end])->first(['cant'])->cant;
-        $b = (int)\Respuesta::select(\DB::raw('ROUND(COUNT(id_respuesta)/4) as cant'))->whereBetween('created_at', [$startlater, $endlater])->first(['cant'])->cant;
-        $c = \ApiController::calcVariacion($a, $b);
+        $v1 = \ClienteRespuesta::whereBetween('ultima_respuesta', [$inicioActual, $finActual])->where('id_cliente', $id)->count() / 4;
+        $v2 = \ClienteRespuesta::whereBetween('ultima_respuesta', [$inicioAnterior, $finAnterior])->where('id_cliente', $id)->count() / 4;
+        $t  = $this->calcTrend($v1, $v2);
 
-        return [$a, $b, $c];
+        // TITULO   ACTUAL  ANTERIOR    TENDENCIA
+        return [$v1, $v2, $t];
     }
 
-    public function calcNps($account, $start, $end, $startlater, $endlater)
+    public function calcTasaRespuesta($visitas, $respuesta)
     {
-        $a = \AdminController::genNPS2(\Nps::whereBetween('created_at', [$start, $end])->where('id_cliente', $account->id_cliente)->lists('promedio'));
-        $b = \AdminController::genNPS2(\Nps::whereBetween('created_at', [$startlater, $endlater])->where('id_cliente', $account->id_cliente)->lists('promedio'));
-        $c = \ApiController::calcVariacion($a['nps'], $b['nps']);
+        try {
+            $result = array();
 
-        return [round($a['nps'], 1, PHP_ROUND_HALF_UP), round($b['nps'], 1, PHP_ROUND_HALF_UP), $c];
+            if (is_array($visitas) && is_array($respuesta)) {
+                for ($i = 0; $i < 2; $i++) {
+                    $a = $visitas[$i];
+                    $b = $respuesta[$i];
 
-        // DETRACTORES
-        $detractvars = \ApiController::calcVariacion($a['detractores'], $b['detractores']);
+                    if ($a != 0) {
+                        $result[$i] = $this->roundPercent((float)($b / $a) * 100);
+                    } else {
+                        $result[$i] = 0;
+                    }
+                }
 
-        return [round($a['detractores'], 1, PHP_ROUND_HALF_UP), round($b['detractores'], 1, PHP_ROUND_HALF_UP), $detractvars];
+                $result[2] = $this->calcTrend($result[0], $result[1]);
 
-        // PROMOTORES
-        $promotovars = \ApiController::calcVariacion($a['promotores'], $b['promotores']);
+                // TITULO   ACTUAL  ANTERIOR    TENDENCIA
+                return $result;
+            }
 
-        return [round($a['promotores'], 1, PHP_ROUND_HALF_UP), round($b['promotores'], 1, PHP_ROUND_HALF_UP), $promotovars];
-
+            return [0, 0, 0];
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
     }
 
-    /**
-     * @param $account
-     * @param $start
-     * @param $end
-     * @param $startlater
-     * @param $endlater
-     *
-     * @return array
-     * @throws \Exception
-     */
-    public function calcPromotor($account, $start, $end, $startlater, $endlater)
+    public function calcPromotor($v1, $v2)
     {
-        $a = \AdminController::genNPS2(\Nps::whereBetween('created_at', [$start, $end])->where('id_cliente', $account->id_cliente)->lists('promedio'));
-        $b = \AdminController::genNPS2(\Nps::whereBetween('created_at', [$startlater, $endlater])->where('id_cliente', $account->id_cliente)->lists('promedio'));
+        if (array_key_exists('promotores', $v1) && array_key_exists('promotores', $v2)) {
+            $v1 = $this->roundPercent($v1['promotores']);
+            $v2 = $this->roundPercent($v2['promotores']);
+            $t  = $this->calcTrend($v1, $v2);
 
-        // PROMOTORES
-        $promotovars = \ApiController::calcVariacion($a['promotores'], $b['promotores']);
+            // TITULO   ACTUAL  ANTERIOR    TENDENCIA
+            return [$v1, $v2, $t];
+        }
 
-        return [round($a['promotores'], 1, PHP_ROUND_HALF_UP), round($b['promotores'], 1, PHP_ROUND_HALF_UP), $promotovars];
-
+        return [0, 0, 0];
     }
 
-    /**
-     * @param $account
-     * @param $start
-     * @param $end
-     * @param $startlater
-     * @param $endlater
-     *
-     * @return array
-     * @throws \Exception
-     */
-    public function calcDetractor($account, $start, $end, $startlater, $endlater)
+    public function calcDetractor($v1, $v2)
     {
-        $a = \AdminController::genNPS2(\Nps::whereBetween('created_at', [$start, $end])->where('id_cliente', $account->id_cliente)->lists('promedio'));
-        $b = \AdminController::genNPS2(\Nps::whereBetween('created_at', [$startlater, $endlater])->where('id_cliente', $account->id_cliente)->lists('promedio'));
+        if (array_key_exists('detractores', $v1) && array_key_exists('detractores', $v2)) {
+            $v1 = $this->roundPercent($v1['detractores']);
+            $v2 = $this->roundPercent($v2['detractores']);
+            $t  = $this->calcTrend($v1, $v2);
 
-        // DETRACTORES
-        $detractvars = \ApiController::calcVariacion($a['detractores'], $b['detractores']);
+            // TITULO   ACTUAL  ANTERIOR    TENDENCIA
+            return [$v1, $v2, $t];
+        }
 
-        return [round($a['detractores'], 1, PHP_ROUND_HALF_UP), round($b['detractores'], 1, PHP_ROUND_HALF_UP), $detractvars];
+        return [0, 0, 0];
     }
 
-    /**
-     * @param $account
-     * @param $start
-     * @param $end
-     * @param $startlater
-     * @param $endlater
-     *
-     * @return array
-     */
-    public function calcLealtad($account, $start, $end, $startlater, $endlater)
+    public function calcNps($v1, $v2)
+    {
+        if (array_key_exists('nps', $v1) && array_key_exists('nps', $v2)) {
+            $v1 = $this->roundPercent($v1['nps']);
+            $v2 = $this->roundPercent($v2['nps']);
+            $t  = $this->calcTrend($v1, $v2);
+
+            // TITULO   ACTUAL  ANTERIOR    TENDENCIA
+            return [$v1, $v2, $t];
+        }
+
+        return [0, 0, 0];
+    }
+
+    public function calcLealtad($id, $inicioActual, $finActual, $inicioAnterior, $finAnterior)
     {
         $lealtad = \DB::select("SELECT
             SUM(CASE WHEN valor2 = 'NO' THEN 1 ELSE 0 END) AS Leal_NO,
@@ -243,7 +260,7 @@ class ReporteController extends \ApiController
                 WHERE (pregunta_cabecera.numero_pregunta = 4)
                 AND cliente.id_cliente = ?
                 AND cliente_respuesta.ultima_respuesta BETWEEN ? AND ?
-            ) AS Datos ", array($account->id_cliente, $start, $end));
+            ) AS Datos ", array($id, $inicioActual, $finActual));
 
         $lealtadlater = \DB::select("SELECT
             SUM(CASE WHEN valor2 = 'NO' THEN 1 ELSE 0 END) AS Leal_NO,
@@ -270,13 +287,13 @@ class ReporteController extends \ApiController
                 WHERE (pregunta_cabecera.numero_pregunta = 4)
                 AND cliente.id_cliente = ?
                 AND cliente_respuesta.ultima_respuesta BETWEEN ? AND ?
-            ) AS Datos ", array($account->id_cliente, $startlater, $endlater));
+            ) AS Datos ", array($id, $inicioAnterior, $finAnterior));
 
         if (count($lealtad) != 0) {
             $lealtad = $lealtad[0];
             $a       = ($lealtad->Leal_SI + $lealtad->Leal_NO);
             if ($a != 0) {
-                $lealtad = round((($lealtad->Leal_SI / $a) * 100), 1, PHP_ROUND_HALF_UP);
+                $lealtad = $this->roundPercent(($lealtad->Leal_SI / $a) * 100);
             } else {
                 $lealtad = 0;
             }
@@ -287,7 +304,7 @@ class ReporteController extends \ApiController
             $lealtadlater = $lealtadlater[0];
             $a            = ($lealtadlater->Leal_SI + $lealtadlater->Leal_NO);
             if ($a != 0) {
-                round($lealtadlater = (($lealtadlater->Leal_SI / $a) * 100), 1, PHP_ROUND_HALF_UP);
+                $lealtadlater = $this->roundPercent(($lealtadlater->Leal_SI / $a) * 100);
             } else {
                 $lealtadlater = 0;
             }
@@ -295,8 +312,28 @@ class ReporteController extends \ApiController
             $lealtadlater = 0;
         }
 
-        $lealvari = \ApiController::calcVariacion($lealtad, $lealtadlater);
+        $t = $this->calcTrend($lealtad, $lealtadlater);
 
-        return [round($lealtad, 1, PHP_ROUND_HALF_UP), round($lealtadlater, 1, PHP_ROUND_HALF_UP), $lealvari];
+        // TITULO   ACTUAL  ANTERIOR    TENDENCIA
+        return [$this->roundPercent($lealtad), $this->roundPercent($lealtadlater), $t];
+    }
+
+    public function calcTrend($v2, $v1)
+    {
+        try {
+            if ($v1 != 0) {
+                return $this->roundPercent((float)($v2 - $v1) / $v1 * 100);
+            }
+
+            return $this->roundPercent(0);
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
+
+    }
+
+    public function roundPercent($value, $decimals = 0)
+    {
+        return round($value, $decimals, PHP_ROUND_HALF_UP);
     }
 }

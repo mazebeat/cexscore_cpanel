@@ -1,11 +1,11 @@
 @extends('layouts.cpanel')
 
 @section('title')
-	Editar Usuario [CPanel]
+	Editar Usuario [Panel de Control]
 @endsection
 
 @section('page-title')
-	<i class="fa fa-pencil fa-fw"></i>Editar Usuario [CPanel]
+	<i class="fa fa-pencil fa-fw"></i>Editar Usuario [Panel de Control]
 @endsection
 
 @section('breadcrumb')
@@ -113,12 +113,12 @@
 	{{--</div>--}}
 	{{--</div>--}}
 
-	{{--<div class="form-group">--}}
-	{{--{{ Form::label('id_cliente', 'Id_cliente:', array('class'=>'col-md-2 control-label')) }}--}}
-	{{--<div class="col-sm-10">--}}
-	{{ Form::input('hidden', 'id_cliente', Input::old('id_cliente', Auth::user()->cliente->id_cliente), array('class'=>'form-control')) }}
-	{{--</div>--}}
-	{{--</div>--}}
+	<div class="form-group">
+		{{ Form::label('id_cliente', 'Cuenta:', array('class'=>'col-md-2 control-label')) }}
+		<div class="col-sm-10">
+			{{ Form::select('id_cliente', $cuentas, Input::old('id_cliente'), array('class'=>'form-control', 'placeholder'=>'Cuentas')) }}
+		</div>
+	</div>
 
 	{{--<div class="form-group">--}}
 	{{--{{ Form::label('id_encuesta', 'Id_encuesta:', array('class'=>'col-md-2 control-label')) }}--}}

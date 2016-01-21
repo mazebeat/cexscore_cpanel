@@ -45,37 +45,31 @@ class OneReportCommand extends Command
         try {
             if (!is_null($this->account)) {
                 $this->info("Cuenta encontrada '{$this->account->nombre_cliente}'");
-                $this->comment("Buscando responsable");
-                $this->admin = CsUsuario::whereIdCliente($this->account->id_cliente)->responsable()->first();
 
-                if (!is_null($this->admin)) {
-                    $start = Carbon::now()->startOfWeek();
-                    $end   = Carbon::now()->endOfWeek();
+                $start = Carbon::now()->startOfWeek();
+                $end   = Carbon::now()->endOfWeek();
 
-                    $this->file     = \Str::title(\Str::camel($this->account->nombre_cliente)) . '.pdf';
-                    $this->pathFile = public_path('temp' . DIRECTORY_SEPARATOR . $this->account->id_cliente . DIRECTORY_SEPARATOR);
+                $this->file     = \Str::title(\Str::camel($this->account->nombre_cliente)) . '.pdf';
+                $this->pathFile = public_path('temp' . DIRECTORY_SEPARATOR . $this->account->id_cliente . DIRECTORY_SEPARATOR);
 
-                    $realfile = $this->pathFile . $this->file;
+                $realfile = $this->pathFile . $this->file;
 
-                    $this->validateFileCreatedAt($realfile);
+                $this->validateFileCreatedAt($realfile);
 
-                    $this->info("Generando reporte");
-                    $dateRange  = "Semana del {$start->day} al {$end->day} de {$end->format('M')} {$end->year}";
-                    $this->html = View::make('pdf.reporte')->with('account', $this->account)->with('dateRange', $dateRange)->render();
+                $this->info("Generando reporte");
+                $dateRange  = "Semana del {$start->day} al {$end->day} de {$end->format('M')} {$end->year}";
+                $this->html = View::make('pdf.reporte')->with('account', $this->account)->with('dateRange', $dateRange)->render();
 
-                    $pdf = \App::make('snappy.pdf.wrapper');
-                    $pdf->loadHTML($this->html)->setPaper('letter');
+                $pdf = \App::make('snappy.pdf.wrapper');
+                $pdf->loadHTML($this->html)->setPaper('a4')->setOption('margin-bottom', 0);
 
-                    if ($pdf->save($realfile)) {
-                        $this->info('Reporte Generado');
-                    }
-                } else {
-                    $this->line("No se encontraron responsables para '{$this->account->nombre_cliente}'");
+                if ($pdf->save($realfile)) {
+                    $this->info('Reporte Generado');
                 }
-                $this->progressbar->advance();
             } else {
-                $this->info('Cliente no encontrado. [idcliente = ' . $this->argument('idcliente') . ']');
+                $this->line("No se encontraron responsables para '{$this->account->nombre_cliente}'");
             }
+            $this->progressbar->advance();
         } catch (\Exception $e) {
             $this->error($e->getMessage());
             Log::error($e->getMessage());

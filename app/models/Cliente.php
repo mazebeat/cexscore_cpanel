@@ -105,20 +105,40 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
 
     public static function boot()
     {
+        // TODO: TERMINAR ELIMINAR CUENTA
         parent::boot();
 
         static::deleting(function ($cliente) {
             Log::warning('Eliminando Cuenta ' . $cliente->id_cliente);
-
-            $cliente->urls()->delete();
-            $cliente->momentos()->delete();
-            $cliente->usuarios()->delete();
-            $cliente->csusuarios()->delete();
-            ClienteRespuesta::whereIdCliente($cliente->id_cliente)->delete();
-            foreach ($cliente->respuestas() as $respuesta) {
-                $respuesta->detalle()->delete();
+//            dd('hola');
+            // cliente_apariencia
+//            if ($cliente->apariencias()->count()) {
+//                $cliente->apariencias()->detach();
+//                $cliente->apariencias()->delete();
+//            }
+            // urls
+//            if ($cliente->urls()->count()) {
+//                $cliente->urls()->delete();
+//            }
+            // momento_encuesta
+            // visita
+//            if ($cliente->visitas()->count()) {
+//                $cliente->visitas()->delete();
+//            }
+            // cliente_respuesta
+            dd($cliente->respuestas()->count());
+            if ($cliente->respuestas()->count()) {
+                $cliente->respuestas()->detach();
             }
-            $cliente->respuestas()->delete();
+            // respuesta_detalle
+            // respuesta
+            // usuarios
+//            if ($cliente->usuarios()->count()) {
+//                $cliente->usuarios()->delete();
+//            }
+//            if ($cliente->csusuarios()->count()) {
+//                $cliente->csusuarios()->delete();
+//            }
         });
     }
 
@@ -143,9 +163,17 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
         array_get($plan, 'optin_plan') == 0 ? array_set($plan, 'optin_plan', 'No') : array_set($plan, 'optin_plan', 'Sí');
         array_get($plan, 'descarga_datos_plan') == 0 ? array_set($plan, 'descarga_datos_plan', 'No') : array_set($plan, 'descarga_datos_plan', 'Sí');
 
+        $responsable = CsUsuario::responsable()->where('id_cliente', $id)->first();
+
+        if (!is_null($responsable)) {
+            $responsable = $responsable->toArray();
+        } else {
+            $responsable = array();
+        }
+
         return array(
             'cliente'  => $cliente->toArray(),
-            'admin'    => CsUsuario::responsable()->where('id_cliente', $id)->first()->toArray(),
+            'admin'    => $responsable,
             'usuarios' => CsUsuario::where('id_cliente', $id)->get()->toArray(),
             'plan'     => $plan,
             'sector'   => $cliente->sector->toArray(),
@@ -300,6 +328,14 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
         return $this->hasMany('Url', 'id_cliente');
     }
 
+    /**
+     * @return mixed
+     */
+    public function visitas()
+    {
+        return $this->hasMany('Visita', 'id_cliente');
+    }
+
     public function periodos()
     {
         return $this->belongsToMany('Periodo');
@@ -312,4 +348,5 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
     {
         return $this->apariencias->first();
     }
+
 }

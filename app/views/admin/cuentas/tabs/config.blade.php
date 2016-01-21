@@ -26,6 +26,6 @@
 		<input type="text" name="momento" value="" class="form-control"/>
 	</div>
 	<div class="col-sm-3">
-		{{ Form::select('canal', $canals, Input::old('canal'), ['class' => 'form-control']) }}
+		{{ Form::select2('canal', $canals, Input::old('canal'), ['class' => 'form-control']) }}
 	</div>
 </div>

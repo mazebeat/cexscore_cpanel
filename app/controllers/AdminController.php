@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\MessageBag;
 
 class AdminController extends \ApiController
 {
@@ -34,10 +33,10 @@ class AdminController extends \ApiController
 
             if ($total > 0) {
                 foreach ($data as $key => $value) {
-                    if ($value >= 6.0) {
+                    if ($value >= 6) {
                         $promotor++;
                     } else {
-                        if ($value <= 4.0) {
+                        if ($value <= 4) {
                             $detractor++;
                         } else {
                             $neutro++;
@@ -65,12 +64,12 @@ class AdminController extends \ApiController
             }
 
             return [
-                'promotores' => $porc_promotores,
+                'promotores'  => $porc_promotores,
                 'detractores' => $porc_detractores,
-                'nps' => $porc_nps,
+                'nps'         => $porc_nps,
             ];
         } catch (\Exception $e) {
-            throw $e;
+            Log::error($e);
         }
     }
 
@@ -130,8 +129,7 @@ class AdminController extends \ApiController
 
             return \Redirect::back()->withErrors($error)->withInput();
         } catch (\Exception $e) {
-            App::abort('Error al iniciar sesión.');
-            //            dd($e->getMessage());
+            Log::error($e);
         }
     }
 
@@ -170,13 +168,13 @@ class AdminController extends \ApiController
             $survey = $client->encuesta;
 
             if (is_null($survey)) {
-                throw new \Exception('Cliente no tiene encuesta');
+                Log::error(new \Exception('Cliente no tiene encuesta'));
             }
 
             return \View::make('admin.survey.loadSurvey')->withSurvey($survey)->with('isMy', true);
         }
 
-        throw new \Exception('Cliente no tiene plan');
+        Log::error(new \Exception('Cliente no tiene plan'));
     }
 
     /**
@@ -184,38 +182,43 @@ class AdminController extends \ApiController
      */
     public function createClient()
     {
-        // Validate input values
-        $validator = \Validator::make(\Input::all(), \Cliente::$rules);
+        try {
+            // Validate input values
+            $validator = \Validator::make(\Input::all(), \Cliente::$rules);
 
-        if ($validator->fails()) {
-            return \Redirect::back()->withErrors($validator)->withInput(\Input::except('_token'));
+            if ($validator->fails()) {
+                return \Redirect::back()->withErrors($validator)->withInput(\Input::except('_token'));
+            }
+
+            // Create survey
+            $survey = \Encuesta::create(['id_estado' => 1]);
+
+            // Generate default questions
+            \PreguntaCabecera::generateDefaultQuestions($survey);
+
+            // Create client
+            $client = \Cliente::firstOrCreate([
+                'rut_cliente'       => \Input::get('rut_cliente'),
+                'nombre_cliente'    => \Input::get('nombre_cliente'),
+                'fono_cliente'      => \Input::get('fono_cliente'),
+                'correo_cliente'    => \Input::get('correo_cliente'),
+                'direccion_cliente' => \Input::get('direccion_cliente'),
+                'id_sector'         => \Input::get('sector'), // ????
+                'id_ciudad'         => \Input::get('ciudad'),
+                'id_tipo_cliente'   => \Input::get(''), // 1
+                'id_plan'           => \Input::get('plan'),
+            ]);
+
+            // Assciate survey to client
+            $client->encuesta()->associate($survey);
+            $client->save();
+        } catch (Exception $e) {
+            Log::error($e);
         }
-
-        // Create survey
-        $survey = \Encuesta::create(['id_estado' => 1]);
-
-        // Generate default questions
-        \PreguntaCabecera::generateDefaultQuestions($survey);
-
-        // Create client
-        $client = \Cliente::firstOrCreate([
-                                              'rut_cliente' => \Input::get('rut_cliente'),
-                                              'nombre_cliente' => \Input::get('nombre_cliente'),
-                                              'fono_cliente' => \Input::get('fono_cliente'),
-                                              'correo_cliente' => \Input::get('correo_cliente'),
-                                              'direccion_cliente' => \Input::get('direccion_cliente'),
-                                              'id_sector' => \Input::get('sector'), // ????
-                                              'id_ciudad' => \Input::get('ciudad'),
-                                              'id_tipo_cliente' => \Input::get(''), // 1
-                                              'id_plan' => \Input::get('plan'),
-                                          ]);
-
-        // Assciate survey to client
-        $client->encuesta()->associate($survey);
-        $client->save();
     }
 
-    public function locate() {
+    public function locate()
+    {
         $option   = \Input::get('option');
         $filterBy = \Input::get('filterBy');
         $list     = null;
@@ -232,7 +235,8 @@ class AdminController extends \ApiController
         return \Response::json($list, 200);
     }
 
-    public function configPlan() {
+    public function configPlan()
+    {
         $idPlan = \Input::get('idplan', null);
         $plan   = null;
 
@@ -247,7 +251,8 @@ class AdminController extends \ApiController
         return Response::json($plan, 200);
     }
 
-    public function surveyGet(){
+    public function surveyGet()
+    {
         $id = \Input::get('id_sector');
 
         $result = \EncuestaSector::whereIdSector($id)->first();
@@ -262,8 +267,10 @@ class AdminController extends \ApiController
         ), 200);
     }
 
-    public function cpanelIndex() {
+    public function cpanelIndex()
+    {
         Log::info('Generando Panel estadistico');
+
         return \Response::json(array(
             'totalClients'  => Cliente::all()->count(),
             'totalUsers'    => CsUsuario::all()->count(),

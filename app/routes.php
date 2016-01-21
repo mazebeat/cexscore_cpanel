@@ -1,4 +1,13 @@
 <?php
+
+//// Display all SQL executed in Eloquent
+//Event::listen('illuminate.query', function ($query) {
+//    //    var_dump($query);
+//    $query     = DB::getQueryLog();
+//    $lastQuery = end($query);
+//    var_dump($lastQuery);
+//});
+
 ini_set('session.gc_maxlifetime', 3 * 60 * 60); // 3 hours
 ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 100);
@@ -67,4 +76,21 @@ Route::group(array('prefix' => 'admin'), function () {
 });
 
 // TESTING
-Route::get('test/test', function () {});
+Route::get('test/test', function () {
+//    ApiController::createQrCode(public_path('temp/6/h2.png'), 'http://www.cex.org/h2');
+//    dd('Ready!!!');
+//    dd(!EncuestasClienteController::puedeResponder(Cliente::find(2)));
+
+    $account = Cliente::find(3);
+    $start   = Carbon::now()->startOfWeek();
+    $end     = Carbon::now()->endOfWeek();
+
+    $file     = \Str::title(\Str::camel($account->nombre_cliente)) . '.pdf';
+    $pathFile = public_path('temp' . DIRECTORY_SEPARATOR . $account->id_cliente . DIRECTORY_SEPARATOR);
+
+    $realfile = $pathFile . $file;
+
+    $dateRange = "Semana del {$start->day} al {$end->day} de {$end->format('M')} {$end->year}";
+
+    return View::make('pdf.reporte')->with('account', $account)->with('dateRange', $dateRange);
+});

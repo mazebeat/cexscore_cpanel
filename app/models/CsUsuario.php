@@ -26,7 +26,7 @@
 class CsUsuario extends \Eloquent
 {
 
-    public static $rules      = array(
+    public static $rules                  = array(
         'id_perfil'        => '',
         'usuario'          => 'required',
         'pwdusuario'       => 'required',
@@ -39,20 +39,31 @@ class CsUsuario extends \Eloquent
         'email'            => 'email',
         'activo'           => '',
         'fecha_registro'   => '',
-        'rol_organizacion'   => '',
+        'rol_organizacion' => '',
         'id_cliente'       => 'required',
     );
-    public        $timestamps = false;
-    protected     $table      = 'cs_usuarios';
-    protected     $primaryKey = 'id_usuario';
-    protected     $hidden     = array(
+    public static $rulesChangePasword     = array(
+        'pwdusuario'    => 'required|alphaNum',
+        'passwordAgain' => 'required|alphaNum|same:pwdusuario',
+    );
+    public static $messagesChangePassword = array(
+        'pwdusuario.required'    => 'La contraseña es requerida',
+        'pwdusuario.alphaNum'    => 'La contraseñas deben ser alfanumericas',
+        'passwordAgain.required' => 'Debe confirmar la contraseña',
+        'passwordAgain.alphaNum' => 'La contraseñas deben ser alfanumericas',
+        'passwordAgain.same'     => 'Las contraseñas no concuerdan',
+    );
+    public        $timestamps             = false;
+    protected     $table                  = 'cs_usuarios';
+    protected     $primaryKey             = 'id_usuario';
+    protected     $hidden                 = array(
         'pwdusuario',
     );
-    protected     $guard      = array(
+    protected     $guard                  = array(
         'id_usuario',
         'pwdusuario',
     );
-    protected     $fillable   = array(
+    protected     $fillable               = array(
         'id_usuario',
         'id_perfil',
         'usuario',
@@ -67,8 +78,17 @@ class CsUsuario extends \Eloquent
         'fecha_registro',
         'id_cliente',
         'responsable',
-        'rol_organizacion'
+        'rol_organizacion',
     );
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($csuser) {
+            Log::warning('Eliminando CSUsuario ' . $csuser->id_usuario);
+        });
+    }
 
     public function resetPassword()
     {

@@ -20,7 +20,7 @@
 		<table class="table table-striped table-condensed table-hover">
 			<thead>
 			<tr>
-				<th>Descripción Plan</th>
+				<th>Plan</th>
 				<th>&nbsp;</th>
 			</tr>
 			</thead>
@@ -28,8 +28,8 @@
 			<tbody>
 			@foreach ($plans as $plan)
 				<tr>
-					<td>{{{ $plan->descripcion_plan }}}</td>
-					<td>
+					<td>{{ $plan->descripcion_plan }}</td>
+					<td class="pull-right">
 						{{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.plans.destroy', $plan->id_plan))) }}
 						{{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
 						{{ Form::close() }}

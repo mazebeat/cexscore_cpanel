@@ -23,8 +23,9 @@ class RegionsController extends \ApiController
     public function index()
     {
         $regions = $this->region->all();
+        $paises  = Pais::lists('descripcion_pais', 'id_pais');
 
-        return View::make('admin.regions.index', compact('regions'));
+        return View::make('admin.regions.index', compact('regions'))->withPaises($paises);;
     }
 
     /**
@@ -34,9 +35,9 @@ class RegionsController extends \ApiController
      */
     public function create()
     {
-        $pais = Pais::lists('descripcion_pais', 'id_pais');
+        $paises = Pais::lists('descripcion_pais', 'id_pais');
 
-        return View::make('admin.regions.create')->with('pais', $pais);
+        return View::make('admin.regions.create')->withPaises($paises);
     }
 
     /**
@@ -68,8 +69,9 @@ class RegionsController extends \ApiController
     public function show($id)
     {
         $region = $this->region->findOrFail($id);
+        $paises = Pais::lists('descripcion_pais', 'id_pais');
 
-        return View::make('admin.regions.show', compact('region'));
+        return View::make('admin.regions.show', compact('region'))->withPaises($paises);;
     }
 
     /**
@@ -87,7 +89,9 @@ class RegionsController extends \ApiController
             return Redirect::route('admin.regions.index');
         }
 
-        return View::make('admin.regions.edit', compact('region'));
+        $paises = Pais::lists('descripcion_pais', 'id_pais');
+
+        return View::make('admin.regions.edit', compact('region'))->withPaises($paises);
     }
 
     /**

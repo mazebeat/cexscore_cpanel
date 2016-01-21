@@ -40,20 +40,20 @@
 			<tbody>
 				@foreach ($apariencia as $apariencium)
 					<tr>
-						<td>{{{ $apariencium->id_apariencia }}}</td>
-					<td>{{{ $apariencium->logo_header }}}</td>
-					<td>{{{ $apariencium->logo_incentivo }}}</td>
-					<td>{{{ $apariencium->color_header }}}</td>
-					<td>{{{ $apariencium->color_body }}}</td>
-					<td>{{{ $apariencium->color_footer }}}</td>
-					<td>{{{ $apariencium->color_boton }}}</td>
-					<td>{{{ $apariencium->color_opciones }}}</td>
-					<td>{{{ $apariencium->color_text_header }}}</td>
-					<td>{{{ $apariencium->color_text_body }}}</td>
-					<td>{{{ $apariencium->color_text_footer }}}</td>
-					<td>{{{ $apariencium->color_instrucciones }}}</td>
-					<td>{{{ $apariencium->desea_captura_datos }}}</td>
-                    <td>
+						<td>{{ $apariencium->id_apariencia }}</td>
+					<td>{{ $apariencium->logo_header }}</td>
+					<td>{{ $apariencium->logo_incentivo }}</td>
+					<td>{{ $apariencium->color_header }}</td>
+					<td>{{ $apariencium->color_body }}</td>
+					<td>{{ $apariencium->color_footer }}</td>
+					<td>{{ $apariencium->color_boton }}</td>
+					<td>{{ $apariencium->color_opciones }}</td>
+					<td>{{ $apariencium->color_text_header }}</td>
+					<td>{{ $apariencium->color_text_body }}</td>
+					<td>{{ $apariencium->color_text_footer }}</td>
+					<td>{{ $apariencium->color_instrucciones }}</td>
+					<td>{{ $apariencium->desea_captura_datos }}</td>
+					<td class="pull-right">
                         {{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.apariencia.destroy', $apariencium->id_apariencium))) }}
                             {{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
                         {{ Form::close() }}

@@ -98,6 +98,15 @@ class Usuario extends \Eloquent
         'id_encuesta',
     );
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            Log::warning('Eliminando Usuario ' . $user->id_usuario);
+        });
+    }
+
     public function cliente()
     {
         return $this->belongsTo('Cliente', 'id_cliente');

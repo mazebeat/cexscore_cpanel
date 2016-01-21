@@ -28,7 +28,6 @@
 
     <p>{{ link_to_route('admin.cuentas.create', 'Agregar Nueva Cuenta', null, array('class' => 'btn btn-lg btn-success')) }}</p>
 
-
     @if ($cuentas->count())
         <table class="table table-striped table-condensed table-hover">
             <thead>
@@ -47,7 +46,7 @@
                     <td>{{ $cliente->nombre_cliente }}</td>
                     <td>{{ $cliente->fono_fijo_cliente }}</td>
                     <td>{{ $cliente->correo_cliente }}</td>
-                    <td>
+                    <td class="pull-right">
                         {{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.cuentas.destroy', $cliente->id_cliente))) }}
                         {{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
                         {{ Form::close() }}

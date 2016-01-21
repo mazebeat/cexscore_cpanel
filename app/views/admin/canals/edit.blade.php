@@ -29,7 +29,6 @@
 
 	{{ Form::model($canal, array('class' => 'form-horizontal', 'method' => 'PATCH', 'route' => array('admin.canals.update', $canal->id_canal))) }}
 
-
 	<div class="form-group">
 		{{ Form::label('descripcion_canal', 'Descripción:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">

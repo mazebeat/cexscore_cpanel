@@ -27,8 +27,8 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{{ $sector->descripcion_sector }}}</td>
-                    <td>
+                    <td>{{ $sector->descripcion_sector }}</td>
+                    <td class="pull-right">
                         {{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.sectors.destroy', $sector->id_sector))) }}
                         {{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
                         {{ Form::close() }}

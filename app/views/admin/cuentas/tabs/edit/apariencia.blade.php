@@ -1,18 +1,18 @@
-{{ Form::model($cliente, array('class' => 'form-horizontal', 'method' => 'PATCH', 'route' => array('admin.cuentas.update', $cliente->id_cliente))) }}
+{{ Form::model($cliente, array('class' => 'form-horizontal', 'method' => 'PATCH', 'route' => array('admin.cuentas.update', $cliente->id_cliente), 'files' => true)) }}
 
 {{ Form::input('hidden', 'accion', 'update.skin', array('class'=>'form-control')) }}
 
 <div class="form-group">
     {{ Form::label('logo_header', 'Imagen Header:', array('class'=>'col-md-2 control-label')) }}
     <div class="col-sm-10">
-        {{ Form::file('logo_header', ['required']) }}
+        {{ Form::file('logo_header', ['']) }}
     </div>
 </div>
 
 <div class="form-group">
     {{ Form::label('logo_incentivo', 'Imagen Incentivo:', array('class'=>'col-md-2 control-label')) }}
     <div class="col-sm-10">
-        {{ Form::file('logo_incentivo', ['required']) }}
+        {{ Form::file('logo_incentivo', ['']) }}
     </div>
 </div>
 
@@ -43,7 +43,7 @@
     <div class="form-group col-sm-6">
         {{ Form::label('color_opciones', 'Color Opciones:', array('class'=>'col-md-4 control-label')) }}
         <div class="col-sm-8">
-            {{ Form::select('color_opciones', ['red' => 'Rojo', 'green' => 'Verde', 'blue' => 'Azul', 'grey' => 'Gris', 'orange' => 'Naraja', 'yellow' => 'Amarillo', 'pink' => 'Rosado', 'purple' => 'Morado'], Input::old('color_opciones', $cliente->apariencias->first()->color_opciones), array('class'=>'form-control', 'placeholders'=>'Color Opciones')) }}
+            {{ Form::select2('color_opciones', ['red' => 'Rojo', 'green' => 'Verde', 'blue' => 'Azul', 'grey' => 'Gris', 'orange' => 'Naraja', 'yellow' => 'Amarillo', 'pink' => 'Rosado', 'purple' => 'Morado'], Input::old('color_opciones', $cliente->apariencias->first()->color_opciones), array('class'=>'form-control', 'placeholders'=>'Color Opciones')) }}
         </div>
     </div>
 </div>

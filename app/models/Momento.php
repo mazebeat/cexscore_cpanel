@@ -27,6 +27,15 @@ class Momento extends \Eloquent
         'id_estado',
     );
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($moment) {
+            Log::warning('Eliminando Momento ' . $moment->id_momento);
+        });
+    }
+
     public function encuestas()
     {
         return $this->belongsToMany('Encuesta', 'momento_encuesta', 'id_momento', 'id_encuesta')->withPivot('descripcion_momento');

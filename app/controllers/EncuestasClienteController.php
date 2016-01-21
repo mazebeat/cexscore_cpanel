@@ -11,9 +11,6 @@ class EncuestasClienteController extends \ApiController
         $this->beforeFilter('csrf');
     }
 
-    /**
-     * @param \Encuesta $survey
-     */
     public static function generateDefaultSurvey(Encuesta $survey)
     {
         $question1 = new PreguntaCabecera(['descripcion_1' => 'Pregunta de Efectividad', 'numero_pregunta' => 1, 'id_tipo_respuesta' => 1, 'id_estado' => 1, 'id_momento' => 1]);
@@ -62,29 +59,18 @@ class EncuestasClienteController extends \ApiController
         $survey->preguntas()->save($question4);
     }
 
-    /**
-     * @param null $idcliente
-     * @param null $canal
-     * @param null $moment
-     *
-     * @return mixed
-     */
     public function index($idcliente = null, $canal = null, $moment = null)
     {
         if (isset($idcliente) && isset($canal) && isset($moment)) {
-
             try {
+
                 if (Session::has('survey.canal')) {
                     Session::forget('survey.canal');
                 }
 
                 // Canal
                 if (Crypt::decrypt($canal) == null) {
-                    $error          = new stdClass();
-                    $error->code    = 500;
-                    $error->message = 'Canal no encontrado.';
-
-                    return Redirect::to('survey/error')->with('error', $error);
+                    self::throwError(new Exception('Canal no encontrado.', 500));
                 }
 
                 $idCanal = Canal::whereCodigoCanal(Crypt::decrypt($canal))->first(['id_canal'])->id_canal;
@@ -92,23 +78,18 @@ class EncuestasClienteController extends \ApiController
 
                 // Moment
                 if (Crypt::decrypt($moment) == null) {
-                    $error          = new stdClass();
-                    $error->code    = 500;
-                    $error->message = 'Momento no identificado.';
-
-                    return Redirect::to('survey/error')->with('error', $error);
+                    self::throwError(new Exception('Momento no identificado.', 500));
                 }
 
                 // Client
                 if (Crypt::decrypt($idcliente) == null) {
-                    $error          = new stdClass();
-                    $error->code    = 500;
-                    $error->message = 'ID Cliente no encontrado.';
-
-                    return Redirect::to('survey/error')->with('error', $error);
+                    self::throwError(new Exception('Cliente no encontrado.', 500));
                 }
 
                 $client = Cliente::find(Crypt::decrypt($idcliente));
+                if (!self::puedeResponder($client)) {
+                    self::throwError(new Exception('Meta Lograda! Gracias por Responder', 500));
+                }
 
                 Visita::create([
                     'id_cliente' => Crypt::decrypt($idcliente),
@@ -150,9 +131,6 @@ class EncuestasClienteController extends \ApiController
         return Redirect::to('survey/error');
     }
 
-    /**
-     * @return $this|\Illuminate\Http\RedirectResponse
-     */
     public function store()
     {
         try {
@@ -162,6 +140,11 @@ class EncuestasClienteController extends \ApiController
             $canal  = Session::get('survey.canal', null);
             $moment = Session::get('survey.moment', null);
             $survey = Session::get('survey.survey', null);
+
+            // TODO: Realizar lo mismo con usuarios y momentos
+            if (!self::puedeResponder($client)) {
+                self::throwError(new Exception('Meta Lograda! Gracias por Responder', 500));
+            }
 
             if (is_null($client) || is_null($canal) || is_null($moment) || is_null($survey)) {
                 $errors = 'Error al guardar sus respuestas, por favor refresque su p�gina.';
@@ -271,11 +254,6 @@ class EncuestasClienteController extends \ApiController
         return \Redirect::to('survey/success');
     }
 
-    /**
-     * @param array $inputs
-     *
-     * @return bool
-     */
     public static function validateAnswers(array $inputs)
     {
         try {
@@ -301,11 +279,6 @@ class EncuestasClienteController extends \ApiController
         return false;
     }
 
-    /**
-     * @param array $inputs
-     *
-     * @return null|\stdClass
-     */
     public static function processAnswers(array $inputs)
     {
         try {
@@ -321,11 +294,6 @@ class EncuestasClienteController extends \ApiController
         return null;
     }
 
-    /**
-     * @param array $inputs
-     *
-     * @return array
-     */
     public static function processKeyAnswer(array $inputs)
     {
         $answers = new stdClass();
@@ -369,11 +337,6 @@ class EncuestasClienteController extends \ApiController
         return ['answers' => $answers, 'user' => $user];
     }
 
-    /**
-     * @param $acumulador
-     *
-     * @return float
-     */
     public static function calculateProm($acumulador)
     {
         $promedio = $acumulador / 3;
@@ -382,11 +345,6 @@ class EncuestasClienteController extends \ApiController
         return $promedio;
     }
 
-    /**
-     * @param $promedio
-     *
-     * @return string
-     */
     public static function promClassification($promedio)
     {
         $clasificacion = "";
@@ -394,14 +352,43 @@ class EncuestasClienteController extends \ApiController
             $clasificacion = "Promotor";
 
             return $clasificacion;
-        } else if ($promedio <= 4.0) {
-            $clasificacion = "Detractor";
-
-            return $clasificacion;
         } else {
-            $clasificacion = "Neutro";
+            if ($promedio <= 4.0) {
+                $clasificacion = "Detractor";
 
-            return $clasificacion;
+                return $clasificacion;
+            } else {
+                $clasificacion = "Neutro";
+
+                return $clasificacion;
+            }
         }
+    }
+
+    static function throwError($e)
+    {
+        Log::error($e->getMessage());
+
+        if (Config::get('app.debug') == false) {
+            $error          = new stdClass();
+            $error->code    = $e->getCode();
+            $error->message = $e->getMessage();
+
+            return Redirect::to('survey/error')->with('error', $error);
+        }
+
+        throw $e;
+    }
+
+    static function puedeResponder(Cliente $client)
+    {
+        $plan         = $client->plan;
+        $totalAnswers = $client->respuestas->count();
+
+        if ($plan->cantidad_encuestas_plan < $totalAnswers) {
+            return true;
+        }
+
+        return false;
     }
 }

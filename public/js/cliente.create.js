@@ -23,6 +23,8 @@
         return true;
     }
 
+    //$('.select2').select2();
+
     //Datemask dd/mm/yyyy
     //$("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
     //Datemask2 mm/dd/yyyy
@@ -110,9 +112,9 @@
                     message: 'El archivo es requerido',
                 },
                 file: {
-                    extension: 'jpeg,png',
-                    type: 'image/jpeg,image/png,image/gif',
-                    maxSize: 2097152,   // 2048 * 1024
+                    extension: 'jpg, jpeg, png, gif',
+                    type: 'image/jpeg, image/png, image/gif',
+                    //maxSize: 6291456,   // 2048 * 1024 * 3
                     message: 'Seleccione un archivo valido.'
                 }
             }
@@ -124,9 +126,9 @@
                     message: 'El archivo es requerido',
                 },
                 file: {
-                    extension: 'jpeg,png',
-                    type: 'image/jpeg,image/png,image/gif',
-                    maxSize: 2097152,   // 2048 * 1024
+                    extension: 'jpg, jpeg, png, gif',
+                    type: 'image/jpeg, image/png, image/gif',
+                    //maxSize: 6291456,   // 2048 * 1024 * 3
                     message: 'Seleccione un archivo valido.'
                 }
             }
@@ -322,12 +324,12 @@
             if (isValidTab !== null) {
                 var $class = '';
                 if (isValidTab) {
-                    $add = 'fa-check'
-                    $rem = 'fa-times'
+                    $add = 'fa-check';
+                    $rem = 'fa-times';
                     $icon.parent().parent().removeClass('error');
                 } else {
-                    $add = 'fa-times'
-                    $rem = 'fa-check'
+                    $add = 'fa-times';
+                    $rem = 'fa-check';
                     $icon.parent().parent().addClass('error');
                 }
                 $icon.addClass($add).removeClass($rem);

@@ -21,8 +21,7 @@ class CsUsuariosController extends \ApiController
      */
     public function index()
     {
-        $idCliente  = \Auth::user()->cliente->id_cliente;
-        $csusuarios = $this->csusuario->where('id_cliente', $idCliente)->get();
+        $csusuarios = $this->csusuario->all();
 
         return View::make('admin.csusuarios.index', compact('csusuarios'));
     }
@@ -34,7 +33,8 @@ class CsUsuariosController extends \ApiController
      */
     public function create()
     {
-        return View::make('admin.csusuarios.create');
+        $cuentas = Cliente::lists('nombre_cliente', 'id_cliente');
+        return View::make('admin.csusuarios.create')->with('cuentas', $cuentas);
     }
 
     /**
@@ -86,8 +86,9 @@ class CsUsuariosController extends \ApiController
     public function show($id)
     {
         $usuario = $this->csusuario->findOrFail($id);
+        $cuentas = Cliente::lists('nombre_cliente', 'id_cliente');
 
-        return View::make('admin.csusuarios.show', compact('usuario'));
+        return View::make('admin.csusuarios.show', compact('usuario'))->with('cuentas', $cuentas);
     }
 
     /**
@@ -105,7 +106,9 @@ class CsUsuariosController extends \ApiController
             return Redirect::route('admin.csusuarios.index');
         }
 
-        return View::make('admin.csusuarios.edit', compact('csusuario'));
+        $cuentas = Cliente::lists('nombre_cliente', 'id_cliente');
+
+        return View::make('admin.csusuarios.edit', compact('csusuario'))->with('cuentas', $cuentas);
     }
 
     /**
@@ -194,10 +197,14 @@ class CsUsuariosController extends \ApiController
      */
     public function changePassword($id)
     {
-        if (Input::get('pwdusuario') != '' || !is_null(Input::get('pwdusuario'))) {
-            Session::flash('message', 'Reset Password, Wrong!');
+        $validator = Validator::make(Input::all(), CsUsuario::$rulesChangePasword, CsUsuario::$messagesChangePassword);
 
-            return Redirect::route('admin.csusuarios.index');
+        if ($validator->fails()) {
+            if (Request::ajax()) {
+                return Response::json(array('message' => $validator->messages(), 'pass' => false));
+            }
+
+            return Redirect::back()->withErrors($validator);
         }
 
         $csusuario = $this->csusuario->find($id);
@@ -205,11 +212,21 @@ class CsUsuariosController extends \ApiController
             $csusuario->pwdusuario = md5(Input::get('pwdusuario'));
 
             if ($csusuario->save()) {
+                if (Request::ajax()) {
+                    return Response::json(array('message' => array('Change Password, OK!'), 'pass' => true));
+                }
+
+                Session::flash('message', 'Change Password, OK!');
+
                 return Redirect::route('admin.csusuarios.index');
             }
         }
 
-        Session::flash('message', 'Reset Password, Wrong!');
+        if (Request::ajax()) {
+            return Response::json(array('message' => array('Change Password, Wrong!'), 'pass' => false));
+        }
+
+        Session::flash('message', 'Change Password, Wrong!');
 
         return Redirect::route('admin.csusuarios.index');
     }

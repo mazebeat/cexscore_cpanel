@@ -29,7 +29,7 @@
 <div class="form-group">
 	{{ Form::label('usuario[genero]', 'Genero:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::select('usuario[genero]', ['' => '','F' => 'Femenino', 'M' => 'Masculino'], Input::old('usuario[genero]'), array('class'=>'form-control', 'placeholder'=>'Genero_usuario')) }}
+		{{ Form::select2('usuario[genero]', ['' => '','F' => 'Femenino', 'M' => 'Masculino'], Input::old('usuario[genero]'), array('class'=>'form-control', 'placeholder'=>'Genero_usuario')) }}
 	</div>
 </div>
 
@@ -43,7 +43,7 @@
 <div class="form-group">
 	{{ Form::label('usuario[rol_organizacion]', 'Rol Organización:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::select('usuario[rol_organizacion]', ['null' => '', 'Servicio' => 'Servicio', 'Marketing' => 'Marketing', 'Ventas/Comercial' => 'Ventas/Comercial', 'Finanzas' => 'Finanzas', 'Dirección' => 'Dirección', 'Operaciones' => 'Operaciones'], Input::old('usuario[rol_organizacion]'), array('class'=>'form-control')) }}
+		{{ Form::select2('usuario[rol_organizacion]', ['null' => '', 'Servicio' => 'Servicio', 'Marketing' => 'Marketing', 'Ventas/Comercial' => 'Ventas/Comercial', 'Finanzas' => 'Finanzas', 'Dirección' => 'Dirección', 'Operaciones' => 'Operaciones'], Input::old('usuario[rol_organizacion]'), array('class'=>'form-control')) }}
 	</div>
 </div>
 

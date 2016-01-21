@@ -37,9 +37,9 @@
 	</div>
 
 	<div class="form-group">
-		{{ Form::label('id_pais', 'Pais:', array('class'=>'col-md-2 control-label')) }}
+		{{ Form::label('id_pais', 'País:', array('class'=>'col-md-2 control-label')) }}
 		<div class="col-sm-10">
-			{{ Form::select('id_pais', $pais, Input::old('id_pais'), array('class'=>'form-control')) }}
+			{{ Form::select('id_pais', $paises, Input::old('id_pais'), array('class'=>'form-control')) }}
 		</div>
 	</div>
 

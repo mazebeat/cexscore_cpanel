@@ -61,6 +61,25 @@
  * -------------------------------------
  *
  */
+//    {{ Form::select2('cliente[id_sector]', $sectors, Input::old('cliente[id_sector]'), array('id'=> 'id_sector', 'class'=>'form-control', 'required')) }}
+
+\Form::macro('select2', function ($name, $list = [], $selected = null, $options = [], $disabled = []) {
+    $options = \HTML::attributes($options);
+    $html    = '<select name="' . $name . '" ' . $options . '>';
+
+    $html .= '<option value=""></option>';
+
+    foreach ($list as $value => $text) {
+        $html .= '<option value="' . $value . '"' .
+                 ($value == $selected ? ' selected="selected"' : '') .
+                 (in_array($value, $disabled) ? ' disabled="disabled"' : '') . '>' .
+                 $text . '</option>';
+    }
+    $html .= '</select>';
+
+    return $html;
+});
+
 \Form::macro('radio_scale', function ($data = array(), $max_number = 0, $order = 'ASC', $options = array()) {
     $output = '';
     $header = '';
@@ -110,7 +129,7 @@
     $range = array_combine($range = range($begin, $end), $range);
 
     foreach ($range as $key => $value) {
-        $list .= "<option value='$key'> $value</option>";
+        $list .= "<option value='$key'>$value</option>";
     }
 
     $options = \HTML::attributes($options);
@@ -193,15 +212,15 @@
             break;
     }
     $output = ' <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2"><div role = "alert" class="alert ' . $type . ' fade in"><button data-dismiss = "alert" class="close" type = "button"><i class="fa fa-times"></i></button>';
-    $output .= isset($title) ? '<h4> ' . \Str::hes($title) . '</h4> ' : '';
-    $output .= isset($subtitle) ? ' <h5>' . \Str::hes($subtitle) . ' </h5> ' : '';
-    $output .= isset($text) ? ' <p>' . \Str::hes($text) . ' </p> ' : '';
+    $output .= isset($title) ? '<h4>' . \Str::hes($title) . '</h4>' : '';
+    $output .= isset($subtitle) ? '<h5>' . \Str::hes($subtitle) . '</h5>' : '';
+    $output .= isset($text) ? '<p>' . \Str::hes($text) . ' </p>' : '';
     if (isset($options)) {
-        $output .= ' <p>';
+        $output .= '<p>';
         foreach ($options as $option) {
             $output .= $option;
         }
-        $output .= ' </p> ';
+        $output .= '</p>';
     }
     $output .= '<p class="clearfix"></div></div>';
 
@@ -411,6 +430,7 @@
         $out .= '<small class="count"></small>';
     } else {
         $out .= \Form::text('question_' . $numero_pregunta . '_' . $id_pregunta_padre . '[text]', null, $textbox);
+        $out .= '<small class="count"></small>';
     }
 
     //$out .= '<div class="messageContainer"></div>';
@@ -627,7 +647,20 @@
 
     return $out;
 });
+
 \HTML::macro('getMainQuestion', function ($text, $number = 0) {
+
+    if (\Str::contains($text, '<p><strong>') && $number < 4) {
+        $text = str_replace('<p><strong>', '<br><strong>', $text);
+    } elseif (\Str::contains($text, '<p><strong>') && $number == 4) {
+        $text = str_replace('<p><strong>', '<strong>', $text);
+    }
+
+    if (\Str::contains($text, '<p>')) {
+        $text = str_replace('<p>', '', $text);
+        $text = str_replace('</p>', '', $text);
+    }
+
     if (isset($number) && $number != 0) {
         $text = '<h4>' . \Str::hes($number . '.- ' . $text) . '</h4>';
     } else {
@@ -637,6 +670,18 @@
     return $text;
 });
 \HTML::macro('getSubQuestion', function ($text, $number = 0) {
+
+    if (\Str::contains($text, '<p><strong>') && $number < 4) {
+        $text = str_replace('<p><strong>', '<br><strong>', $text);
+    } elseif (\Str::contains($text, '<p><strong>') && $number == 4) {
+        $text = str_replace('<p><strong>', '<strong>', $text);
+    }
+
+    if (\Str::contains($text, '<p>')) {
+        $text = str_replace('<p>', '', $text);
+        $text = str_replace('</p>', '', $text);
+    }
+
     if (isset($number) && $number != 0) {
         $text = '<h5>' . \Str::hes($number . '.- ' . $text) . '</h5>';
     } else {
@@ -703,13 +748,24 @@
     $users   = $data['usuarios'];
     $moments = $data['momentos'];
     $admin   = $data['admin'];
-
-    $template = \HTML::resumenCuentas($client, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
-    $template .= \HTML::resumenSectors($sector, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
-    $template .= \HTML::resumenMoments($moments, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
-    $template .= \HTML::resumenAdministrador($admin, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
-    $template .= \HTML::resumenPlans($plan, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
-    $template .= \HTML::resumenUsuarios($users, ['class' => 'col-md-8 col-sm-12 col-xs-12 item']);
+    if (count($client)) {
+        $template = \HTML::resumenCuentas($client, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
+    }
+    if (count($sector)) {
+        $template .= \HTML::resumenSectors($sector, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
+    }
+    if (count($moments)) {
+        $template .= \HTML::resumenMoments($moments, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
+    }
+    if (count($admin)) {
+        $template .= \HTML::resumenAdministrador($admin, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
+    }
+    if (count($plan)) {
+        $template .= \HTML::resumenPlans($plan, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
+    }
+    if (count($users)) {
+        $template .= \HTML::resumenUsuarios($users, ['class' => 'col-md-8 col-sm-12 col-xs-12 item']);
+    }
 
     return $template;
 
@@ -719,7 +775,7 @@
     $attr = \HTML::attributes($attr);
 
     return '<div ' . $attr . '>
-<div class="box box-danger">
+    <div class="box box-danger">
             <div class="box-header with-border">
                 <h3 class="box-title">' . $title . '</h3>
                 <div class="box-tools pull-right">

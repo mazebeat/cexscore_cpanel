@@ -11,9 +11,9 @@ class ReporteController extends \ApiController
             case 'week':
                 $header = '<tr>
                                 <th class="col-xs-6 text-center"></th>
-                                <th class="col-xs-2 text-center">Última Semana</th>
-                                <th class="col-xs-2 text-center">Semana Anterior</th>
-                                <th class="col-xs-2 text-center">Tendencia</th>
+                                <th class="col-xs-2 text-center" style="text-align: center;">Última Semana</th>
+                                <th class="col-xs-2 text-center" style="text-align: center;">Semana Anterior</th>
+                                <th class="col-xs-2 text-center" style="text-align: center;">Tendencia</th>
                             </tr>';
 
                 $inicioActual   = Carbon::now()->subWeek()->startOfWeek();
@@ -26,9 +26,9 @@ class ReporteController extends \ApiController
             case 'month':
                 $header = '<tr>
                                 <th class="col-xs-6 text-center"></th>
-                                <th class="col-xs-2 text-center">Último mes (acum)</th>
-                                <th class="col-xs-2 text-center">Mes Anterior</th>
-                                <th class="col-xs-2 text-center">Tendencia</th>
+                                <th class="col-xs-2 text-center" style="text-align: center;">Último mes (acum)</th>
+                                <th class="col-xs-2 text-center" style="text-align: center;">Mes Anterior</th>
+                                <th class="col-xs-2 text-center" style="text-align: center;">Tendencia</th>
                             </tr>';
 
                 $inicioActual   = Carbon::now()->startOfMonth();
@@ -86,16 +86,16 @@ class ReporteController extends \ApiController
 
         $tmp = "<tr>
                 <td class='text-left'>%s</td>
-                <td class='text-center'>%s</td>
-                <td class='text-center'>%s</td>
-                <td class='text-center' style='color: %s'>%s</td>
+                <td class='text-center' style='text-align:center'>%s</td>
+                <td class='text-center' style='text-align:center'>%s</td>
+                <td class='text-center' style='text-align:center; color: %s'>%s</td>
            </tr>";
 
         $tmp2 = "<tr class='' style='font-weight: bold;'>
                 <td class='text-left'>%s</td>
-                <td class='text-center'>%s</td>
-                <td class='text-center'>%s</td>
-                <td class='text-center' style='color: %s'>%s</td>
+                <td class='text-center' style='text-align:center'>%s</td>
+                <td class='text-center' style='text-align:center'>%s</td>
+                <td class='text-center' style='text-align:center; color: %s'>%s</td>
            </tr>";
 
         $body  = '';

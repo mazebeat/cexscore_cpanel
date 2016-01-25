@@ -396,4 +396,15 @@ Class Functions
 
         return $xml->asXML();
     }
+
+    public static function ucfirst($str)
+    {
+        $str = mb_strtolower($str);
+        $words = preg_split('/\b/u', $str, -1, PREG_SPLIT_NO_EMPTY);
+        foreach ($words as $word) {
+            $ucword = mb_strtoupper(mb_substr($word, 0, 1)) . mb_substr($word, 1);
+            $str = str_replace($word, $ucword, $str);
+        }
+        return $str;
+    }
 }

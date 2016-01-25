@@ -1564,8 +1564,8 @@
                                 <tbody>
                                 <tr>
                                     <td class="padded" style="padding: 0;vertical-align: middle;padding-left: 56px;padding-right: 56px;word-break: break-word;word-wrap: break-word;">
-                                        <h3 style='font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-size: 16px;line-height: 24px;font-family: "Arial","PT Serif",Georgia,serif;color: #788991;text-align: center;'>
-                                            HOLA {{{ Str::upper($nombre_usuario) }}},</h3>
+                                        <h3 style='font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-size: 16px;line-height: 24px;font-family: "Arial","PT Serif",Georgia,serif;color: #788991;text-align: left;'>
+                                            Hola {{ \App\Util\Functions::ucfirst($nombre_usuario) }}!</h3>
 
                                         <p style='font-style: normal;font-weight: 400;Margin-bottom: 22px;Margin-top: 18px;font-size: 13px;line-height: 22px;font-family: Arial,"PT Serif",Georgia,serif;color: #7c7e7f;text-align: left;'>Aquí te
                                             presentamos las estadísticas más recientes de tu cuenta CExScore.</p>
@@ -1603,7 +1603,6 @@
                                 </tr>
                                 </tbody>
                             </table>
-
 
 
                             <div class="column-bottom" style="font-size: 40px;line-height: 40px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div>

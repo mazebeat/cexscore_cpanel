@@ -57,7 +57,9 @@ class OneReportCommand extends Command
                 $this->validateFileCreatedAt($realfile);
 
                 $this->info("Generando reporte");
-                $dateRange  = "Semana del {$start->day} al {$end->day} de {$end->format('M')} {$end->year}";
+
+                $dateRange = "Semana del {$start->day} al {$end->day} de " . App\Util\Functions::convNumberToMonth($start->month) . " {$end->year}";
+
                 $this->html = View::make('pdf.reporte')->with('account', $this->account)->with('dateRange', $dateRange)->render();
 
                 $pdf = \App::make('snappy.pdf.wrapper');
@@ -67,7 +69,7 @@ class OneReportCommand extends Command
                     $this->info('Reporte Generado');
                 }
             } else {
-                $this->line("No se encontraron responsables para '{$this->account->nombre_cliente}'");
+                $this->error("No se encontraron responsables para '{$this->account->nombre_cliente}'");
             }
             $this->progressbar->advance();
         } catch (\Exception $e) {

@@ -955,7 +955,7 @@
     $report = new \ReporteController();
     $data   = $report->processReport($account, $type);
 
-    return '<table class="table">
+    return '<table class="table" id="' . $type . '">
 				<thead>' . $data['header'] . '</thead>
 				<tbody>' . $data['body'] . '</tbody>
             </table>';

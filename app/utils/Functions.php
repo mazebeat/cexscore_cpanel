@@ -97,12 +97,12 @@ Class Functions
         $array = '<?xml version="' . $version . '" encoding="' . $encoding . '" ?>' . PHP_EOL;
         $array .= '<Documento>' . PHP_EOL;
         $array .= '<Cabecera>' . PHP_EOL;
-        $array .= static::arrayToXML($array_in['cabecera']);
+        $array .= self::arrayToXML($array_in['cabecera']);
         $array .= '</Cabecera>' . PHP_EOL;
 
         foreach ($array_in['detalle'] as $key => $value) {
             $array .= '<Detalle>' . PHP_EOL;
-            $array .= static::arrayToXML($value);
+            $array .= self::arrayToXML($value);
             $array .= '</Detalle>' . PHP_EOL;
         }
 
@@ -155,7 +155,6 @@ Class Functions
      */
     public static function generateXML($tag_in, $value_in = "", $attribute_in = "")
     {
-        $return         = "";
         $attributes_out = "";
         if (is_array($attribute_in)) {
             if (count($attribute_in) != 0) {
@@ -236,7 +235,7 @@ Class Functions
         $count = 0;
         foreach ($array as $id => $_array) {
             if (is_array($_array) && $limit > 0) {
-                $count += count_recursive($_array, $limit - 1);
+                $count += self::count_recursive($_array, $limit - 1);
             } else {
                 $count += 1;
             }

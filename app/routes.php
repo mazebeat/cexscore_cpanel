@@ -77,20 +77,15 @@ Route::group(array('prefix' => 'admin'), function () {
 
 // TESTING
 Route::get('test/test', function () {
-//    ApiController::createQrCode(public_path('temp/6/h2.png'), 'http://www.cex.org/h2');
-//    dd('Ready!!!');
-//    dd(!EncuestasClienteController::puedeResponder(Cliente::find(2)));
-
-    $account = Cliente::find(3);
-    $start   = Carbon::now()->startOfWeek();
-    $end     = Carbon::now()->endOfWeek();
-
-    $file     = \Str::title(\Str::camel($account->nombre_cliente)) . '.pdf';
-    $pathFile = public_path('temp' . DIRECTORY_SEPARATOR . $account->id_cliente . DIRECTORY_SEPARATOR);
-
-    $realfile = $pathFile . $file;
-
-    $dateRange = "Semana del {$start->day} al {$end->day} de {$end->format('M')} {$end->year}";
-
-    return View::make('pdf.reporte')->with('account', $account)->with('dateRange', $dateRange);
+    setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+    var_dump(\Str::title(strftime("%B")));
+});
+Route::get('test/env', function () {
+    var_dump(App::environment());
+});
+Route::get('test/db', function () {
+    var_dump(Config::get('database.default'), Config::get('database.connections.' . Config::get('database.default') . '.host'));
+});
+Route::get('test/info', function () {
+    var_dump(phpinfo());
 });

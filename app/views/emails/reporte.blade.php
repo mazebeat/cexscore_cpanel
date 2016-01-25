@@ -1515,6 +1515,8 @@
         .wrapper .footer .fblike, .wrapper .footer .tweet, .wrapper .footer .linkedinshare, .wrapper .footer .forwardtoafriend {
             background-color: #7b7b7c
         }
+
+        #
     </style>
     <!--[if mso]>
     <style type="text/css">
@@ -1536,7 +1538,7 @@
             <td style="padding: 0;vertical-align: middle;">&nbsp;</td>
             <td class="logo emb-logo-padding-box" style="padding: 0;vertical-align: middle;mso-line-height-rule: at-least;width: 600px;padding-top: 0px;padding-bottom: 0px;">
                 <div class="logo-center" style="font-family: 'Arial',sans-serif;color: #38434d;font-weight: bold;Margin-bottom: 0;text-align: center;font-size: 0px !important;line-height: 0 !important;" align="center" id="emb-email-header">
-                    <a style="transition: opacity 0.2s ease-in;color: gray;text-decoration: none;" href="http://www.customertrigger.cl/">
+                    <a style="transition: opacity 0.2s ease-in;color: gray;text-decoration: none;" href="http://www.customertrigger.com/">
                         <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;Margin-left: auto;Margin-right: auto;max-width: 420px;" src="{{ $message->embed(public_path('image/customertrigger/customertrigger.png')) }}"
                              alt="CustomerTrigger" width="352" height="80"/>
                     </a>
@@ -1577,9 +1579,16 @@
                                 <tr>
                                     <td class="padded" style="padding: 0;vertical-align: middle;padding-left: 56px;padding-right: 56px;word-break: break-word;word-wrap: break-word;">
                                         <p style='font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-size: 13px;line-height: 22px;font-family: "Arial","PT Serif",Georgia,serif;color: #7c7e7f;'>{{ $html }}</p>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
 
-                                        <p style='font-style: normal;font-weight: 400;Margin-bottom: 22px;Margin-top: 22px;font-size: 13px;line-height: 22px;font-family: "Arial","PT Serif",Georgia,serif;color: #7c7e7f;'>Semana del tanto al tanto
-                                            <br>Y despliegue de datos</p>
+                            <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
+                                <tbody>
+                                <tr>
+                                    <td class="padded" style="padding: 0;vertical-align: middle;padding-left: 56px;padding-right: 56px;word-break: break-word;word-wrap: break-word;">
+                                        <div class="divider" style="Margin-bottom: 12px;Margin-top: 0;font-size: 1px;line-height: 1px;width: 13px;background-color: #cbcbd7;">&nbsp;</div>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -1595,15 +1604,7 @@
                                 </tbody>
                             </table>
 
-                            <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
-                                <tbody>
-                                <tr>
-                                    <td class="padded" style="padding: 0;vertical-align: middle;padding-left: 56px;padding-right: 56px;word-break: break-word;word-wrap: break-word;">
-                                        <div class="divider" style="Margin-bottom: 12px;Margin-top: 0;font-size: 1px;line-height: 1px;width: 13px;background-color: #cbcbd7;">&nbsp;</div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+
 
                             <div class="column-bottom" style="font-size: 40px;line-height: 40px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div>
                         </td>
@@ -1630,25 +1631,9 @@
                                 <tr>
                                     <td class="padded" style="padding: 0;vertical-align: middle;padding-left: 25px;padding-right: 25px;word-break: break-word;word-wrap: break-word;">
                                         <p style='text-align:center; font-style: normal;font-weight: 400;Margin-bottom: 0;Margin-top: 0;font-size: 13px;line-height: 22px;font-family:"Arial", "PT Serif",Georgia,serif;color: #7c7e7f;'>
-                                            <a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="http://www.customertrigger.com/termino-de-uso-politicas-de-privacidad-customerexperience-score/">T&#233;rminos de Uso</a>
-                                            <em style="text-align:center">&nbsp;|&nbsp;</em>
-                                            <a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="http://www.customertrigger.com/termino-de-uso-politicas-de-privacidad-customerexperience-score/">Pol&#237;tica de
-                                                Privacidad</a>
-                                            <em style="text-align:center">&nbsp;|&nbsp;</em>
-                                            <a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="http://www.customertrigger.com/customer-experience-score/">Nuestra Soluci&#243;n</a>
-                                            <em style="text-align:center">&nbsp;|&nbsp;</em>
-                                            <a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="http://www.customertrigger.com/registro-zona-de-recursos/">Zona de Recursos</a>
-                                            <br style="text-align:center"/>
-                                            <strong style="font-weight: bold;text-align: center;">Desarrollado por &#169;&nbsp;<a style="transition: opacity 0.2s ease-in;color: #4eaacc;" href="http://www.customertrigger.com/">CustomerTrigger S.A.</a>
-                                                &nbsp;2015&nbsp;
-                                            </strong><br/>
-                                            <em style="text-align:center">Direcci&#243;n Comercial: Fanor Velasco No.85, Piso 9, Santiago | Direcci&#243;n Legal: Sotero Del R&#237;o 508, Oficina 826, Santiago&nbsp;</em><br style="text-align:center"/>
-                                            T:<em style="text-align:center">&nbsp;</em>
-                                            <a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="tel:+56222198993">+562 22 198 993</a>
-                                            <em style="text-align:center">&nbsp;|&nbsp;</em>
-                                            <a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="http://customertrigger.com/">http://www.customertrigger.com</a>
-                                            <em style="text-align:center">&nbsp;|&nbsp;</em>
-                                            <a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="mailto:ayuda@customertrigger.com">ayuda@customertrigger.com</a>
+                                            El Equipo CustomerTrigger <em style="text-align:center">&nbsp;|&nbsp;</em>
+                                            <a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="mailto:ayuda@customertrigger.com">ayuda@customertrigger.com</a> <em style="text-align:center">&nbsp;|&nbsp;</em>
+                                            <a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="tel:+56222198993">+562 22198993</a>
                                         </p>
                                     </td>
                                 </tr>

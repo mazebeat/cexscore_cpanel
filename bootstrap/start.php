@@ -25,7 +25,8 @@ $app = new Illuminate\Foundation\Application;
 */
 
 $env = $app->detectEnvironment(array(
-    'local'     => array('dpinto'),
+    'local'     => array('dpinto'), // WIN
+    'ubuntu'     => array('ubuntu'), // LINUX
     'homestead' => array('homestead'),
 ));
 

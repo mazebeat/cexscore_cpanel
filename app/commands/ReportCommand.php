@@ -54,7 +54,8 @@ class ReportCommand extends Command
                         $this->validateFileCreatedAt($realfile);
 
                         $this->info("Generando reporte");
-                        $dateRange = "Semana del {$start->day} al {$end->day} de {$end->format('M')} {$end->year}";
+
+                        $dateRange = "Semana del {$start->day} al {$end->day} de " . App\Util\Functions::convNumberToMonth($start->month) . " {$end->year}";
 
                         $this->html = View::make('pdf.reporte')->with('account', $value)->with('dateRange', $dateRange)->render();
                         $semanal    = View::make('pdf.semanal')->with('account', $value)->with('dateRange', $dateRange)->render();
@@ -68,30 +69,43 @@ class ReportCommand extends Command
                                 'nombre_usuario' => $this->admin->nombre,
                                 'html'           => $semanal,
                             );
+//                            $mail = array(
+//                                'email'   => $this->admin->email,
+//                                'name'    => $this->admin->nombre,
+//                                'subject' => 'Actualización Semanal Panel de Experiencia del Cliente',
+//                                'attach'  => $realfile,
+//                            );
                             $mail = array(
-                                'email'   => $this->admin->email,
+                                'email'   => 'diego.pintod@gmail.com',
                                 'name'    => $this->admin->nombre,
                                 'subject' => 'Actualización Semanal Panel de Experiencia del Cliente',
                                 'attach'  => $realfile,
                             );
 
-                            $this->line("Enviando email a '{$this->admin->email}'");
-                            Log::info("Enviando email a '{$this->admin->email}'");
-                            
+                            $this->line("Enviando email a '{$mail['email']}'");
+                            Log::info("Enviando email a '{$mail['email']}'");
+
+//                            \Mail::queue('emails.reporte', $data, function ($message) use ($mail) {
+//                                $message->to($mail['email'], $mail['name'])
+//                                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
+//                                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
+//                                        ->subject($mail['subject']);
+//                                $message->attach($mail['attach']);
+//                            });
+
                             \Mail::queue('emails.reporte', $data, function ($message) use ($mail) {
                                 $message->to($mail['email'], $mail['name'])
-                                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
-                                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
                                         ->subject($mail['subject']);
                                 $message->attach($mail['attach']);
                             });
                         }
                     } else {
-                        $this->line("No se encontraron responsables para '{$value->nombre_cliente}'");
+                        $this->error("No se encontraron responsables para '{$value->nombre_cliente}'");
                     }
                 }
 
                 $this->progressbar->advance();
+                echo PHP_EOL;
             }
         } catch (\Exception $e) {
             $this->error($e->getMessage());

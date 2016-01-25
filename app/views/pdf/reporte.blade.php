@@ -39,23 +39,23 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12 text-center">
+        <div class="col-xs-12 text-right" id="WeekTitle">
             <h3 class="text-left">Por Semana</h3>
         </div>
-        <div class="col-xs-12">
+        <div class="col-xs-12" id="WeekReport">
             {{ HTML::reportTable($account, 'week') }}
         </div>
-        <div class="col-xs-12 text-center">
+        <div class="col-xs-12 text-right" id="MonthTitle">
             <h3 class="text-left">Por Mes</h3>
         </div>
-        <div class="col-xs-12">
+        <div class="col-xs-12" id="MonthReport">
             {{ HTML::reportTable($account, 'month') }}
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12">
-            <p>Puede visualizar las estadísticas y tendencias generales en <a href="#">Panel CExScore</a></p>
+            <p>Puede visualizar las estadísticas y tendencias generales en <a href="http://www.cex.org:8080/CExScore">Panel CustomerExperience Score</a></p>
         </div>
     </div>
 @endsection

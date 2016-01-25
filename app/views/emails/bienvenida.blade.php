@@ -1536,7 +1536,7 @@
             <td style="padding: 0;vertical-align: middle;">&nbsp;</td>
             <td class="logo emb-logo-padding-box" style="padding: 0;vertical-align: middle;mso-line-height-rule: at-least;width: 600px;padding-top: 0px;padding-bottom: 0px;">
                 <div class="logo-center" style="font-family: 'Arial',sans-serif;color: #38434d;font-weight: bold;Margin-bottom: 0;text-align: center;font-size: 0px !important;line-height: 0 !important;" align="center" id="emb-email-header">
-                    <a style="transition: opacity 0.2s ease-in;color: gray;text-decoration: none;" href="http://www.customertrigger.cl/">
+                    <a style="transition: opacity 0.2s ease-in;color: gray;text-decoration: none;" href="http://www.customertrigger.com/">
 
                         <img style="border: 0;-ms-interpolation-mode: bicubic;display: block;Margin-left: auto;Margin-right: auto;max-width: 420px;" src="{{ $message->embed(public_path('image/customertrigger/customertrigger.png')) }}"
                              alt="CustomerTrigger" width="352" height="80"/></a>

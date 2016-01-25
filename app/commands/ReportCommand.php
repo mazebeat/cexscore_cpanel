@@ -69,14 +69,8 @@ class ReportCommand extends Command
                                 'nombre_usuario' => $this->admin->nombre,
                                 'html'           => $semanal,
                             );
-//                            $mail = array(
-//                                'email'   => $this->admin->email,
-//                                'name'    => $this->admin->nombre,
-//                                'subject' => 'Actualización Semanal Panel de Experiencia del Cliente',
-//                                'attach'  => $realfile,
-//                            );
                             $mail = array(
-                                'email'   => 'diego.pintod@gmail.com',
+                                'email'   => $this->admin->email,
                                 'name'    => $this->admin->nombre,
                                 'subject' => 'Actualización Semanal Panel de Experiencia del Cliente',
                                 'attach'  => $realfile,
@@ -85,16 +79,10 @@ class ReportCommand extends Command
                             $this->line("Enviando email a '{$mail['email']}'");
                             Log::info("Enviando email a '{$mail['email']}'");
 
-//                            \Mail::queue('emails.reporte', $data, function ($message) use ($mail) {
-//                                $message->to($mail['email'], $mail['name'])
-//                                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
-//                                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
-//                                        ->subject($mail['subject']);
-//                                $message->attach($mail['attach']);
-//                            });
-
                             \Mail::queue('emails.reporte', $data, function ($message) use ($mail) {
                                 $message->to($mail['email'], $mail['name'])
+                                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
+                                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
                                         ->subject($mail['subject']);
                                 $message->attach($mail['attach']);
                             });

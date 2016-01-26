@@ -1,12 +1,12 @@
 <?php
 
-//// Display all SQL executed in Eloquent
-//Event::listen('illuminate.query', function ($query) {
-//    //    var_dump($query);
-//    $query     = DB::getQueryLog();
-//    $lastQuery = end($query);
-//    var_dump($lastQuery);
-//});
+if (Config::get('app.debug_database')) {
+    Event::listen('illuminate.query', function ($query) {
+        $query     = DB::getQueryLog();
+        $lastQuery = end($query);
+        var_dump($lastQuery);
+    });
+}
 
 ini_set('session.gc_maxlifetime', 3 * 60 * 60); // 3 hours
 ini_set('session.gc_probability', 1);
@@ -78,7 +78,7 @@ Route::group(array('prefix' => 'admin'), function () {
 // TESTING
 Route::get('test/test', function () {
     setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
-    var_dump(\Str::title(strftime("%B")));
+    var_dump(\Str::title(strftime("%A, %d de %B de %Y")));
 });
 Route::get('test/env', function () {
     var_dump(App::environment());
@@ -88,4 +88,18 @@ Route::get('test/db', function () {
 });
 Route::get('test/info', function () {
     var_dump(phpinfo());
+});
+Route::get('test/report', function () {
+    $account = Cliente::find(2);
+    $start   = Carbon::now()->startOfWeek();
+    $end     = Carbon::now()->endOfWeek();
+
+    $file     = \Str::title(\Str::camel($account->nombre_cliente)) . '.pdf';
+    $pathFile = public_path('temp' . DIRECTORY_SEPARATOR . $account->id_cliente . DIRECTORY_SEPARATOR);
+
+    $realfile = $pathFile . $file;
+
+    $dateRange = "Semana del {$start->day} al {$end->day} de " . \App\Util\Functions::convNumberToMonth($end->month) . " {$end->year}";
+
+    return View::make('pdf.reporte')->with('account', $account)->with('dateRange', $dateRange);
 });

@@ -1,20 +1,20 @@
 @extends('layouts.cpanel')
 
 @section('title')
-    Todos Regions
+    Todas Regiones
 @endsection
 
 @section('page-title')
-    <i class="fa fa-home fa-fw"></i>Todos Regions
+    <i class="fa fa-home fa-fw"></i>Todas las Regiones
 @endsection
 
 @section('breadcrumb')
     @parent
-    <li class="active">Regions</li>
+    <li class="active">Regiones</li>
 @endsection
 
 @section('content')
-    <p>{{ link_to_route('admin.regions.create', 'Agregar Nuevo Region', null, array('class' => 'btn btn-lg btn-success')) }}</p>
+    <p>{{ link_to_route('admin.regions.create', 'Agregar Nueva Región', null, array('class' => 'btn btn-lg btn-success')) }}</p>
 
     @if ($regions->count())
         <table class="table table-striped table-condensed table-hover">

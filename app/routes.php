@@ -13,6 +13,7 @@ ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 100);
 ini_set('session.cookie_secure', false);
 ini_set('session.use_only_cookies', true);
+set_time_limit(180);
 
 Route::get('/', 'HomeController@index');
 
@@ -102,4 +103,10 @@ Route::get('test/report', function () {
     $dateRange = "Semana del {$start->day} al {$end->day} de " . \App\Util\Functions::convNumberToMonth($end->month) . " {$end->year}";
 
     return View::make('pdf.reporte')->with('account', $account)->with('dateRange', $dateRange);
+});
+
+Route::get('test/tempfile', function () {
+    $user = CsUsuario::find(16);
+    dd(get_class($user));
+//    self::sendEmailNewUser($this->usuario);
 });

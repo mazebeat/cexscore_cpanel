@@ -7,11 +7,11 @@ switch (PHP_INT_SIZE) {
         break;
     case 8:
         // echo '64-bit version of PHP';
-        $bits = 32;
+        $bits = 64;
         break;
 }
 
-$win32  = array(
+$win32 = array(
     'pdf'   => array(
         'enabled' => true,
         'binary'  => base_path('vendor/wemersonjanuario/wkhtmltopdf-windows/bin/32bit/wkhtmltopdf.exe'),

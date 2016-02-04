@@ -59,7 +59,7 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
             'nombre_legal_cliente' => '',
             'fono_fijo_cliente'    => '',
             'fono_celular_cliente' => '',
-            'correo_cliente'       => 'required|email',
+            'correo_cliente'       => 'required',
             'direccion_cliente'    => '',
             'id_estado'            => 'required',
             'id_ciudad'            => '',
@@ -73,7 +73,7 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
             'nombre_legal_cliente' => '',
             'fono_fijo_cliente'    => '',
             'fono_celular_cliente' => '',
-            'correo_cliente'       => 'required|email',
+            'correo_cliente'       => 'required',
             'direccion_cliente'    => '',
             'id_estado'            => 'required',
             'id_ciudad'            => '',
@@ -110,35 +110,61 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
 
         static::deleting(function ($cliente) {
             Log::warning('Eliminando Cuenta ' . $cliente->id_cliente);
-//            dd('hola');
+
             // cliente_apariencia
-//            if ($cliente->apariencias()->count()) {
-//                $cliente->apariencias()->detach();
-//                $cliente->apariencias()->delete();
-//            }
-            // urls
-//            if ($cliente->urls()->count()) {
-//                $cliente->urls()->delete();
-//            }
-            // momento_encuesta
-            // visita
-//            if ($cliente->visitas()->count()) {
-//                $cliente->visitas()->delete();
-//            }
-            // cliente_respuesta
-            dd($cliente->respuestas()->count());
-            if ($cliente->respuestas()->count()) {
-                $cliente->respuestas()->detach();
+            if ($cliente->apariencias()->count()) {
+                Log::warning('Eliminando Apariencia, Cuenta: ' . $cliente->id_cliente);
+                $cliente->apariencias()->detach();
+                $cliente->apariencias()->delete();
             }
-            // respuesta_detalle
-            // respuesta
+
+            // urls
+            if ($cliente->urls()->count()) {
+                Log::warning('Eliminando Urls, Cuenta: ' . $cliente->id_cliente);
+                $cliente->urls()->delete();
+            }
+
+            // momento_encuesta
+            if (MomentoEncuesta::whereIdCliente($cliente->id_cliente)->count()) {
+                Log::warning('Eliminando Momentos, Cuenta: ' . $cliente->id_cliente);
+                foreach (MomentoEncuesta::whereIdCliente($cliente->id_cliente)->get() as $momento) {
+                    $momento->delete();
+                }
+            }
+
+            // visita
+            if ($cliente->visitas()->count()) {
+                Log::warning('Eliminando Visitas, Cuenta: ' . $cliente->id_cliente);
+                $cliente->visitas()->delete();
+            }
+
+            // cliente_respuesta
+            if ($cliente->respuestas()->count()) {
+                Log::warning('Eliminando Respuestas, Cuenta: ' . $cliente->id_cliente);
+                $cliente->respuestas()->detach();
+
+                foreach (Respuesta::whereIdCliente($cliente->id_cliente)->get() as $resp) {
+                    // detalle
+                    $resp->detalle->delete();
+                    // respuesta
+                    $resp->delete();
+                }
+            }
+
             // usuarios
-//            if ($cliente->usuarios()->count()) {
-//                $cliente->usuarios()->delete();
-//            }
-//            if ($cliente->csusuarios()->count()) {
-//                $cliente->csusuarios()->delete();
-//            }
+            if (Usuario::whereIdCliente($cliente->id_cliente)->count()) {
+                Log::warning('Eliminando Usuarios, Cuenta: ' . $cliente->id_cliente);
+
+                foreach (Usuario::whereIdCliente($cliente->id_cliente)->get() as $usuario) {
+                    $usuario->delete();
+                }
+            }
+            if ($cliente->csusuarios()->count()) {
+                Log::warning('Eliminando CsUsuarios, Cuenta: ' . $cliente->id_cliente);
+                $cliente->csusuarios()->delete();
+            }
+
+            Log::info('Dependencia Eliminada, Cuenta: ' . $cliente->id_cliente);
         });
     }
 

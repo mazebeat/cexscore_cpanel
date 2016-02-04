@@ -136,7 +136,7 @@
 	{{--<div class="form-group">--}}
 	{{--{{ Form::label('id_encuesta', 'Id_encuesta:', array('class'=>'col-md-2 control-label')) }}--}}
 	{{--<div class="col-sm-10">--}}
-	{{ Form::input('hidden', 'id_encuesta', Input::old('id_encuesta', Auth::user()->cliente->encuesta->id_encuesta), array('class'=>'form-control')) }}
+	{{--{{ Form::input('hidden', 'id_encuesta', Input::old('id_encuesta', Auth::user()->cliente->encuesta->id_encuesta), array('class'=>'form-control')) }}--}}
 	{{--</div>--}}
 	{{--</div>--}}
 

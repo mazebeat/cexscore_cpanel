@@ -18,7 +18,8 @@ return array(
     |
     */
 
-    'default' => 'mysql',
+//    'default' => 'project',
+    'default' => 'mysql_prod',
 
     'connections' => array(
 
@@ -75,6 +76,17 @@ return array(
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'public',
+        ),
+
+        'project' => array(
+            'driver'    => 'mysql',
+            'host'      => 'localhost',
+            'database'  => 'project',
+            'username'  => 'root',
+            'password'  => 'mz.120712',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
         ),
 
     ),

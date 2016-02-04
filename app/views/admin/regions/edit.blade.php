@@ -1,7 +1,7 @@
 @extends('layouts.cpanel')
 
 @section('title')
-    Editar Region
+    Editar Región
 @endsection
 
 @section('page-title')
@@ -10,7 +10,7 @@
 
 @section('breadcrumb')
     @parent
-    <li>Regions</li>
+    <li>Regiones</li>
     <li class="active">Editar</li>
 @endsection
 

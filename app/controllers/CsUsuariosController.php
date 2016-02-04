@@ -21,9 +21,10 @@ class CsUsuariosController extends \ApiController
      */
     public function index()
     {
-        $csusuarios = $this->csusuario->all();
+        $csusuarios = $this->csusuario->paginate(15);
+        $cuentas    = Cliente::lists('nombre_cliente', 'id_cliente');
 
-        return View::make('admin.csusuarios.index', compact('csusuarios'));
+        return View::make('admin.csusuarios.index', compact('csusuarios'))->with('cuentas', $cuentas);
     }
 
     /**
@@ -34,6 +35,7 @@ class CsUsuariosController extends \ApiController
     public function create()
     {
         $cuentas = Cliente::lists('nombre_cliente', 'id_cliente');
+
         return View::make('admin.csusuarios.create')->with('cuentas', $cuentas);
     }
 
@@ -44,12 +46,12 @@ class CsUsuariosController extends \ApiController
      */
     public function store()
     {
-        $input     = Input::all();
-        $username  = self::randomCsUsername($input);
-        $input     = array_add($input, 'nombre', Input::get('nombre_usuario') . ' ' . Input::get('apellido_usuario'));
-        $input     = array_add($input, 'usuario', $username);
-        $input     = array_add($input, 'responsable', 0);
-        $input     = array_add($input, 'pwdusuario', md5('123456')); // 'e10adc3949ba59abbe56e057f20f883e'
+        $input    = Input::all();
+        $username = self::randomCsUsername($input);
+        $input    = array_add($input, 'nombre', Input::get('nombre_usuario') . ' ' . Input::get('apellido_usuario'));
+        $input    = array_add($input, 'usuario', $username);
+        $input    = array_add($input, 'responsable', 0);
+        $input    = array_add($input, 'pwdusuario', md5('123456')); // 'e10adc3949ba59abbe56e057f20f883e'
 
         if (array_get($input, 'fecha_nacimiento') == "") {
             array_set($input, 'fecha_nacimiento', null);
@@ -61,14 +63,18 @@ class CsUsuariosController extends \ApiController
             array_set($input, 'edad', $age);
         }
 
-        $idCliente = \Auth::user()->cliente->id_cliente;
-        array_set($input, 'id_cliente', $idCliente);
-        array_set($input, 'id_perfil', 3);
+
+        $cliente = \Cliente::find(Input::has('id_cliente') ? Input::get('id_cliente') : null);
+        if (isset($cliente)) {
+            array_set($input, 'id_encuesta', $cliente->encuesta->id_encuesta);
+        }
 
         $validation = Validator::make($input, CsUsuario::$rules);
 
         if ($validation->passes()) {
-            $this->csusuario->create($input);
+            $user = $this->csusuario->create($input);
+
+            self::sendEmailNewUser($user);
 
             return Redirect::route('admin.csusuarios.index');
         }

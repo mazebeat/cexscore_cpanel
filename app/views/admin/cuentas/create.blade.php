@@ -90,7 +90,7 @@
             {{--END TAB 4--}}
 
             {{--BEGIN TAB 5 - APARIENCIA--}}
-            <div role="tabpanel" class="tab-pane" id="tab5">
+            <div role="tabpanel" class="tab-pane active" id="tab5">
                 @include('admin.cuentas.tabs.apariencia')
             </div>
             {{--END TAB 5--}}

@@ -748,6 +748,11 @@
     $users   = $data['usuarios'];
     $moments = $data['momentos'];
     $admin   = $data['admin'];
+
+    if (isset($client->id_ciudad)) {
+        $ciudad = Ciudad::find($client->id_ciudad);
+    }
+
     if (count($client)) {
         $template = \HTML::resumenCuentas($client, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
     }
@@ -755,7 +760,7 @@
         $template .= \HTML::resumenSectors($sector, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
     }
     if (count($moments)) {
-        $template .= \HTML::resumenMoments($moments, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
+        $template .= \HTML::resumenMoments($moments, ['class' => 'col-md-4 col-sm-12 col-xs-12 item'], $client['id_cliente']);
     }
     if (count($admin)) {
         $template .= \HTML::resumenAdministrador($admin, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
@@ -796,18 +801,59 @@
  *
  * @return mixed
  */
-\HTML::macro('resumenMoments', function ($moments, $attr = array()) {
+\HTML::macro('resumenMoments', function ($moments, $attr = array(), $idCliente) {
     $out = '<table class="table table-hover table-condensed">
-                <tbody>';
+               <tbody>';
+
+    $momentos = \MomentoEncuesta::whereIdCliente($idCliente)->get();
+    $cant     = count($momentos);
+
+    $dir = public_path('temp/' . $idCliente . '/');
+    if (!\File::exists($dir)) {
+        \File::makeDirectory($dir, 0775);
+        $files = \File::files($dir);
+
+//        if (\File::isDirectory(public_path('temp/' . $idCliente . '/'))) {
+//            echo "Yes. It's a directory.";
+//        } else {
+//            echo "No. It's not a directory.";
+//        }
+//        if (\File::isWritable(public_path('temp/' . $idCliente . '/'))) {
+//            echo "Yes. public_path('temp/' . $idCliente . '/') is writable.";
+//        } else {
+//            echo "No. public_path('temp/' . $idCliente . '/') is not writable.";
+//        }
+    }
+
+    foreach ($momentos as $momento) {
+        $file = public_path('temp/' . $idCliente . '/' . $momento->id_momento . '.png');
+
+        if (\File::exists($file)) {
+            
+        }
+
+        $url = \Url::whereIdCliente($idCliente)->whereIdMomento($momento->id_momento)->first();
+
+        if (!is_null($url)) {
+            \ApiController::createQrCode($file, url($url->given));
+        }
+    }
+
+
     foreach ($moments as $key => $value) {
         $out .= '<tr>';
+
         if (!is_null(array_get($value, 'url', null))) {
-            $out .= '<td>' . $value['descripcion_momento'] . '<a href="' . array_get($value, 'url') . '" target="_blank" class="btn btn-link btn-xs pull-right">URL</a></td>';
+            $out .= '<td>' . $value['descripcion_momento'] . '<a href="' . array_get($value,
+                    'url') . '" target="_blank" class="btn btn-link btn-xs pull-right">URL</a>';
+            $out .= link_to_asset(asset('temp/' . $idCliente . '/' . ((int)$key + 1) . '.png'), 'QR', ['class' => 'btn btn-link btn-xs pull-right']) . '</td>';
         } else {
             $out .= '<td>' . $value['descripcion_momento'] . '</td>';
         }
+
         $out .= '</tr>';
     }
+
     $out .= '</tbody>
              </table>';
 

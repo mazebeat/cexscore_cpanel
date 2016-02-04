@@ -14,29 +14,28 @@
 @endsection
 
 @section('header')
-    <section class="row">
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center header_text">
-            <section class="row">
-                <article class="col-xs-12 col-sm-10 col-md-6 col-lg-6 col-center-block" style="margin-top: 0.3%;">
-                    {{ HTML::image($theme->logo_header, 'header-logo', array('class' => 'img-responsive center-block')) }}
-                </article>
-            </section>
-            {{--<h1>{{ $survey->titulo }}</h1>--}}
-            {{--<h2>{{ $survey->slogan }}</h2>--}}
-        </article>
-    </section>
+    @if(isset($theme) && isset($theme->logo_header))
+        <section class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center header_text">
+                <section class="row">
+                    <article class="col-xs-12 col-sm-10 col-md-6 col-lg-6 col-center-block" style="margin-top: 0.3%;">
+                        {{ HTML::image($theme->logo_header, 'header-logo', array('class' => 'img-responsive center-block')) }}
+                    </article>
+                </section>
+            </article>
+        </section>
+    @endif
 @endsection
 
 @section('content')
     <section class="row" style="margin-top: 15px; margin-bottom: 15px;">
-        @if(isset($theme) && !is_null($theme->logo_incentivo))
+        @if(isset($theme) && isset($theme->logo_incentivo))
             <article class="col-xs-10 col-sm-10 col-md-5 col-lg-5 col-center-block incentive">
                 {{ HTML::image($theme->logo_incentivo, 'Incentivo', array('class' => 'img-responsive center-block')) }}
             </article>
         @endif
         <article class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-center-block instrucciones">
-            <h4>{{ $survey->description }}</h4>
-            <h4>Luego de completar la encuesta, presione <em>"Enviar Respuestas"</em></h4>
+            <h4>{{{ $survey->description }}}</h4>
         </article>
     </section>
     <section class="row">

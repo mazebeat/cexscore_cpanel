@@ -168,11 +168,55 @@ class ApiController extends \BaseController
                 if (!$save) {
                     if (count($data['momentos']) > 0) {
                         foreach ($data['momentos'] as $key => $value) {
-                            $moment = $cliente->encuesta->momentos->find($value['id_momento']);
-                            if ($moment->pivot->descripcion_momento != $value['descripcion_momento']) {
-                                $moment->pivot->descripcion_momento = $value['descripcion_momento'];
-                                $moment->pivot->updated_at          = Carbon::now();
-                                $moment->pivot->save();
+//                            $moment = $cliente->encuesta->momentos->find($value['id_momento']);
+                            $moment = MomentoEncuesta::where('id_cliente', $cliente->id_cliente)->where('id_encuesta', $cliente->encuesta->id_encuesta)->where('id_momento', $value['id_momento'])->first();
+                            if (!is_null($moment) && $moment->descripcion_momento != $value['descripcion_momento']) {
+                                $moment->descripcion_momento = $value['descripcion_momento'];
+                                $moment->updated_at          = Carbon::now();
+                                $moment->save();
+                            }
+                            if (is_null($moment)) {
+                                $max = $cliente->plan->cantidad_momentos_plan;
+                                $now = MomentoEncuesta::where('id_cliente', $cliente->id_cliente)->where('id_encuesta', $cliente->encuesta->id_encuesta)->count();
+
+                                if ($max <= $now) {
+                                    return Redirect::back()->withErrors(['message' => 'Cantidad máxima de momentos alcanzada.']);
+                                }
+
+                                $next = (int)$key + 1;
+                                Momento::firstOrCreate(['id_momento' => $next, 'descripcion_momento' => 'Momento ' . $next, 'id_estado' => 1]);
+
+                                $momentoencuesta = MomentoEncuesta::firstOrCreate([
+                                    'id_momento'          => $next,
+                                    'descripcion_momento' => $value['descripcion_momento'],
+                                    'id_cliente'          => $cliente->id_cliente,
+                                    'id_encuesta'         => $value['id_encuesta'],
+                                ]);
+
+                                if (!is_null($momentoencuesta)) {
+                                    $canal = Canal::find(1);
+                                    $uri   = '/survey' . '/' . Crypt::encrypt($cliente->id_cliente) . '/' . Crypt::encrypt('fb') . '/' . Crypt::encrypt($next);
+
+                                    $url = Url::firstOrCreate([
+                                        'url'        => $uri,
+                                        'given'      => Url::getShortenedUrl(),
+                                        'id_cliente' => $cliente->id_cliente,
+                                        'id_canal'   => 1,
+                                        'id_momento' => $next,
+                                    ]);
+
+                                    if (!is_null($url)) {
+                                        if (!File::exists(public_path('temp/' . $cliente->id_cliente))) {
+                                            File::makeDirectory(public_path('temp/' . $cliente->id_cliente));
+                                        }
+                                        $file = public_path('temp/' . $cliente->id_cliente . '/' . $next . '.png');
+                                        self::createQrCode($file, url($url->given));
+
+                                        if (File::exists($file)) {
+                                            array_push($moments, $momentoencuesta);
+                                        }
+                                    }
+                                }
                             }
 
                             array_push($moments, $moment);
@@ -201,7 +245,7 @@ class ApiController extends \BaseController
                                     'url'        => $uri,
                                     'given'      => Url::getShortenedUrl(),
                                     'id_cliente' => $cliente->id_cliente,
-                                    'id_canal'   => $canal->id_canal,
+                                    'id_canal'   => 1,
                                     'id_momento' => $count,
                                 ]);
 
@@ -561,5 +605,56 @@ class ApiController extends \BaseController
     public static function createQrCode($path, $info)
     {
         QrCode::format('png')->errorCorrection('H')->size(1080)->generate($info, $path);
+    }
+
+    public static function sendEmailNewUser($user = null)
+    {
+        if (isset($user)) {
+            if (get_class($user) == 'Usuario') {
+                $mail = array(
+                    'email' => $user->correo_usuario,
+                    'name'  => $user->nombre_usuario,
+                );
+
+                $data = array(
+                    'nombre_usuario' => $user->nombre_usuario,
+                    'usuario'        => $user->username,
+                );
+            }
+
+            if (get_class($user) == 'CsUsuario') {
+                $mail = array(
+                    'email' => $user->email,
+                    'name'  => $user->nombre,
+                );
+
+                $data = array(
+                    'nombre_usuario' => $user->nombre,
+                    'usuario'        => $user->usuario,
+                );
+            }
+
+            if (!count($mail) && !count($data)) {
+                return false;
+            }
+
+            if (!array_key_exists('email', $mail)) {
+                return false;
+            }
+
+            if (!array_key_exists('subject', $mail)) {
+                $subject = 'Bienvenido a CustomerExperience SCORE | CustomerTrigger.com';
+                $mail    = array_add($mail, 'subject', $subject);
+            }
+
+            \Mail::send('emails.newUser', $data, function ($message) use ($mail) {
+                $message->to($mail['email'], $mail['name'])
+                        ->subject($mail['subject'])
+                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
+                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso');
+            }, true);
+
+            return true;
+        }
     }
 }

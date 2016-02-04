@@ -1,16 +1,16 @@
 @extends('layouts.cpanel')
 
 @section('title')
-    Ver Region
+    Ver Región
 @endsection
 
 @section('page-title')
-    <i class="fa fa-eye fa-fw"></i>Ver Region
+    <i class="fa fa-eye fa-fw"></i>Ver Región
 @endsection
 
 @section('breadcrumb')
     @parent
-    <li>Regions</li>
+    <li>Regiones</li>
     <li class="active">Ver</li>
 @endsection
 

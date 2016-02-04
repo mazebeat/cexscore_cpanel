@@ -1,16 +1,16 @@
 @extends('layouts.cpanel')
 
 @section('title')
-	Crear Pais
+	Crear País
 @endsection
 
 @section('page-title')
-	<i class="fa fa-plus fa-fw"></i>Agregar Pais
+	<i class="fa fa-plus fa-fw"></i>Agregar País
 @endsection
 
 @section('breadcrumb')
 	@parent
-	<li>Pais</li>
+	<li>País</li>
 	<li class="active">Agregar</li>
 @endsection
 

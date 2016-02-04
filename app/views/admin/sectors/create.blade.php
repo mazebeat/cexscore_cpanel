@@ -10,7 +10,7 @@
 
 @section('breadcrumb')
     @parent
-    <li>Sector</li>
+    <li>Sectores</li>
     <li class="active">Agregar</li>
 @endsection
 

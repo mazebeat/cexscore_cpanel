@@ -126,7 +126,6 @@ return array(
         'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider',
         'Freshwork\ChileanBundle\Laravel\ChileanBundleServiceProvider',
         'SimpleSoftwareIO\QrCode\QrCodeServiceProvider',
-
     ),
     /*
     |--------------------------------------------------------------------------

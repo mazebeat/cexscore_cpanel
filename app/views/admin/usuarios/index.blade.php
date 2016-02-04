@@ -45,7 +45,8 @@
                     <td>{{ $usuario->username }}</td>
                     <td>{{ $usuario->correo_usuario }}</td>
                     @if($usuario->id_cliente != 0)
-                        <td>{{ Cliente::find($usuario->id_cliente)->nombre_cliente }}</td>
+                        {{ $usuario->id_cliente }}
+                        <td>{{ array_get($cuentas, $usuario->id_cliente, '')}}</td>
                     @else
                         <td>Administrador</td>
                     @endif

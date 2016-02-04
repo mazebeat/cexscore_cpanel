@@ -21,10 +21,10 @@ class UsuariosController extends \ApiController
      */
     public function index()
     {
-        $usuarios = Usuario::all();
-        $cuentas = Cliente::lists('nombre_cliente', 'id_cliente');
+        $usuarios = Usuario::where('password', '<>', '')->get();
+        $cuentas  = Cliente::lists('nombre_cliente', 'id_cliente');
 
-        return View::make('admin.usuarios.index', compact('usuarios'))->with('cuentas', $cuentas);;
+        return View::make('admin.usuarios.index', compact('usuarios'))->with('cuentas', $cuentas);
     }
 
     /**
@@ -35,6 +35,7 @@ class UsuariosController extends \ApiController
     public function create()
     {
         $cuentas = Cliente::lists('nombre_cliente', 'id_cliente');
+
         return View::make('admin.usuarios.create')->with('cuentas', $cuentas);;
     }
 
@@ -60,14 +61,17 @@ class UsuariosController extends \ApiController
             array_set($input, 'edad_usuario', $age);
         }
 
-        $cliente = \Auth::user()->cliente;
-        array_set($input, 'id_cliente', $cliente->id_cliente);
-        array_set($input, 'id_encuesta', $cliente->encuesta->id_encuesta);
+        $cliente = \Cliente::find(Input::has('id_cliente') ? Input::get('id_cliente') : null);
+        if (isset($cliente)) {
+            array_set($input, 'id_encuesta', $cliente->encuesta->id_encuesta);
+        }
 
         $validation = Validator::make($input, Usuario::$rules);
 
         if ($validation->passes()) {
-            $this->usuario->create($input);
+            $user = $this->usuario->create($input);
+
+            self::sendEmailNewUser($user);
 
             return Redirect::route('admin.usuarios.index');
         }

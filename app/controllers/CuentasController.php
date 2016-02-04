@@ -97,7 +97,7 @@ class CuentasController extends \ApiController
      */
     public function index()
     {
-        $cuentas = Cliente::all();
+        $cuentas = Cliente::paginate(15);
 
         return View::make('admin.cuentas.index', compact('cuentas'));
     }
@@ -109,7 +109,7 @@ class CuentasController extends \ApiController
      */
     public function create()
     {
-        $pais    = Pais::lists('descripcion_pais', 'id_pais');
+        $pais    = Pais::orderBy('descripcion_pais')->lists('descripcion_pais', 'id_pais');
         $plans   = Plan::lists('descripcion_plan', 'id_plan');
         $canals  = Canal::lists('descripcion_canal', 'id_canal');
         $sectors = Sector::lists('descripcion_sector', 'id_sector');
@@ -356,6 +356,8 @@ class CuentasController extends \ApiController
         $cliente  = Cliente::find($id);
         $momentos = MomentoEncuesta::where('id_cliente', $id)->where('id_encuesta', $cliente->encuesta->id_encuesta)->get();
 
+//        dd($momentos);
+
         return View::make('admin.cuentas.edit', compact('cliente'))->with('pais', $pais)->with('states', $states)->with('plans', $plans)->with('sectors', $sectors)->with('ciudads',
             $ciudads)->with('catgs', $catgs)->with('momentoencuestum', $momentos);
     }
@@ -399,20 +401,50 @@ class CuentasController extends \ApiController
 
     public function destroy($id)
     {
-        // TODO; Agregar softdelete para los artifactos cuenta
-//        if (Cliente::find($id)->respuestas->count() > 0) {
-//            return Redirect::back()->withErrors('No se puede eliminar cuenta, contiene respuestas');
-//        }
-//
-//        if (Visita::whereIdCliente($id)->count() > 0) {
-//            return Redirect::back()->withErrors('No se puede eliminar cuenta, contiene visitas');
-//        }
+        if (!Input::has('accion')) {
+            if (Cliente::find($id)->respuestas->count() > 0) {
+                return Redirect::back()->withErrors('No se puede eliminar cuenta, contiene respuestas');
+            }
 
-        Cliente::destroy($id);
+            if (Visita::whereIdCliente($id)->count() > 0) {
+                return Redirect::back()->withErrors('No se puede eliminar cuenta, contiene visitas');
+            }
 
-        return Redirect::route('admin.cuentas.index');
+            Cliente::destroy($id);
 
+            return Redirect::route('admin.cuentas.index');
+        }
 
+        $cliente = Cliente::findOrFail($id);
+
+        switch (Input::get('accion')) {
+            case 'delete.account':
+                break;
+            case 'delete.plan':
+                break;
+            case 'delete.moments':
+                if (!Input::has('id_momento')) {
+                    return Redirect::route('admin.cuentas.edit', [$id]);
+                }
+
+                $cantR = Respuesta::where('id_cliente', $id)->where('id_momento', Input::get('id_momento'))->count();
+                $cantV = Visita::where('id_cliente', $id)->where('id_momento', Input::get('id_momento'))->count();
+
+                if ($cantR <= 0 && $cantV <= 0) {
+                    MomentoEncuesta::where('id_cliente', $id)->where('id_encuesta', $cliente->encuesta->id_encuesta)->where('id_momento', Input::get('id_momento'))->first()->delete();
+                } else {
+                    return Redirect::back()->withErrors(['message' => 'No se puede eliminar este momento, ya que contiene respuestas o visitas.']);
+                }
+
+                break;
+            case 'delete.skin':
+                break;
+
+            default:
+                break;
+        }
+
+        return Redirect::route('admin.cuentas.edit', [$id]);
     }
 
     public function loadSurvey()

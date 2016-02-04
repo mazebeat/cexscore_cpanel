@@ -16,19 +16,17 @@
         fv.validateContainer($tab);
 
         var isValidStep = fv.isValidContainer($tab);
-        if (isValidStep === false || isValidStep === null) {
+
+        if (isValidStep === false) {
+            return false;
+        }
+
+        if (isValidStep === null) {
             return false;
         }
 
         return true;
     }
-
-    //$('.select2').select2();
-
-    //Datemask dd/mm/yyyy
-    //$("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
-    //Datemask2 mm/dd/yyyy
-    //$("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
 
     $('textarea')
         .ckeditor()
@@ -55,27 +53,25 @@
         .end();
 
     $('#myTabs a').click(function (e) {
-        e.preventDefault()
-        $(this).tab('show')
+        e.preventDefault();
+        $(this).tab('show');
     });
 
-    //		VALIDATIONS
     var $fields = {
         'cliente[rut_cliente]': {
             validators: {
                 notEmpty: {
-                    message: 'El RUT es requerido',
+                    message: 'El RUT es requerido'
                 },
                 callback: {
                     callback: function (value, validator) {
-//							console.log($.validateRut(value));
                         return $.validateRut(value);
                     },
                     message: 'El campo RUT es incorrecto'
                 },
                 stringLength: {
                     min: 8,
-                    max: 12,
+                    max: 12
                 }
             }
         },
@@ -91,7 +87,7 @@
         'usuario[rut_usuario]': {
             validators: {
                 notEmpty: {
-                    message: 'El RUT es requerido',
+                    message: 'El RUT es requerido'
                 },
                 callback: {
                     callback: function (value, validator) {
@@ -108,28 +104,22 @@
         'apariencia[logo_header]': {
             message: 'El archivo no es valido.',
             validators: {
-                notEmpty: {
-                    message: 'El archivo es requerido',
-                },
                 file: {
-                    extension: 'jpg, jpeg, png, gif',
-                    type: 'image/jpeg, image/png, image/gif',
-                    //maxSize: 6291456,   // 2048 * 1024 * 3
-                    message: 'Seleccione un archivo valido.'
+                    extension: 'png,jpg,jpeg,gif',
+                    type: 'image/jpeg,image/png,image/gif',
+                    maxSize: 6 * 1024 * 1024,
+                    message: 'The selected file is not valid, it should be (png, jpg, jpeg, gif) and 6 MB at maximum.'
                 }
             }
         },
         'apariencia[logo_incentivo]': {
             message: 'El archivo no es valido.',
             validators: {
-                notEmpty: {
-                    message: 'El archivo es requerido',
-                },
                 file: {
-                    extension: 'jpg, jpeg, png, gif',
-                    type: 'image/jpeg, image/png, image/gif',
-                    //maxSize: 6291456,   // 2048 * 1024 * 3
-                    message: 'Seleccione un archivo valido.'
+                    extension: 'png,jpg,jpeg,gif',
+                    type: 'image/jpeg,image/png,image/gif',
+                    maxSize: 6 * 1024 * 1024,
+                    message: 'The selected file is not valid, it should be (png, jpg, jpeg, gif) and 6 MB at maximum.'
                 }
             }
         }
@@ -320,7 +310,6 @@
 
             $icon.parent().find('i').removeClass('fa-times').addClass('fa-check');
 
-            //console.log(isValidTab);
             if (isValidTab !== null) {
                 var $class = '';
                 if (isValidTab) {
@@ -333,7 +322,6 @@
                     $icon.parent().parent().addClass('error');
                 }
                 $icon.addClass($add).removeClass($rem);
-
             }
 
             if (data.field == 'cant_moment_plan') {

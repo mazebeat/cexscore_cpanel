@@ -27,87 +27,100 @@ function validateTab(index) {
 }
 
 (function ($) {
-    //Datemask dd/mm/yyyy
-    $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
-    //Datemask2 mm/dd/yyyy
-    $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
-
-   $("#rut_cliente").rut({
-        formatOn: 'keyup',
-        validateOn: 'change'
-    });
-
-    $('input[type="checkbox"], input[type="radio"]').iCheck({
-            tap: true,
-            checkboxClass: 'icheckbox_square-orange',
-            radioClass: 'iradio_square-orange',
-            increaseArea: '20%'
-        })
-        .on('ifChanged', function (e) {
-            e.preventDefault();
-            var field = $(this).attr('name');
-            $('#createClientForm').formValidation('revalidateField', field);
-        })
-        .end();
-
     $('#myTabs a').click(function (e) {
-        e.preventDefault()
-        $(this).tab('show')
+        e.preventDefault();
+        var pane = $(this);
+        pane.tab('show');
     });
 
-    //		VALIDATIONS
-    var $fields = {
-        'cliente[rut_cliente]': {
-            message: 'El RUT no es valido',
-            validators: {
-                notEmpty: {},
-                callback: {
-                    callback: function (value, validator) {
-//							console.log($.validateRut(value));
-                        return $.validateRut(value);
-                    },
-                    message: 'El campo RUT es incorrecto'
-                },
-                stringLength: {
-                    min: 8,
-                    max: 12,
-                }
-            }
-        },
-        'cliente[fono_cliente]': {
-            validators: {
-                notEmpty: {},
-                regexp: {
-                    message: 'El número de teléfono solo puede contener dígitos, espacios, -, (, ), + y .',
-                    regexp: /^[0-9\s\-()+\.]+$/
-                }
-            }
-        },
-        'usuario[rut_usuario]': {
-            message: 'El RUT no es valido',
-            validators: {
-                notEmpty: {},
-                callback: {
-                    callback: function (value, validator) {
-                        return $.validateRut(value);
-                    },
-                    message: 'El campo RUT es incorrecto'
-                },
-                stringLength: {
-                    min: 8,
-                    max: 12
-                }
-            }
-        }
-    };
+    $('#home').load($('.active a').attr("data-url"), function (result) {
+        $('.active a').tab('show');
+    });
 
-    $('#createClientForm')
-        .find('#fieldPais')
+    $('#id_sector').on('change', function (e) {
+        e.preventDefault();
+
+        $.get('/admin/find/survey', {id_sector: $(this).val()}, function (survey) {
+            $('[name="id_encuesta"]').val(survey.id);
+        });
+    });
+
+    $('#addMoments').click(function (e) {
+        var times = parseInt($('#cant_moment_plan').val(), 10);
+        var num = $('#form-moments').children('.form-group.momento').last().data('id');
+        var num2 = num + 1;
+        var next = parseInt(num2 + 1);
+
+        console.log(num, num2);
+
+        $('.cloneMoment').remove();
+
+        var $template = $('#optionTemplate');
+        var $clone = $template.clone()
+            .removeClass('hide')
+            .addClass('momento')
+            .attr('data-id', num2)
+            .removeAttr('id')
+            .find(".control-label")
+            .text('Momento ' + next + ':')
+            .attr('for', 'momentos[' + num2 + '][id_momento]')
+            .end()
+            .insertAfter($('#form-moments').children('.form-group.momento').last())
+            .end();
+
+        var $option = $clone.find('input[name="descripcion_momento"]');
+        $clone.find('[name="descripcion_momento"]')
+            .attr('name', 'momentos[' + num2 + '][descripcion_momento]')
+            .end()
+            .find('[name="id_momento"]')
+            .attr('name', 'momentos[' + num2 + '][id_momento]')
+            .val(next)
+            .end()
+            .find('[name="id_encuesta"]')
+            .attr('name', 'momentos[' + num2 + '][id_encuesta]')
+            .end();
+
+        $('#form-moments')
+            .children('.form-group.momento')
+            .last()
+            .find('div:nth-child(3)')
+            .append("<a href='javascript:void(0);' class='deleteOptionTemplate btn btn-default pull-right' data-moment='" + num2 + "'><i class='fa fa-trash-o'></i></a>")
+            .end();
+
+        $('#createClientForm').formValidation('addField', $option);
+
+        e.preventDefault();
+    });
+
+    $('[data-delete]').click(function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        if (confirm('Está seguro de eliminar este momento ?')) {
+            var url = $this.prop('href');
+            var token = $this.data('delete');
+            var moment = $this.data('moment');
+            var action = $this.data('accion');
+            var $form = $('<form/>', {action: url, method: 'post'});
+            var $inputMethod = $('<input/>', {type: 'hidden', name: '_method', value: 'delete'});
+            var $inputToken = $('<input/>', {type: 'hidden', name: '_token', value: token});
+            var $inputMoment = $('<input/>', {type: 'hidden', name: 'id_momento', value: moment});
+            var $inputAction = $('<input/>', {type: 'hidden', name: 'accion', value: action});
+            $form.append($inputMethod, $inputToken, $inputMoment, $inputAction).hide().appendTo('body').submit();
+        }
+    });
+
+
+    $('body').on('click', '.deleteOptionTemplate', function (e) {
+        e.preventDefault();
+        $(this).parents('.form-group').remove();
+    });
+
+    $('#fieldPais')
         .change(function (event) {
             var model = $('#fieldRegion');
             var model2 = $('#fieldCiudad');
-            model.empty().formValidation('revalidateField', 'cliente[region').show();
-            model2.empty().formValidation('revalidateField', 'cliente[id_ciudad');
+            //model.empty().formValidation('revalidateField', 'cliente[region').show();
+            //model2.empty().formValidation('revalidateField', 'cliente[id_ciudad');
 
             var $select = $(this).find("option:selected").text();
 
@@ -133,19 +146,21 @@ function validateTab(index) {
             });
 
             var $name = $(this).attr('name');
-            $('#createClientForm').formValidation('revalidateField', $name);
+            //$('#createClientForm').formValidation('revalidateField', $name);
             event.preventDefault();
-        })
-        .end()
-        .find('#fieldRegion')
+        });
+    $('#fieldRegion')
         .change(function (e) {
             var model = $('#fieldCiudad');
-            model.attr('disabled', 'disabled')
-                .empty()
-                .formValidation('revalidateField', model.attr('name'))
-                .show();
+            console.log(model);
 
+
+            //model.attr('disabled', 'disabled')
+            //    .empty()
+            //    .formValidation('revalidateField', model.attr('name'))
+            //    .show();
             $.get("/admin/find/locate", {filterBy: 'region', option: $(this).val()}, function (data) {
+                console.log(data);
                 if (Object.keys(data).length > 0) {
                     model.append($("<option value=''></option>"));
                     $.each(data, function (index, element) {
@@ -155,202 +170,9 @@ function validateTab(index) {
                 model.removeAttr('disabled', 'disabled');
             });
 
-            var $name = $(this).attr('name');
-            $('#createClientForm').formValidation('revalidateField', $name);
+            //var $name = $(this).attr('name');
+            //$('#createClientForm').formValidation('revalidateField', $name);
             e.preventDefault();
-        })
-        .end()
-        .find('[name="cliente[id_plan]"]')
-        .on('ifChecked', function (e) {
-            var $this = $(this);
-            $('#cant_moment_plan').val(0).removeAttr('disabled');
-            $('.cloneMoment').remove();
-
-            $.get("/admin/find/configplan", {idplan: $this.val()}, function (cant) {
-
-                var q = parseInt(cant);
-                if (q == 0 || q == 'undefined') {
-                    q = 999;
-                }
-
-                var $name = $('#cant_moment_plan').attr('name')
-                    .attr('max', q)
-                    .attr('data-fv-lessthan-value', q)
-                    .end();
-
-                $('#createClientForm').formValidation('removeField', 'cant_moment_plan')
-                    .formValidation('addField', 'cant_moment_plan')
-                    .formValidation('revalidateField', $name);
-            });
-
-
-            e.preventDefault();
-        })
-        .end()
-        //.find('#addMoments')
-        //.click(function (e) {
-        //    var times = parseInt($('#cant_moment_plan').val(), 10);
-        //    var num = 1;
-        //    $('.cloneMoment').remove();
-        //
-        //    for (var x = 0; x < times; x++) {
-        //        var $template = $('#optionTemplate');
-        //        var $clone = $template.clone()
-        //            .removeClass('hide')
-        //            .addClass('cloneMoment')
-        //            .removeAttr('id')
-        //            .find(".control-label")
-        //            .text('Momento ' + num++)
-        //            .end()
-        //            .insertBefore($template)
-        //            .end();
-        //
-        //        var $option = $clone.find('input[name="momento"]');
-        //        $clone.find('[name="momento"]')
-        //            .attr('data-fv-notempty', 'true')
-        //            .attr('id', 'momento' + x)
-        //            .attr('required', 'required')
-        //            .attr('name', 'momento_encuesta[' + x + '][descripcion_momento]')
-        //            .end()
-        //            .find('[name="canal"]')
-        //            .attr('id', 'canal' + x)
-        //            .attr('required', 'required')
-        //            .attr('name', 'momento_encuesta[' + x + '][canal]')
-        //            .end();
-        //
-        //        // Add new field
-        //        $('#createClientForm').formValidation('addField', $option);
-        //    }
-        //
-        //    e.preventDefault();
-        //})
-        //.end()
-        //.find('#id_sector')
-        //.on('change', function (e) {
-        //    $.get('/admin/find/survey', {id_sector: $(this).val()}, function (survey) {
-        //        var count = 0, $name = '';
-        //        // preguntaCabecera[0][descripcion_1]
-        //        $.each(survey, function (key, data) {
-        //            if (data.id_pregunta_padre == null) {
-        //                $name = 'preguntaCabecera[' + count + '][descripcion_1]';
-        //            } else {
-        //                $name = 'preguntaCabecera[' + count + '][sub][descripcion_1]';
-        //                count++;
-        //            }
-        //            CKEDITOR.instances[$name].setData(data.descripcion_1);
-        //        })
-        //    });
-        //
-        //    e.preventDefault();
-        //})
-        //.end()
-        .formValidation({
-            framework: 'bootstrap',
-            excluded: [':disabled'],
-            live: 'enabled',
-            locale: 'es_CL',
-            button: {
-                selector: '[type="submit"]',
-                disabled: 'disabled'
-            },
-            fields: $fields
-        })
-        .on('err.field.fv', function (e, data) {
-            var $tabPane = data.element.parents('.tab-pane');
-            var $tabId = $tabPane.attr('id');
-
-            $('a[href="#' + $tabId + '"][data-toggle="tab"]').parent()
-                .addClass('error')
-                .find('i')
-                .removeClass('fa-check')
-                .addClass('fa-times');
-
-            if (data.field == 'cant_moment_plan') {
-                $('#addMoments').attr('disabled', 'disabled');
-            }
-        })
-        .on('success.field.fv', function (e, data) {
-            var $tabPane = data.element.parents('.tab-pane');
-            var tabId = $tabPane.attr('id');
-            var $icon = $('a[href="#' + tabId + '"][data-toggle="tab"]')
-                .parent()
-                .find('i')
-                .removeClass('fa-check fa-times')
-                .end();
-
-            var isValidTab = data.fv.isValidContainer($tabPane);
-
-            if (isValidTab !== null) {
-                $icon.addClass(isValidTab ? 'fa-check' : 'fa-times');
-            }
-
-            if (data.field == 'cant_moment_plan') {
-                $('#addMoments').removeAttr('disabled');
-            }
-
-            if (data.fv.getInvalidFields().length > 0) {
-                data.fv.disableSubmitButtons(true);
-            }
-        })
-        .on('success.form.fv', function (e) {
         });
-        //.bootstrapWizard({
-        //    tabClass: 'nav nav-pills',
-        //    onTabClick: function (tab, navigation, index) {
-        //        return validateTab(index);
-        //    },
-        //    onNext: function (tab, navigation, index) {
-        //        adjustIframeHeight();
-        //        var numTabs = $('#createClientForm').find('.tab-pane').length;
-        //        var isValidTab = validateTab(index - 1);
-        //
-        //        if (!isValidTab) {
-        //            return false;
-        //        }
-        //
-        //        if (index === numTabs) {
-        //        }
-        //
-        //        tab.removeClass('success-tab').removeClass('error');
-        //
-        //        return true;
-        //    },
-        //    onPrevious: function (tab, navigation, index) {
-        //        var isValidTab = validateTab(index + 1);
-        //
-        //        if (!isValidTab) {
-        //            tab.removeClass('success-tab').addClass('error');
-        //            return false;
-        //        }
-        //
-        //        tab.addClass('success-tab');
-        //
-        //        return true;
-        //    },
-        //    onLast: function (tab, navigation, index) {
-        //        var isValidTab = validateTab(index);
-        //
-        //        if (!isValidTab) {
-        //            return false;
-        //        }
-        //
-        //        $('#createClientForm').formValidation('defaultSubmit');
-        //
-        //        return true;
-        //    },
-        //    onTabShow: function (tab, navigation, index) {
-        //        var $total = navigation.find('li').length;
-        //        var $current = index + 1;
-        //        var $percent = ($current / $total) * 100;
-        //
-        //        if ($current >= $total) {
-        //            $('#rootwizard').find('.pager .next').hide().end()
-        //                .find('.pager .finish').css('display', 'inline').end()
-        //                .find('.pager .finish').removeClass('disabled').end();
-        //        } else {
-        //            $('#rootwizard').find('.pager .next').show().end()
-        //                .find('.pager .finish').hide().end();
-        //        }
-        //    }
-        //});
+
 })(jQuery);

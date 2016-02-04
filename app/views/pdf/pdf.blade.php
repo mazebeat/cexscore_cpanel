@@ -7,7 +7,9 @@
     <meta name="author" content="mazebeat">
     <title>@yield('title')</title>
 
-    <link href="{{ public_path('css/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ public_path('css/bootstrap.css') }}" rel="stylesheet">
+{{--        <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">--}}
+    {{--{{ HTML::style('css/bootstrap.css') }}--}}
     <style type="text/css">
         html, body {
             height: 100%;
@@ -33,10 +35,9 @@
         }
     </style>
     @yield('style')
-    @yield('script')
 </head>
 
-<body style="border:0; margin: 0;" onload="init()">
+<body style="border:0; margin: 0;">
 <div id="wrap">
     <div class="container">
         @yield('content')

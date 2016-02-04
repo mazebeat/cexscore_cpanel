@@ -1,16 +1,16 @@
 @extends('layouts.cpanel')
 
 @section('title')
-	Editar Pais
+	Editar País
 @endsection
 
 @section('page-title')
-	<i class="fa fa-pencil fa-fw"></i>Editar Pais
+	<i class="fa fa-pencil fa-fw"></i>Editar País
 @endsection
 
 @section('breadcrumb')
 	@parent
-	<li>Pais</li>
+	<li>País</li>
 	<li class="active">Editar</li>
 @endsection
 

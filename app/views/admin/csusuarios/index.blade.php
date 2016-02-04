@@ -29,7 +29,6 @@
             <thead>
             <tr>
                 <th>Nombre</th>
-                <th>RUT</th>
                 <th>Usuario</th>
                 <th>E-Mail</th>
                 <th>Cuenta</th>
@@ -41,11 +40,10 @@
             @foreach ($csusuarios as $usuario)
                 <tr>
                     <td>{{ $usuario->nombre }}</td>
-                    <td>{{ $usuario->rut }}</td>
                     <td>{{ $usuario->usuario }}</td>
                     <td>{{ $usuario->email }}</td>
                     @if($usuario->id_cliente != 0)
-                        <td>{{ Cliente::find($usuario->id_cliente)->nombre_cliente }}</td>
+                        <td>{{ array_get($cuentas, $usuario->id_cliente, '')}}</td>
                     @else
                         <td>Administrador</td>
                     @endif
@@ -78,7 +76,10 @@
             @endforeach
             </tbody>
         </table>
-        <!-- Modal -->
+
+        {{ $csusuarios->links() }}
+
+                <!-- Modal -->
         <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

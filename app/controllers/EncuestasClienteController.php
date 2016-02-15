@@ -87,9 +87,9 @@ class EncuestasClienteController extends \ApiController
                 }
 
                 $client = Cliente::find(Crypt::decrypt($idcliente));
-                if (!self::puedeResponder($client)) {
-                    self::throwError(new Exception('Meta Lograda! Gracias por Responder', 500));
-                }
+//                if (!self::puedeResponder($client)) {
+//                    self::throwError(new Exception('Meta Lograda! Gracias por Responder', 500));
+//                }
 
                 Visita::create([
                     'id_cliente' => Crypt::decrypt($idcliente),
@@ -143,7 +143,8 @@ class EncuestasClienteController extends \ApiController
 
             // TODO: Realizar lo mismo con usuarios y momentos
             if (!self::puedeResponder($client)) {
-                self::throwError(new Exception('Meta Lograda! Gracias por Responder', 500));
+//                self::throwError(new Exception('Meta Lograda! Gracias por Responder', 500));
+                return \Redirect::to('survey/success');
             }
 
             if (is_null($client) || is_null($canal) || is_null($moment) || is_null($survey)) {
@@ -365,19 +366,19 @@ class EncuestasClienteController extends \ApiController
         }
     }
 
-    static function throwError($e)
+    public static function throwError($e)
     {
         Log::error($e->getMessage());
 
-        if (Config::get('app.debug') == false) {
-            $error          = new stdClass();
-            $error->code    = $e->getCode();
-            $error->message = $e->getMessage();
-
-            return Redirect::to('survey/error')->with('error', $error);
-        }
-
-        throw $e;
+//        if (!Config::get('app.debug')) {
+//            $error          = new stdClass();
+//            $error->code    = $e->getCode();
+//            $error->message = $e->getMessage();
+//
+//            return Redirect::to('/survey/success')->with('error', $error)->send();
+//        }
+//
+//        throw $e;
     }
 
     static function puedeResponder(Cliente $client)
@@ -385,7 +386,7 @@ class EncuestasClienteController extends \ApiController
         $plan         = $client->plan;
         $totalAnswers = $client->respuestas->count();
 
-        if ($plan->cantidad_encuestas_plan < $totalAnswers) {
+        if ($plan->cantidad_encuestas_plan > $totalAnswers) {
             return true;
         }
 

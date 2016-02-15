@@ -51,6 +51,7 @@ class UsuariosController extends \ApiController
         $input    = array_add($input, 'username', $username);
         $input    = array_add($input, 'responsable', 0);
         $input    = array_add($input, 'password', Hash::make('123456'));
+        
         if (array_get($input, 'fecha_nacimiento') == "") {
             array_set($input, 'fecha_nacimiento', null);
         } else {

@@ -749,10 +749,6 @@
     $moments = $data['momentos'];
     $admin   = $data['admin'];
 
-    if (isset($client->id_ciudad)) {
-        $ciudad = Ciudad::find($client->id_ciudad);
-    }
-
     if (count($client)) {
         $template = \HTML::resumenCuentas($client, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
     }
@@ -806,39 +802,31 @@
                <tbody>';
 
     $momentos = \MomentoEncuesta::whereIdCliente($idCliente)->get();
-    $cant     = count($momentos);
+    $cant1    = count($momentos);
+    $cant2    = count($moments);
+
+    if ($cant1 != $cant2) {
+        \Log::error('Resumen Cuenta ' . $idCliente . ' | Diferentes Cantidades Momentos');
+    }
 
     $dir = public_path('temp/' . $idCliente . '/');
     if (!\File::exists($dir)) {
         \File::makeDirectory($dir, 0775);
-        $files = \File::files($dir);
-
-//        if (\File::isDirectory(public_path('temp/' . $idCliente . '/'))) {
-//            echo "Yes. It's a directory.";
-//        } else {
-//            echo "No. It's not a directory.";
-//        }
-//        if (\File::isWritable(public_path('temp/' . $idCliente . '/'))) {
-//            echo "Yes. public_path('temp/' . $idCliente . '/') is writable.";
-//        } else {
-//            echo "No. public_path('temp/' . $idCliente . '/') is not writable.";
-//        }
     }
 
     foreach ($momentos as $momento) {
         $file = public_path('temp/' . $idCliente . '/' . $momento->id_momento . '.png');
 
-        if (\File::exists($file)) {
-            
-        }
+        if (!\File::exists($file)) {
+            //            \File::delete($file);
 
-        $url = \Url::whereIdCliente($idCliente)->whereIdMomento($momento->id_momento)->first();
+            $url = \Url::whereIdCliente($idCliente)->whereIdMomento($momento->id_momento)->first();
 
-        if (!is_null($url)) {
-            \ApiController::createQrCode($file, url($url->given));
+            if (!is_null($url)) {
+                \ApiController::createQrCode($file, url($url->given));
+            }
         }
     }
-
 
     foreach ($moments as $key => $value) {
         $out .= '<tr>';

@@ -13,7 +13,7 @@
     <style type="text/css">
         html, body {
             height: 100%;
-            zoom: 90%;
+            zoom: 88%;
         }
 
         .wrapper {

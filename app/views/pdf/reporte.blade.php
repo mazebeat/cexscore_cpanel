@@ -27,7 +27,7 @@
 @section('content')
     <div class="row">
         <div class="col-xs-12">
-            <h2 class="text-left"><img class="text-left" src="{{ public_path('image/customertrigger/logocustomer.png') }}"/> Actualización Semanal CExScore by CustomerTrigger</h2>
+            <h3 class="text-left"><img class="text-left" src="{{ public_path('image/customertrigger/logocustomer.png') }}"/> Actualización Semanal CExScore by CustomerTrigger</h3>
         </div>
     </div>
     <br></br>
@@ -55,7 +55,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <p>Puede visualizar las estadísticas y tendencias generales en <a href="http://www.cex.org:8080/CExScore">Panel CustomerExperience Score</a></p>
+            <p>Puede visualizar las estadísticas y tendencias generales en <a href="http://www.cex.org:8080/CExScore"> Panel CustomerExperience Score</a></p>
         </div>
     </div>
 @endsection

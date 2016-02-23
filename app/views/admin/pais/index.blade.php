@@ -39,6 +39,8 @@
             @endforeach
             </tbody>
         </table>
+
+        {{ $pais->links() }}
     @else
         No se han encontrado pais.
     @endif

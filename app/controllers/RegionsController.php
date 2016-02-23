@@ -22,10 +22,10 @@ class RegionsController extends \ApiController
      */
     public function index()
     {
-        $regions = $this->region->all();
+        $regions = $this->region->orderBy('descripcion_region')->orderBy('id_pais')->paginate(15);
         $paises  = Pais::lists('descripcion_pais', 'id_pais');
 
-        return View::make('admin.regions.index', compact('regions'))->withPaises($paises);;
+        return View::make('admin.regions.index', compact('regions'))->withPaises($paises);
     }
 
     /**

@@ -59,7 +59,7 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
             'nombre_legal_cliente' => '',
             'fono_fijo_cliente'    => '',
             'fono_celular_cliente' => '',
-            'correo_cliente'       => 'required',
+            'correo_cliente'       => 'url', // website
             'direccion_cliente'    => '',
             'id_estado'            => 'required',
             'id_ciudad'            => '',
@@ -73,7 +73,7 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
             'nombre_legal_cliente' => '',
             'fono_fijo_cliente'    => '',
             'fono_celular_cliente' => '',
-            'correo_cliente'       => 'required',
+            'correo_cliente'       => 'url', // website
             'direccion_cliente'    => '',
             'id_estado'            => 'required',
             'id_ciudad'            => '',

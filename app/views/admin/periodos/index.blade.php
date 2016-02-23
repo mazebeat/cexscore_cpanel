@@ -47,6 +47,8 @@
 			@endforeach
 			</tbody>
 		</table>
+
+		{{ $periodos->links() }}
 	@else
 		No se han encontrado periodos.
 	@endif

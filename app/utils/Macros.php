@@ -749,6 +749,8 @@
     $moments = $data['momentos'];
     $admin   = $data['admin'];
 
+    // dd($moments);
+
     if (count($client)) {
         $template = \HTML::resumenCuentas($client, ['class' => 'col-md-4 col-sm-12 col-xs-12 item']);
     }
@@ -811,7 +813,14 @@
 
     $dir = public_path('temp/' . $idCliente . '/');
     if (!\File::exists($dir)) {
-        \File::makeDirectory($dir, 0775);
+        \File::makeDirectory($dir, (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+    } else {
+        if (!is_writable($dir)) {
+            if (!chmod($dir, 0777)) {
+                Log::error("Cannot change the mode of file ($dir)");
+                exit;
+            };
+        }
     }
 
     foreach ($momentos as $momento) {

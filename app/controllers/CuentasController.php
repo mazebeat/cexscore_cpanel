@@ -164,6 +164,7 @@ class CuentasController extends \ApiController
             'cliente.correo_cliente.required'         => 'El campo e-mail' . $required,
             'cliente.pais.required'                   => 'El campo pais' . $required,
             'cliente.region.required'                 => 'El campo region' . $required,
+            'cliente.id_encuesta.required'            => 'El campo sector industrial' . $required,
             'cliente.id_ciudad.required'              => 'El campo ciudad' . $required,
             'cliente.id_sector.required'              => 'El campo sector' . $required,
             'cliente.id_plan.required'                => 'El campo plan' . $required,
@@ -354,9 +355,9 @@ class CuentasController extends \ApiController
         $catgs    = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
         $ciudads  = Ciudad::lists('descripcion_ciudad', 'id_ciudad');
         $cliente  = Cliente::find($id);
-        $momentos = MomentoEncuesta::where('id_cliente', $id)->where('id_encuesta', $cliente->encuesta->id_encuesta)->get();
+        $momentos = MomentoEncuesta::where('id_cliente', $id)->get();
 
-//        dd($momentos);
+        // dd($momentos);
 
         return View::make('admin.cuentas.edit', compact('cliente'))->with('pais', $pais)->with('states', $states)->with('plans', $plans)->with('sectors', $sectors)->with('ciudads',
             $ciudads)->with('catgs', $catgs)->with('momentoencuestum', $momentos);
@@ -431,7 +432,7 @@ class CuentasController extends \ApiController
                 $cantV = Visita::where('id_cliente', $id)->where('id_momento', Input::get('id_momento'))->count();
 
                 if ($cantR <= 0 && $cantV <= 0) {
-                    MomentoEncuesta::where('id_cliente', $id)->where('id_encuesta', $cliente->encuesta->id_encuesta)->where('id_momento', Input::get('id_momento'))->first()->delete();
+                    MomentoEncuesta::where('id_cliente', $id)->where('id_momento', Input::get('id_momento'))->first()->delete();
                 } else {
                     return Redirect::back()->withErrors(['message' => 'No se puede eliminar este momento, ya que contiene respuestas o visitas.']);
                 }

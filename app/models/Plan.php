@@ -49,6 +49,16 @@ class Plan extends \Eloquent
         'id_estado',
     );
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($plan) {
+            Log::warning('Eliminado plan ' . $plan->id_plan);
+
+        });
+    }
+
     public function clientes()
     {
         return $this->hasMany('Cliente', 'id_plan');

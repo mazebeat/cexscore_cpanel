@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-
 class SectorsController extends \ApiController
 {
 
@@ -24,7 +22,7 @@ class SectorsController extends \ApiController
      */
     public function index()
     {
-        $sectors = $this->sector->all();
+        $sectors = $this->sector->paginate(5);
 
         return View::make('admin.sectors.index', compact('sectors'));
     }
@@ -58,12 +56,12 @@ class SectorsController extends \ApiController
             }
 
             array_set($input, 'titulo', Input::get('descripcion_sector'));
-            $validation = Validator::make($input, Encuesta::$rules);
+            $validation = Validator::make($input, Encuesta::$rules, array(
+                'description.max' => 'La descripción no debe ser mayor que 220 caracteres.',
+            ));
             if (!$validation->passes()) {
                 return Redirect::route('admin.sectors.create')->withInput()->withErrors($validation)->with('message', 'There were validation errors.');
             }
-
-            $this->sector = $this->sector->create($input);
 
             $data   = array(
                 'titulo'      => Input::get('descripcion_sector'),
@@ -72,6 +70,8 @@ class SectorsController extends \ApiController
             $survey = self::saveSurvey($data);
             if ($survey != null) {
                 \PreguntaCabecera::generateQuestions($survey, Input::only(['preguntaCabecera']));
+
+                $this->sector = $this->sector->create($input);
                 $this->sector->encuestas()->save($survey);
             } else {
                 Log::error('Error al guardar Encuesta, Sector ["' . $this->sector->id_sector . '"]');
@@ -109,9 +109,9 @@ class SectorsController extends \ApiController
      */
     public function edit($id)
     {
-        $sector   = $this->sector->find($id);
-        $catgs    = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
-        $survey   = $sector->encuestas()->first();
+        $sector = $this->sector->find($id);
+        $catgs  = Categoria::select('descripcion_categoria')->orderBy('id_categoria')->lists('descripcion_categoria');
+        $survey = $sector->encuestas()->first();
 
         if (is_null($sector)) {
             return Redirect::route('admin.sectors.index');
@@ -149,7 +149,7 @@ class SectorsController extends \ApiController
         $sector->update($input);
 
         self::modifySurvey2(Input::except(['_token', 'descripcion_sector', '_method']), $sector->encuestas()->first());
-        $survey = $sector->encuestas()->first();
+        $survey              = $sector->encuestas()->first();
         $survey->description = Input::get('description');
         $survey->save();
 
@@ -167,10 +167,15 @@ class SectorsController extends \ApiController
     {
         $this->sector = $this->sector->find($id);
         $survey       = $this->sector->encuestas()->first();
+
+        if ($this->sector->clientes()->count()) {
+            return Redirect::route('admin.sectors.index')->withErrors(['No se puede eliminar sector, contiene clientes asociadas']);
+        }
+
         $this->sector->encuestas()->detach();
-        $this->sector->delete();
         $survey->preguntas()->delete();
         $survey->delete();
+        $this->sector->delete();
 
         return Redirect::route('admin.sectors.index');
     }

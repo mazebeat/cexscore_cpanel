@@ -22,7 +22,7 @@ class PaisController extends \ApiController
      */
     public function index()
     {
-        $pais = $this->pais->all();
+        $pais = $this->pais->orderBy('descripcion_pais')->paginate(15);
 
         return View::make('admin.pais.index', compact('pais'));
     }

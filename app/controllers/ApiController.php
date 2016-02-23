@@ -169,7 +169,7 @@ class ApiController extends \BaseController
                     if (count($data['momentos']) > 0) {
                         foreach ($data['momentos'] as $key => $value) {
 //                            $moment = $cliente->encuesta->momentos->find($value['id_momento']);
-                            $moment = MomentoEncuesta::where('id_cliente', $cliente->id_cliente)->where('id_encuesta', $cliente->encuesta->id_encuesta)->where('id_momento', $value['id_momento'])->first();
+                            $moment = MomentoEncuesta::where('id_cliente', $cliente->id_cliente)->where('id_momento', $value['id_momento'])->first();
                             if (!is_null($moment) && $moment->descripcion_momento != $value['descripcion_momento']) {
                                 $moment->descripcion_momento = $value['descripcion_momento'];
                                 $moment->updated_at          = Carbon::now();
@@ -207,7 +207,14 @@ class ApiController extends \BaseController
 
                                     if (!is_null($url)) {
                                         if (!File::exists(public_path('temp/' . $cliente->id_cliente))) {
-                                            File::makeDirectory(public_path('temp/' . $cliente->id_cliente));
+                                            File::makeDirectory(public_path('temp/' . $cliente->id_cliente), (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+                                        } else {
+                                            if (!is_writable(public_path('temp/' . $cliente->id_cliente))) {
+                                                if (!chmod(public_path('temp/' . $cliente->id_cliente))) {
+                                                    Log::error("Cannot change the mode of file " . public_path('temp/' . $cliente->id_cliente) . ")");
+                                                    exit;
+                                                };
+                                            }
                                         }
                                         $file = public_path('temp/' . $cliente->id_cliente . '/' . $next . '.png');
                                         self::createQrCode($file, url($url->given));
@@ -251,8 +258,16 @@ class ApiController extends \BaseController
 
                                 if (!is_null($url)) {
                                     if (!File::exists(public_path('temp/' . $cliente->id_cliente))) {
-                                        File::makeDirectory(public_path('temp/' . $cliente->id_cliente));
+                                        File::makeDirectory(public_path('temp/' . $cliente->id_cliente), (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+                                    } else {
+                                        if (!is_writable(public_path('temp/' . $cliente->id_cliente))) {
+                                            if (!chmod(public_path('temp/' . $cliente->id_cliente))) {
+                                                Log::error("Cannot change the mode of file " . public_path('temp/' . $cliente->id_cliente) . ")");
+                                                exit;
+                                            };
+                                        }
                                     }
+
                                     $file = public_path('temp/' . $cliente->id_cliente . '/' . $count . '.png');
                                     self::createQrCode($file, url($url->given));
 
@@ -285,7 +300,14 @@ class ApiController extends \BaseController
             if (!is_null($data) || count($data)) {
                 $folder = public_path('image' . DIRECTORY_SEPARATOR . $name);
                 if (!\File::exists($folder)) {
-                    \File::makeDirectory($folder);
+                    \File::makeDirectory($folder, (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+                } else {
+                    if (!is_writable($folder)) {
+                        if (!chmod($folder)) {
+                            Log::error("Cannot change the mode of file " . $folder . ")");
+                            exit;
+                        };
+                    }
                 }
 
                 foreach ($inputs as $key => $value) {
@@ -320,7 +342,14 @@ class ApiController extends \BaseController
             if (count($inputs)) {
                 $folder = public_path('image' . DIRECTORY_SEPARATOR . Str::camel($cliente->nombre_cliente));
                 if (!\File::exists($folder)) {
-                    \File::makeDirectory($folder);
+                    \File::makeDirectory($folder, (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+                } else {
+                    if (!is_writable($folder)) {
+                        if (!chmod($folder)) {
+                            Log::error("Cannot change the mode of file " . $folder . ")");
+                            exit;
+                        };
+                    }
                 }
                 $files = File::allFiles($folder);
 
@@ -380,7 +409,9 @@ class ApiController extends \BaseController
                 $data = array_add($data, 'id_estado', 1);
                 array_forget($data, 'title');
 
-                $validation = \Validator::make($data, \Encuesta::$rules);
+                $validation = \Validator::make($data, \Encuesta::$rules, array(
+                    'description.max' => 'La descripción no debe ser mayor que 220 caracteres.'
+                ));
 
                 if ($validation->passes()) {
                     $survey = \Encuesta::firstOrCreate($data);

@@ -49,6 +49,13 @@ Validator::resolver(function ($translator, $data, $rules, $messages) {
 if (Config::get('config.logs.path') != '') {
     if (!File::exists(Config::get('config.logs.path'))) {
         File::makeDirectory(Config::get('config.logs.path'), 777, true, true);
+    } else {
+        if (!is_writable(Config::get('config.logs.path'))) {
+            if (!chmod(Config::get('config.logs.path'))) {
+                Log::error("Cannot change the mode of file " . Config::get('config.logs.path') . ")");
+                exit;
+            };
+        }
     }
 
     $log = Config::get('config.logs.path') . DIRECTORY_SEPARATOR . 'PanelCExScore.log';

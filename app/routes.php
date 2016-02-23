@@ -1,5 +1,7 @@
 <?php
 
+App::setLocale('es');
+
 if (Config::get('app.debug_database')) {
     Event::listen('illuminate.query', function ($query) {
         $query     = DB::getQueryLog();
@@ -158,15 +160,15 @@ Route::get('test/tempfile', function () {
 //       ->stream(public_path('nombreArchivoPdf.pdf'));
 });
 
-Route::get('test/debug', function(){
+Route::get('test/debug', function () {
     $controller = new PdfController;
-    $cliente = Cliente::find(3);
+    $cliente    = Cliente::find(3);
 
-    if($cliente){
-        $directorioCliente = public_path('temp/'.$cliente->id_cliente.'/');
+    if ($cliente) {
+        $directorioCliente = public_path('temp/' . $cliente->id_cliente . '/');
 
-        $datos['cliente'] = $cliente->toArray();
-        $datos['ubicacion'] = $controller->getUbicacionByCiudad($cliente->id_ciudad);
+        $datos['cliente']    = $cliente->toArray();
+        $datos['ubicacion']  = $controller->getUbicacionByCiudad($cliente->id_ciudad);
         $datos['apariencia'] = $cliente->apariencias()->first()->toArray();
 
         $urls = $cliente->urls()->first()->toArray();
@@ -180,8 +182,8 @@ Route::get('test/debug', function(){
 
             //$PDFsGenerados = $controller->procesaURLs($cliente, $urls, $datos, $directorioCliente);
 
-            $datos['rutaQRAbsoluta'] = $directorioCliente.$nombreQR;
-            $datos['URLrutaQR'] = 'temp/'.$cliente->id_cliente.'/'.$nombreQR;
+            $datos['rutaQRAbsoluta'] = $directorioCliente . $nombreQR;
+            $datos['URLrutaQR']      = 'temp/' . $cliente->id_cliente . '/' . $nombreQR;
 
             //$html = View::make('pdf.generador.display', $datos)->render();
 
@@ -192,20 +194,20 @@ Route::get('test/debug', function(){
             $textoFooter .= isset($cliente->correo_cliente) ? $cliente->correo_cliente.PHP_EOL : '';
             $textoFooter .= '</p>';*/
             $textoFooter = '<p style="font-family: Arial, sans-serif;font-size:10pt;text-align:center;">';
-            $textoFooter .= $cliente->direccion_cliente.', '.$datos['ubicacion']['ciudad'].'<br/>'.$datos['ubicacion']['pais'].'<br/>';
+            $textoFooter .= $cliente->direccion_cliente . ', ' . $datos['ubicacion']['ciudad'] . '<br/>' . $datos['ubicacion']['pais'] . '<br/>';
             $textoFooter .= isset($cliente->fono_fijo_cliente) ? $cliente->fono_fijo_cliente : '';
-            $textoFooter .= isset($cliente->fono_celular_cliente) ? ' | '.$cliente->fono_celular_cliente.'<br/>' : isset($cliente->fono_fijo_cliente)? '<br/>' : '';
-            $textoFooter .= isset($cliente->correo_cliente) ? $cliente->correo_cliente.PHP_EOL : '';
+            $textoFooter .= isset($cliente->fono_celular_cliente) ? ' | ' . $cliente->fono_celular_cliente . '<br/>' : isset($cliente->fono_fijo_cliente) ? '<br/>' : '';
+            $textoFooter .= isset($cliente->correo_cliente) ? $cliente->correo_cliente . PHP_EOL : '';
             $textoFooter .= '</p>';
 
-            $rutaPDF = $directorioCliente.'display_'.$cliente->id_cliente."_mom_".$datos['url']['id_momento'].".pdf";
+            $rutaPDF = $directorioCliente . 'display_' . $cliente->id_cliente . "_mom_" . $datos['url']['id_momento'] . ".pdf";
 
             //$datos['footer'] = $textoFooter;
 
             //return View::make('pdf.generador.debug.display', $datos);
 
             $html = View::make('pdf.generador.display', $datos)->render();
-            $pdf = PDF::loadHTML($html);
+            $pdf  = PDF::loadHTML($html);
 
             $pdf->setOption('page-width', '14.5cm');
             $pdf->setOption('page-height', '21cm');
@@ -220,7 +222,7 @@ Route::get('test/debug', function(){
 
             //return $rutaPDF;
             return $pdf->stream();
-        }catch (Exception $e){
+        } catch (Exception $e) {
             //de alguna manera mostrar error
             //EncuestasClienteController::throwError($e);
             echo "error en try catch: <pre>";
@@ -230,7 +232,7 @@ Route::get('test/debug', function(){
         //no hay urls registradas
         //echo "no hay urls registradas";
         //}
-    }else{
+    } else {
         //no encontrado
         echo "cliente no encontrado";
     }

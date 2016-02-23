@@ -22,7 +22,7 @@ class EncuestasController extends \ApiController
      */
     public function index()
     {
-        $encuesta = $this->encuestum->all();
+        $encuesta = $this->encuestum->paginate(15);
 
         return View::make('admin.encuesta.index', compact('encuesta'));
     }

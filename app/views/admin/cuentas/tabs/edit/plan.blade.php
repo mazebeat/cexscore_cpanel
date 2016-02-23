@@ -3,7 +3,7 @@
 <div class="form-group">
 	{{ Form::label('rut_cliente', 'Plan:', array('class'=>'col-md-2 control-label')) }}
 	<div class="col-sm-10">
-		{{ Form::select2('id_plan', Plan::lists('descripcion_plan', 'id_plan'), Input::old('id_plan'), array('class'=>'form-control', 'placeholder'=>'Rut_cliente')) }}
+		{{ Form::select2('id_plan', Plan::lists('descripcion_plan', 'id_plan'), Input::old('id_plan', $cliente->plan->id_plan), array('class'=>'form-control', 'placeholder'=>'Rut_cliente')) }}
 	</div>
 </div>
 

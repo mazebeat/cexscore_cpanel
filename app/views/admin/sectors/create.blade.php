@@ -19,7 +19,7 @@
         <div class="col-md-10 col-md-offset-2">
             @if ($errors->any())
                 <div class="alert alert-danger">
-                    <ul>
+                    <ul class="list-unstyled">
                         {{ implode('', $errors->all('<li class="error">:message</li>')) }}
                     </ul>
                 </div>
@@ -43,13 +43,6 @@
             <small class="count"></small>
         </div>
     </div>
-
-    {{--<div class="form-group">--}}
-    {{--{{ Form::label('titulo', 'Título Encuesta:', array('class'=>'col-md-2 control-label')) }}--}}
-    {{--<div class="col-sm-10">--}}
-    {{--{{ Form::text('titulo', Input::old('titulo'), array('class'=>'form-control', 'placeholder'=>'Titulo')) }}--}}
-    {{--</div>--}}
-    {{--</div>--}}
 
     <div role="tabpanel" class="tab-pane" id="tab6">
         <div id="preguntaFormulario">

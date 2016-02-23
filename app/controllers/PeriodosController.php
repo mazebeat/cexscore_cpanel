@@ -22,7 +22,7 @@ class PeriodosController extends BaseController
      */
     public function index()
     {
-        $periodos = $this->periodo->all();
+        $periodos = $this->periodo->orderBy('anio', 'DESC')->orderBy('mes', 'DESC')->paginate(15);
 
         return View::make('admin.periodos.index', compact('periodos'));
     }

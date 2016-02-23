@@ -98,7 +98,7 @@
                         <div class="alert alert-dismissible hidden" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <strong class="showErrorsTitle"></strong>
-                            <ul class="showErrorsList"></ul>
+                            <ul class="list-unstyled showErrorsList"></ul>
                         </div>
 
                         {{ Form::open(array('id' => 'changePasswordForm', 'class' => '', 'role' => 'form', 'method' => 'POST', 'url' => 'admin/csusuarios/changePassword/', 'data-url' => URL::to('admin/csusuarios/changePassword/'), 'aria-hidden' => 'true')) }}
@@ -196,6 +196,10 @@
                                     .text(data.message[i])
                                     .appendTo($li);
                         });
+
+                        if (data.pass) {
+                            $this.trigger("reset");
+                        }
                     }
                 });
             });

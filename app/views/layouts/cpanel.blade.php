@@ -6,6 +6,9 @@
     <title>@yield('title')</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    @include('layouts.modules.favicon')
+
     <!-- Bootstrap 3.3.5 -->
     {{ HTML::style('template/bootstrap/css/bootstrap.min.css') }}
     {{ HTML::style('backend/css/backend.min.css') }}
@@ -34,6 +37,15 @@
     {{--{{ HTML::style('css/select2.min.css') }}--}}
     {{--    {{ HTML::style('css/select2-bootstrap.min.css') }}--}}
 
+    <style>
+        html, body {
+            zoom: 0.93;
+            -ms-zoom: 0.93;
+            -webkit-zoom: 0.93;
+            -moz-transform: scale(0.93, 0.93);
+            -moz-transform-origin: top center;
+        }
+    </style>
     @yield('style')
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -60,9 +72,6 @@
             <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
-                {{--<span class="icon-bar"></span>--}}
-                {{--<span class="icon-bar"></span>--}}
-                {{--<span class="icon-bar"></span>--}}
                 <i class="fa fa-bars"></i>
             </a>
 
@@ -86,44 +95,27 @@
                             <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            {{ HTML::image('template/dist/img/user2-160x160.jpg', 'User Image', ['class' => 'user-image']) }}
+                            <i class="fa fa-user"></i>
                             <span class="hidden-xs">{{ Str::upper(Auth::user()->nombre_usuario) }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                {{ HTML::image('template/dist/img/user2-160x160.jpg', 'User Image', ['class' => 'img-circle']) }}
                                 <p>
-                                    {{ Str::upper(Str::upper(Auth::user()->nombre_usuario)) }} - {{ Auth::user()->rol_usuario == '' ? 'Usuario' : Auth::user()->rol_usuario }}
-                                    <small>Miembro desde {{ Carbon::now()->toFormattedDateString()  }}</small>
+                                    {{ Str::title(Auth::user()->nombre_usuario) }} - {{ Str::title(Auth::user()->rol_usuario == '' ? 'Usuario' : Auth::user()->rol_usuario) }}
+                                    <small>{{ Carbon::now()->toDateString() }} <span id="timer"></span></small>
                                 </p>
                             </li>
-                            <!-- Menu Body -->
-                            <li class="user-body">
-                                {{--<div class="col-xs-4 text-center">--}}
-                                {{--<a href="#">Followers</a>--}}
-                                {{--</div>--}}
-                                {{--<div class="col-xs-4 text-center">--}}
-                                {{--<a href="#">Sales</a>--}}
-                                {{--</div>--}}
-                                {{--<div class="col-xs-4 text-center">--}}
-                                {{--<a href="#">Cambio Contraseña</a>--}}
-                                {{--</div>--}}
-                            </li>
+                            {{--<!-- Menu Body -->--}}
+                            {{--<li class="user-body">--}}
+                            {{--</li>--}}
                             <!-- Menu Footer-->
                             <li class="user-footer">
-                                {{--<div class="pull-left">--}}
-                                {{--<a href="#" class="btn btn-default btn-flat">Profile</a>--}}
-                                {{--</div>--}}
                                 <div class="pull-right">
                                     <a href="{{ URL::to('admin/logout') }}" class="btn btn-default btn-flat">{{ Lang::get('messages.signout') }}</a>
                                 </div>
                             </li>
                         </ul>
-                    </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        {{--<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>--}}
                     </li>
                 </ul>
             </div>
@@ -138,13 +130,14 @@
         <section class="sidebar">
             <!-- Sidebar user panel -->
             <div class="user-panel">
-                <div class="pull-left image">
-                    {{ HTML::image('template/dist/img/user2-160x160.jpg', 'User Image', ['class' => 'img-circle']) }}
-                </div>
-                <div class="pull-left info">
-                    <p>{{ Str::upper(Auth::user()->nombre_usuario) }}</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                </div>
+                {{--<div class="pull-left image">--}}
+                {{--                    {{ HTML::image('template/dist/img/user2-160x160.jpg', 'User Image', ['class' => 'img-circle']) }}--}}
+                {{--</div>--}}
+                {{--<div class="pull-left info">--}}
+                <p style="color: white;">{{ Str::upper(Auth::user()->nombre_usuario) }}</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                {{--</div>--}}
+                <div class="clearfix"></div>
             </div>
             {{--<!-- search form -->--}}
             @if(Config::get('config.cpanel.showSearchInput'))
@@ -252,7 +245,6 @@
 </script>
 
 @yield('script')
-
         <!-- AdminLTE App -->
 <script>
     var AdminLTEOptions = {

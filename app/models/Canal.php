@@ -23,4 +23,18 @@ class Canal extends \Eloquent
     protected     $table      = 'canal';
     protected     $primaryKey = 'id_canal';
     protected     $fillable   = array('codigo_canal', 'descripcion_canal');
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($canal) {
+            Log::warning('Eliminado canal ' . $canal->id_canal);
+        });
+    }
+
+    public function urls()
+    {
+        return $this->hasMany('Url', 'id_canal');
+    }
 }

@@ -35,7 +35,7 @@
             </article>
         @endif
         <article class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-center-block instrucciones">
-            <h4>{{{ $survey->description }}}</h4>
+            <h4>{{ $survey->description }}</h4>
         </article>
     </section>
     <section class="row">

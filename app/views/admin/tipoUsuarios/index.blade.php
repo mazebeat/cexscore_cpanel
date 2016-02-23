@@ -14,6 +14,18 @@
 @endsection
 
 @section('content')
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			@if ($errors->any())
+				<div class="alert alert-danger">
+					<ul class="list-unstyled">
+						{{ implode('', $errors->all('<li class="error">:message</li>')) }}
+					</ul>
+				</div>
+			@endif
+		</div>
+	</div>
+
 	<p>{{ link_to_route('admin.tipoUsuarios.create', 'Agregar Nuevo TipoUsuario', null, array('class' => 'btn btn-lg btn-success')) }}</p>
 
 	@if ($tipoUsuarios->count())

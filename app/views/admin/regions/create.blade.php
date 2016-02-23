@@ -20,7 +20,7 @@
             <h1>Crear Región</h1>
             @if ($errors->any())
                 <div class="alert alert-danger">
-                    <ul>
+                    <ul class="list-unstyled">
                         {{ implode('', $errors->all('<li class="error">:message</li>')) }}
                     </ul>
                 </div>

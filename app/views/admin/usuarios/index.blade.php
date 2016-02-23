@@ -15,10 +15,21 @@
 
 @section('content')
     <p>{{ link_to_route('admin.usuarios.create', 'Agregar Nuevo Usuario', null, array('class' => 'btn btn-lg btn-success')) }}</p>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="list-unstyled">
+                        {{ implode('', $errors->all('<li class="error">:message</li>')) }}
+                    </ul>
+                </div>
+            @endif
+        </div>
+    </div>
 
     @if(isset($message) && $message != '')
         <div class="alert alert-info">
-            <ul>
+            <ul class="list-unstyled">
                 {{ $message }}
             </ul>
         </div>
@@ -45,7 +56,6 @@
                     <td>{{ $usuario->username }}</td>
                     <td>{{ $usuario->correo_usuario }}</td>
                     @if($usuario->id_cliente != 0)
-                        {{ $usuario->id_cliente }}
                         <td>{{ array_get($cuentas, $usuario->id_cliente, '')}}</td>
                     @else
                         <td>Administrador</td>
@@ -75,6 +85,8 @@
             </tbody>
         </table>
 
+        {{ $usuarios->links() }}
+
         <!-- Modal -->
         <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModal" aria-hidden="true">
             <div class="modal-dialog">
@@ -94,7 +106,7 @@
                         <div class="alert alert-dismissible hidden" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <strong class="showErrorsTitle"></strong>
-                            <ul class="showErrorsList"></ul>
+                            <ul class="list-unstyled showErrorsList"></ul>
                         </div>
 
                         {{ Form::open(array('id' => 'changePasswordForm', 'class' => '', 'role' => 'form', 'method' => 'POST', 'url' => 'admin/usuarios/changePassword/', 'data-url' => URL::to('admin/usuarios/changePassword/'), 'aria-hidden' => 'true')) }}
@@ -177,6 +189,10 @@
                                     .text(data.message[i])
                                     .appendTo($li);
                         });
+
+                        if (data.pass) {
+                            $this.trigger("reset");
+                        }
                     }
                 });
             });

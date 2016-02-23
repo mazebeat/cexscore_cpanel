@@ -129,18 +129,20 @@ class CsUsuariosController extends \ApiController
         $input      = array_except(Input::all(), '_method');
         $validation = Validator::make($input, array(
             'id_perfil'        => '',
-            'usuario'          => 'required',
+            'usuario'          => '',
             'pwdusuario'       => '',
             'nombre'           => '',
             'rut'              => 'rut',
             'fecha_nacimiento' => '',
             'edad'             => '',
             'genero'           => '',
-            'linkedlin'        => '',
-            'email'            => 'email',
+            'linkedlin'        => 'url',
+            'email'            => 'required|email',
             'activo'           => '',
             'fecha_registro'   => '',
             'id_cliente'       => 'required',
+        ), array(
+            'id_cliente.required'       => 'Seleccione una cuenta',
         ));
 
         if ($validation->passes()) {

@@ -8,7 +8,6 @@
         <title>@yield('title')</title>
 
         <link href="{{ public_path('css/bootstrap.css') }}" rel="stylesheet">
-        {{--<link href="{{ url('css/bootstrap.css') }}" rel="stylesheet">--}}
 
         <style type="text/css">
             body{

@@ -41,6 +41,8 @@
             @endforeach
             </tbody>
         </table>
+
+        {{ $regions->links() }}
     @else
         No se han encontrado regions.
     @endif

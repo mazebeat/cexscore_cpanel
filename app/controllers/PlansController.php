@@ -22,7 +22,7 @@ class PlansController extends BaseController
      */
     public function index()
     {
-        $plans = $this->plan->all();
+        $plans = $this->plan->paginate(15);
 
 
         return View::make('admin.plans.index', compact('plans'));
@@ -146,7 +146,11 @@ class PlansController extends BaseController
      */
     public function destroy($id)
     {
-        $this->plan->find($id)->delete();
+        $this->plan = $this->plan->find($id);
+        if ($this->plan->clientes()->count()) {
+            return Redirect::route('admin.plans.index')->withErrors(['No se puede eliminar sector, contiene clientes asociadas']);
+        }
+        $this->plan->delete();
 
         return Redirect::route('admin.plans.index');
     }

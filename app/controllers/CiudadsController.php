@@ -22,7 +22,7 @@ class CiudadsController extends \ApiController
      */
     public function index()
     {
-        $ciudads = $this->ciudad->all();
+        $ciudads = $this->ciudad->orderBy('descripcion_ciudad')->paginate(15);
         $regions = Region::lists('descripcion_region', 'id_region');
 
         return View::make('admin.ciudads.index', compact('ciudads'))->withRegiones($regions);

@@ -18,7 +18,7 @@
         <div class="col-md-8 col-md-offset-2">
             @if ($errors->any())
                 <div class="alert alert-danger">
-                    <ul>
+                    <ul class="list-unstyled">
                         {{ implode('', $errors->all('<li class="error">:message</li>')) }}
                     </ul>
                 </div>
@@ -35,7 +35,7 @@
                 <th>RUT</th>
                 <th>Nombre</th>
                 <th>Fono</th>
-                <th>Correo</th>
+                <th>Web Site</th>
                 <th>&nbsp;</th>
             </tr>
             </thead>

@@ -38,7 +38,7 @@
                             {{ Form::textarea('description', $description, array('class'=>'form-control', 'placeholder'=>'Description', 'rows' => 4)) }}
                         </div>
                     </div>
-                    @if(isset($survey)  && isset($isMy))
+                    @if(isset($survey) && isset($isMy))
                         {{ Form::loadSurvey($survey, $isMy) }}
                         @if($isMy)
                             {{ Form::submit('Modificar', ['class' => 'btn btn-primary pull-right']) }}

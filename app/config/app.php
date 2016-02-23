@@ -27,7 +27,7 @@ return array(
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => 'http://www.cex.org/',
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

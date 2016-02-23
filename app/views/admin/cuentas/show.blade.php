@@ -23,7 +23,7 @@
             <th>RUT</th>
             <th>Nombre</th>
             <th>Fono</th>
-            <th>Correo</th>
+            <th>Web Site</th>
             <th>&nbsp;</th>
         </tr>
         </thead>

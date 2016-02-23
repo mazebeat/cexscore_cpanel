@@ -21,7 +21,7 @@ class UsuariosController extends \ApiController
      */
     public function index()
     {
-        $usuarios = Usuario::where('password', '<>', '')->get();
+        $usuarios = Usuario::where('password', '<>', '')->paginate(15);
         $cuentas  = Cliente::lists('nombre_cliente', 'id_cliente');
 
         return View::make('admin.usuarios.index', compact('usuarios'))->with('cuentas', $cuentas);
@@ -51,7 +51,7 @@ class UsuariosController extends \ApiController
         $input    = array_add($input, 'username', $username);
         $input    = array_add($input, 'responsable', 0);
         $input    = array_add($input, 'password', Hash::make('123456'));
-        
+
         if (array_get($input, 'fecha_nacimiento') == "") {
             array_set($input, 'fecha_nacimiento', null);
         } else {
@@ -127,20 +127,23 @@ class UsuariosController extends \ApiController
     {
         $rules = array(
             'nombre_usuario'       => 'required',
-            'password'             => 'required',
+            'password'             => '',
             'edad_usuario'         => '',
             'fecha_nacimiento'     => '',
             'genero_usuario'       => '',
-            'correo_usuario'       => 'required',
-            'rut_usuario'          => 'required',
+            'correo_usuario'       => 'required|email',
+            'rut_usuario'          => '',
             'desea_correo_usuario' => '',
-            'id_tipo_usuario'      => 'required',
+            'id_tipo_usuario'      => '',
             'id_cliente'           => 'required',
-            'id_encuesta'          => 'required',
+            'id_encuesta'          => '',
+            'linkedlin_usuario'    => 'url',
         );
 
         $input      = array_except(Input::all(), '_method');
-        $validation = Validator::make($input, $rules);
+        $validation = Validator::make($input, $rules, array(
+            'id_cliente.required' => 'Debe seleccionar una cuenta para asociar al usuario'
+        ));
 
         if ($validation->passes()) {
             $usuario = $this->usuario->find($id);

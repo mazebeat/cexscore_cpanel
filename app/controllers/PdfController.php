@@ -162,6 +162,7 @@ class PdfController extends ApiController
         $pdf->setOption('margin-top', '20mm');
         $pdf->setOption('margin-bottom', '20mm');
         $pdf->setOption('footer-html', $textoFooter);
+//        $pdf->setOrientation('landscape');
 
         $pdf->save($rutaPDF);
 
@@ -238,12 +239,18 @@ class PdfController extends ApiController
     {
         $nombreQR = null;
         if (!\File::exists($directorioCliente)) {
-            $creoDirectorio = \File::makeDirectory($directorioCliente);
+            $creoDirectorio = \File::makeDirectory($directorioCliente, (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
 
             if ($creoDirectorio) {
                 $nombreQR = $idMomento . '.png';
             }
         } else {
+            if (!is_writable($directorioCliente)) {
+                if (!chmod($directorioCliente)) {
+                    Log::error("Cannot change the mode of file " . $directorioCliente . ")");
+                    exit;
+                };
+            }
             $nombreQR = $idMomento . '.png';
         }
 

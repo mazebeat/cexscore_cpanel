@@ -42,6 +42,8 @@
             @endforeach
             </tbody>
         </table>
+
+        {{ $ciudads->links() }}
     @else
         No se han encontrado ciudads.
     @endif

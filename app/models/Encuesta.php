@@ -26,8 +26,8 @@ class Encuesta extends \Eloquent
 {
     public static $rules      = array(
         'titulo'      => 'required|max:80',
-        'slogan'      => 'max:80',
-        'description' => 'max:220',
+        'slogan'      => 'max:100',
+        'description' => 'max:350',
         'id_estado'   => 'required',
     );
     protected     $table      = 'encuesta';

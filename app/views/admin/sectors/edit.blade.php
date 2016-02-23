@@ -32,7 +32,6 @@
     <div class="form-group">
         {{ Form::label('descripcion_sector', 'Nombre Sector:', array('class'=>'col-md-2 control-label')) }}
         <div class="col-sm-10">
-            {{--				{{ Form::text('descripcion_sector', Input::old('descripcion_sector'), array('class'=>'form-control', 'placeholder'=>'Descripcion_sector', (!$isMy) ? 'readonly' : '' )) }}--}}
             {{ Form::text('descripcion_sector', Input::old('descripcion_sector'), array('class'=>'form-control', 'placeholder'=>'Descripcion_sector')) }}
         </div>
     </div>

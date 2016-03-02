@@ -1,16 +1,16 @@
 @extends('layouts.cpanel')
 
 @section('title')
-    Crear Cliente
+    Crear Cuenta
 @endsection
 
 @section('page-title')
-    &nbsp;<i class="fa fa-plus fa-fw"></i>Agregar Cliente
+    <i class="fa fa-plus fa-fw"></i>Agregar Cuenta
 @endsection
 
 @section('breadcrumb')
     @parent
-    <li>cuentas</li>
+    <li>Cuentas</li>
     <li class="active">Agregar</li>
 @endsection
 
@@ -66,43 +66,39 @@
         {{--BEGIN CONTENT TAB--}}
         <div class="tab-content">
             {{--BEGIN TAB 1 - BASICOS--}}
-            <div role="tabpanel" class="tab-pane active" id="tab1">
+            <div role="tabpanel" class="tab-pane main active" id="tab1">
                 @include('admin.cuentas.tabs.cuenta')
             </div>
             {{--END TAB 1--}}
 
             {{--BEGIN TAB 2 - CONTACTO--}}
-            <div role="tabpanel" class="tab-pane" id="tab2">
+            <div role="tabpanel" class="tab-pane main" id="tab2">
                 @include('admin.cuentas.tabs.admin')
             </div>
             {{--END TAB 2--}}
 
             {{--BEGIN TAB 3 - PLAN--}}
-            <div role="tabpanel" class="tab-pane" id="tab3">
+            <div role="tabpanel" class="tab-pane main" id="tab3">
                 @include('admin.cuentas.tabs.config')
             </div>
             {{--END TAB 3--}}
 
             {{--BEGIN TAB 4 - ENCUESTA--}}
-            <div role="tabpanel" class="tab-pane" id="tab4">
+            <div role="tabpanel" class="tab-pane main" id="tab4">
                 @include('admin.cuentas.tabs.encuesta')
             </div>
             {{--END TAB 4--}}
 
             {{--BEGIN TAB 5 - APARIENCIA--}}
-            <div role="tabpanel" class="tab-pane active" id="tab5">
+            <div role="tabpanel" class="tab-pane main" id="tab5">
                 @include('admin.cuentas.tabs.apariencia')
             </div>
             {{--END TAB 5--}}
 
             {{--BEGIN NAVEGATION--}}
             <ul class="pager wizard">
-                <li class="previous first" style="display:none;"><a href="javascript:;">{{ Lang::get('pagination.first') }}</a></li>
-                <li class="previous"><a href="javascript:;">{{ Lang::get('pagination.previous') }}</a></li>
-                <li class="next"><a href="javascript:;">{{ Lang::get('pagination.next') }}</a></li>
-                <li class="next last finish" style="display:none;">
-                    <button class="btn btn-success btn-lg pull-right" type="submit">{{ Lang::get('pagination.finish') }}!</button>
-                </li>
+                <li class="previous"><a href="javascript: void(0);">{{ Lang::get('pagination.previous') }}</a></li>
+                <li class="next"><a href="javascript: void(0);">{{ Lang::get('pagination.next') }}</a></li>
             </ul>
             {{--END NAVEGATION--}}
         </div>

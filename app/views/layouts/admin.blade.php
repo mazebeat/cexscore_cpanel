@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
-    <title>@yield('title')</title>
+    <title>..::Panel de Control::..</title>
     {{--<link rel = "shortcut icon" href = "http://www.umayor.cl/favicon.ico" />--}}
     {{--<link rel = "apple-touch-icon-precomposed" href = "http://www.umayor.cl/favicon.ico" >--}}
 

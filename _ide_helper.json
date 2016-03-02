@@ -1253,7 +1253,7 @@
             "QrCode": {
                 "functions": {
                     "generate": "($text, $filename = null)",
-                    "merge": "($filepath, $percentage = '0.2', $absolute = false)",
+                    "merge": "($filepath, $percentage = '0,2', $absolute = false)",
                     "format": "($format)",
                     "size": "($pixels)",
                     "color": "($red, $green, $blue)",

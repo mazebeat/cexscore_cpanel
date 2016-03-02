@@ -63,7 +63,6 @@ class ApiController extends \BaseController
                 array_set($data, 'id_perfil', 4);
                 array_forget($data, ['nombre_usuario', 'apellido_usuario']);
 
-
                 if (array_get($data, 'fecha_nacimiento') != '' || array_get($data, 'fecha_nacimiento') != null) {
                     $born = Carbon::parse(array_get($data, 'fecha_nacimiento'));
                     array_set($data, 'edad', $born->age);
@@ -633,9 +632,21 @@ class ApiController extends \BaseController
         return $this->errors;
     }
 
-    public static function createQrCode($path, $info)
+    public static function createQrCode($path, $info, $format = 'png', $size = 1080)
     {
-        QrCode::format('png')->errorCorrection('H')->size(1080)->generate($info, $path);
+        if (!\File::exists($path)) {
+            \File::makeDirectory($path, 777, true, true);
+        } else {
+            if (!is_writable($path)) {
+                $itWorked =chmod($path, 0755);
+
+                if (!$itWorked) {
+                    throw new Illuminate\Exception\Exception("Cannot change the mode of file " . $path . ")");
+                }
+            }
+        }
+
+        \QrCode::format($format)->errorCorrection('H')->size($size)->generate($info, $path);
     }
 
     public static function sendEmailNewUser($user = null)
@@ -680,9 +691,9 @@ class ApiController extends \BaseController
 
             \Mail::send('emails.newUser', $data, function ($message) use ($mail) {
                 $message->to($mail['email'], $mail['name'])
-                        ->subject($mail['subject'])
-                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
-                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso');
+                        ->subject($mail['subject']);
+//                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
+//                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso');
             }, true);
 
             return true;

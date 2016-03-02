@@ -138,8 +138,8 @@ class CuentasController extends \ApiController
             'cliente.id_sector'              => 'required|',
             'cliente.id_encuesta'            => 'required|',
             'cliente.id_plan'                => 'required|',
-            'apariencia.logo_header'         => 'image|max:700',
-            'apariencia.logo_incentivo'      => 'image|max:700',
+            'apariencia.logo_header'         => 'required|image',
+            'apariencia.logo_incentivo'      => 'image',
             'apariencia.color_header'        => '',
             'apariencia.color_body'          => '',
             'apariencia.color_footer'        => '',
@@ -297,7 +297,7 @@ class CuentasController extends \ApiController
             \Mail::send('emails.bienvenida', $data, function ($message) use ($mail) {
                 $message->to($mail['email'], $mail['name'])
                         ->subject($mail['subject'])
-                        ->bcc('dpinto@intelidata.cl', 'Diego Feliú');
+                        ->bcc('dfeliu@intelidata.cl', 'Diego Feliú');
 
                 $size = sizeOf($mail['attachs']); //get the count of number of attachments
 
@@ -308,10 +308,10 @@ class CuentasController extends \ApiController
         } else {
             \Mail::send('emails.bienvenida', $data, function ($message) use ($mail) {
                 $message->to($mail['email'], $mail['name'])
-                        ->subject($mail['subject'])
-                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
-                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
-                        ->bcc('ligia.pasqualin@customertrigger.com', 'Ligia Pasqualin');
+                        ->subject($mail['subject']);
+//                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
+//                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
+//                        ->bcc('ligia.pasqualin@customertrigger.com', 'Ligia Pasqualin');
 
                 $size = sizeOf($mail['attachs']); //get the count of number of attachments
 

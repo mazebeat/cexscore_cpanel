@@ -19,7 +19,7 @@ return array(
     */
 
 //    'default' => 'project',
-    'default' => 'mysql_prod',
+    'default' => 'mysql',
 
     'connections' => array(
 

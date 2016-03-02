@@ -46,14 +46,24 @@ class OneReportCommand extends Command
             if (!is_null($this->account)) {
                 $this->info("Cuenta encontrada '{$this->account->nombre_cliente}'");
 
-                $start = Carbon::now()->startOfWeek();
-                $end   = Carbon::now()->endOfWeek();
+                $start = Carbon::now()->subWeek()->startOfWeek();
+                $end   = Carbon::now()->subWeek()->endOfWeek();
 
                 $this->file     = \Str::title(\Str::camel($this->account->nombre_cliente)) . '.pdf';
                 $this->pathFile = public_path('temp' . DIRECTORY_SEPARATOR . $this->account->id_cliente . DIRECTORY_SEPARATOR);
 
-                $realfile = $this->pathFile . $this->file;
+                if (!\File::exists($this->pathFile)) {
+                    \File::makeDirectory($this->pathFile, 777, true, true);
+                } else {
+                    if (!is_writable($this->pathFile)) {
+                        if (!chmod($this->pathFile)) {
+                            Log::error("Cannot change the mode of file " . $this->pathFile . ")");
+                            exit;
+                        };
+                    }
+                }
 
+                $realfile = $this->pathFile . $this->file;
                 $this->validateFileCreatedAt($realfile);
 
                 $this->info("Generando reporte");

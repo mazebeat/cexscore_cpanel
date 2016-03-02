@@ -1,11 +1,11 @@
 @extends('layouts.cpanel')
 
 @section('title')
-    Todos Planes
+    Planes
 @endsection
 
 @section('page-title')
-    <i class="fa fa-home fa-fw"></i>Todos Planes
+    <i class="fa fa-home fa-fw"></i>Planes
 @endsection
 
 @section('breadcrumb')

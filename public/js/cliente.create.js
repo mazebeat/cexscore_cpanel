@@ -8,31 +8,24 @@
     }
 
     function validateTab(index) {
-        var $form = $('#createClientForm');
-        var fv = $form.data('formValidation');
-        var $tab = $form.find('.tab-pane').eq(index);
+        var fv = $('#createClientForm').data('formValidation'),
+            $tab = $('#createClientForm').find('.tab-pane').eq(index);
 
-        //	Validate the container
         fv.validateContainer($tab);
 
         var isValidStep = fv.isValidContainer($tab);
 
-        if (isValidStep === false) {
-            return false;
-        }
-
-        if (isValidStep === null) {
+        if (isValidStep === false || isValidStep === null) {
             return false;
         }
 
         return true;
     }
 
-    $('textarea')
-        .ckeditor()
-        .editor
-        .on('change', function (e) {
-        });
+    //$('textarea')
+    //    .ckeditor()
+    //    .editor.on('change', function (e) {
+    //});
 
     $("#rut_cliente").rut({
         formatOn: 'change keyup',
@@ -101,14 +94,24 @@
                 }
             }
         },
+        'cliente[id_plan]': {
+            validators: {
+                notEmpty: {
+                    message: 'El plan es requerido.'
+                }
+            }
+        },
         'apariencia[logo_header]': {
             message: 'El archivo no es valido.',
             validators: {
+                notEmpty: {
+                    message: 'Debe seleccionar una imagen.'
+                },
                 file: {
                     extension: 'png,jpg,jpeg,gif',
                     type: 'image/jpeg,image/png,image/gif',
                     maxSize: 6 * 1024 * 1024,
-                    message: 'The selected file is not valid, it should be (png, jpg, jpeg, gif) and 6 MB at maximum.'
+                    message: 'El archivo seleccionado no es valido, debe ser (png, jpg, jpeg, gif) y 6 MB como máximo.'
                 }
             }
         },
@@ -279,10 +282,6 @@
             excluded: [':disabled', ':hidden'],
             live: 'enabled',
             locale: 'es_CL',
-            button: {
-                //selector: '[type="submit"]',
-                //disabled: 'disabled'
-            },
             fields: $fields
         })
         .on('err.field.fv', function (e, data) {
@@ -332,7 +331,9 @@
                 data.fv.disableSubmitButtons(true);
             }
         })
+        .off('success.form.fv')
         .on('success.form.fv', function (e) {
+            e.preventDefault();
         })
         .bootstrapWizard({
             tabClass: 'nav nav-pills',
@@ -341,7 +342,7 @@
             },
             onNext: function (tab, navigation, index) {
                 adjustIframeHeight();
-                var numTabs = $('#createClientForm').find('.tab-pane').length;
+                var numTabs = $('#createClientForm').find('.tab-pane.main').length;
                 var isValidTab = validateTab(index - 1);
 
                 if (!isValidTab) {
@@ -349,6 +350,7 @@
                 }
 
                 if (index === numTabs) {
+                    $('#createClientForm').formValidation('defaultSubmit');
                 }
 
                 tab.removeClass('success-tab').removeClass('error');
@@ -367,29 +369,16 @@
 
                 return true;
             },
-            onLast: function (tab, navigation, index) {
-                var isValidTab = validateTab(index);
-
-                if (!isValidTab) {
-                    return false;
-                }
-
-                $('#createClientForm').formValidation('defaultSubmit');
-
-                return true;
-            },
             onTabShow: function (tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-                var $percent = ($current / $total) * 100;
+                var numTabs = $('#createClientForm').find('.tab-pane.main').length,
+                    button = $('#createClientForm').find('.next');
 
-                if ($current >= $total) {
-                    $('#rootwizard').find('.pager .next').hide().end()
-                        .find('.pager .finish').css('display', 'inline').end()
-                        .find('.pager .finish').removeClass('disabled').end();
+                button.removeClass('disabled');
+
+                if (index === numTabs - 1) {
+                    button.find('a').html('Finalizar!').addClass('btn btn-success').css('background-color', 'steelblue');
                 } else {
-                    $('#rootwizard').find('.pager .next').show().end()
-                        .find('.pager .finish').hide().end();
+                    button.find('a').html('Siguiente');
                 }
             }
         });

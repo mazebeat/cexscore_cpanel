@@ -7,15 +7,14 @@
     <meta name="author" content="mazebeat">
     <title>@yield('title')</title>
 
-        <link href="{{ public_path('css/bootstrap.css') }}" rel="stylesheet">
-{{--        <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">--}}
-    {{--{{ HTML::style('css/bootstrap.css') }}--}}
+    <link href="{{ public_path('css/bootstrap.css') }}" rel="stylesheet">
+
     <style type="text/css">
         html, body {
+            font-family: "Arial", "Open Sans", sans-serif;
             height: 100%;
-            zoom: 88%;
+            zoom: 0.9;
         }
-
         .wrapper {
             min-height: 100%;
             height: auto !important;

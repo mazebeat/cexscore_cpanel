@@ -22,7 +22,7 @@ class SectorsController extends \ApiController
      */
     public function index()
     {
-        $sectors = $this->sector->paginate(5);
+        $sectors = $this->sector->paginate(15);
 
         return View::make('admin.sectors.index', compact('sectors'));
     }

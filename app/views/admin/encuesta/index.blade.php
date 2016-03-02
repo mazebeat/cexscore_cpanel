@@ -1,11 +1,11 @@
 @extends('layouts.cpanel')
 
 @section('title')
-    Todas Encuestas
+    Encuestas
 @endsection
 
 @section('page-title')
-    <i class="fa fa-home fa-fw"></i>Todas Encuestas
+    <i class="fa fa-home fa-fw"></i>Encuestas
 @endsection
 
 @section('breadcrumb')

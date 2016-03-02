@@ -1,11 +1,11 @@
 @extends('layouts.cpanel')
 
 @section('title')
-	Todos Periodos
+	Periodos
 @endsection
 
 @section('page-title')
-	<i class="fa fa-home fa-fw"></i>Todos Periodos
+	<i class="fa fa-home fa-fw"></i>Periodos
 @endsection
 
 @section('breadcrumb')

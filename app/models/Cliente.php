@@ -343,7 +343,7 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
      */
     public function csusuarios()
     {
-        return $this->hasMany('CsUsuario', 'id_usuario');
+        return $this->hasMany('CsUsuario', 'id_cliente');
     }
 
     /**

@@ -1721,9 +1721,12 @@
                                                 &nbsp;2015&nbsp;
                                             </strong><br/>
                                             <em style="text-align:center">Direcci&#243;n Comercial: Fanor Velasco No.85, Piso 9, Santiago | Direcci&#243;n Legal: Sotero Del R&#237;o 508, Oficina 826, Santiago&nbsp;</em><br style="text-align:center"/>
-                                            T:<em style="text-align:center">&nbsp;</em><a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="tel:+56222198993">+562 22 198 993</a><em style="text-align:center">&nbsp;|&nbsp;</em><a
-                                                    style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="http://customertrigger.com/">http://www.customertrigger.com</a><em style="text-align:center">&nbsp;|&nbsp;</em><a
-                                                    style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="mailto:ayuda@customertrigger.com">ayuda@customertrigger.com</a>
+                                            T:<em style="text-align:center">&nbsp;</em>
+                                            <a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="tel:+56222198993">+562 22 198 993</a>
+                                            <em style="text-align:center">&nbsp;|&nbsp;</em>
+                                            <a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="http://customertrigger.com/">http://www.customertrigger.com</a>
+                                            <em style="text-align:center">&nbsp;|&nbsp;</em>
+                                            <a style="transition: opacity 0.2s ease-in;color: #4eaacc;text-align: center;" href="mailto:ayuda@customertrigger.com">ayuda@customertrigger.com</a>
                                         </p>
                                     </td>
                                 </tr>

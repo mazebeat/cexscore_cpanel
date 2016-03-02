@@ -44,12 +44,24 @@ class ReportCommand extends Command
                     $this->admin = CsUsuario::whereIdCliente($value->id_cliente)->where('responsable', true)->first();
 
                     if (!is_null($this->admin)) {
-                        $start = Carbon::now()->startOfWeek();
-                        $end   = Carbon::now()->endOfWeek();
+                        $start = Carbon::now()->subWeek()->startOfWeek();
+                        $end   = Carbon::now()->subWeek()->endOfWeek();
 
                         $this->file     = \Str::title(\Str::camel($value->nombre_cliente)) . '.pdf'; // \Str::camel($value->nombre_cliente) . "_{$start->year}{$start->month}{$start->day}" . '.pdf';
                         $this->pathFile = public_path('temp' . DIRECTORY_SEPARATOR . $value->id_cliente . DIRECTORY_SEPARATOR);
-                        $realfile       = $this->pathFile . $this->file;
+
+                        if (!\File::exists($this->pathFile)) {
+                            \File::makeDirectory($this->pathFile, 777, true, true);
+                        } else {
+                            if (!is_writable($this->pathFile)) {
+                                if (!chmod($this->pathFile)) {
+                                    Log::error("Cannot change the mode of file " . $this->pathFile . ")");
+                                    exit;
+                                };
+                            }
+                        }
+
+                        $realfile = $this->pathFile . $this->file;
 
                         $this->validateFileCreatedAt($realfile);
 

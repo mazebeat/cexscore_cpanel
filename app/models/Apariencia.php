@@ -37,8 +37,8 @@ class Apariencia extends \Eloquent
 {
     public static $rules      = array(
         'id_apariencia'       => '',
-        'logo_header'         => '',
-        'logo_incentivo'      => '',
+        'logo_header'         => 'required|image',
+        'logo_incentivo'      => 'image',
         'color_header'        => '',
         'color_body'          => '',
         'color_footer'        => '',

@@ -17,11 +17,11 @@ App::before(function ($request) {
 
 
 App::after(function ($request, $response) {
-    // if (!Config::get('app.debug')) {
-    //    if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') || strpos($_SERVER['HTTP_USER_AGENT'], 'Safari')) {
-    //        $response->header('P3P', 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
-    //    }
-    // }
+     if (!Config::get('app.debug')) {
+        if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') || strpos($_SERVER['HTTP_USER_AGENT'], 'Safari')) {
+            $response->header('P3P', 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
+        }
+     }
 });
 
 /*

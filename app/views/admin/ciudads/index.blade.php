@@ -1,11 +1,11 @@
 @extends('layouts.cpanel')
 
 @section('title')
-    Todas las Ciudades
+    Ciudades
 @endsection
 
 @section('page-title')
-    <i class="fa fa-home fa-fw"></i>Todas las Ciudades
+    <i class="fa fa-home fa-fw"></i>Ciudades
 @endsection
 
 @section('breadcrumb')

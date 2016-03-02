@@ -1,5 +1,9 @@
 @extends('layouts.user')
 
+@section('title')
+    ..::Encuesta Experiencia::..
+@endsection
+
 @section('style')
     @if(isset($theme))
         @include('layouts.theme')
@@ -34,9 +38,11 @@
                 {{ HTML::image($theme->logo_incentivo, 'Incentivo', array('class' => 'img-responsive center-block')) }}
             </article>
         @endif
-        <article class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-center-block instrucciones">
-            <h4>{{ $survey->description }}</h4>
-        </article>
+        @if(isset($survey) && isset($survey->description))
+            <article class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-center-block instrucciones">
+                <h4>{{ $survey->description }}</h4>
+            </article>
+        @endif
     </section>
     <section class="row">
         <article class="panel panel-primary col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1 survey_text">
@@ -48,12 +54,14 @@
                         @endif
                     </article>
                 @endif
-                {{ Form::open(array('url' => 'survey/store', 'method' => 'POST', 'accept-charset' => 'UTF-8', 'role' => 'form', 'id' => 'surveyForm', 'class' => 'form-horizontal', 'onKeypress' => 'if(event.keyCode == 13) event.returnValue = false;')) }}
-                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <section class="row">
-                        {{ HTML::generateSurvey($survey) }}
-                    </section>
-                </article>
+                @if(isset($survey))
+                    {{ Form::open(array('url' => 'survey/store', 'method' => 'POST', 'accept-charset' => 'UTF-8', 'role' => 'form', 'id' => 'surveyForm', 'class' => 'form-horizontal', 'onKeypress' => 'if(event.keyCode == 13) event.returnValue = false;')) }}
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <section class="row">
+                            {{ HTML::generateSurvey($survey) }}
+                        </section>
+                    </article>
+                @endif
                 @if(isset($client) && $client->plan->scopeOptInt())
                     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         @include('layouts.form_cliente')

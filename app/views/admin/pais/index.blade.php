@@ -1,11 +1,11 @@
 @extends('layouts.cpanel')
 
 @section('title')
-    Todos País
+    Paises
 @endsection
 
 @section('page-title')
-    <i class="fa fa-home fa-fw"></i>Todos País
+    <i class="fa fa-home fa-fw"></i>Paises
 @endsection
 
 @section('breadcrumb')

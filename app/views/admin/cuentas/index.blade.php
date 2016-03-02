@@ -1,16 +1,16 @@
 @extends('layouts.cpanel')
 
 @section('title')
-    Todos cuentas
+    Cuentas
 @endsection
 
 @section('page-title')
-    <i class="fa fa-home fa-fw"></i>Todos Cuentas
+    <i class="fa fa-home fa-fw"></i>Cuentas
 @endsection
 
 @section('breadcrumb')
     @parent
-    <li class="active"><a href="{{ url('admin/cuentas')  }}">Cuentas</a></li>
+    <li class="active"><a href="{{ url('admin/cuentas') }}">Cuentas</a></li>
 @endsection
 
 @section('content')
@@ -34,39 +34,38 @@
             <tr>
                 <th>RUT</th>
                 <th>Nombre</th>
-                <th>Fono</th>
+                {{-- <th>Fono</th> --}}
                 <th>Web Site</th>
+                <th>&nbsp;</th>
                 <th>&nbsp;</th>
             </tr>
             </thead>
             <tbody>
             @foreach ($cuentas as $cliente)
-                @if($cliente->id_cliente != 1)
-                    <tr>
-                        <td>{{ $cliente->rut_cliente }}</td>
-                        <td>{{ $cliente->nombre_cliente }}</td>
-                        <td>{{ $cliente->fono_fijo_cliente }}</td>
-                        <td>{{ $cliente->correo_cliente }}</td>
-                        <td class="pull-right">
+                <tr>
+                    <td>{{ $cliente->rut_cliente }}</td>
+                    <td>{{ $cliente->nombre_cliente }}</td>
+                    {{-- <td>{{ $cliente->fono_fijo_cliente }}</td> --}}
+                    <td>{{ $cliente->correo_cliente }}</td>
+                    <td class="pull-right">
+                        @if($cliente->id_cliente != 1)
                             {{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.cuentas.destroy', $cliente->id_cliente))) }}
                             {{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}
                             {{ Form::close() }}
-                            {{ link_to_route('admin.cuentas.edit', 'Editar', array($cliente->id_cliente), array('class' => 'btn btn-info')) }}
-                            {{ link_to_action('CuentasController@resumen', 'Resumen', array($cliente->id_cliente), array('class' => 'btn btn-link')) }}
-                        </td>
-                    </tr>
-                @else
-                    <tr>
-                        <td></td>
-                        <td>{{ $cliente->nombre_cliente }}</td>
-                        <td>{{ $cliente->fono_fijo_cliente }}</td>
-                        <td>{{ $cliente->correo_cliente }}</td>
-                        <td class="pull-right">
-                            {{ link_to_route('admin.cuentas.edit', 'Editar', array($cliente->id_cliente), array('class' => 'btn btn-info')) }}
-                            {{ link_to_action('CuentasController@resumen', 'Resumen', array($cliente->id_cliente), array('class' => 'btn btn-link')) }}
-                        </td>
-                    </tr>
-                @endif
+                        @endif
+                        {{ link_to_route('admin.cuentas.edit', 'Editar', array($cliente->id_cliente), array('class' => 'btn btn-info')) }}
+                        {{ link_to_action('CuentasController@resumen', 'Resumen', array($cliente->id_cliente), array('class' => 'btn btn-link')) }}
+                        @if($cliente->id_cliente != 1)
+                            {{ Form::open(array('class' => 'xover', 'style' => 'display: inline-block;', 'method' => 'POST', 'url' => url('http://localhost:9090/CExScore/'), 'target' => '_blank')) }}
+                            {{ Form::hidden('cliente', $cliente->id_cliente) }}
+                            {{ Form::hidden('xover') }}
+                            {{ Form::hidden('username') }}
+                            {{ Form::hidden('password') }}
+                            <a class="btn btn-warning xoverbutton" href="#"><i class="fa fa-external-link"></i></a>
+                            {{ Form::close() }}
+                        @endif
+                    </td>
+                </tr>
             @endforeach
             </tbody>
         </table>
@@ -75,4 +74,31 @@
     @else
         No se han encontrado cuentas.
     @endif
+@endsection
+
+@section('script')
+    <script>
+        (function ($) {
+
+            $('.xoverbutton').click(function (e) {
+                e.preventDefault();
+
+                var $this = $(this);
+                var $form = $(this).parent();
+                var user = $form.find('input[name="username"]').val();
+
+                $this.html('<i class="fa fa-circle-o-notch fa-spin"></i>');
+
+                $.post('/admin/find/username', $form.serialize(), function (data) {
+                    if (data.pass) {
+                        $form.find('input[name="username"]').val(data.username);
+                        $form.find('input[name="password"]').val(data.password);
+                        $form.find('input[name="xover"]').val(data.xover);
+                        $form.submit();
+                        $this.html('<i class="fa fa-external-link"></i>');
+                    }
+                });
+            });
+        })(jQuery)
+    </script>
 @endsection

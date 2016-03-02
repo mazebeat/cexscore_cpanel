@@ -1,7 +1,7 @@
 <div class="form-group">
     {{ Form::label('apariencia[logo_header]', 'Imagen Header:', array('class'=>'col-md-2 control-label')) }}
     <div class="col-sm-10">
-        {{ Form::file('apariencia[logo_header]', ['']) }}
+        {{ Form::file('apariencia[logo_header]', ['required']) }}
     </div>
 </div>
 
@@ -39,7 +39,7 @@
     <div class="form-group col-sm-6">
         {{ Form::label('apariencia[color_opciones]', 'Color Opciones:', array('class'=>'col-md-4 control-label')) }}
         <div class="col-sm-8">
-            {{ Form::select2('apariencia[color_opciones]', ['red' => 'Rojo', 'green' => 'Verde', 'blue' => 'Azul', 'grey' => 'Gris', 'orange' => 'Naranjo', 'yellow' => 'Amarillo', 'pink' => 'Rosado', 'purple' => 'Morado'], Input::old('apariencia[color_opciones]', 'orange'), array('class'=>'form-control', 'placeholders'=>'Color Opciones')) }}
+            {{ Form::select('apariencia[color_opciones]', ['red' => 'Rojo', 'green' => 'Verde', 'blue' => 'Azul', 'grey' => 'Gris', 'orange' => 'Naranjo', 'yellow' => 'Amarillo', 'pink' => 'Rosado', 'purple' => 'Morado'], Input::old('apariencia[color_opciones]', 'orange'), array('class'=>'form-control', 'placeholders'=>'Color Opciones', 'required')) }}
         </div>
     </div>
 </div>

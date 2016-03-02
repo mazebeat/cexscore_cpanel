@@ -34,7 +34,8 @@
 .nav-pills.nav-wizard > li .nav-wedge {
     position: absolute;
     top: 0px;
-    left: -20px;
+    /*left: -20px;*/
+    left: -19px;
     width: 0px;
     height: 0px;
     border-style: solid;

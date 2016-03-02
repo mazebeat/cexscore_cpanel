@@ -1,11 +1,11 @@
 @extends('layouts.cpanel')
 
 @section('title')
-    Todos Canales
+    Canales
 @endsection
 
 @section('page-title')
-    <i class="fa fa-home fa-fw"></i>Todos Canales
+    <i class="fa fa-home fa-fw"></i>Canales
 @endsection
 
 @section('breadcrumb')

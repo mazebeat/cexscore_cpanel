@@ -17,11 +17,15 @@
             border: 0;
         }
         h4, .h4 {
+            font-size: 11px;
+        }
+        h4 > strong{
             font-size: 12px;
         }
         h5, .h5 {
-            font-size: 12px;
+            font-size: 11px;
             display: inline-block;
+            padding-left: 0!important;
         }
         h5 + div.form-group{
             display: inline-block;
@@ -34,6 +38,10 @@
         table.table td{
             padding:0!important;
             border:0!important;
+        }
+
+        table.table td > label.control-label{
+            font-size: 11px!important;
         }
         div.form-group.table-responsive{
             border:0!important;
@@ -48,6 +56,24 @@
             height: 0px!important;
             visibility: hidden;
         }*/
+        .respuesta{
+            border-bottom-style:dotted;
+            border-width:1px;
+            border-color: #CCCCCC;
+        }
+        .datos_personales label.control-label{
+            font-size: 11px;
+        }
+
+        article.encuesta{
+            padding-right: 0 !important;
+        }
+        article.encuesta > section.row > article{
+            padding-right: 0 !important;
+        }
+        article.encuesta > section.row > article > div.form-group{
+            padding-right: 0 !important;
+        }
     </style>
 @endsection
 
@@ -57,12 +83,10 @@
             <section class="row">
                 <article class="col-xs-6 col-xs-offset-3 col-sm-10 col-md-6 col-lg-6 col-center-block" style="margin-top: 0.3%;">
                     {{-- HTML::image($theme->logo_header, 'header-logo', array('class' => 'img-responsive center-block')) --}}
-                    {{-- <img src="{{public_path($theme->logo_header)}}" alt="header-logo", class="img-responsive center-block">--}}
-                    <img src="{{url($theme->logo_header)}}" alt="header-logo", class="img-responsive center-block">
+                    {{-- <img src="{{public_path($theme->logo_header)}}" alt="header-logo" class="img-responsive center-block">--}}
+                    <img src="{{url($theme->logo_header)}}" alt="header-logo" class="img-responsive center-block">
                 </article>
             </section>
-            {{--<h1>{{ $survey->titulo }}</h1>--}}
-            {{--<h2>{{ $survey->slogan }}</h2>--}}
         </article>
     </section>
 @endsection
@@ -75,34 +99,32 @@
                 <img src="{{url($theme->logo_incentivo)}}" alt="Incentivo" class="img-responsive center-block">
             </article>
         @endif
-        <article class="col-xs-12 col-sm-12 col-md-10 text-center col-lg-offset-1 col-md-offset-1 col-lg-10 col-center-block">
-            <section class="panel-body">
-                <h4>{{ $survey->description }}</h4>
+        <article class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-offset-1 col-lg-10 col-center-block">
+            <section class="panel-body" style="padding-left: 30px;">
+                <h4 style="font-size: 14px;">{{ $survey->description }}</h4>
             </section>
-            {{--<h4>Luego de completar la encuesta, presione <em>"Enviar Respuestas"</em></h4>--}}
         </article>
     </section>
+
     <section class="row">
         <article class="panel panel-primary col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1 survey_text">
             <section class="panel-body">
                 {{ Form::open(array('url' => 'survey/store', 'method' => 'POST', 'accept-charset' => 'UTF-8', 'role' => 'form', 'id' => 'surveyForm', 'class' => 'form-horizontal', 'onKeypress' => 'if(event.keyCode == 13) event.returnValue = false;')) }}
-                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12 encuesta">
                     <section class="row">
                         {{ HTML::generateSurvey($survey) }}
                     </section>
                 </article>
                 @if(isset($client) && $client->plan->scopeOptInt())
-                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <hr>
-                    </article>
+                    {{--<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <hr>
+                    </article>--}}
                     {{--<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">--}}
-                    <article class="">
+                    {{--<article class="">--}}
                         @include('pdf.generador.debug.form_cliente')
-                    </article>
+                    {{--</article>--}}
                 @endif
-                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    {{-- Form::submit('Enviar Respuestas', array('class' => 'text-uppercase btn btn-lg center-block user'))  --}}
-                </article>
+
                 {{ Form::close() }}
             </section>
         </article>

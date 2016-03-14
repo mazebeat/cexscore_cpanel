@@ -2,6 +2,12 @@
 
 class PdfController extends ApiController
 {
+    /**
+     * Controlador para generacion de PDF
+     * Tener en cuenta: para generacion de encuesta, usa funcion macro
+     * HTML::generateSurvey($survey)
+     * Si se modifica esta funcion, se debe asegurar que el PDF funcione correctamente.
+     */
     public function getPdfCliente()
     {
         if (Input::has('idCliente')) {
@@ -100,15 +106,14 @@ class PdfController extends ApiController
         $datos['rutaQRAbsoluta'] = $directorioCliente . $nombreQR;
         $datos['URLrutaQR']      = 'temp/' . $cliente->id_cliente . '/' . $nombreQR;
 
-        //return View::make('pdf.generador.tarjeta', $datos);
-        $html = View::make('pdf.generador.tarjeta', $datos)->render();
-
         $textoFooter = '<p style="font-family: Arial, sans-serif;font-size:8pt;text-align:center;">';
-        $textoFooter .= $cliente->direccion_cliente . ', ' . $datos['ubicacion']['ciudad'] . ' - ' . $datos['ubicacion']['pais'] . PHP_EOL;
-        $textoFooter .= isset($cliente->fono_fijo_cliente) ? $cliente->fono_fijo_cliente : '';
-        $textoFooter .= isset($cliente->fono_celular_cliente) ? ' | ' . $cliente->fono_celular_cliente . PHP_EOL : isset($cliente->fono_fijo_cliente) ? PHP_EOL : '';
-        $textoFooter .= isset($cliente->correo_cliente) ? $cliente->correo_cliente . PHP_EOL : '';
+        $textoFooter .= $cliente->direccion_cliente . ', ' . $datos['ubicacion']['ciudad'] . ' - ' . $datos['ubicacion']['pais'] . '<br />';
+        $textoFooter .= isset($cliente->correo_cliente) ? $cliente->correo_cliente . '<br />' : '';
         $textoFooter .= '</p>';
+
+        $datos['footer'] = $textoFooter;
+
+        $html = View::make('pdf.generador.tarjeta', $datos)->render();
 
         $rutaPDF = $directorioCliente . 'tarjeta_' . $cliente->id_cliente . "_mom_" . $datos['url']['id_momento'] . ".pdf";
         if (File::exists($rutaPDF)) {
@@ -117,18 +122,17 @@ class PdfController extends ApiController
 
         $pdf = PDF::loadHTML($html);
 
-        $pdf->setOption('page-width', '6cm');
-        $pdf->setOption('page-height', '9.5cm');
-        $pdf->setOption('margin-left', '5mm');
-        $pdf->setOption('margin-right', '5mm');
+        $pdf->setPaper('letter');
+        $pdf->setOrientation('landscape');
+        $pdf->setOption('margin-left', '10mm');
+        $pdf->setOption('margin-right', '10mm');
         $pdf->setOption('margin-top', '5mm');
-        $pdf->setOption('margin-bottom', '13mm');
-        $pdf->setOption('footer-html', $textoFooter);
+        $pdf->setOption('margin-bottom', '10mm');
+        $pdf->setOption('footer-html', false);
 
         $pdf->save($rutaPDF);
 
         return $rutaPDF;
-
     }
 
     public function getPdfDisplay($cliente, $datos, $directorioCliente, $nombreQR)
@@ -136,13 +140,9 @@ class PdfController extends ApiController
         $datos['rutaQRAbsoluta'] = $directorioCliente . $nombreQR;
         $datos['URLrutaQR']      = 'temp/' . $cliente->id_cliente . '/' . $nombreQR;
 
-        //return View::make('pdf.generador.tarjeta', $datos);
-
         $textoFooter = '<p style="font-family: Arial, sans-serif;font-size:10pt;text-align:center;">';
-        $textoFooter .= $cliente->direccion_cliente . ', ' . $datos['ubicacion']['ciudad'] . ' - ' . $datos['ubicacion']['pais'] . '<br/>';
-        $textoFooter .= isset($cliente->fono_fijo_cliente) ? $cliente->fono_fijo_cliente : '';
-        $textoFooter .= isset($cliente->fono_celular_cliente) ? ' | ' . $cliente->fono_celular_cliente . '<br/>' : isset($cliente->fono_fijo_cliente) ? '<br/>' : '';
-        $textoFooter .= isset($cliente->correo_cliente) ? $cliente->correo_cliente . '<br/>' : '';
+        $textoFooter .= $cliente->direccion_cliente . ', ' . $datos['ubicacion']['ciudad'] . ' - ' . $datos['ubicacion']['pais'] . '<br />';
+        $textoFooter .= isset($cliente->correo_cliente) ? $cliente->correo_cliente . '<br />' : '';
         $textoFooter .= '</p>';
 
         $rutaPDF = $directorioCliente . 'display_' . $cliente->id_cliente . "_mom_" . $datos['url']['id_momento'] . ".pdf";
@@ -150,19 +150,18 @@ class PdfController extends ApiController
             File::delete($rutaPDF);
         }
 
-        //$datos['footer'] = $textoFooter;
+        $datos['footer'] = $textoFooter;
 
         $html = View::make('pdf.generador.display', $datos)->render();
         $pdf  = PDF::loadHTML($html);
 
-        $pdf->setOption('page-width', '14.5cm');
-        $pdf->setOption('page-height', '21cm');
+        $pdf->setPaper('letter');
+        $pdf->setOrientation('landscape');
         $pdf->setOption('margin-left', '10mm');
         $pdf->setOption('margin-right', '10mm');
-        $pdf->setOption('margin-top', '20mm');
-        $pdf->setOption('margin-bottom', '20mm');
-        $pdf->setOption('footer-html', $textoFooter);
-//        $pdf->setOrientation('landscape');
+        $pdf->setOption('margin-top', '5mm');
+        $pdf->setOption('margin-bottom', '10mm');
+        $pdf->setOption('footer-html', false);
 
         $pdf->save($rutaPDF);
 
@@ -197,8 +196,9 @@ class PdfController extends ApiController
             $pdf->setOption('margin-left', '10mm');
             $pdf->setOption('margin-right', '10mm');
             $pdf->setOption('margin-top', '10mm');
-            $pdf->setOption('margin-bottom', '10mm');
+            $pdf->setOption('margin-bottom', '15mm');
             $pdf->setOption('footer-html', $textoFooter);
+            //$pdf->setOption("disable-smart-shrinking", true);
 
             $directorioCliente = public_path('temp/' . $cliente->id_cliente . '/');
 
@@ -264,7 +264,7 @@ class PdfController extends ApiController
     }
 
     //private function generaEncuestaHTML($idcliente = null){
-    private function generaEncuestaHTML($client)
+    public function generaEncuestaHTML($client)
     {
         if (isset($client)) {
             //try {

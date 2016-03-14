@@ -7,8 +7,8 @@
         <meta name="author" content="mazebeat">
         <title>@yield('title')</title>
 
-        {{--<link href="{{ public_path('css/bootstrap.css') }}" rel="stylesheet">--}}
-        <link href="{{ url('css/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ public_path('css/bootstrap.css') }}" rel="stylesheet">
+        {{--<link href="{{ url('css/bootstrap.css') }}" rel="stylesheet">--}}
 
         <style type="text/css">
             body{
@@ -18,6 +18,7 @@
             html, body {
                 height: 100%;
                 /*zoom: 90%;*/
+                /*zoom:0.78124;*/
             }
 
             .wrapper {

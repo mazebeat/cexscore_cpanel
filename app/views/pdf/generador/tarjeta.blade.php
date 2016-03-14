@@ -5,7 +5,15 @@
 @endsection
 
 @section('style')
-
+    <style>
+        div.container.tarjeta > div.row > div.col-xs-4{
+            width: 295px;
+            height: 466px;
+            padding:25px;
+            border: 1px solid black;
+            /*margin-right: 25px;*/
+        }
+    </style>
 @endsection
 
 @section('script')
@@ -17,25 +25,18 @@
 @endsection
 
 @section('content')
-    <div class="">
-        <div class="row text-center">
-            <div class="col-xs-12">
-                <img src="{{public_path($apariencia['logo_header'])}}" alt="Logo" style="max-height: 90px;">
-                <h4>CONOCER TU EXPERIENCIA ES PARTE DE NUESTRO NEGOCIO</h4>
-            </div>
+    <div class="container tarjeta">
+        <div class="row">
+            <div class="col-xs-4">@include("pdf.generador.tarjeta_side")</div>
+            <div class="col-xs-4">@include("pdf.generador.tarjeta_side")</div>
+            <div class="col-xs-4">@include("pdf.generador.tarjeta_side")</div>
+            <div class="col-xs-4">@include("pdf.generador.tarjeta_side")</div>
         </div>
-
-        <div class="row text-center">
-            <div class="col-xs-12">
-                <p>Ingresa con tu celular al código QR o a la página<br/>
-                    <a href="{{url($url['given'])}}" style="font-size:20pt;">{{url($url['given'])}}</a> <br/>
-                    y contesta nuestra encuesta de 4 preguntas</p>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col-xs-12">
-                <img src="{{public_path($URLrutaQR)}}" alt="Codigo QR" style="width: 180px;">
-            </div>
+        <div class="row">
+            <div class="col-xs-4">@include("pdf.generador.tarjeta_side")</div>
+            <div class="col-xs-4">@include("pdf.generador.tarjeta_side")</div>
+            <div class="col-xs-4">@include("pdf.generador.tarjeta_side")</div>
+            <div class="col-xs-4">@include("pdf.generador.tarjeta_side")</div>
         </div>
     </div>
 @endsection

@@ -636,17 +636,6 @@ class ApiController extends \BaseController
 
     public static function createQrCode($path, $info, $format = 'png', $size = 1080)
     {
-        // if (!\File::exists($path)) {
-        //     \File::makeDirectory($path, 777, true, true);
-        // } else {
-        //     if (!is_writable($path)) {
-        //         $itWorked =chmod($path, 0755);
-        //         if (!$itWorked) {
-        //             throw new Illuminate\Exception\Exception("Cannot change the mode of file " . $path . ")");
-        //         }
-        //     }
-        // }
-
         \QrCode::format($format)->errorCorrection('H')->size($size)->generate($info, $path);
     }
 

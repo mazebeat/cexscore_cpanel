@@ -164,6 +164,16 @@ class Cliente extends \Eloquent implements UserInterface, RemindableInterface
                 $cliente->csusuarios()->delete();
             }
 
+            $dir = public_path('image' . DIRECTORY_SEPARATOR . Str::camel($cliente->nombre_cliente));
+            if (\File::exists($dir)) {
+                \File::deleteDirectory($dir);
+            }
+
+            $dir = public_path('temp' . DIRECTORY_SEPARATOR . $cliente->id_cliente);
+            if (\File::exists($dir)) {
+                \File::deleteDirectory($dir);
+            }
+
             Log::info('Dependencia Eliminada, Cuenta: ' . $cliente->id_cliente);
         });
     }

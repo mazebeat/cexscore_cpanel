@@ -23,6 +23,14 @@
                     </ul>
                 </div>
             @endif
+
+            @if (isset($message))
+                <div class="alert alert-success">
+                    <ul class="list-unstyled">
+                        <li>{{ $message }}</li>
+                    </ul>
+                </div>
+            @endif
         </div>
     </div>
 

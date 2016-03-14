@@ -2,5 +2,5 @@
 
 return array(
     'username' => 'diego.pintod@gmail.com',
-    'password' => '****',
+    'password' => 'mazebeat1207',
 );

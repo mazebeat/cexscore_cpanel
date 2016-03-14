@@ -17,15 +17,48 @@ return array(
     | choice installed on your machine before you begin development.
     |
     */
-    'default'     => 'mysql',
+    'default'     => 'mysql_prod',
     'connections' => array(
+
+        'mysql_qa' => array(
+            'driver'    => 'mysql',
+            'host'      => '192.168.1.103',
+            'database'  => 'panel_exscore',
+            'username'  => 'root',
+            'password'  => 'inteladmin',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ),
+
+        'mysql_prod' => array(
+            'driver'    => 'mysql',
+            'host'      => '192.168.1.52',
+            'database'  => 'panel_exscore',
+            'username'  => 'root',
+            'password'  => 'inteladmin',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ),
+
+        'mysql_dv' => array(
+            'driver'    => 'mysql',
+            'host'      => '192.168.1.30',
+            'database'  => 'panel_exscore',
+            'username'  => 'root',
+            'password'  => 'intelimysql',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ),
 
         'mysql' => array(
             'driver'    => 'mysql',
             'host'      => 'localhost',
             'database'  => 'panel_exscore',
-            'username'  => 'homestead',
-            'password'  => 'secret',
+            'username'  => 'root',
+            'password'  => 'mz.120712',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
@@ -40,6 +73,17 @@ return array(
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'public',
+        ),
+
+        'project' => array(
+            'driver'    => 'mysql',
+            'host'      => 'localhost',
+            'database'  => 'project',
+            'username'  => 'root',
+            'password'  => 'mz.120712',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
         ),
 
     ),

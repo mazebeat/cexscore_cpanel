@@ -108,15 +108,7 @@ Route::group(array('prefix' => 'pdf'), function () {
 
 // TESTING
 Route::get('test/test', function () {
-    $clientes = Cliente::all();
-    foreach ($clientes as $cliente) {
-        $usuario = $cliente->csusuarios()->first();
-        if (!is_null($usuario)) {
-            var_dump($cliente->id_cliente);
-            var_dump($usuario->usuario);
-            var_dump('-----------');
-        }
-    }
+    File::deleteDirectory(public_path('image' . DIRECTORY_SEPARATOR . 'miEmpresa'));
 });
 Route::get('test/date', function () {
     var_dump(\Str::title(strftime("%A, %d de %B de %Y")));

@@ -125,7 +125,7 @@ class CuentasController extends \ApiController
      */
     public function store()
     {
-        $rules     = array(
+        $rules    = array(
             'cliente.nombre_cliente'         => 'required|string',
             'cliente.nombre_legal_cliente'   => 'string',
             'cliente.rut_cliente'            => 'required|between:8,12|rut',
@@ -154,8 +154,8 @@ class CuentasController extends \ApiController
             'encuesta.description'           => '',
             'usuario.fecha_nacimiento'       => 'date',
         );
-        $required  = ' es requerido.';
-        $messages  = array(
+        $required = ' es requerido.';
+        $messages = array(
             'cliente.nombre_cliente.required'         => 'El campo nombre' . $required,
             'cliente.nombre_legal_cliente.required'   => 'El campo nombre legal' . $required,
             'cliente.rut_cliente.required'            => 'El campo RUT' . $required,
@@ -185,6 +185,7 @@ class CuentasController extends \ApiController
             'encuesta.description.required'           => 'El campo descripcion encuesta' . $required,
             'usuario.fecha_nacimiento.date'           => 'El campo fecha de nacimiento no es valido',
         );
+
         $data      = Input::all();
         $validator = Validator::make($data, $rules, $messages);
 
@@ -246,11 +247,12 @@ class CuentasController extends \ApiController
                     'urls'           => $urls,
                 ));
 
-                return Redirect::route('admin.cuentas.index');
+                return Redirect::route('admin.cuentas.index')->with('message', 'Cuenta creada correctamente.');
             }
         } catch (\Exception $e) {
-            throw $e;
             Log::error($e->getMessage());
+
+            return Redirect::back()->withErrors(new \Illuminate\Support\MessageBag(['Error al procesar inserción de la cuenta.']))->withInput();
         } catch (QueryException $e) {
             Log::error($e->getMessage());
 
@@ -293,33 +295,20 @@ class CuentasController extends \ApiController
             $mail    = array_add($mail, 'subject', $subject);
         }
 
-        if (App::environment('local')) {
-            \Mail::send('emails.bienvenida', $data, function ($message) use ($mail) {
-                $message->to($mail['email'], $mail['name'])
-                        ->subject($mail['subject'])
-                        ->bcc('dfeliu@intelidata.cl', 'Diego Feliú');
+        \Mail::send('emails.bienvenida', $data, function ($message) use ($mail) {
+            $message->to($mail['email'], $mail['name'])
+                    ->subject($mail['subject'])
+                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
+                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
+                        ->bcc('ligia.pasqualin@customertrigger.com', 'Ligia Pasqualin');
 
-                $size = sizeOf($mail['attachs']); //get the count of number of attachments
+            $size = sizeOf($mail['attachs']);
 
-                for ($i = 0; $i < $size; $i++) {
-                    $message->attach($mail['attachs'][$i]);
-                }
-            }, true);
-        } else {
-            \Mail::send('emails.bienvenida', $data, function ($message) use ($mail) {
-                $message->to($mail['email'], $mail['name'])
-                        ->subject($mail['subject']);
-//                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
-//                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
-//                        ->bcc('ligia.pasqualin@customertrigger.com', 'Ligia Pasqualin');
+            for ($i = 0; $i < $size; $i++) {
+                $message->attach($mail['attachs'][$i]);
+            }
+        }, true);
 
-                $size = sizeOf($mail['attachs']); //get the count of number of attachments
-
-                for ($i = 0; $i < $size; $i++) {
-                    $message->attach($mail['attachs'][$i]);
-                }
-            }, true);
-        }
 
         return true;
     }

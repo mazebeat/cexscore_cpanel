@@ -310,18 +310,20 @@ class ApiController extends \BaseController
                 }
 
                 foreach ($inputs as $key => $value) {
-                    $filename = $key . '.' . $value->guessClientExtension();
-                    $path     = '/image' . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . $filename;
+                    if (!is_null($value)) {
+                        $filename = $key . '.' . $value->guessClientExtension();
+                        $path     = '/image' . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . $filename;
 
-                    $files = File::allFiles($folder);
-                    foreach ($files as $file) {
-                        if (File::exists((string)$file) && Str::contains((string)$file, $key)) {
-                            File::delete((string)$file);
+                        $files = File::allFiles($folder);
+                        foreach ($files as $file) {
+                            if (File::exists((string)$file) && Str::contains((string)$file, $key)) {
+                                File::delete((string)$file);
+                            }
                         }
-                    }
 
-                    $value->move($folder, $filename);
-                    $data = array_add($data, $key, $path);
+                        $value->move($folder, $filename);
+                        $data = array_add($data, $key, $path);
+                    }
                 }
 
                 $theme = \Apariencia::firstOrCreate($data);
@@ -409,7 +411,7 @@ class ApiController extends \BaseController
                 array_forget($data, 'title');
 
                 $validation = \Validator::make($data, \Encuesta::$rules, array(
-                    'description.max' => 'La descripción no debe ser mayor que 220 caracteres.'
+                    'description.max' => 'La descripción no debe ser mayor que 220 caracteres.',
                 ));
 
                 if ($validation->passes()) {
@@ -634,17 +636,16 @@ class ApiController extends \BaseController
 
     public static function createQrCode($path, $info, $format = 'png', $size = 1080)
     {
-        if (!\File::exists($path)) {
-            \File::makeDirectory($path, 777, true, true);
-        } else {
-            if (!is_writable($path)) {
-                $itWorked =chmod($path, 0755);
-
-                if (!$itWorked) {
-                    throw new Illuminate\Exception\Exception("Cannot change the mode of file " . $path . ")");
-                }
-            }
-        }
+        // if (!\File::exists($path)) {
+        //     \File::makeDirectory($path, 777, true, true);
+        // } else {
+        //     if (!is_writable($path)) {
+        //         $itWorked =chmod($path, 0755);
+        //         if (!$itWorked) {
+        //             throw new Illuminate\Exception\Exception("Cannot change the mode of file " . $path . ")");
+        //         }
+        //     }
+        // }
 
         \QrCode::format($format)->errorCorrection('H')->size($size)->generate($info, $path);
     }
@@ -691,9 +692,9 @@ class ApiController extends \BaseController
 
             \Mail::send('emails.newUser', $data, function ($message) use ($mail) {
                 $message->to($mail['email'], $mail['name'])
-                        ->subject($mail['subject']);
-//                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
-//                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso');
+                        ->subject($mail['subject'])
+                        ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
+                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso');
             }, true);
 
             return true;

@@ -33,7 +33,7 @@ if (!File::exists(array_get($ini, 'logs.path'))) {
     File::makeDirectory($path = array_get($ini, 'logs.path'), (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
 } else {
     if (!is_writable(array_get($ini, 'logs.path'))) {
-        if (!chmod(array_get($ini, 'logs.path'), 0777)) {
+        if (!@chmod(array_get($ini, 'logs.path'), 0777)) {
             Log::error("Cannot change the mode of file (" . array_get($ini, 'logs.path') . ")");
         };
     }

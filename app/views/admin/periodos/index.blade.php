@@ -32,11 +32,11 @@
 			<tbody>
 			@foreach ($periodos as $periodo)
 				<tr>
-					<td>{{{ $periodo->periodo }}}</td>
-					<td>{{{ $periodo->meta }}}</td>
-					<td>{{{ $periodo->mes }}}</td>
-					<td>{{{ $periodo->anio }}}</td>
-					<td>{{{ Cliente::find($periodo->id_cliente)->nombre_cliente }}}</td>
+					<td>{{ $periodo->periodo }}</td>
+					<td>{{ $periodo->meta }}</td>
+					<td>{{ $periodo->mes }}</td>
+					<td>{{ $periodo->anio }}</td>
+					<td>{{ isset(Cliente::find($periodo->id_cliente)->nombre_cliente) ? Cliente::find($periodo->id_cliente)->nombre_cliente : '' }}</td>
 					<td>
 						{{ Form::open(array('style' => 'display: inline-block;', 'method' => 'DELETE', 'route' => array('admin.periodos.destroy', $periodo->id_periodo))) }}
 						{{ Form::submit('Eliminar', array('class' => 'btn btn-danger')) }}

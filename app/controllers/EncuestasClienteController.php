@@ -22,7 +22,7 @@ class EncuestasClienteController extends \ApiController
             'id_tipo_respuesta' => 5,
             'id_estado'         => 1,
             'id_momento'        => 1,
-        ]);
+            ]);
         $survey->preguntas()->save($subquestion1);
 
         $question2 = new PreguntaCabecera(['descripcion_1' => 'Pregunta de Facilidad', 'numero_pregunta' => 2, 'id_tipo_respuesta' => 1, 'id_estado' => 1, 'id_momento' => 2]);
@@ -34,7 +34,7 @@ class EncuestasClienteController extends \ApiController
             'id_tipo_respuesta' => 5,
             'id_estado'         => 1,
             'id_momento'        => 2,
-        ]);
+            ]);
         $survey->preguntas()->save($subquestion2);
 
         $question3 = new PreguntaCabecera(['descripcion_1' => ' Pregunta de lo Grato de la interacci�n', 'numero_pregunta' => 3, 'id_tipo_respuesta' => 1, 'id_momento' => 3]);
@@ -46,7 +46,7 @@ class EncuestasClienteController extends \ApiController
             'id_tipo_respuesta' => 5,
             'id_estado'         => 1,
             'id_momento'        => 3,
-        ]);
+            ]);
         $survey->preguntas()->save($subquestion3);
 
         $question4 = new PreguntaCabecera([
@@ -55,7 +55,7 @@ class EncuestasClienteController extends \ApiController
             'id_tipo_respuesta' => 6,
             'id_estado'         => 1,
             'id_momento'        => 4,
-        ]);
+            ]);
         $survey->preguntas()->save($question4);
     }
 
@@ -87,15 +87,15 @@ class EncuestasClienteController extends \ApiController
                 }
 
                 $client = Cliente::find(Crypt::decrypt($idcliente));
-//                if (!self::puedeResponder($client)) {
-//                    self::throwError(new Exception('Meta Lograda! Gracias por Responder', 500));
-//                }
+                if (!self::puedeResponder($client)) {
+                    self::throwError(new Exception('Meta Lograda! Gracias por Responder [' . $client->id_cliente . ']' , 500));
+                }
 
                 Visita::create([
                     'id_cliente' => Crypt::decrypt($idcliente),
                     'id_momento' => Crypt::decrypt($moment),
                     'id_canal'   => $idCanal,
-                ]);
+                    ]);
 
                 if (!is_null($client) && $client->first()->exists) {
 
@@ -141,9 +141,8 @@ class EncuestasClienteController extends \ApiController
             $moment = Session::get('survey.moment', null);
             $survey = Session::get('survey.survey', null);
 
-            // TODO: Realizar lo mismo con usuarios y momentos
             if (!self::puedeResponder($client)) {
-//                self::throwError(new Exception('Meta Lograda! Gracias por Responder', 500));
+                self::throwError(new Exception('Meta Lograda! Gracias por Responder [' . $client->id_cliente . ']' , 500));
                 return \Redirect::to('survey/success');
             }
 
@@ -384,7 +383,7 @@ class EncuestasClienteController extends \ApiController
     static function puedeResponder(Cliente $client)
     {
         $plan         = $client->plan;
-        $totalAnswers = $client->respuestas->count();
+        $totalAnswers = rount($client->respuestas->count() / 4);
 
         if ($plan->cantidad_encuestas_plan > $totalAnswers) {
             return true;

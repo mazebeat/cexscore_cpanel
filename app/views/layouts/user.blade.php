@@ -41,6 +41,15 @@
     {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js') }}
     {{ HTML::script('//css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js') }}
 
+    <style>
+        html, body {
+            zoom: 0.95;
+            -ms-zoom: 0.95;
+            -webkit-zoom: 0.95;
+            -moz-transform: scale(0.95, 0.95);
+            -moz-transform-origin: top center;
+        }
+    </style>
     @yield('style')
 </head>
 <body>

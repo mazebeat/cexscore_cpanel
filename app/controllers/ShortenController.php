@@ -27,7 +27,8 @@ class ShortenController extends \ApiController
 
 	public function getShorten($given = null)
 	{
-		try {
+		try {			
+
 			if (is_null($given)) {
 				return Redirect::to('survey/error');
 			}
@@ -36,6 +37,11 @@ class ShortenController extends \ApiController
 
 			if (is_null($row) || !$row->exists) {
 				return Redirect::to('survey/error');
+			}
+
+			if(!is_null(Input::get('clientKey', null))) {
+				// Session::put('clientKey', Input::get('clientKey'));				
+				return Redirect::to(str_replace('survey', 'survey/enex', $row->url) . '/' . Input::get('clientKey'));
 			}
 
 			return Redirect::to($row->url);

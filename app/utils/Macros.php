@@ -813,7 +813,11 @@
 
     $dir = public_path('temp/' . $idCliente . '/');
     if (!\File::exists($dir)) {
-        \File::makeDirectory($dir, (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+        // \File::makeDirectory($dir, (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+        if (!mkdir($dir, 0777, true)) {
+            Log::error("Fallo al crear las carpetas... ($dir)");
+            exit(1);
+        }
     } else {
         if (!is_writable($dir)) {
             if (!chmod($dir, 0777)) {

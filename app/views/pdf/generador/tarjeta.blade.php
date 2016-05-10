@@ -7,9 +7,12 @@
 @section('style')
     <style>
         div.container.tarjeta > div.row > div.col-xs-4{
-            width: 295px;
+            /*width: 295px;
             height: 466px;
-            padding:25px;
+            padding:25px;*/
+            width: 225px;
+            height: 370px;
+            padding:19px;
             border: 1px solid black;
             /*margin-right: 25px;*/
         }

@@ -30,7 +30,11 @@ if (array_get($ini, 'app.debug') == '1' || array_get($ini, 'app.debug') == 'true
 Config::set('app.url', array_get($ini, 'app.url'));
 
 if (!File::exists(array_get($ini, 'logs.path'))) {
-    File::makeDirectory($path = array_get($ini, 'logs.path'), (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+    // \File::makeDirectory($path = array_get($ini, 'logs.path'), (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+    if (!mkdir($path, 0777, true)) {
+        Log::error("Fallo al crear las carpetas... ($path)");
+        exit(1);
+    }
 } else {
     if (!is_writable(array_get($ini, 'logs.path'))) {
         if (!@chmod(array_get($ini, 'logs.path'), 0777)) {

@@ -18,7 +18,7 @@ return array(
     |
     */
     
-    'default' => 'mysql_prod',
+    'default' => 'mysql',
 
     'connections' => array(
 

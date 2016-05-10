@@ -31,16 +31,27 @@ class ApiController extends \BaseController
             if (!is_null($data) || count($data)) {
                 array_forget($data, 'pais');
                 array_forget($data, 'region');
+
                 if (!array_key_exists('id_ciudad', $data)) {
-                    $data = array_add($data, 'id_ciudad', 1);
+                    $data = array_add($data, 'id_ciudad', null);
                 } else {
                     if (array_get($data, 'id_ciudad') == '' || array_get($data, 'id_ciudad') == null || !count(array_get($data, 'id_ciudad'))) {
-                        array_set($data, 'id_ciudad', 1);
+                        array_set($data, 'id_ciudad', null);
                     }
                 }
+
+                if (!array_key_exists('id_pais', $data)) {
+                    $data = array_add($data, 'id_pais', null);
+                } else {
+                    if (array_get($data, 'id_pais') == '' || array_get($data, 'id_pais') == null || !count(array_get($data, 'id_pais'))) {
+                        array_set($data, 'id_pais', null);
+                    }
+                }
+
                 $data = array_add($data, 'id_estado', 1);
 
-                $client = \Cliente::firstOrCreate($data);
+                dd($data);
+                // $client = \Cliente::firstOrCreate($data);
             }
         } catch (Exception $e) {
             throw $e;
@@ -205,17 +216,24 @@ class ApiController extends \BaseController
                                     ]);
 
                                     if (!is_null($url)) {
-                                        if (!File::exists(public_path('temp/' . $cliente->id_cliente))) {
-                                            File::makeDirectory(public_path('temp/' . $cliente->id_cliente), (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+
+                                        $path = public_path('temp/' . $cliente->id_cliente);
+                                        if (!File::exists($path)) {
+                                            // File::makeDirectory($path, 2770, true, true);
+                                            if (!mkdir($path, 0777, true)) {
+                                                Log::error("Fallo al crear las carpetas... ($path)");
+                                                exit(1);
+                                            }
                                         } else {
-                                            if (!is_writable(public_path('temp/' . $cliente->id_cliente))) {
-                                                if (!chmod(public_path('temp/' . $cliente->id_cliente))) {
-                                                    Log::error("Cannot change the mode of file " . public_path('temp/' . $cliente->id_cliente) . ")");
+                                            if (!is_writable($path)) {
+                                                if (!chmod($path)) {
+                                                    Log::error("Cannot change the mode of file (" . $path . ")");
                                                     exit;
                                                 };
                                             }
                                         }
-                                        $file = public_path('temp/' . $cliente->id_cliente . '/' . $next . '.png');
+
+                                        $file = $path . DIRECTORY_SEPARATOR . $next . '.png';
                                         self::createQrCode($file, url($url->given));
 
                                         if (File::exists($file)) {
@@ -257,7 +275,11 @@ class ApiController extends \BaseController
 
                                 if (!is_null($url)) {
                                     if (!File::exists(public_path('temp/' . $cliente->id_cliente))) {
-                                        File::makeDirectory(public_path('temp/' . $cliente->id_cliente), (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+                                        //  File::makeDirectory(public_path('temp/' . $cliente->id_cliente), (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+                                        if (!mkdir(public_path('temp/' . $cliente->id_cliente), 0777, true)) {
+                                            Log::error("Fallo al crear las carpetas... (" . public_path('temp/' . $cliente->id_cliente) . ")");
+                                            exit(1);
+                                        }
                                     } else {
                                         if (!is_writable(public_path('temp/' . $cliente->id_cliente))) {
                                             if (!chmod(public_path('temp/' . $cliente->id_cliente))) {
@@ -299,7 +321,11 @@ class ApiController extends \BaseController
             if (!is_null($data) || count($data)) {
                 $folder = public_path('image' . DIRECTORY_SEPARATOR . $name);
                 if (!\File::exists($folder)) {
-                    \File::makeDirectory($folder, (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+                    // \File::makeDirectory($folder, (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+                    if (!mkdir($folder, 0777, true)) {
+                        Log::error("Fallo al crear las carpetas... ($folder)");
+                        exit(1);
+                    }
                 } else {
                     if (!is_writable($folder)) {
                         if (!chmod($folder)) {
@@ -343,7 +369,11 @@ class ApiController extends \BaseController
             if (count($inputs)) {
                 $folder = public_path('image' . DIRECTORY_SEPARATOR . Str::camel($cliente->nombre_cliente));
                 if (!\File::exists($folder)) {
-                    \File::makeDirectory($folder, (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+//                    \File::makeDirectory($folder, (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+                    if (!mkdir($folder, 0777, true)) {
+                        Log::error("Fallo al crear las carpetas... ($folder)");
+                        exit(1);
+                    }
                 } else {
                     if (!is_writable($folder)) {
                         if (!chmod($folder)) {
@@ -681,9 +711,9 @@ class ApiController extends \BaseController
 
             \Mail::send('emails.newUser', $data, function ($message) use ($mail) {
                 $message->to($mail['email'], $mail['name'])
-                        ->subject($mail['subject'])
                         ->bcc('cristian.maulen@customertrigger.com', 'Cristian Maulen')
-                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso');
+                        ->bcc('pamela.donoso@customertrigger.com', 'Pamela Donoso')
+                        ->subject($mail['subject']);
             }, true);
 
             return true;

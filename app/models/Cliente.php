@@ -18,6 +18,7 @@ use Illuminate\Auth\UserTrait;
  * @property string                                                      $codigo_postal_cliente
  * @property string                                                      $direccion_cliente
  * @property integer                                                     $id_ciudad
+ * @property integer                                                     $id_pais
  * @property integer                                                     $id_sector
  * @property integer                                                     $id_plan
  * @property integer                                                     $id_encuesta
@@ -41,6 +42,7 @@ use Illuminate\Auth\UserTrait;
  * @method static \Illuminate\Database\Query\Builder|\Cliente whereCodigoPostalCliente($value)
  * @method static \Illuminate\Database\Query\Builder|\Cliente whereDireccionCliente($value)
  * @method static \Illuminate\Database\Query\Builder|\Cliente whereIdCiudad($value)
+ * @method static \Illuminate\Database\Query\Builder|\Cliente whereIdPais($value)
  * @method static \Illuminate\Database\Query\Builder|\Cliente whereIdSector($value)
  * @method static \Illuminate\Database\Query\Builder|\Cliente whereIdPlan($value)
  * @method static \Illuminate\Database\Query\Builder|\Cliente whereIdEncuesta($value)
@@ -50,339 +52,342 @@ use Illuminate\Auth\UserTrait;
  */
 class Cliente extends \Eloquent implements UserInterface, RemindableInterface
 {
-    use UserTrait, RemindableTrait;
+	use UserTrait, RemindableTrait;
 
-    public static $rules = array(
-        'create' => array(
-            'rut_cliente'          => 'required|unique:cliente',
-            'nombre_cliente'       => 'required',
-            'nombre_legal_cliente' => '',
-            'fono_fijo_cliente'    => '',
-            'fono_celular_cliente' => '',
-            'correo_cliente'       => 'url', // website
-            'direccion_cliente'    => '',
-            'id_estado'            => 'required',
-            'id_ciudad'            => '',
-            'id_sector'            => 'required',
-            'id_encuesta'          => 'required',
-            'id_plan'              => 'required',
-        ),
-        'update' => array(
-            'rut_cliente'          => 'required',
-            'nombre_cliente'       => 'required',
-            'nombre_legal_cliente' => '',
-            'fono_fijo_cliente'    => '',
-            'fono_celular_cliente' => '',
-            'correo_cliente'       => 'url', // website
-            'direccion_cliente'    => '',
-            'id_estado'            => 'required',
-            'id_ciudad'            => '',
-            'id_sector'            => 'required',
-            'id_encuesta'          => 'required',
-            'id_plan'              => 'required',
-        ),
-    );
+	public static $rules = array(
+		'create' => array(
+			'rut_cliente'          => 'required|unique:cliente',
+			'nombre_cliente'       => 'required',
+			'nombre_legal_cliente' => '',
+			'fono_fijo_cliente'    => '',
+			'fono_celular_cliente' => '',
+			'correo_cliente'       => 'url', // website
+			'direccion_cliente'    => '',
+			'id_estado'            => 'required',
+			'id_ciudad'            => '',
+			'id_pais'              => '',
+			'id_sector'            => 'required',
+			'id_encuesta'          => 'required',
+			'id_plan'              => 'required',
+		),
+		'update' => array(
+			'rut_cliente'          => 'required',
+			'nombre_cliente'       => 'required',
+			'nombre_legal_cliente' => '',
+			'fono_fijo_cliente'    => '',
+			'fono_celular_cliente' => '',
+			'correo_cliente'       => 'url', // website
+			'direccion_cliente'    => '',
+			'id_estado'            => 'required',
+			'id_ciudad'            => '',
+			'id_pais'              => '',
+			'id_sector'            => 'required',
+			'id_encuesta'          => 'required',
+			'id_plan'              => 'required',
+		),
+	);
 
-    protected $table      = 'cliente';
-    protected $primaryKey = 'id_cliente';
-    protected $fillable   = array(
-        'rut_cliente',
-        'nombre_cliente',
-        'nombre_legal_cliente',
-        'fono_fijo_cliente',
-        'fono_celular_cliente',
-        'correo_cliente',
-        'direccion_cliente',
-        'codigo_postal_cliente',
-        'id_estado',
-        'id_ciudad',
-        'id_tipo_cliente',
-        'id_sector',
-        'id_encuesta',
-        'id_plan',
-    );
+	protected $table      = 'cliente';
+	protected $primaryKey = 'id_cliente';
+	protected $fillable   = array(
+		'rut_cliente',
+		'nombre_cliente',
+		'nombre_legal_cliente',
+		'fono_fijo_cliente',
+		'fono_celular_cliente',
+		'correo_cliente',
+		'direccion_cliente',
+		'codigo_postal_cliente',
+		'id_estado',
+		'id_ciudad',
+		'id_pais',
+		'id_tipo_cliente',
+		'id_sector',
+		'id_encuesta',
+		'id_plan',
+	);
 
 
-    public static function boot()
-    {
-        // TODO: TERMINAR ELIMINAR CUENTA
-        parent::boot();
+	public static function boot()
+	{
+		// TODO: TERMINAR ELIMINAR CUENTA
+		parent::boot();
 
-        static::deleting(function ($cliente) {
-            Log::warning('Eliminando Cuenta ' . $cliente->id_cliente);
+		static::deleting(function ($cliente) {
+			Log::warning('Eliminando Cuenta ' . $cliente->id_cliente);
 
-            // cliente_apariencia
-            if ($cliente->apariencias()->count()) {
-                Log::warning('Eliminando Apariencia, Cuenta: ' . $cliente->id_cliente);
-                $cliente->apariencias()->detach();
-                $cliente->apariencias()->delete();
-            }
+			// cliente_apariencia
+			if ($cliente->apariencias()->count()) {
+				Log::warning('Eliminando Apariencia, Cuenta: ' . $cliente->id_cliente);
+				$cliente->apariencias()->detach();
+				$cliente->apariencias()->delete();
+			}
 
-            // urls
-            if ($cliente->urls()->count()) {
-                Log::warning('Eliminando Urls, Cuenta: ' . $cliente->id_cliente);
-                $cliente->urls()->delete();
-            }
+			// urls
+			if ($cliente->urls()->count()) {
+				Log::warning('Eliminando Urls, Cuenta: ' . $cliente->id_cliente);
+				$cliente->urls()->delete();
+			}
 
-            // momento_encuesta
-            if (MomentoEncuesta::whereIdCliente($cliente->id_cliente)->count()) {
-                Log::warning('Eliminando Momentos, Cuenta: ' . $cliente->id_cliente);
-                foreach (MomentoEncuesta::whereIdCliente($cliente->id_cliente)->get() as $momento) {
-                    $momento->delete();
-                }
-            }
+			// momento_encuesta
+			if (MomentoEncuesta::whereIdCliente($cliente->id_cliente)->count()) {
+				Log::warning('Eliminando Momentos, Cuenta: ' . $cliente->id_cliente);
+				foreach (MomentoEncuesta::whereIdCliente($cliente->id_cliente)->get() as $momento) {
+					$momento->delete();
+				}
+			}
 
-            // visita
-            if ($cliente->visitas()->count()) {
-                Log::warning('Eliminando Visitas, Cuenta: ' . $cliente->id_cliente);
-                $cliente->visitas()->delete();
-            }
+			// visita
+			if ($cliente->visitas()->count()) {
+				Log::warning('Eliminando Visitas, Cuenta: ' . $cliente->id_cliente);
+				$cliente->visitas()->delete();
+			}
 
-            // cliente_respuesta
-            if ($cliente->respuestas()->count()) {
-                Log::warning('Eliminando Respuestas, Cuenta: ' . $cliente->id_cliente);
-                $cliente->respuestas()->detach();
+			// cliente_respuesta
+			if ($cliente->respuestas()->count()) {
+				Log::warning('Eliminando Respuestas, Cuenta: ' . $cliente->id_cliente);
+				$cliente->respuestas()->detach();
 
-                foreach (Respuesta::whereIdCliente($cliente->id_cliente)->get() as $resp) {
-                    // detalle
-                    $resp->detalle->delete();
-                    // respuesta
-                    $resp->delete();
-                }
-            }
+				foreach (Respuesta::whereIdCliente($cliente->id_cliente)->get() as $resp) {
+					// detalle
+					$resp->detalle->delete();
+					// respuesta
+					$resp->delete();
+				}
+			}
 
-            // usuarios
-            if (Usuario::whereIdCliente($cliente->id_cliente)->count()) {
-                Log::warning('Eliminando Usuarios, Cuenta: ' . $cliente->id_cliente);
+			// usuarios
+			if (Usuario::whereIdCliente($cliente->id_cliente)->count()) {
+				Log::warning('Eliminando Usuarios, Cuenta: ' . $cliente->id_cliente);
 
-                foreach (Usuario::whereIdCliente($cliente->id_cliente)->get() as $usuario) {
-                    $usuario->delete();
-                }
-            }
-            if ($cliente->csusuarios()->count()) {
-                Log::warning('Eliminando CsUsuarios, Cuenta: ' . $cliente->id_cliente);
-                $cliente->csusuarios()->delete();
-            }
+				foreach (Usuario::whereIdCliente($cliente->id_cliente)->get() as $usuario) {
+					$usuario->delete();
+				}
+			}
+			if ($cliente->csusuarios()->count()) {
+				Log::warning('Eliminando CsUsuarios, Cuenta: ' . $cliente->id_cliente);
+				$cliente->csusuarios()->delete();
+			}
 
-            $dir = public_path('image' . DIRECTORY_SEPARATOR . Str::camel($cliente->nombre_cliente));
-            if (\File::exists($dir)) {
-                \File::deleteDirectory($dir);
-            }
+			$dir = public_path('image' . DIRECTORY_SEPARATOR . Str::camel($cliente->nombre_cliente));
+			if (\File::exists($dir)) {
+				\File::deleteDirectory($dir);
+			}
 
-            $dir = public_path('temp' . DIRECTORY_SEPARATOR . $cliente->id_cliente);
-            if (\File::exists($dir)) {
-                \File::deleteDirectory($dir);
-            }
+			$dir = public_path('temp' . DIRECTORY_SEPARATOR . $cliente->id_cliente);
+			if (\File::exists($dir)) {
+				\File::deleteDirectory($dir);
+			}
 
-            Log::info('Dependencia Eliminada, Cuenta: ' . $cliente->id_cliente);
-        });
-    }
+			Log::info('Dependencia Eliminada, Cuenta: ' . $cliente->id_cliente);
+		});
+	}
 
-    public static function clientResumen($id)
-    {
-        $cliente  = Cliente::find($id);
-        $momentos = array();
+	public static function clientResumen($id)
+	{
+		$cliente  = Cliente::find($id);
+		$momentos = array();
 
-        $allMoments = $cliente->momentos()->get();
+		$allMoments = $cliente->momentos()->get();
 
-        foreach ($allMoments as $key => $value) {
-            $given = $value->urls()->where('id_cliente', $id)->first();
-            if (!is_null($given)) {
-                $url = array_add($value->toArray(), 'url', url($given->given));
-            } else {
-                $url = $value->toArray();
-            }
-            array_push($momentos, $url);
-        }
+		foreach ($allMoments as $key => $value) {
+			$given = $value->urls()->where('id_cliente', $id)->first();
+			if (!is_null($given)) {
+				$url = array_add($value->toArray(), 'url', url($given->given));
+			} else {
+				$url = $value->toArray();
+			}
+			array_push($momentos, $url);
+		}
 
-        $plan = $cliente->plan->toArray();
-        array_get($plan, 'optin_plan') == 0 ? array_set($plan, 'optin_plan', 'No') : array_set($plan, 'optin_plan', 'Sí');
-        array_get($plan, 'descarga_datos_plan') == 0 ? array_set($plan, 'descarga_datos_plan', 'No') : array_set($plan, 'descarga_datos_plan', 'Sí');
+		$plan = $cliente->plan->toArray();
+		array_get($plan, 'optin_plan') == 0 ? array_set($plan, 'optin_plan', 'No') : array_set($plan, 'optin_plan', 'Sí');
+		array_get($plan, 'descarga_datos_plan') == 0 ? array_set($plan, 'descarga_datos_plan', 'No') : array_set($plan, 'descarga_datos_plan', 'Sí');
 
-        $responsable = CsUsuario::responsable()->where('id_cliente', $id)->first();
+		$responsable = CsUsuario::responsable()->where('id_cliente', $id)->first();
 
-        if (!is_null($responsable)) {
-            $responsable = $responsable->toArray();
-        } else {
-            $responsable = array();
-        }
+		if (!is_null($responsable)) {
+			$responsable = $responsable->toArray();
+		} else {
+			$responsable = array();
+		}
 
-        return array(
-            'cliente'  => $cliente->toArray(),
-            'admin'    => $responsable,
-            'usuarios' => CsUsuario::where('id_cliente', $id)->get()->toArray(),
-            'plan'     => $plan,
-            'sector'   => $cliente->sector->toArray(),
-            'momentos' => $momentos,
-        );
-    }
+		return array(
+			'cliente'  => $cliente->toArray(),
+			'admin'    => $responsable,
+			'usuarios' => CsUsuario::where('id_cliente', $id)->get()->toArray(),
+			'plan'     => $plan,
+			'sector'   => $cliente->sector->toArray(),
+			'momentos' => $momentos,
+		);
+	}
 
-    /**
-     * @return array
-     */
-    public static function countClients()
-    {
-        $total = self::all();
-        $count = 0;
+	/**
+	 * @return array
+	 */
+	public static function countClients()
+	{
+		$total = self::all();
+		$count = 0;
 
-        foreach ($total as $k => $v) {
-            $cant = $v->respuestas()->actually()->count();
+		foreach ($total as $k => $v) {
+			$cant = $v->respuestas()->actually()->count();
 
-            if ($cant > 0) {
-                $count++;
-            }
-        }
+			if ($cant > 0) {
+				$count++;
+			}
+		}
 
-        return array(
-            array(
-                'legend' => Lang::get('messages.active'),
-                'count'  => $count,
-                'color'  => '#0D52D1',
-            ),
-            array(
+		return array(
+			array(
+				'legend' => Lang::get('messages.active'),
+				'count'  => $count,
+				'color'  => '#0D52D1',
+			),
+			array(
 
-                'legend' => Lang::get('messages.inactive'),
-                'count'  => ($total->count() - $count),
-                'color'  => '#FF6600',
-            ),
-        );
-    }
+				'legend' => Lang::get('messages.inactive'),
+				'count'  => ($total->count() - $count),
+				'color'  => '#FF6600',
+			),
+		);
+	}
 
-    /**
-     * @return mixed
-     */
-    public static function clientsByPlan()
-    {
-        return self::select([DB::raw('COUNT(*) AS count, plan.descripcion_plan as plan')])->join('plan', 'cliente.id_plan', '=', 'plan.id_plan')->groupBy('cliente.id_plan')->get()->toArray();
-    }
+	/**
+	 * @return mixed
+	 */
+	public static function clientsByPlan()
+	{
+		return self::select([DB::raw('COUNT(*) AS count, plan.descripcion_plan as plan')])->join('plan', 'cliente.id_plan', '=', 'plan.id_plan')->groupBy('cliente.id_plan')->get()->toArray();
+	}
 
-    /**
-     * @param            $action
-     * @param array      $merge
-     * @param bool|false $id
-     *
-     * @return array
-     */
-    public static function rules($action, $merge = [], $id = false)
-    {
-        $rules = self::$rules[$action];
+	/**
+	 * @param            $action
+	 * @param array      $merge
+	 * @param bool|false $id
+	 *
+	 * @return array
+	 */
+	public static function rules($action, $merge = [], $id = false)
+	{
+		$rules = self::$rules[$action];
 
-        if ($id) {
-            foreach ($rules as &$rule) {
-                $rule = str_replace(':id', $id, $rule);
-            }
-        }
+		if ($id) {
+			foreach ($rules as &$rule) {
+				$rule = str_replace(':id', $id, $rule);
+			}
+		}
 
-        return array_merge($rules, $merge);
-    }
+		return array_merge($rules, $merge);
+	}
 
-    /**
-     * @return bool
-     */
-    public function getIsAdminAttribute()
-    {
-        return $this->attributes['id_tipo_usuario'] == 1;
-    }
+	/**
+	 * @return bool
+	 */
+	public function getIsAdminAttribute()
+	{
+		return $this->attributes['id_tipo_usuario'] == 1;
+	}
 
-    /**
-     * @return mixed
-     */
-    public function encuesta()
-    {
-        return $this->belongsTo('Encuesta', 'id_encuesta');
-    }
+	/**
+	 * @return mixed
+	 */
+	public function encuesta()
+	{
+		return $this->belongsTo('Encuesta', 'id_encuesta');
+	}
 
-    /**
-     * @return mixed
-     */
-    public function apariencias()
-    {
-        return $this->belongsToMany('Apariencia', 'cliente_apariencia', 'id_cliente', 'id_apariencia');
-    }
+	/**
+	 * @return mixed
+	 */
+	public function apariencias()
+	{
+		return $this->belongsToMany('Apariencia', 'cliente_apariencia', 'id_cliente', 'id_apariencia');
+	}
 
-    /**
-     * @return mixed
-     */
-    public function sector()
-    {
-        return $this->belongsTo('Sector', 'id_sector');
-    }
+	/**
+	 * @return mixed
+	 */
+	public function sector()
+	{
+		return $this->belongsTo('Sector', 'id_sector');
+	}
 
-    /**
-     * @return mixed
-     */
-    public function plan()
-    {
-        return $this->belongsTo('Plan', 'id_plan');
-    }
+	/**
+	 * @return mixed
+	 */
+	public function plan()
+	{
+		return $this->belongsTo('Plan', 'id_plan');
+	}
 
-    /**
-     * @return mixed
-     */
-    public function respuestas()
-    {
-        return $this->belongsToMany('Respuesta', 'cliente_respuesta', 'id_cliente', 'id_respuesta');
-    }
+	/**
+	 * @return mixed
+	 */
+	public function respuestas()
+	{
+		return $this->belongsToMany('Respuesta', 'cliente_respuesta', 'id_cliente', 'id_respuesta');
+	}
 
-    /**
-     * @return mixed
-     */
-    public function preguntas()
-    {
-        return $this->hasManyThrough('Sector', 'Encuesta', 'id_sector', 'id_encuesta');
-    }
+	/**
+	 * @return mixed
+	 */
+	public function preguntas()
+	{
+		return $this->hasManyThrough('Sector', 'Encuesta', 'id_sector', 'id_encuesta');
+	}
 
-    /**
-     * @return mixed
-     */
-    public function momentos()
-    {
-        return $this->hasManyThrough('MomentoEncuesta', 'Cliente', 'id_cliente', 'id_cliente');
-    }
+	/**
+	 * @return mixed
+	 */
+	public function momentos()
+	{
+		return $this->hasManyThrough('MomentoEncuesta', 'Cliente', 'id_cliente', 'id_cliente');
+	}
 
-    /**
-     * @return mixed
-     */
-    public function usuarios()
-    {
-        return $this->hasMany('Usuario', 'id_usuario');
-    }
+	/**
+	 * @return mixed
+	 */
+	public function usuarios()
+	{
+		return $this->hasMany('Usuario', 'id_usuario');
+	}
 
-    /**
-     * @return mixed
-     */
-    public function csusuarios()
-    {
-        return $this->hasMany('CsUsuario', 'id_cliente');
-    }
+	/**
+	 * @return mixed
+	 */
+	public function csusuarios()
+	{
+		return $this->hasMany('CsUsuario', 'id_cliente');
+	}
 
-    /**
-     * @return mixed
-     */
-    public function urls()
-    {
-        return $this->hasMany('Url', 'id_cliente');
-    }
+	/**
+	 * @return mixed
+	 */
+	public function urls()
+	{
+		return $this->hasMany('Url', 'id_cliente');
+	}
 
-    /**
-     * @return mixed
-     */
-    public function visitas()
-    {
-        return $this->hasMany('Visita', 'id_cliente');
-    }
+	/**
+	 * @return mixed
+	 */
+	public function visitas()
+	{
+		return $this->hasMany('Visita', 'id_cliente');
+	}
 
-    public function periodos()
-    {
-        return $this->belongsToMany('Periodo');
-    }
+	public function periodos()
+	{
+		return $this->belongsToMany('Periodo');
+	}
 
-    /**
-     * @return mixed
-     */
-    public function theme()
-    {
-        return $this->apariencias->first();
-    }
+	/**
+	 * @return mixed
+	 */
+	public function theme()
+	{
+		return $this->apariencias->first();
+	}
 
 }

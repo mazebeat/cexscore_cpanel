@@ -57,10 +57,10 @@ return array(
 
         'mysql' => array(
             'driver'    => 'mysql',
-            'host'      => 'localhost',
+            'host'      => 'localhost:33060',
             'database'  => 'panel_exscore',
             'username'  => 'root',
-            'password'  => 'mz.120712',
+            'password'  => 'secret',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

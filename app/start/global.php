@@ -48,7 +48,11 @@ Validator::resolver(function ($translator, $data, $rules, $messages) {
 
 if (Config::get('config.logs.path') != '') {
     if (!File::exists(Config::get('config.logs.path'))) {
-        File::makeDirectory(Config::get('config.logs.path'), 777, true, true);
+        // File::makeDirectory(Config::get('config.logs.path'), 777, true, true);
+        if (!mkdir(Config::get('config.logs.path'), 0777, true)) {
+            Log::error("Fallo al crear las carpetas... (". Config::get('config.logs.path') .")");
+            exit(1);
+        }
     } else {
         if (!is_writable(Config::get('config.logs.path'))) {
             if (!@chmod(Config::get('config.logs.path'), 775)) {

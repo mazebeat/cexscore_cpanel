@@ -1,32 +1,47 @@
-/**
- * Created by Maze on 27-10-2015.
- */
-
-function adjustIframeHeight() {
-    var $body = $('body');
-    var $iframe = $body.data('iframe.fv');
-    if ($iframe) {
-        $iframe.height($body.height());
-    }
-}
-
-function validateTab(index) {
-    var $form = $('#createClientForm');
-    var fv = $form.data('formValidation');
-    var $tab = $form.find('.tab-pane').eq(index);
-
-    //	Validate the container
-    fv.validateContainer($tab);
-
-    var isValidStep = fv.isValidContainer($tab);
-    if (isValidStep === false || isValidStep === null) {
-        return false;
-    }
-
-    return true;
-}
-
 (function ($) {
+
+    function adjustIframeHeight() {
+        var $body = $('body');
+        var $iframe = $body.data('iframe.fv');
+        if ($iframe) {
+            $iframe.height($body.height());
+        }
+    }
+
+    function validateTab(index) {
+        var $form = $('#createClientForm');
+        var fv = $form.data('formValidation');
+        var $tab = $form.find('.tab-pane').eq(index);
+
+        //	Validate the container
+        fv.validateContainer($tab);
+
+        var isValidStep = fv.isValidContainer($tab);
+        if (isValidStep === false || isValidStep === null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function leadGeos () {
+        var $this = $('#fieldCiudad');
+        // console.log($this.val(), $this.find("option:selected").text(), $("#fieldCiudad option:selected").text());
+
+        if($this.val() == null || $this.val() == undefined || $this.find("option:selected").text() == '')
+        {
+            $this.hide().parents('.form-group').hide();
+        }
+
+        $this = $('#fieldRegion');
+        if($this.val() == null || $this.val() == undefined || $this.find("option:selected").text() == '')
+        {
+            $this.hide().parents('.form-group').hide();
+        }
+    }
+
+    // leadGeos();
+
     $('#myTabs a').click(function (e) {
         e.preventDefault();
         var pane = $(this);
@@ -51,41 +66,41 @@ function validateTab(index) {
         var num2 = num + 1;
         var next = parseInt(num2 + 1);
 
-        console.log(num, num2);
+        // console.log(num, num2);
 
         $('.cloneMoment').remove();
 
         var $template = $('#optionTemplate');
         var $clone = $template.clone()
-            .removeClass('hide')
-            .addClass('momento')
-            .attr('data-id', num2)
-            .removeAttr('id')
-            .find(".control-label")
-            .text('Momento ' + next + ':')
-            .attr('for', 'momentos[' + num2 + '][id_momento]')
-            .end()
-            .insertAfter($('#form-moments').children('.form-group.momento').last())
-            .end();
+        .removeClass('hide')
+        .addClass('momento')
+        .attr('data-id', num2)
+        .removeAttr('id')
+        .find(".control-label")
+        .text('Momento ' + next + ':')
+        .attr('for', 'momentos[' + num2 + '][id_momento]')
+        .end()
+        .insertAfter($('#form-moments').children('.form-group.momento').last())
+        .end();
 
         var $option = $clone.find('input[name="descripcion_momento"]');
         $clone.find('[name="descripcion_momento"]')
-            .attr('name', 'momentos[' + num2 + '][descripcion_momento]')
-            .end()
-            .find('[name="id_momento"]')
-            .attr('name', 'momentos[' + num2 + '][id_momento]')
-            .val(next)
-            .end()
-            .find('[name="id_encuesta"]')
-            .attr('name', 'momentos[' + num2 + '][id_encuesta]')
-            .end();
+        .attr('name', 'momentos[' + num2 + '][descripcion_momento]')
+        .end()
+        .find('[name="id_momento"]')
+        .attr('name', 'momentos[' + num2 + '][id_momento]')
+        .val(next)
+        .end()
+        .find('[name="id_encuesta"]')
+        .attr('name', 'momentos[' + num2 + '][id_encuesta]')
+        .end();
 
         $('#form-moments')
-            .children('.form-group.momento')
-            .last()
-            .find('div:nth-child(3)')
-            .append("<a href='javascript:void(0);' class='deleteOptionTemplate btn btn-default pull-right' data-moment='" + num2 + "'><i class='fa fa-trash-o'></i></a>")
-            .end();
+        .children('.form-group.momento')
+        .last()
+        .find('div:nth-child(3)')
+        .append("<a href='javascript:void(0);' class='deleteOptionTemplate btn btn-default pull-right' data-moment='" + num2 + "'><i class='fa fa-trash-o'></i></a>")
+        .end();
 
         $('#createClientForm').formValidation('addField', $option);
 
@@ -116,15 +131,13 @@ function validateTab(index) {
     });
 
     $('#fieldPais')
-        .change(function (event) {
-            var model = $('#fieldRegion');
-            var model2 = $('#fieldCiudad');
-            //model.empty().formValidation('revalidateField', 'cliente[region').show();
-            //model2.empty().formValidation('revalidateField', 'cliente[id_ciudad');
+    .change(function (event) {
+        var model = $('#fieldRegion');
+        var model2 = $('#fieldCiudad');
+            model.empty();
+            model2.empty();
 
-            var $select = $(this).find("option:selected").text();
-
-            if ($select == 'Chile' || $select == 'chile' || $select == 'CHILE') {
+            if ($(this).find("option:selected").text().toLowerCase() == 'chile') {
                 $('.fieldRegion').show();
                 $('.fieldCiudad').show();
                 model.removeAttr('disabled', 'disabled');
@@ -132,27 +145,27 @@ function validateTab(index) {
             } else {
                 $('.fieldRegion').hide();
                 $('.fieldCiudad').hide();
-                model.attr('disabled', 'disabled');
-                model2.attr('disabled', 'disabled');
+                model.attr('disabled', 'disabled').children().removeAttr("selected");
+                model2.attr('disabled', 'disabled').children().removeAttr("selected");
             }
 
             $.get("/admin/find/locate", {filterBy: 'pais', option: $(this).val()}, function (data) {
                 if (Object.keys(data).length > 0) {
-                    model.append($("<option value=''></option>"));
+                    model.empty().append($("<option value=''></option>"));
                     $.each(data, function (index, element) {
                         model.append($("<option value='" + index + "'>" + element + "</option>"));
                     });
                 }
             });
 
-            var $name = $(this).attr('name');
-            //$('#createClientForm').formValidation('revalidateField', $name);
+            // var $name = $(this).attr('name');
+            // $('#createClientForm').formValidation('revalidateField', $name);
             event.preventDefault();
         });
     $('#fieldRegion')
-        .change(function (e) {
-            var model = $('#fieldCiudad');
-            console.log(model);
+    .change(function (e) {
+        var model = $('#fieldCiudad');
+        // console.log(model);
 
 
             //model.attr('disabled', 'disabled')
@@ -162,7 +175,7 @@ function validateTab(index) {
             $.get("/admin/find/locate", {filterBy: 'region', option: $(this).val()}, function (data) {
                 console.log(data);
                 if (Object.keys(data).length > 0) {
-                    model.append($("<option value=''></option>"));
+                    model.empty().append($("<option value=''></option>"));
                     $.each(data, function (index, element) {
                         model.append($("<option value='" + index + "'>" + element + "</option>"));
                     });

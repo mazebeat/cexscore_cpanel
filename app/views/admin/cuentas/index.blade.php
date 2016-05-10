@@ -64,7 +64,7 @@
                         {{ link_to_route('admin.cuentas.edit', 'Editar', array($cliente->id_cliente), array('class' => 'btn btn-info')) }}
                         {{ link_to_action('CuentasController@resumen', 'Resumen', array($cliente->id_cliente), array('class' => 'btn btn-link')) }}
                         @if($cliente->id_cliente != 1)
-                            {{ Form::open(array('class' => 'xover', 'style' => 'display: inline-block;', 'method' => 'POST', 'url' => url('http://localhost:9090/CExScore/'), 'target' => '_blank')) }}
+                            {{ Form::open(array('class' => 'xover', 'style' => 'display: inline-block;', 'method' => 'POST', 'url' => 'http://' . Config::get('config.cexscore.ipaddress'), 'target' => '_blank')) }}
                             {{ Form::hidden('cliente', $cliente->id_cliente) }}
                             {{ Form::hidden('xover') }}
                             {{ Form::hidden('username') }}

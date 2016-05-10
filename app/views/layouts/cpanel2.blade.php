@@ -37,9 +37,9 @@
         html, body {
             zoom: 0.95;
             -ms-zoom: 0.95;
-            -webkit-zoom: 0.95;
-            -moz-transform: scale(0.95, 0.95);
-            -moz-transform-origin: top center;
+            -webkit-zoom: 0.95;  
+            /* -moz-transform: scale(0.95, 0.95);
+            -moz-transform-origin: top center; */     
         }
     </style>
     @yield('style')

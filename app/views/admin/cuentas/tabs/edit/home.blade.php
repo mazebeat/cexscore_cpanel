@@ -60,23 +60,23 @@
 </div>
 
 <div class="form-group">
-    {{ Form::label('pais', 'País:', array('class'=>'col-md-2 control-label')) }}
+    {{ Form::label('id_pais', 'País:', array('class'=>'col-md-2 control-label ')) }}
     <div class="col-sm-10">
-        {{ Form::select2('pais', $pais, Input::old('pais', Pais::find(Region::find(Ciudad::find($cliente->id_ciudad)->id_region)->id_pais)->id_pais), array('id' => 'fieldPais', 'class'=>'form-control' , 'required')) }}
+        {{ Form::select2('id_pais', $pais, Input::old('id_pais', $cliente->id_pais), array('id' => 'fieldPais', 'class'=>'form-control' , 'required')) }}
     </div>
 </div>
 
-<div class="form-group fieldRegion" style="display: none;">
+<div class="form-group fieldRegion" style="{{ (is_null($idregion) ? 'display:none;' : '') }}">
     {{ Form::label('region', 'Regi&oacute;n:', array('class'=>'col-md-2 control-label')) }}
     <div class="col-sm-10">
-        {{ Form::select2('region', [], Input::old('region', Region::find(Ciudad::find($cliente->id_ciudad)->id_region)->id_region), array('id' => 'fieldRegion','class'=>'form-control' , 'required')) }}
+        {{ Form::select2('region', $regions, Input::old('region', $idregion), array('id' => 'fieldRegion','class'=>'form-control' , 'required')) }}
     </div>
 </div>
 
-<div class="form-group fieldCiudad" style="display: none;">
+<div class="form-group fieldCiudad" style="{{ (is_null($idregion) ? 'display:none;' : '') }}">
     {{ Form::label('id_ciudad', 'Ciudad:', array('class'=>'col-md-2 control-label')) }}
     <div class="col-sm-10">
-        {{ Form::select2('id_ciudad', [], Input::old('id_ciudad', $cliente->id_ciudad), array('id' => 'fieldCiudad', 'class'=>'form-control' , 'required')) }}
+        {{ Form::select2('id_ciudad', $ciudads, Input::old('id_ciudad', $cliente->id_ciudad), array('id' => 'fieldCiudad', 'class'=>'form-control '  . (is_null($cliente->id_pais) ? 'hidden' : '')  , 'required')) }}
     </div>
 </div>
 

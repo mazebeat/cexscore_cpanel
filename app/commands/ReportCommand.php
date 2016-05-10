@@ -51,7 +51,11 @@ class ReportCommand extends Command
                         $this->pathFile = public_path('temp' . DIRECTORY_SEPARATOR . $value->id_cliente . DIRECTORY_SEPARATOR);
 
                         if (!\File::exists($this->pathFile)) {
-                            \File::makeDirectory($this->pathFile, 777, true, true);
+                            // \File::makeDirectory($this->pathFile, 777, true, true);
+                            if (!mkdir($this->pathFile, 0777, true)) {
+                                Log::error("Fallo al crear las carpetas... ($this->pathFile)");
+                                exit;
+                            }
                         } else {
                             if (!is_writable($this->pathFile)) {
                                 if (!chmod($this->pathFile)) {

@@ -51,7 +51,7 @@ class CsUsuariosController extends \ApiController
         $input    = array_add($input, 'nombre', Input::get('nombre_usuario') . ' ' . Input::get('apellido_usuario'));
         $input    = array_add($input, 'usuario', $username);
         $input    = array_add($input, 'responsable', 0);
-        $input    = array_add($input, 'pwdusuario', md5('123456')); // 'e10adc3949ba59abbe56e057f20f883e'
+        $input    = array_add($input, 'pwdusuario', md5('123456a*')); // 'e10adc3949ba59abbe56e057f20f883e'
 
         if (array_get($input, 'fecha_nacimiento') == "") {
             array_set($input, 'fecha_nacimiento', null);

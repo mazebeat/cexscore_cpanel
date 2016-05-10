@@ -17,7 +17,7 @@ return array(
     | choice installed on your machine before you begin development.
     |
     */
-    'default'     => 'mysql_prod',
+    'default'     => 'mysql',
     'connections' => array(
 
         'mysql_qa' => array(
@@ -58,7 +58,7 @@ return array(
             'host'      => 'localhost',
             'database'  => 'panel_exscore',
             'username'  => 'root',
-            'password'  => 'mz.120712',
+            'password'  => 'secret',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

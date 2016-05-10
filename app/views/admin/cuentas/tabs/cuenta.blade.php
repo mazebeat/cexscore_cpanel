@@ -56,9 +56,9 @@
 </div>
 
 <div class="form-group">
-    {{ Form::label('cliente[pais]', 'País:', array('class'=>'col-md-2 control-label')) }}
+    {{ Form::label('cliente[id_pais]', 'País:', array('class'=>'col-md-2 control-label')) }}
     <div class="col-sm-10">
-        {{ Form::select2('cliente[pais]', $pais, Input::old('cliente[pais]'), array('id' => 'fieldPais', 'class'=>'form-control' , 'required')) }}
+        {{ Form::select2('cliente[id_pais]', $pais, Input::old('cliente[id_pais]'), array('id' => 'fieldPais', 'class'=>'form-control' , 'required')) }}
     </div>
 </div>
 

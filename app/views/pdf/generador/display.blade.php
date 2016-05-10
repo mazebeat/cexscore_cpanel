@@ -10,6 +10,7 @@
             width: 588px;
             height: 931px;
             padding:25px;
+            border: 1px solid black;
         }
     </style>
 @endsection

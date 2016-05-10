@@ -30,6 +30,10 @@ Route::group(array('prefix' => 'survey'), function () {
     Route::get('addexception', 'ExcepcionesController@add');
     Route::get('success', 'ApiController@generateMessage');
     Route::get('error', 'ApiController@generateError');
+
+    Route::group(array('prefix' => 'enex'), function () {        
+        Route::get('{idcliente}/{canal}/{momento}/{clientkey}', 'EnexController@index');
+    });
 });
 //ADMINISTRATOR
 Route::group(array('prefix' => 'admin'), function () {
@@ -84,14 +88,14 @@ Route::group(array('prefix' => 'admin'), function () {
                     'password' => $usuario->pwdusuario,
                     'username' => $usuario->usuario,
                     'xover'    => md5($usuario->usuario),
-                );
+                    );
             } else {
                 return array(
                     'pass'     => false,
                     'password' => '',
                     'username' => '',
                     'xover'    => '',
-                );
+                    );
             }
         });
     });
@@ -106,9 +110,15 @@ Route::group(array('prefix' => 'pdf'), function () {
     Route::post('getZip', 'PdfController@getPdfCliente');
 });
 
+
 // TESTING
 Route::get('test/test', function () {
-    File::deleteDirectory(public_path('image' . DIRECTORY_SEPARATOR . 'miEmpresa'));
+    $r1 = \File::makeDirectory(public_path('test1'));
+    var_dump($r1);
+    $r2 = File::makeDirectory(public_path('test2'), 0777, true, true);
+    var_dump($r2);
+    $r3 = mkdir(public_path('test3'), 0775);
+    var_dump($r3);
 });
 Route::get('test/date', function () {
     var_dump(\Str::title(strftime("%A, %d de %B de %Y")));
@@ -123,7 +133,6 @@ Route::get('test/db', function () {
 Route::get('test/info', function () {
     var_dump(phpinfo());
 });
-
 Route::get('test/qr', function () {
     QrCode::format('png');
     QrCode::size(1080);
@@ -133,4 +142,3 @@ Route::get('test/qr', function () {
 
     // \ApiController::createQrCode(public_path() . DIRECTORY_SEPARATOR . 'personal', 'http://www.snt-consultores.org');
 });
-

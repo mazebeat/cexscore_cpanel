@@ -106,7 +106,7 @@ class PdfController extends ApiController
         $datos['rutaQRAbsoluta'] = $directorioCliente . $nombreQR;
         $datos['URLrutaQR']      = 'temp/' . $cliente->id_cliente . '/' . $nombreQR;
 
-        $textoFooter = '<p style="font-family: Arial, sans-serif;font-size:8pt;text-align:center;">';
+        $textoFooter = '<p style="font-family: Arial, sans-serif;font-size:6pt;text-align:center;">';
         $textoFooter .= $cliente->direccion_cliente . ', ' . $datos['ubicacion']['ciudad'] . ' - ' . $datos['ubicacion']['pais'] . '<br />';
         $textoFooter .= isset($cliente->correo_cliente) ? $cliente->correo_cliente . '<br />' : '';
         $textoFooter .= '</p>';
@@ -140,7 +140,7 @@ class PdfController extends ApiController
         $datos['rutaQRAbsoluta'] = $directorioCliente . $nombreQR;
         $datos['URLrutaQR']      = 'temp/' . $cliente->id_cliente . '/' . $nombreQR;
 
-        $textoFooter = '<p style="font-family: Arial, sans-serif;font-size:10pt;text-align:center;">';
+        $textoFooter = '<p style="font-family: Arial, sans-serif;font-size:8pt;text-align:center;">';
         $textoFooter .= $cliente->direccion_cliente . ', ' . $datos['ubicacion']['ciudad'] . ' - ' . $datos['ubicacion']['pais'] . '<br />';
         $textoFooter .= isset($cliente->correo_cliente) ? $cliente->correo_cliente . '<br />' : '';
         $textoFooter .= '</p>';
@@ -179,7 +179,7 @@ class PdfController extends ApiController
             //echo $html;
             $pdf = PDF::loadHTML($html);
 
-            $textoFooter = '<p style="font-family: Arial, sans-serif;font-size:10pt;text-align:center;">';
+            $textoFooter = '<p style="font-family: Arial, sans-serif;font-size:8pt;text-align:center;">';
             $textoFooter .= $cliente->direccion_cliente . ', ' . $ubicacion['ciudad'] . ' - ' . $ubicacion['pais'] . '<br/>';
             $textoFooter .= isset($cliente->fono_fijo_cliente) ? $cliente->fono_fijo_cliente : '';
             $textoFooter .= isset($cliente->fono_celular_cliente) ? ' | ' . $cliente->fono_celular_cliente . '<br/>' : isset($cliente->fono_fijo_cliente) ? '<br/>' : '';
@@ -239,18 +239,13 @@ class PdfController extends ApiController
     {
         $nombreQR = null;
         if (!\File::exists($directorioCliente)) {
-            $creoDirectorio = \File::makeDirectory($directorioCliente, (int)$mode = 777, (bool)$recursive = true, (bool)$force = true);
+            // $creoDirectorio = \File::makeDirectory($directorioCliente);
+            $creoDirectorio =  mkdir($directorioCliente, 2777, true);
 
             if ($creoDirectorio) {
                 $nombreQR = $idMomento . '.png';
             }
         } else {
-            if (!is_writable($directorioCliente)) {
-                if (!chmod($directorioCliente)) {
-                    Log::error("Cannot change the mode of file " . $directorioCliente . ")");
-                    exit;
-                };
-            }
             $nombreQR = $idMomento . '.png';
         }
 

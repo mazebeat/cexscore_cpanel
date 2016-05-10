@@ -50,7 +50,7 @@ class UsuariosController extends \ApiController
         $username = self::randomUsername($input);
         $input    = array_add($input, 'username', $username);
         $input    = array_add($input, 'responsable', 0);
-        $input    = array_add($input, 'password', Hash::make('123456'));
+        $input    = array_add($input, 'password', Hash::make('123456a*'));
 
         if (array_get($input, 'fecha_nacimiento') == "") {
             array_set($input, 'fecha_nacimiento', null);

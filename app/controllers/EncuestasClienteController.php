@@ -140,10 +140,13 @@ class EncuestasClienteController extends \ApiController
             $canal  = Session::get('survey.canal', null);
             $moment = Session::get('survey.moment', null);
             $survey = Session::get('survey.survey', null);
+            $enexuser = Session::get('survey.enexuser', null);      
+
+            // dd(Session::all());
 
             if (!self::puedeResponder($client)) {
                 self::throwError(new Exception('Meta Lograda! Gracias por Responder [' . $client->id_cliente . ']' , 500));
-                return \Redirect::to('survey/success');
+                // return \Redirect::to('survey/success');
             }
 
             if (is_null($client) || is_null($canal) || is_null($moment) || is_null($survey)) {
@@ -170,24 +173,33 @@ class EncuestasClienteController extends \ApiController
             $moment   = Crypt::decrypt($moment);
             $canal    = Crypt::decrypt($canal);
 
-            if (count($data['user']) && self::objectHasProperty($data['user'])) {
+            // var_dump($enexuser);
+            // dd(count($data['user']) && self::objectHasProperty($data['user']) || isset($enexuser));
+            if (count($data['user']) && self::objectHasProperty($data['user']) || isset($enexuser)) {
                 $value = $data['user'];
 
-                $born = Carbon::parse($value->age);
-                $age  = $born->age;
-
                 $user                   = new Usuario();
-                $user->nombre_usuario   = $value->name;
-                $user->edad_usuario     = $age;
-                $user->fecha_nacimiento = $born;
-                $user->genero_usuario   = $value->gender;
-                $user->correo_usuario   = $value->email;
-                $user->rut_usuario      = $value->rut;
-                $user->id_tipo_usuario  = 3;
-                $user->id_cliente       = $client->id_cliente;
 
-                if (isset($value->wish_email) && (int)$value->wish_email == 1) {
-                    $user->desea_correo_usuario = 'NO';
+                if ($enexuser != null) {
+                    $user->rut_usuario      = $enexuser;
+                    $user->id_tipo_usuario  = 3;
+                    $user->id_cliente       = $client->id_cliente;
+                } else {                    
+                    $born = Carbon::parse($value->age);
+                    $age  = $born->age;
+
+                    $user->nombre_usuario   = $value->name;
+                    $user->edad_usuario     = $age;
+                    $user->fecha_nacimiento = $born;
+                    $user->genero_usuario   = $value->gender;
+                    $user->correo_usuario   = $value->email;
+                    $user->rut_usuario      = $value->rut;
+                    $user->id_tipo_usuario  = 3;
+                    $user->id_cliente       = $client->id_cliente;
+
+                    if (isset($value->wish_email) && (int)$value->wish_email == 1) {
+                        $user->desea_correo_usuario = 'NO';
+                    }
                 }
 
                 $user->save();
@@ -380,13 +392,17 @@ class EncuestasClienteController extends \ApiController
 //        throw $e;
     }
 
-    static function puedeResponder(Cliente $client)
+    public static function puedeResponder(Cliente $client)
     {
         $plan         = $client->plan;
-        $totalAnswers = rount($client->respuestas->count() / 4);
+        $totalAnswers = $client->respuestas->count();
+        
+        if($totalAnswers > 0) {
+            $totalAnswers = round($totalAnswers / 4, 0, PHP_ROUND_HALF_DOWN);
 
-        if ($plan->cantidad_encuestas_plan > $totalAnswers) {
-            return true;
+            if ($plan->cantidad_encuestas_plan > $totalAnswers) {
+                return true;
+            }
         }
 
         return false;

@@ -168,8 +168,7 @@
         // console.log(model);
 
 
-            //model.attr('disabled', 'disabled')
-            //    .empty()
+            model.attr('disabled', 'disabled').empty().show();
             //    .formValidation('revalidateField', model.attr('name'))
             //    .show();
             $.get("/admin/find/locate", {filterBy: 'region', option: $(this).val()}, function (data) {

@@ -1592,7 +1592,7 @@
                                                 <strong>Usuario:</strong>&nbsp;{{ $usuario }}
                                             </li>
                                             <li class="font-avenir" style="padding-left: 0;font-family: 'Arial', sans-serif;Margin-bottom: 0;Margin-top: 0px;text-align: left;">
-                                                <strong>Contrase&#241;a:</strong>&nbsp;123456
+                                                <strong>Contrase&#241;a:</strong>&nbsp;123456a*
                                             </li>
                                             <li class="font-avenir" style="padding-left: 0;font-family: 'Arial', sans-serif;Margin-bottom: 0;Margin-top: 0px;text-align: left;">
                                                 <strong>URL panel:</strong> {{ link_to('http://www.cex.org:8080/CExScore', 'http://www.cex.org:8080/CExScore') }}

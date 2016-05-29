@@ -386,7 +386,7 @@ class CuentasController extends \ApiController
 					return Redirect::back()->withErrors($validator)->withInput();
 				}
 
-				$data = Input::all();
+				$data = Input::all();				
 
 				if (!array_has($data, 'id_ciudad')) {
 					$data = array_add($data, 'id_ciudad', null);

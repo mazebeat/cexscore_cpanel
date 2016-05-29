@@ -27,8 +27,7 @@
 			</thead>
 			
 			<tbody>
-			@foreach ($momentoencuesta as $me)
-				{{dd($me->toArray())}}
+			@foreach ($momentoencuesta as $me)				
 				<tr>
 					<td>{{{ $me->id_momento }}}</td>
 					<td>{{{ $me->descripcion_momento }}}</td>

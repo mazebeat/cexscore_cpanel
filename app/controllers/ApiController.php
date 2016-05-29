@@ -50,8 +50,8 @@ class ApiController extends \BaseController
 
                 $data = array_add($data, 'id_estado', 1);
 
-                dd($data);
-                // $client = \Cliente::firstOrCreate($data);
+                // dd($data);
+                $client = \Cliente::firstOrCreate($data);
             }
         } catch (Exception $e) {
             throw $e;
@@ -69,7 +69,7 @@ class ApiController extends \BaseController
                 $data     = array_add($data, 'nombre', $data['nombre_usuario'] . ' ' . $data['apellido_usuario']);
                 $data     = array_add($data, 'usuario', $username);
                 $data     = array_add($data, 'responsable', 1);
-                $data     = array_add($data, 'pwdusuario', 'e10adc3949ba59abbe56e057f20f883e');
+                $data     = array_add($data, 'pwdusuario', md5('123456a*'));
                 array_set($data, 'id_cliente', $client->id_cliente);
                 array_set($data, 'id_perfil', 4);
                 array_forget($data, ['nombre_usuario', 'apellido_usuario']);
@@ -156,7 +156,7 @@ class ApiController extends \BaseController
                 $username = self::randomCsUsername($data);
                 $data     = array_add($data, 'usuario', $username);
                 $data     = array_add($data, 'responsable', 0);
-                $data     = array_add($data, 'pwdusuario', md5('123456')); // 'e10adc3949ba59abbe56e057f20f883e'
+                $data     = array_add($data, 'pwdusuario', md5('123456a*')); // 'e10adc3949ba59abbe56e057f20f883e'
                 $data     = array_add($data, 'id_perfil', 3);
                 $born     = Carbon::parse(array_get($data, 'fecha_nacimiento'));
                 array_set($data, 'edad', $born->age);
@@ -299,6 +299,7 @@ class ApiController extends \BaseController
                             } else {
                                 throw new \Exception('Error al crear momento/encuesta', 500);
                             }
+                            
                             $count++;
                         }
                     } else {
